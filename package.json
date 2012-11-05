@@ -1,0 +1,12 @@
+{
+  "name": "sgn_express",
+  "description": "social gaming network in express",
+  "version": "0.0.1",
+  "private": "true",
+  "dependencies": {
+    "express": "3.0.0",
+    "ejs": "0.8.3",
+    "superagent": "0.9.7",
+    "mongoose": "3.3.1"
+  }
+}

@@ -1,0 +1,156 @@
+=================================================== 
+launching node again: Thu 11/01/2012 14:51:21.10 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+=================================================== 
+launching node again: Thu 11/01/2012 14:51:30.61 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+=================================================== 
+launching node again: Thu 11/01/2012 14:51:47.25 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+=================================================== 
+launching node again: Thu 11/01/2012 14:54:18.09 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+=================================================== 
+launching node again: Fri 11/02/2012 12:05:50.09 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+=================================================== 
+launching node again: Fri 11/02/2012 12:05:57.15 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.

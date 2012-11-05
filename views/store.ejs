@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include partials/head %>
+  <body>
+    <!-- Store Pin -->
+    <div class="modal hide fade" id="viewPinModal">
+      <div class="modal-header clearfix">
+        <a href="#"><img class="profile_img" src="images/game_images/gameloft_logo.jpg" width="50"/></a>
+        <button class="follow" type="button">Download</button>
+        <p class="poster"><a href="#">The Dark Knight Rises</a></p>
+        <p class="date_posted">By <a href="">Gameloft</a></p>
+      </div>
+      <hr>
+      <div class="modal-body">
+          <div class="view_tags">
+          <p><a href="#"><span>#simulation</span></a>
+          <a href="#"><span>#food</span></a>
+          <a href="#"><span>#cooking</span></a></p>
+        </div>
+        <div class="view_img_container">
+          <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+        </div>
+        <div class="view_comment_container">
+          <p> Risen from the ashes, the Dark Knight returns in this action packed sequel to destroy
+           the criminals that threaten Gotham City.  Play as Batman, Catwoman, and even the villain Bane himself</p>
+        </div>
+        <hr>
+      </div>
+      <ul class="share_list">
+        <li class="share_element"><button type="button">Facebook</button></li>
+        <li class="share_element"><button type="button">Twitter</button></li>
+        <li class="share_element"><button type="button">Share</button></li>
+        <li class="share_element"><button type="button">G+</button></li>
+        <li class="share_element"><button type="button">Report Pin</button></li>
+      </ul>
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active video_tab"><a href="#video_content" data-toggle="tab">Videos</a></li>
+          <li class="like_tab"><a href="#like_content" data-toggle="tab">Pins</a></li>
+          <li class="repin_tab"><a href="#repin_content" data-toggle="tab">Friends playing</a></li>
+        </ul>
+        <div class="tab-content img_container">
+          <div class="tab-pane active" id="video_content">
+            <div class="vid_container">
+              <embed id="playerid" width="500px" height="400px" allowfullscreen="true" allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style="" src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer" type="application/x-shockwave-flash">
+            </div>
+          </div>
+          <div class="tab-pane" id="like_content">
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+          </div>
+          <div class="tab-pane" id="repin_content">
+            <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  	<% include partials/navbar %>
+  
+    <div id="content" class="container">
+      <!-- row 1 -->
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="store_container">
+          <p class="game_name"><b>The Dark Knight Rises</b></p>
+          <div class="game_price">$1.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <div class="carousel slide myCarousel_1">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+              <div class="active item"><img src="images/game_images/store_img1.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat2.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat3.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat4.png" width="200" /></div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left hidden" href=".myCarousel_1" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right hidden"  href=".myCarousel_1" data-slide="next">&rsaquo;</a>
+          </div>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="store_container">
+          <p class="game_name"><b>The Dark Knight Rises</b></p>
+          <div class="game_price">$1.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <div class="carousel slide myCarousel_2">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+              <div class="active item"><img src="images/game_images/store_img1.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat2.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat3.png" width="200" /></div>
+              <div class="item"><img src="images/game_images/bat4.png" width="200" /></div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left hidden" href=".myCarousel_2" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right hidden"  href=".myCarousel_2" data-slide="next">&rsaquo;</a>
+          </div>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="posted_by">
+          <p class="game_name"><b>Minecraft - Pocket Edition</b></p>
+          <div class="game_price">free</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img2.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <div class="posted_by">
+          <p class="game_name"><b>Great Big War Game a a a</b></p>
+          <div class="game_price">$4.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img3.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="posted_by">
+          <p class="game_name"><b>Angry Birds Space Premium</b></p>
+          <div class="game_price">coming soon</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img4.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <p class="fav_game hidden"><img src="images/heart.jpg"/>Add to Favorites</p>
+        <p class="fav_friends hidden"><img src="images/heart.jpg"/>3 friend Favorited</p>
+        <div class="posted_by">
+          <p class="game_name"><b>Cut the Rope</b></p>
+          <div class="game_price">$0.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img5.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <!-- row 2 -->
+      <div class="store_pin">
+        <div class="store_container">
+          <p class="game_name"><b>The Dark Knight Rises</b></p>
+          <div class="game_price">$1.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img1.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Minecraft - Pocket Edition</b></p>
+          <div class="game_price">free</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img2.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <div class="posted_by">
+          <p class="game_name"><b>Great Big War Game a a a</b></p>
+          <div class="game_price">$4.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img3.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Angry Birds Space Premium</b></p>
+          <div class="game_price">coming soon</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img4.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Cut the Rope</b></p>
+          <div class="game_price">$0.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img5.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <!-- row 3 -->
+      <div class="store_pin">
+        <div class="store_container">
+          <p class="game_name"><b>The Dark Knight Rises</b></p>
+          <div class="game_price">$1.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img1.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Minecraft - Pocket Edition</b></p>
+          <div class="game_price">free</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img2.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <div class="posted_by">
+          <p class="game_name"><b>Great Big War Game a a a</b></p>
+          <div class="game_price">$4.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img3.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Angry Birds Space Premium</b></p>
+          <div class="game_price">coming soon</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img4.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+      <div class="store_pin">
+        <div class="posted_by">
+          <p class="game_name"><b>Cut the Rope</b></p>
+          <div class="game_price">$0.99</div>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/store_img5.png" width="200"/>
+        </a>
+        <div class="store_container">
+          <p class="download_btn">Download</p>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="scrollup">Scroll to Top</a>
+    <div id="pag_nav">
+      <a href="page_2.html">Page 2</a>
+      <a href="page_3.html">Page 3</a>
+    </div>
+    <!-- JS Placed at the end of the document so the pages load faster -->
+    <% include partials/js %>
+  </body>
+</html>

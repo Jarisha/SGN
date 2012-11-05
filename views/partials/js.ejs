@@ -1,0 +1,10 @@
+<script src="js/jquery-1.8.1.min.js"></script>
+<script src="js/jquery.masonry.min.js"></script>
+<script src="js/jquery.imagesloaded.min.js"></script>
+<script src="js/jquery.infinitescroll.min.js"></script> 
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-scroll-modal.js"></script>
+<% for(var file in jsFiles) { %>
+	<script src="js/<%= jsFiles[file] %>"></script>
+<% } %>
