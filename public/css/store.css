@@ -1,0 +1,567 @@
+/***** Main Layout *****/
+#content{
+  margin: 20px auto 20px;
+  width: 1340px;
+}
+#nav{
+  background: #E3F1E4;
+  margin:0;
+}
+#nav_left{
+}
+#nav_right{
+  float:right;
+}
+#nav_content{
+  background: #E3F1E4;
+  padding:0;
+  width: 1340px;
+  margin: auto;
+  border:none;
+  box-shadow:none;
+}
+/* media queries to resize masonry content to fit screen */
+@media only screen and (max-width : 1339px),
+only screen and (max-device-width : 1339px){
+	#content, #nav_content {
+		width: 1075px;
+	}
+}
+@media only screen and (max-width : 1074px),
+only screen and (max-device-width : 1074px){
+	#content, #nav_content {
+		width: 810px;
+	}
+}
+#main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
+  font-size: 20px;
+  color: #34D0BA;
+  position:absolute;
+  left:50%;
+  white-space: nowrap;
+  margin-left: -100px;
+  top:10px;
+  text-decoration:none;
+  z-index:100;
+}
+@media only screen and (max-width : 809px),
+only screen and (max-device-width : 890px){
+  #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
+    left: 405px;
+  }
+}
+
+/***** Top Nav Bar *****/
+/* main nav */
+.affix{
+  top:0px;
+}
+.navbar-inner{
+  background:red;
+  border:none;
+}
+#search_bar{
+  float: left;
+  padding-left: 25px;
+}
+#search_bar input{
+  width:100px;
+  background: #F0F8F1;
+  border-color: #CFCACA;
+  color: #CFCACA;
+}
+#search_bar input:focus{
+  color: grey;
+}
+.new_followers, .new_tags, .new_messages{
+  padding: 5px;
+  margin-left: 10px;
+}
+.nav-collapse{
+  margin: 0 20px;
+}
+.pin_it{
+  margin-left:10px;
+}
+.log_in{
+  margin-right:10px;
+}
+#about_toggle{
+  padding-bottom: 12px;
+}
+#about_dropdown {
+  min-width:100px;
+}
+#follower_toggle, #tag_toggle, #message_toggle{
+  padding:0;
+  margin:0;
+}
+#follower_dropdown, #tag_dropdown, #message_dropdown {
+  left: 170px;
+  min-width: 130px;
+  top: 40px;
+  background: #E9DBCC;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0;  /* CSS3 */
+}
+#follower_dropdown:after, #tag_dropdown:after, #message_dropdown:after {
+  border:none;
+}
+#follower_dropdown:before, #tag_dropdown:before, #message_dropdown:before {
+  border:none;
+}
+/* Drop down going left */
+#profile_toggle{
+  position:relative;
+  min-width: 90px;
+}
+#profile_dropdown{
+  min-width: 0;
+  position: absolute;
+  right: 0;
+  top: 41px;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0; /* CSS3 */
+}
+#profile_small{
+  padding-right:10px;
+}
+#nav_right {
+  font-size:1em;
+}
+#nav_right .dropdown-menu.active{
+ top: 41px;
+ margin:0;
+ border:1px solid #CFCACA;
+ background: #E9DBCC;
+ -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
+ -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+ box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+  
+ -moz-border-radius: 0; /* Firefox */
+ -webkit-border-radius: 0; /* Safari, Chrome */
+ border-radius: 0; /* CSS3 */
+}
+#nav_right .dropdown-menu.active:after {
+  border:none;
+}
+#nav_right .dropdown-menu.active:before {
+  border:none;
+}
+/* subnav */
+#subnav{
+  border-top: 1px solid #CFCACA;
+  background: #E3F1E4;
+  width:100%;
+  z-index:100;
+  -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
+  -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+  box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+}
+#subnav_content{
+  background: #E3F1E4;
+  width:650px;
+  text-align:center;
+  margin:auto;
+  padding:10px 0;
+}
+#subnav_content .dropdown_tab{
+  position:relative;
+  display:inline-block;
+}
+#subnav_content .dropdown_tab .dropdown-menu{
+  text-align: left;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0; /* CSS3 */
+}
+.two_col_dropdown{
+  margin: 0;
+  padding: 0;
+  background: #E9DBCC;
+  min-width: 290px;
+  top: 30px;
+}
+.one_col_dropdown{
+  margin: 0;
+  padding: 0;
+  background: #E9DBCC;
+  min-width: 145px;
+  top: 30px;
+}
+.two_col_dropdown .col1, .two_col_dropdown .col2{
+  width: 145px;
+  float: left;
+}
+.one_col_dropdown .col1{
+  width: 145px;
+  float:left;
+}
+.two_col_dropdown a, .one_col_dropdown a{
+  margin: 0;
+  padding: 0;
+  padding: 10px 15px;
+}
+.two_col_dropdown div img, .one_col_dropdown div img{
+  margin-right:5px;
+}
+.register_now{
+  font-size: 20px;
+  text-align:center;
+  padding:10px 0;
+}
+
+/***** Content *****/
+/* Game Pin object */
+.store_pin{
+  background:#E9DBCC;
+  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+  
+  width:220px;
+  float:left;
+  padding:0 15px 0 15px;
+  margin: 0 0 15px 15px;
+  font-size:12px;
+}
+.fav_game{
+  position:absolute;
+  background: grey;
+  top: 0;
+  left: 10px;
+  z-index: 99;
+}
+.fav_friends{
+  position:absolute;
+  background: grey;
+  top: 20px;
+  left: 10px;
+  z-index: 99;
+}
+/* slideshow */
+.carousel{
+  margin: 0 -15px 0 -15px;
+}
+.carousel-control {
+    background: none repeat scroll 0 0 #E3C8AC;
+    border: 3px solid black;
+    -moz-border-radius: 0 0 0 0; /* Firefox */
+    -webkit-border-radius: 0 0 0 0; /* Safari, Chrome */
+    border-radius: 0 0 0 0; /* CSS3 */
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: 100;
+    height: 20px;
+    left: 15px;
+    line-height: 10px;
+    margin-top: -20px;
+    opacity: 0.5;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 20px;
+}
+.carousel-control.right {
+  right: 0;
+}
+.carousel-control.left{
+  left: 0;
+}
+.carousel-inner .item img{
+  margin:auto;
+}
+.game_name{
+  font-size: 18px;
+  text-align:left;
+}
+.game_price{
+  font-size:18px;
+  position: absolute;
+  /* float:right could work */
+  background: /*#42879B;*/ #E3C8AC;
+  border: 1px solid #A5C0C8;
+  color: black;
+  right: 15px;
+  padding:2px;
+  -moz-border-radius: 3px; /* Firefox */
+  -webkit-border-radius: 3px; /* Safari, Chrome */
+  border-radius: 3px; /* CSS3 */
+  z-index: 99;
+}
+.download_btn{
+  font-size:20px;
+}
+.game_pin{
+  background:#E9DBCC;
+  width:220px;
+  float:left;
+  padding:15px 15px 0 15px;
+  margin: 0 0 15px 15px;
+  font-size:12px;
+}
+.game_options{
+  position:absolute;
+  margin: -7px 0 0 -5px;
+}
+.game_options *{
+  background: white;
+  display: inline-block;
+  text-align:center;
+  width: 60px;
+  margin-left:5px;
+  border:2px solid black;
+  cursor: pointer;
+}
+
+.store_body{
+  position:relative;
+}
+
+.store_container{
+  text-align: center;
+  padding: 10px 15px;
+  margin: 0 -15px 0 -15px;
+  border-bottom: 1px solid #A5C0C8;
+  background: #CBE6EE;
+}
+.game_description, .game_attributes, .posted_by{
+  margin-top: 5px;
+  margin-bottom:0px;
+}
+.game_description{
+}
+.game_img{
+}
+.game_attributes{
+  margin-bottom:5px;
+}
+.posted_by, .comment, .respond{
+  padding: 10px 15px;
+  margin: 0 -15px 0 -15px;
+  border-bottom: 1px solid #A5C0C8;
+  background: #CBE6EE;
+}
+.posted_by img, .posted_by p, .comment img, .comment p{
+  display:inline-block;
+  vertical-align: top;
+}
+.posted_by p{
+}
+.profile_img{
+}
+.post_text, .respond_txtarea{
+  max-width: 170px;
+  margin-left: 5px;
+  line-height: 1.1em;  
+}
+.respond_txtarea{
+  font-size:11px;
+  height: 20px;
+  line-height: 1em; 
+}
+.respond_btn{
+  margin-top:10px;
+  float:right;
+}
+/* Scroll up button */
+.scrollup{
+  background: grey;
+  bottom: 0;
+  font-size: 25px;
+  text-align:center;
+  opacity: 0.8;
+  display: none;
+  height: 80px;
+  position: fixed;
+  right: 100px;
+  width: 80px;
+  border:2px solid black;
+}
+/* Registration_1 Page */
+.welcome_img{
+  text-align: center;
+}
+.register_options{
+  text-align: center;
+}
+.social_media_login{
+  text-align: center;
+}
+/* Registration_Email Page */
+.register_container{
+  width:700px;
+  background:#DDDDDD;
+  margin: 0 auto;
+}
+.register_container h1{
+  text-align:center;
+}
+.profile_outer, .profile_inner{
+  display: inline-block;
+  vertical-align: top;
+}
+.profile_outer{
+  background:white;
+}
+.profile_inner{
+  margin:5px;
+  position:relative;
+}
+.upload_profile_pic{
+  position: absolute;
+  top:190px;
+  left:55px;
+}
+.user_params_required{
+  display: inline-block;
+  width:300px;
+  margin-left:60px;
+}
+.user_params_optional{
+  padding-bottom:10px;
+}
+.user_info{
+  display: inline-block;
+  width:320px;
+  padding-left:30px;
+}
+.user_bio{
+  display: inline-block;
+  vertical-align: top;
+}
+.user_bio textarea{
+  width: 300px;
+  height: 100px;
+}
+.register_submit{
+  text-align:center;
+}
+.register_submit button{
+}
+/* View Pin modal */
+#storePinModal{
+  height: 100%;
+  overflow-y: auto;
+}
+#storePinModal .modal-body{
+  overflow:hidden;
+  padding:0;
+}
+.modal-header *{
+}
+.modal-header button{
+  float:right;
+}
+.poster{
+  font-size: 25px;
+  margin-left: 60px;
+}
+.date_posted{
+  margin-top: 7px;
+  margin-left: 60px;
+}
+.modal-header .profile_img{
+  float:left;
+}
+.view_metadata, .view_tags{
+  display: inline-block;
+  vertical-align: top;
+}
+.view_metadata{
+  padding-top:5px;
+  background:grey;
+  height:50px;
+  width:50%;
+}
+.view_metadata > *{
+  margin-left:10px;
+}
+.game_title{
+  font-size:20px;
+}
+.game_publisher{
+  font-size:14px;
+}
+.view_tags{
+  height:50px;
+  width:50%;
+}
+.view_tags p span{
+  background:yellow;
+  margin-left:10px;
+}
+.view_tags > p{
+  margin-left:10px;
+  margin-top:10px;
+  font-size:18px;
+}
+.view_comment_container{
+  padding: 10px 15px;
+}
+.view_img_container{
+  text-align: center;
+  background: grey;
+}
+.view_comment{
+  padding: 10px 15px 0;
+  margin: 0 -15px;
+  border-top: 1px solid #FCFAFA;
+}
+.view_comment *{
+  display:inline-block;
+}
+.view_post_text{
+  width:450px;
+  vertical-align:top;
+  margin-left: 10px;
+}
+.view_respond{
+  padding-top: 15px;
+}
+.view_respond_txtarea{
+  margin-left:15px;
+  width: 450px;
+  height: 40px;
+}
+.view_respond_btn{
+  margin-top:10px;
+  float:right;
+}
+.like_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+.repin_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+.video_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+.vid_container{
+  text-align: center;
+}
+#like_content img, #repin_content img {
+  margin:5px;
+}
+.img_container{
+  padding:10px;
+}
+.share_list{
+  left: 550px;
+  position: absolute;
+  top: 60px;
+}
+.share_element{
+  margin-top:20px;
+}
+.share_element button{
+  white-space:nowrap;  /*huzzah!*/
+}
