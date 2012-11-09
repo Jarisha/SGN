@@ -1,32 +1,151 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
 	<head>
-	    <meta charset="utf-8">
-	    <title>SGN Angular</title>
-	    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta name="description" content="">
-	    <meta name="author" content="">
-	 </head>
-	 <body ng-controller='AppCtrl'>
-	 
-	 	<p> Settings Page! </p>
-	 	<p> Hello {{ name }}</p>
-	 	<ul class="menu">
-	 		<li><a href="/view1">View 1</a></li>
-	 		<li><a href="/view2">View 2</a></li>
-	 	</ul>
-	 	<b>Content Goes Below this message!</b>
-	 	<div ng-view></div>
-	 	<div>Angular seed app: v <span app-version></span></div>
+    <meta charset="utf-8">
+    <title>SGN Angular</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="css/bootstrap.css" rel="stylesheet" >
+    <link href="css/bootstrap-scroll-modal.css" rel="stylesheet" >
+    <link href="css/default.css" rel="stylesheet">
+    <% for(var file in cssFiles) { %>
+      <link href="<%= cssFiles[file] %>" rel="stylesheet">
+    <% } %>
+  </head>
+  
+  <body ng-controller='AppCtrl'>
+    <!-- Post Pin Modal (Step 1) -->
+    <div class="modal hide" id="pinModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+        <h3 class="control-label" for="inputUsername">Post your game video or screenshot!</h3>
+      </div>
+      <div class="modal-body">
+        <div class="media_type">
+          <div class="btn-group" data-toggle="buttons-radio">
+            <div class="btn-group" data-toggle="buttons-radio">
+              <img src="images/image.png" />
+              <button class="btn">Image</button>
+              <p>Image</p>
+              <img src="images/video.png" />
+              <button class="btn">Video</button>
+              <p>Video</p>
+            </div>
+            
+          </div>
+        </div>
+        <div class="media_source">
+          <div class="btn-group" data-toggle="buttons-radio">
+            <img src="images/upload.png" />
+            <button class="btn">Upload</button>
+            <p>Upload</p>
+            <img src="images/url.png" />
+            <button class="btn">URL</button>
+            <p>URL</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <% if(nav){ %>
+      <% include partials/navbar  %>
+    <% } %>
+    
+    <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
+    <noscript>
+      <style type="text/css">
+          #content  {display:none;}
+      </style>
+      <div class="noscriptmsg">
+        You don't have javascript enabled.  Please Enable javascript to view this site.
+      </div>
+    </noscript>
+    
+    <!-- CONTENT -->
+    <div id="content" class="container">
+      <form class="my_settings_form">
+        <h1>My Settings</h1>
+        <hr/>
+        <hr/>
+        <ul class="param_list">
+          <li class="param clearfix">
+            <label for="id_email">email</label>
+            <div><input id="id_email" type="text"></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">          
+            <label>password</label>
+            <div><a href="#">Change Password (dropdown)</a></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">  
+            <label for="id_username">username</label>
+            <div><input id="id_username" type="text"></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">  
+            <label for="id_gender">gender</label>
+            <input id="1" type="radio" name="group2" value="male"><label class="gender_option" for="1">Male</label>
+            <input id="2" type="radio" name="group2" value="female"><label class="gender_option"for="2">Female</label>
+            <input id="3" type="radio" name="group2" value="none" checked><label class="gender_option" for="3">Decline to State</label>
+          </li>
+          <hr/>
+          <li class="param clearfix">
+            <label for="id_bio">Bio</label>
+            <div><textarea id="id_bio" type="text"></textarea></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">  
+            <label for="id_site">Personal Web Site</label>
+            <div><input id="id_site" type="text"></input></div>
+          </li>
+          <hr/>          
+          <li class="param clearfix">
+            <label for="id_media_settings">Social Media Settings</label>
+            <div><input id="id_media_settings" type="text"></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">  
+            <label for="id_privacy">Privacy Settings</label>
+            <div><input id="id_privacy" type="text"></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix"> 
+            <label for="id_notify">notifications</label>
+            <div><input id="id_notify" type="text"></input></div>
+          </li>
+          <hr/>
+          <li class="param clearfix">
+            <div><button type="submit">Deactivate Account</button></div>
+          </li>
+          <hr/>
+          <li class="param clearfix"> 
+            <button>Save Changes</button>
+            <button>Cancel Changes</button>
+          </li>
+        </ul>
+      </form>
+    </div>
 	 	
 	 	<!-- JS -->
-	 </body>
- 	 <script type="text/javascript" src="js/lib/angular/angular.js"></script>
-	 <script type="text/javascript" src="js/app.js"></script>
-	 <script type="text/javascript" src="js/services.js"></script>
-	 <script type="text/javascript" src="js/controllers.js"></script>
-	 <script type="text/javascript" src="js/filters.js"></script>
-	 <script type="text/javascript" src="js/directives.js"></script>
-	 <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/lib/angular/angular.js"></script>
+    <script src="js/angular/app.js"></script>
+    <script src="js/angular/services.js"></script>
+    <script src="js/angular/controllers.js"></script>
+    <script src="js/angular/filters.js"></script>
+    <script src="js/angular/directives.js"></script>
+    <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/jquery.masonry.min.js"></script>
+    <script src="js/jquery.imagesloaded.min.js"></script>
+    <script src="js/jquery.infinitescroll.min.js"></script> 
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-scroll-modal.js"></script>
+  <% for(var file in jsFiles) { %>
+    <script src="<%= jsFiles[file] %>"></script>
+  <% } %>
+  </body>
 </html>

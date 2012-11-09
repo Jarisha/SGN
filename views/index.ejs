@@ -7,10 +7,973 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <meta name="description" content="">
 	    <meta name="author" content="">
+      <link href="css/bootstrap.css" rel="stylesheet" >
+      <link href="css/bootstrap-scroll-modal.css" rel="stylesheet" >
+      <link href="css/default.css" rel="stylesheet">
+      <% for(var file in cssFiles) { %>
+        <link href="<%= cssFiles[file] %>" rel="stylesheet">
+      <% } %>
 	 </head>
 	 <body ng-controller='AppCtrl'>
-	 
-	 	<div ng-include src="'/partials/navbar'"></div>
+	 <!-- Post Pin Modal (Step 1) -->
+    <div class="modal hide fade" id="pinModal_1">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+        <h3 class="control-label" for="inputUsername">Post your game video or screenshot!</h3>
+      </div>
+      <div class="modal-body">
+        <div class="media_type">
+          <div class="btn-group" data-toggle="buttons-radio">
+            <img src="images/image.png" />
+            <button class="btn">Image</button>
+            <p>Image</p>
+            <img src="images/video.png" />
+            <button class="btn">Video</button>
+            <p>Video</p>
+          </div>
+        </div>
+        <div class="media_source">
+          <div class="btn-group" data-toggle="buttons-radio">
+            <img src="images/upload.png" />
+            <button class="btn">Upload</button>
+            <p>Upload</p>
+            <img src="images/url.png" />
+            <button class="btn">URL</button>
+            <p>URL</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- View Pin Modal -->
+    <div class="modal hide fade" id="viewPinModal">
+      <div class="modal-header clearfix">
+        <a href="#"><img class="profile_img" src="images/50x50.gif" /></a>
+        <button class="follow" type="button">Follow</button>
+        <p class="poster"><a href="#">Joe Shmoe</a> via <a href="#">Katie Shmoe</a></p>
+        <p class="date_posted">Posted 3 weeks ago onto #cooking</p>
+      </div>
+      <hr>
+      <div class="modal-body">
+        <div class="view_metadata">
+          <p class="game_title"><a href="#">Cooking Mama</a></p>
+          <p class="game_publisher">by <a href="#">Majestic</a></p>
+        </div><div class="view_tags">
+          <p><a href="#"><span>#simulation</span></a>
+          <a href="#"><span>#food</span></a>
+          <a href="#"><span>#cooking</span></a></p>
+        </div>
+        <div class="view_img_container">
+          <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+        </div>
+        <div class="view_comment_container">
+          <p> Cooking Mama is my favorite game ever I love it more than life itself combined.
+          <div class="view_comment">
+            <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><p 
+            class="view_post_text"><b>Jamie</b><br/> This game is a really cool cooking game and I play it all the time!1! </p>
+          </div>
+          <div class="view_respond clearfix">
+            <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><textarea 
+            class="view_respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+            <button class="view_respond_btn hidden">Comment</button>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <ul class="share_list">
+        <li class="share_element"><button type="button">Facebook</button></li>
+        <li class="share_element"><button type="button">Twitter</button></li>
+        <li class="share_element"><button type="button">Share</button></li>
+        <li class="share_element"><button type="button">G+</button></li>
+        <li class="share_element"><button type="button">Report Pin</button></li>
+      </ul>
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active like_tab"><a href="#like_content" data-toggle="tab">10 Pins</a></li>
+          <li class="repin_tab"><a href="#repin_content" data-toggle="tab">12 Repins</a></li>
+        </ul>
+        <div class="tab-content img_container">
+          <div class="tab-pane active" id="like_content">
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+            <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+          </div>
+          <div class="tab-pane" id="repin_content">
+            <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <% if(nav){ %>
+      <% include partials/navbar  %>
+    <% } %>
+    <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
+    <noscript>
+      <style type="text/css">
+          #content  {display:none;}
+      </style>
+      <div class="noscriptmsg">
+        You don't have javascript enabled.  Please Enable javascript to view this site.
+      </div>
+    </noscript>
+    
+    <div id="content" class="container">
+    <!-- row 1 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/images (1).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/images (2).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/images (3).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+          <img class="game_img" src="images/game_images/images (4).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <!-- row 2 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (5).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (6).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (7).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (8).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (9).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <!-- row 3 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (10).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (11).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (12).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (13).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (14).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <!-- row 4 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (15).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (16).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (17).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (18).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (19).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <!-- row 5 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (20).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/images (21).jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/mobile-games-handy-spiele-screenshot-rally-master-pro-01.jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/powerBoat.jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/screenshots_games_sog_21.jpg"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <!-- row 6 -->
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+      <div class="game_pin">
+        <div class="game_options hidden">
+          <a class="like_btn">Like</a>
+          <a class="pin_btn">Repin</a>
+          <a class="comment_btn" href="#c1">Comment</a>
+        </div>
+        <a href="#">
+          <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
+        </a>
+        <a name="c1"></a>
+        <p class="game_description">Something something some</p>
+        <p class="game_attributes">
+          <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+        </p>
+        <div class="posted_by">
+          <img src="images/30x30.gif" class="profile_img" /><p 
+          class="post_text"><b>Tony</b> onto #RTS</p>
+        </div>
+        <div class="comment">
+          <img src="images/30x30.gif" class="profile_img"/><p 
+          class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+        </div>
+        <div class="respond clearfix" tabindex="">
+          <img src="images/30x30.gif" class="profile_img"/><textarea 
+          class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
+          <button class="respond_btn hidden">Comment</button>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="scrollup">Scroll to Top</a>
+    <div id="pag_nav">
+      <a href="page_2.html">Page 2</a>
+      <a href="page_3.html">Page 3</a>
+    </div>
+    
+	 	<!--<div ng-include src="'/partials/navbar'"></div>
 	 	
 	 	<p> Index Page! </p>
 	 	<p> Hello {{ name }}</p>
@@ -20,15 +983,25 @@
 	 	</ul>
 	 	<b>Content Goes Below this message!</b>
 	 	<div ng-view></div>
-	 	<div>Angular seed app: v <span app-version></span></div>
+	 	<div>Angular seed app: v <span app-version></span></div> -->
 	 	
 	 	<!-- JS -->
+    <script src="js/lib/angular/angular.js"></script>
+    <script src="js/angular/app.js"></script>
+    <script src="js/angular/services.js"></script>
+    <script src="js/angular/controllers.js"></script>
+    <script src="js/angular/filters.js"></script>
+    <script src="js/angular/directives.js"></script>
+    <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/jquery.masonry.min.js"></script>
+    <script src="js/jquery.imagesloaded.min.js"></script>
+    <script src="js/jquery.infinitescroll.min.js"></script> 
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-scroll-modal.js"></script>
+    <% for(var file in jsFiles) { %>
+      <script src="<%= jsFiles[file] %>"></script>
+    <% } %>
 	 </body>
- 	 <script type="text/javascript" src="js/lib/angular/angular.js"></script>
-	 <script type="text/javascript" src="js/app.js"></script>
-	 <script type="text/javascript" src="js/services.js"></script>
-	 <script type="text/javascript" src="js/controllers.js"></script>
-	 <script type="text/javascript" src="js/filters.js"></script>
-	 <script type="text/javascript" src="js/directives.js"></script>
-	 <script src="js/jquery-1.8.1.min.js"></script>
 </html>

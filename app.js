@@ -17,7 +17,16 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
+  app.use(express.favicon(__dirname + '/public'));
   app.use(app.router);
+  
+  //set globals available to all views
+  app.locals.title = 'SGN_Express';
+  app.locals.nav = false;
+  app.locals.subnav = false;
+  app.locals.cssFiles = [];
+  app.locals.jsFiles = [];
+  app.locals.error = false;
 });
 
 app.configure('development', function(){
@@ -48,7 +57,7 @@ app.get('/partials/:name', routes.partials);
 app.get('/api/name', api.name);
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+app.get('*', routes.notfound);
 
 // Start server
 

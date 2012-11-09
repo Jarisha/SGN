@@ -1,1 +1,30 @@
-<p> Navbar </p>
+<!-- STATIC TOP NAV BAR LOGGED IN -->
+<div id="nav" class="navbar navbar-inverse">
+  <div id="nav_content" class="navbar-inner">
+    <a id="main_logo" href="/">Social Gaming Network</a>
+    <ul id="nav_left" class="nav">
+      <li>
+        <form id="search_bar" class="navbar-search">
+          <input type="text" class="search-query" placeholder="Search">
+        </form>
+      </li>
+    </ul>
+    <ul id="nav_right" class="nav">
+      <li id="about_tab" class="dropdown">
+        <a href="About.html" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+        <ul class="dropdown-menu active">
+          <li><a href="/about">Help</a></li>
+          <li><a href="/about">Contact</a></li>
+          <li><a href="/about">Terms of Service</a></li>
+          <li><a href="/about">Privacy Policy</a></li>
+          <li><a href="/about">Team</a></li>
+        </ul>
+      </li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+    </ul>
+  </div>
+  <% if(subnav){ %>
+    <% include subnav  %>
+  <% } %>
+</div>
