@@ -10,9 +10,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" >
     <link href="css/bootstrap-scroll-modal.css" rel="stylesheet" >
     <link href="css/default.css" rel="stylesheet">
-    <% for(var file in cssFiles) { %>
-      <link href="<%= cssFiles[file] %>" rel="stylesheet">
-    <% } %>
+    <link href="css/settings.css" rel="stylesheet">
   </head>
   
   <body ng-controller='AppCtrl'>
@@ -49,9 +47,9 @@
       </div>
     </div>
     
-    <% if(nav){ %>
-      <% include partials/navbar  %>
-    <% } %>
+    <!-- STATIC TOP NAV BAR 
+    <div ng-include="'partials/navbar'" id="nav" class="navbar navbar-inverse">
+    </div> -->
     
     <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
     <noscript>
@@ -144,8 +142,6 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-scroll-modal.js"></script>
-  <% for(var file in jsFiles) { %>
-    <script src="<%= jsFiles[file] %>"></script>
-  <% } %>
+    <script src="js/settings.js"></script>
   </body>
 </html>

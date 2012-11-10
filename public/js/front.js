@@ -6,7 +6,14 @@
 */
 $(document).ready(function(e){
   
-  /* Front Page Loading*/
+  //ensure support for HTML5 localstorage
+  if(typeof(Storage)!=="undefined"){
+  }
+  else{
+    alert('localstorage not supported!');
+  }
+  
+  /* Front Page Loading */
   //Enable masonry after images load
   var $container = $('#content');
   $container.imagesLoaded(function(){
@@ -38,13 +45,28 @@ $(document).ready(function(e){
   );
     
   /* Front Page & Pin functionality */
-  //Show Pin options on hover
-  $('.game_pin').live('mouseenter', function(e){
+  $(document).on('mouseenter', '.game_pin', function(e){
     $(this).find('.game_options').removeClass('hidden');
   });
-  $('.game_pin').live('mouseleave', function(e){
+  $(document).on('mouseleave', '.game_pin', function(e){
     $(this).find('.game_options').addClass('hidden');
   });
+  
+  /* Temporarary Mock Login functionality */
+  $('.log_state').text(localStorage["logged_in"]);
+  $('button.login_btn').click(function(){
+    localStorage["logged_in"] = 'true';
+    console.log(localStorage["logged_in"]);
+    $('.log_state').text(localStorage["logged_in"]);
+  });
+  $('button.register_btn').click(function(){
+  });
+  $('button.logout_btn').click(function(){
+    localStorage["logged_in"] = '';
+    console.log(localStorage["logged_in"]);
+    $('.log_state').text(localStorage["logged_in"]);
+  });
+  
   
   // "Scroll to Top" button
   $(window).scroll(function(){
@@ -60,7 +82,7 @@ $(document).ready(function(e){
   });
   
   // Show "Comment" button when textarea focused
-  $('.respond_txtarea').live('focus', function(e){
+  $(document).on('focus', '.respond_txtarea', function(e){
     $(this).nextAll('.respond_btn').removeClass('hidden');
     //Remason layout to accout for button appearing
     $container.masonry({
@@ -70,7 +92,7 @@ $(document).ready(function(e){
   
   // Post comment (insert HTML string)
   var comment = '<div class="comment"><img class="profile_img" src="images/30x30.gif"><p class="post_text"></p></div>';
-  $('.respond_btn').live("click", function(e){
+  $(document).on('click', '.respond_btn', function(e){
     var response = $.trim($(this).prevAll('.respond_txtarea').val());
     $(this).prevAll('.respond_txtarea').val('');
     $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="images/30x30.gif"><p class="post_text">' + 

@@ -10,24 +10,138 @@
     <link href="css/bootstrap.css" rel="stylesheet" >
     <link href="css/bootstrap-scroll-modal.css" rel="stylesheet" >
     <link href="css/default.css" rel="stylesheet">
-    <% for(var file in cssFiles) { %>
-      <link href="<%= cssFiles[file] %>" rel="stylesheet">
-    <% } %>
+    <link href="css/about.css" rel="stylesheet">
   </head>
   
   
   <body ng-controller='AppCtrl'>
-	 	<p> About Page! </p>
-	 	<p> Hello {{ name }} </p>
-	 	<ul class="menu">
-	 		<li><a href="/view1">View 1</a></li>
-	 		<li><a href="/view2">View 2</a></li>
-	 	</ul>
-	 	<b>Content Goes Below this message!</b>
-	 	<div ng-view></div>
-	 	<div>Angular seed app: v <span app-version></span></div>
-	 	
-	 <!-- JS -->
+    <!-- Login Modal -->
+    <div class="modal hide" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+        <h3 id="myModalLabel">Log in to sgn</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="inputUsername">Username</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Username">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="control-group">
+            <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
+            <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+            <label class="control-label" for="inputPassword">Login with</label>
+            <div class="controls">
+              <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <label class="checkbox">
+                <input type="checkbox"> Remember me
+              </label>
+              <br>
+              <button type="submit" class="btn">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div id="content" class="container">
+      <div class="about_left">
+        <ul class="about_tabs">
+          <li class="active_tab"><a href="">FAQ</a></li>
+          <li><a href="">Help</a></li>
+          <li><a href="">About the Team</a></li>
+          <li><a href="">Jobs</a></li>
+          <li><a href="">Press / News</a></li>
+          <li><a href="">Terms and Conditions</a></li>
+          <li><a href="">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="about_right">
+        <div class="tab-pane active" id="tab1">
+          <h1>FAQ</h1>
+          <br/>
+          <b>Heading 1</b>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <br/>
+          <b>Heading 2</b>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. T is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <br/>
+          <b>Heading 3</b>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+          <p>This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence. This is a longer sentence.  This is an even long sentence.
+          This is a sentence.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- JS -->
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/angular/app.js"></script>
     <script src="js/angular/services.js"></script>
@@ -42,8 +156,6 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-scroll-modal.js"></script>
-  <% for(var file in jsFiles) { %>
-    <script src="<%= jsFiles[file] %>"></script>
-  <% } %>
+    <script src="js/about.js"></script>
   </body>
 </html>

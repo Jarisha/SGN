@@ -37,6 +37,21 @@ $(document).ready(function(e){
     }
   );
   
+  /* Temporarary Mock Login functionality */
+  $('.log_state').text(localStorage["logged_in"]);
+  $('button.login_btn').click(function(){
+    localStorage["logged_in"] = 'true';
+    console.log(localStorage["logged_in"]);
+    $('.log_state').text(localStorage["logged_in"]);
+  });
+  $('button.register_btn').click(function(){
+  });
+  $('button.logout_btn').click(function(){
+    localStorage["logged_in"] = '';
+    console.log(localStorage["logged_in"]);
+    $('.log_state').text(localStorage["logged_in"]);
+  });
+  
   // "Scroll to Top" button
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
@@ -85,9 +100,10 @@ $(document).ready(function(e){
   
   //Enable store pin slides
   $('.carousel').carousel({interval: false});
-  $('.carousel').live('mouseenter', function(){
+  $(document).on('mouseenter', '.carousel', function(){
     $(this).children('.carousel-control').removeClass('hidden');
-  }).live('mouseleave', function(){
+  });
+  $(document).on('mouseleave', '.carousel', function(){
     $(this).children('.carousel-control').addClass('hidden');
   });
 });

@@ -10,12 +10,16 @@
     <link href="css/bootstrap.css" rel="stylesheet" >
     <link href="css/bootstrap-scroll-modal.css" rel="stylesheet" >
     <link href="css/default.css" rel="stylesheet">
-    <% for(var file in cssFiles) { %>
-      <link href="<%= cssFiles[file] %>" rel="stylesheet">
-    <% } %>
+    <link href="css/profile.css" rel="stylesheet">
   </head>
   <body ng-controller='AppCtrl'>
-    
+    <!-- Debug Modal -->
+    <div style="position: fixed; top: 300px; left: 200px; width: 200px; background: white; z-index:200;
+                border: solid black 2px;">
+      <p id="test"> Hello {{ name }}</p>
+      <button>Login</button>
+      <button>Register</button>
+    </div>
     <!-- Post Pin Modal (Step 1) -->
     <div class="modal hide fade" id="pinModal_1">
       <div class="modal-header">
@@ -46,9 +50,9 @@
       </div>
     </div>
     
-    <% if(nav){ %>
-      <% include partials/navbar  %>
-    <% } %>
+    <!-- STATIC TOP NAV BAR -->
+    <div ng-include="'partials/navbar'" id="nav" class="navbar navbar-inverse">
+    </div>
     
     <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
     <noscript>
@@ -466,8 +470,6 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-scroll-modal.js"></script>
-  <% for(var file in jsFiles) { %>
-    <script src="<%= jsFiles[file] %>"></script>
-  <% } %>
+    <script src="js/profile.js"></script>
   </body>
 </html>
