@@ -14,15 +14,15 @@ exports.store = function(req, res){
 };
 //profile
 exports.profile = function(req, res){
-	res.render('profile');
+	res.render('temp_profile');
 };
 //settings
 exports.settings = function(req, res){
-	res.render('settings');
+	res.render('temp_settings');
 };
 //about
 exports.about = function(req, res){
-	res.render('about');
+	res.render('temp_about');
 };
 //page not found
 exports.notfound = function(req, res){

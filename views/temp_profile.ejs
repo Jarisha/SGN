@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 	<head>
     <meta charset="utf-8">
-    <title>SGN Angular - Store</title>
+    <title>SGN Angular - Profile</title>
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -10,9 +10,9 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-scroll-modal.css" rel="stylesheet">
     <link href="css/default.css" rel="stylesheet">
-    <link href="css/store.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
 	</head>
-  <body ng-controller="StoreController">
+  <body ng-controller="ProfileController">
     <div ng-include="modals"></div>
     <div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
 		<!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
@@ -25,13 +25,9 @@
 			</div>
 		</noscript>
     <!--onload="enableMasonry()"-->
-    <div id="content" class="container" ng-include="'partials/store_content'" onload="enableMasonry()"  >
+    <div id="content" class="container" ng-include="'partials/profile_content'" onload="enableMasonry()"  >
 		</div>
 		<a href="#" class="scrollup">Scroll to Top</a>
-		<div id="pag_nav">
-			<a href="page_2.html">Page 2</a>
-			<a href="page_3.html">Page 3</a>
-		</div>
   <!-- JS -->
   <script src="js/lib/angular/angular.js"></script>
   <script src="js/angular/app.js"></script>
@@ -47,6 +43,6 @@
   <script src="js/bootstrap.js"></script>
   <script src="js/bootstrap-transition.js"></script>
   <script src="js/bootstrap-scroll-modal.js"></script>
-  <script src="js/store.js"></script>
+  <script src="js/profile.js"></script>
   </body>
 </html>

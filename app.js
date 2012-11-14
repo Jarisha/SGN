@@ -52,8 +52,10 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 app.get('/api/name', api.name);
-app.get('/api/login', api.login);
-app.get('/api/register', api.register);
+app.post('/api/login', api.login);
+app.get('/api/logout', api.logout);
+app.post('/api/register', api.register);
+app.get('/api/checkLogin', api.checkLogin);
 
 //Route to 404 Page if not served
 app.get('*', routes.notfound);

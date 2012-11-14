@@ -217,6 +217,7 @@ only screen and (max-device-width : 890px){
 /* Game Pin object */
 .store_pin{
   background:#E9DBCC;
+  position: relative;
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
@@ -226,6 +227,7 @@ only screen and (max-device-width : 890px){
   padding:0 15px 0 15px;
   margin: 0 0 15px 15px;
   font-size:12px;
+  
 }
 .fav_game{
   position:absolute;

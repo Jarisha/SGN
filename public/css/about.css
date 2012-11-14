@@ -8,12 +8,21 @@ textarea{
   margin: 20px auto 20px;
 }
 
+body{
+  margin-top: 60px;
+}
+
 #nav{
   background: #E3F1E4;
   margin:0;
   -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+  
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 #nav_left{
 }

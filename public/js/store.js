@@ -8,7 +8,7 @@ $(document).ready(function(e){
 
   /* Front Page MasonScroll Loading*/
   //Enable masonry after images load
-  var $container = $('#content');
+  /*var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
@@ -35,7 +35,7 @@ $(document).ready(function(e){
         $container.masonry( 'appended', $newElems, true );
       });
     }
-  );
+  );*/
   
   /* Temporarary Mock Login functionality */
   $('.log_state').text(localStorage["logged_in"]);
@@ -89,17 +89,17 @@ $(document).ready(function(e){
   });
   
   //Youtube video functionality
-  var myPlayer = $('#playerid')[0];
+  /*var myPlayer = $('#playerid')[0];
   
   //Stop video if user clicks anywhere outside it (¿innefficient?)
   $('html *:not(.vid_container)').click(function(e){
     if(myPlayer.getPlayerState() === 1){
       myPlayer.pauseVideo();
     }
-  });
+  });*/
   
   //Enable store pin slides
-  $('.carousel').carousel({interval: false});
+  /* $('.carousel').carousel({interval: false}); */
   $(document).on('mouseenter', '.carousel', function(){
     $(this).children('.carousel-control').removeClass('hidden');
   });

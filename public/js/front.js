@@ -4,16 +4,8 @@
   Replace .live() with .on()
   Newline in notepad++
 */
-$(window).load(function() {
-  // executes when complete page is fully loaded, including all frames, objects and images
-  setTimeout(function() {
-    var $container = $('#content');
-    $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
-    });
-  }, 1000);
-  
-});
+/*$(window).load(function() {
+});*/
 
 
 $(document).ready(function(e){
@@ -24,15 +16,14 @@ $(document).ready(function(e){
   else{
     alert('localstorage not supported!');
   }
-  //var $container = $('#content');
   /* Front Page Loading */
-  /* var $container = $('#content');
+  /*var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
-      itemSelector : '.game_pin, .store_pin, .ng-scope'
+      itemSelector : '.game_pin, .store_pin'
     });
-  });
-  
+  });*/
+  /*
   // "Infinite Scroll"
   $container.infinitescroll({
     navSelector  : '#pag_nav',    // selector for the paged navigation
@@ -95,7 +86,8 @@ $(document).ready(function(e){
   // Show "Comment" button when textarea focused
   $(document).on('focus', '.respond_txtarea', function(e){
     $(this).nextAll('.respond_btn').removeClass('hidden');
-    //Remason layout to accout for button appearing
+    //Remason layout to account for button appearing
+    $container = $('#content');
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
     });
@@ -135,9 +127,9 @@ $(document).ready(function(e){
  
   /* Post Pin Step 2 */
   //Activate carousel
-  $('#myCarousel').carousel({
-    interval: false
-  });
+  //$('#myCarousel').carousel({
+  //  interval: false
+  //});
   $(document).on('mouseleave','#myCarousel', function(){
     $(this).carousel('pause');
   });

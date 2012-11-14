@@ -144,3 +144,89 @@
     </div>
   </div>
 </div>
+
+<!-- Log In Modal -->
+<div class="modal hide" id="loginModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <h3 id="myModalLabel">Log in to sgn</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Username</label>
+        <div class="controls">
+          <input ng-model="login.name" type="text" id="inputUsername" placeholder="Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+          <input ng-model="login.password" type="password" id="inputPassword" placeholder="Password">
+        </div>
+      </div>
+      <p>{{login.name}} : {{login.password}}</p>
+      <div class="control-group">
+        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
+        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <label class="control-label" for="inputPassword">Login with</label>
+        <div class="controls">
+          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox"> Remember me
+          </label>
+          <br>
+          <button class="btn" data-dismiss="modal" ng-click="postLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal hide" id="registerModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <h3 id="myModalLabel">Register with sgn</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Username</label>
+        <div class="controls">
+          <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+          <input ng-model="register.password" type="password" id="inputPassword" placeholder="Password">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="confirm">Confirm</label>
+        <div class="controls">
+          <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
+        </div>
+      </div>
+      <p>{{register.name}} : {{register.password}} : {{register.confirm}}</p>
+      <div class="control-group">
+        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
+        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <label class="control-label" for="inputPassword">Register with</label>
+        <div class="controls">
+          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn" data-dismiss="modal" ng-click="postRegister()">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

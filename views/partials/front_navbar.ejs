@@ -1,5 +1,5 @@
 <!-- STATIC TOP NAV BAR LOGGED IN -->
-<!-- nav bar logged in -->
+<!-- nav bar logged in 
 <div id="nav"  class="navbar navbar-inverse" ng-show="loggedIn">
   <div id="nav_content" class="navbar-inner">
     <a id="main_logo" href="/">Social Gaming Network</a>
@@ -71,10 +71,10 @@
     </ul>
   </div>
   <div ng-include="subnav" id="subnav" data-spy="affix" data-offset-top="42"></div>
-</div>
+</div>-->
 
 <!-- nav bar logged out -->
-<div id="nav" class="navbar navbar-inverse" ng-show="!loggedIn">
+
   <div id="nav_content" class="navbar-inner">
     <a id="main_logo" href="/">Social Gaming Network</a>
     <ul id="nav_left" class="nav">
@@ -95,9 +95,8 @@
             <li><a href="About.html">Team</a></li>
           </ul>
       </li>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/register">Register</a></li>
+      <li><a ng-click="promptLogin()"> Login </a></li>
+      <li><a ng-click="promptRegister()"> Register </a></li>
     </ul>
   </div>
-  <div ng-include="subnav" id="subnav" data-spy="affix" data-offset-top="42"></div>
-</div>
+  <div ng-show="subnavBool" ng-include="subnav" id="subnav" onload="affix()" <!-- data-spy="affix" data-offset-top="42" --></div>
