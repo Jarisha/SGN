@@ -4,6 +4,18 @@
   Replace .live() with .on()
   Newline in notepad++
 */
+$(window).load(function() {
+  // executes when complete page is fully loaded, including all frames, objects and images
+  setTimeout(function() {
+    var $container = $('#content');
+    $container.masonry({
+      itemSelector : '.game_pin, .store_pin'
+    });
+  }, 1000);
+  
+});
+
+
 $(document).ready(function(e){
   
   //ensure support for HTML5 localstorage
@@ -12,13 +24,12 @@ $(document).ready(function(e){
   else{
     alert('localstorage not supported!');
   }
-  
+  //var $container = $('#content');
   /* Front Page Loading */
-  //Enable masonry after images load
-  var $container = $('#content');
+  /* var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
+      itemSelector : '.game_pin, .store_pin, .ng-scope'
     });
   });
   
@@ -42,7 +53,7 @@ $(document).ready(function(e){
         $container.masonry( 'appended', $newElems, true );
       });
     }
-  );
+  );*/
     
   /* Front Page & Pin functionality */
   $(document).on('mouseenter', '.game_pin', function(e){

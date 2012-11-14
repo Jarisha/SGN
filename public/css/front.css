@@ -354,11 +354,11 @@ only screen and (max-device-width : 890px){
 .register_submit button{
 }
 /* View Pin modal */
-#viewPinModal{
+#gamePinModal{
   height: 100%;
   overflow-y: auto;
 }
-#viewPinModal .modal-body{
+#gamePinModal .modal-body{
   overflow:hidden;
   padding:0;
 }
