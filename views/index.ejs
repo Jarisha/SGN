@@ -17,6 +17,7 @@
     <div style="position: fixed; top: 300px; left: 200px; width: 200px; background: white; z-index:200;
                 border: solid black 2px;">
       <p id="test"> Hello {{ name }} </p>
+      <p> Login AJAX: {{ log }} </p>
       <p> LoggedIn: <span class="log_state"> </span></p>
       <button class="login_btn">Login</button>
       <button class="register_btn">Register</button>
@@ -148,7 +149,48 @@
               </label>
               <br>
               <a href="Nav_Bar.html">Sign in</a>
-              <a href="Nav_Bar.html"><button class="btn">Sign in</button></a>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+              <button ng-click="login()" class="btn">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Register Modal -->
+    <div class="modal hide" id="register">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+        <h3 id="myModalLabel">Register for sgn</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="inputUsername">Username</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Username">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="control-group">
+            <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
+            <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+            <label class="control-label" for="inputPassword">Register with</label>
+            <div class="controls">
+              <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <label class="checkbox">
+                <input type="checkbox"> Remember me
+              </label>
+              <br>
+              <a href="#" data-dismiss="modal"><button class="btn">Register</button></a>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
             </div>
           </div>
         </form>

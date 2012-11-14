@@ -1,32 +1,34 @@
+var express = require('express');
+var routes = require('./routes');
+var api = require('./routes/api');
+var dbconfig = require('./db_config');
+var MongoStore = require('connect-mongo')(express);
+var config = require('./config');
 
-/**
- * Module dependencies.
- */
-
-var express = require('express'),
-  routes = require('./routes'),
-  api = require('./routes/api');
-
+//create app
 var app = module.exports = express();
 
-// Configuration
+//start mongodb 
+dbconfig.init();
 
+//configure settings & middleware
 app.configure(function(){
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.bodyParser());
+  app.set('view engine', 'ejs');  //hope to use HTML + Angular only
   app.use(express.methodOverride());
+  app.use(express.bodyParser());
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
-  app.use(app.router);
-  
-  //set globals available to all views
-  app.locals.title = 'SGN_Express';
-  app.locals.nav = false;
-  app.locals.subnav = false;
-  app.locals.cssFiles = [];
-  app.locals.jsFiles = [];
-  app.locals.error = false;
+  app.use(express.cookieParser());
+  app.use(express.session({
+    secret: 'sgnsecret',
+    cookie: { maxAge:  24 * 60 *  10 * 1000 }, //Sessions expire after a day
+    store: new MongoStore({
+      db: config.db,
+      clear_interval: 3600  //Interval in seconds to clear expired sessions
+    })
+  }));
+  //app.use(app.router)
 });
 
 app.configure('development', function(){
@@ -37,30 +39,26 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// Routes
+//Routes
 
-//front
+//main areas of site
 app.get('/', routes.index);
-//store
 app.get('/store', routes.store);
-//profile
 app.get('/profile', routes.profile);
-//settings
 app.get('/settings', routes.settings);
-//about
 app.get('/about', routes.about);
-
+//All view partials must be served
 app.get('/partials/:name', routes.partials);
 
 // JSON API
-
 app.get('/api/name', api.name);
+app.get('/api/login', api.login);
+app.get('/api/register', api.register);
 
-// redirect all others to the index (HTML5 history)
+//Route to 404 Page if not served
 app.get('*', routes.notfound);
 
 // Start server
-
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });

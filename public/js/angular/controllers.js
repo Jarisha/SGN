@@ -5,23 +5,24 @@
 /* App level controller */
 function AppCtrl($scope, $http, $location) {
   console.log('in AppCtrl');
-  /* $http({method: 'GET', url: '/api/name'}).
-  success(function(data, status, headers, config) {
-    $scope.name = data.name;
-  }).
-  error(function(data, status, headers, config) {
-    $scope.name = 'Error!';
-  });*/
   $scope.name = $location.path();
   console.log($scope.name);
 }
 
-/* Controllers for Content partial*/
-function MyCtrl1() {
+function FrontController($scope, $http, $location){
+  $scope.nav = 'partials/front_navbar';
+  $scope.subnav = 'partials/front_subnav';
+  $scope.content = 'partials/front_content';
 }
-MyCtrl1.$inject = [];
 
-
-function MyCtrl2() {
+function StoreController($scope, $http, $location){
+  $scope.nav = 'partials/store_navbar';
+  $scope.subnav = 'partials/store_subnav';
+  $scope.content = 'partials/store_content';
 }
-MyCtrl2.$inject = [];
+
+function ProfileController($scope, $http, $location){
+  $scope.nav = 'partials/profile_navbar';
+  $scope.subnav = 'partials/profile_subnav';
+  $scope.content = 'partials/profile_content';
+}

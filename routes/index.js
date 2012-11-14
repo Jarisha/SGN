@@ -4,41 +4,25 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { cssFiles: ['css/front.css'],
-                        jsFiles: ['js/front.js'],
-                        nav: true,
-                        subnav: true
-                      });
+  //res.render('index');
+  res.render('temp_front');
 };
 //store
 exports.store = function(req, res){
-	res.render('store', { cssFiles: ['css/store.css'],
-                        jsFiles: ['js/store.js'],
-                        nav: true,
-                        subnav: true
-                      });
+	//res.render('store');
+  res.render('temp_store');
 };
 //profile
 exports.profile = function(req, res){
-	res.render('profile', { cssFiles: ['css/profile.css'],
-                        jsFiles: ['js/profile.js'],
-                        nav: true,
-                        subnav: false
-                      });
+	res.render('profile');
 };
 //settings
 exports.settings = function(req, res){
-	res.render('settings', { cssFiles: ['css/settings.css'],
-                        nav: true,
-                        subnav: false
-                      });
+	res.render('settings');
 };
 //about
 exports.about = function(req, res){
-	res.render('about', { cssFiles: ['css/about.css'],
-                        nav: true,
-                        subnav: false
-                      });
+	res.render('about');
 };
 //page not found
 exports.notfound = function(req, res){
