@@ -11,9 +11,15 @@
     <link href="css/bootstrap-scroll-modal.css" rel="stylesheet">
     <link href="css/default.css" rel="stylesheet">
     <link href="css/front.css" rel="stylesheet">
+    <style type="text/css">
+      body div{
+        border: black solid 2px;
+      }
+    </style>
 	</head>
   <body ng-controller="FrontController">
-    
+    <div ng-include="nav"></div>
+    <div ng-include="content"></div>
   <!-- JS -->
   <script src="js/lib/angular/angular.js"></script>
   <script src="js/angular/app.js"></script>
@@ -21,14 +27,14 @@
   <script src="js/angular/controllers.js"></script>
   <script src="js/angular/filters.js"></script>
   <script src="js/angular/directives.js"></script>
-  <!--<script src="js/jquery-1.8.1.min.js"></script>
+  <script src="js/jquery-1.8.1.min.js"></script>
   <script src="js/jquery-1.8.1.min.js"></script>
   <script src="js/jquery.masonry.min.js"></script>
   <script src="js/jquery.imagesloaded.min.js"></script>
   <script src="js/jquery.infinitescroll.min.js"></script> 
   <script src="js/bootstrap.js"></script>
   <script src="js/bootstrap-transition.js"></script>
-  <script src="js/bootstrap-scroll-modal.js"></script>-->
+  <script src="js/bootstrap-scroll-modal.js"></script>
   <script src="js/front.js"></script>
   </body>
 </html>
