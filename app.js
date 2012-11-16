@@ -8,7 +8,7 @@ var config = require('./config');
 //create app
 var app = module.exports = express();
 
-//start mongodb 
+//start mongodb
 dbconfig.init();
 
 //configure settings & middleware
@@ -40,7 +40,6 @@ app.configure('production', function(){
 });
 
 //Routes
-
 //main areas of site
 app.get('/', routes.index);
 app.get('/store', routes.store);

@@ -17,11 +17,13 @@
 		<div ng-include="modals"></div>
     <div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
     <p style="position: fixed; top:200px; left: 200px; border:solid black 2px; z-index:200; background: white;">
-      User: {{currUser}}
+      User: {{userName}}
       <br />
-      LogStatus: {{logMsg}}
+      LoggedIn: {{loggedIn}}
       <br />
       Status: {{status}}
+      <br />
+      Global: {{ globalMess }}
       <br />
       <button ng-click="logout()">Logout</button>
     </p>
@@ -34,8 +36,7 @@
 				You don't have javascript enabled.  Please Enable javascript to view this site.
 			</div>
 		</noscript>
-    <!--onload="enableMasonry()"-->
-    <div id="content" class="container" ng-include="'partials/front_content'" onload="enableMasonry()"  >
+    <div id="content" class="container" ng-include="'partials/front_content'" onload="masonScroll()">
 		</div>
 		<a href="#" class="scrollup">Scroll to Top</a>
 		<div id="pag_nav">
@@ -43,18 +44,20 @@
 			<a href="page_3.html">Page 3</a>
 		</div>
 		<!-- JS -->
+    <!-- JQuery -->
+		<script src="js/jquery-1.8.1.min.js"></script>
+		<script src="js/jquery.masonry.min.js"></script>
+		<script src="js/jquery.imagesloaded.min.js"></script>
+		<script src="js/jquery.infinitescroll.min.js"></script>
+    <!-- Angular -->
     <script src="js/lib/angular/angular.js"></script>
 		<script src="js/angular/app.js"></script>
 		<script src="js/angular/services.js"></script>
 		<script src="js/angular/controllers.js"></script>
 		<script src="js/angular/filters.js"></script>
 		<script src="js/angular/directives.js"></script>
-    <script src="js/jquery-1.8.1.min.js"></script>
-		<script src="js/jquery-1.8.1.min.js"></script>
-		<script src="js/jquery.masonry.min.js"></script>
-		<script src="js/jquery.imagesloaded.min.js"></script>
-		<script src="js/jquery.infinitescroll.min.js"></script>
-		<script src="js/bootstrap.js"></script>
+    <!-- Twitter Bootstrap -->
+    <script src="js/bootstrap.js"></script>
 		<script src="js/bootstrap-transition.js"></script>
 		<script src="js/bootstrap-scroll-modal.js"></script>
 		<script src="js/front.js"></script>

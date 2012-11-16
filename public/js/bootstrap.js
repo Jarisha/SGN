@@ -17,7 +17,7 @@
  * limitations under the License.
  * ========================================================== */
 
-var runBootstrap = function(){
+//var runBootstrap = function(){
   !function ($) {
   
     $(function () {
@@ -1798,4 +1798,4 @@ var runBootstrap = function(){
     })
   
   }(window.jQuery);
-}
+//}
