@@ -1,0 +1,29 @@
+<div ng-include="modals"></div>
+<div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
+<p style="position: fixed; top:200px; left: 200px; border:solid black 2px; z-index:200; background: white;">
+  User: {{userName}}
+  <br />
+  LoggedIn: {{loggedIn}}
+  <br />
+  Status: {{status}}
+  <br />
+  Global: {{ globalMess }}
+  <br />
+  <button ng-click="logout()">Logout</button>
+</p>
+<!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
+<noscript>
+  <style type="text/css">
+      #content  {display:none;}
+  </style>
+  <div class="noscriptmsg">
+    You don't have javascript enabled.  Please Enable javascript to view this site.
+  </div>
+</noscript>
+<div id="content" class="container" ng-include="content" onload="masonScroll()">
+</div>
+<a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>
+<div id="pag_nav">
+  <a href="page_2.html">Page 2</a>
+  <a href="page_3.html">Page 3</a>
+</div>

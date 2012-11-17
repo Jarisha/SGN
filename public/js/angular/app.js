@@ -7,10 +7,18 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   //$routeProvider.when('/view2', {templateUrl: 'partials/partial2', controller: MyCtrl2});
   //$routeProvider.when('/#loginModal', {redirectTo: '/view1'});
   //$routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
+  $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
+  $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
+  $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
+  $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
+
+  
   $locationProvider.html5Mode(true);
 }]);
 
-//declare global functions & variables
+
+// Entry Point
 app.run(function($rootScope, $http, $templateCache){
   //declare globals we will use
   $rootScope.globalMess = 'Global Message';
@@ -62,7 +70,7 @@ app.run(function($rootScope, $http, $templateCache){
       }
     );
   }
-  $rootScope.login = function(name, password, callback){
+  $rootScope.login = function(name, password, callback, $timeout){
     var result = {};
     $http({ method: 'POST', url: 'api/login', data:
           {"name": name, "password": password }})
@@ -72,6 +80,14 @@ app.run(function($rootScope, $http, $templateCache){
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
           result.message = 'Login Successful!';
+          /* refresh header */
+          $templateCache.remove('partials/front_subnav');
+          $templateCache.remove('partials/front_navbar');
+          $timeout(function() {
+
+            $http.get('partials/front_subnav', {cache:$templateCache});
+            $http.get('partials/front_navbar', {cache:$templateCache});
+          },1000);
         }
         else if(!data.login && data.error){
           result.message = 'Login Failed: ' + data.error;
@@ -104,4 +120,5 @@ app.run(function($rootScope, $http, $templateCache){
   $http.get('partials/front_subnav', {cache:$templateCache});
   $http.get('partials/front_navbar', {cache:$templateCache});
   $http.get('partials/front_content', {cache:$templateCache});
+  //$templateCache.put('test.html', '<b> I emphasize testing</b>');
 });

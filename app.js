@@ -39,13 +39,23 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-//Routes
-//main areas of site
-app.get('/', routes.index);
-app.get('/store', routes.store);
-app.get('/profile', routes.profile);
-app.get('/settings', routes.settings);
-app.get('/about', routes.about);
+//Routes will be handled client side, all routes are built from base
+app.get('/', function(req, res){
+  res.render('base');
+});
+app.get('/store', function(req, res){
+  res.render('base');
+});
+app.get('/profile', function(req, res){
+  res.render('base');
+});
+app.get('/settings', function(req, res){
+  res.render('base');
+});
+app.get('/about', function(req, res){
+  res.render('base');
+});
+
 //All view partials must be served
 app.get('/partials/:name', routes.partials);
 

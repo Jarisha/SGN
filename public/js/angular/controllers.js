@@ -1,22 +1,20 @@
 'use strict';
 /* Controllers */
 
-/* App level controller (not used)*/
-function AppCtrl($scope, $http, $location) {
-  console.log('in AppCtrl');
-  $scope.name = $location.path();
-  console.log($scope.name);
-}
-
-function FrontController($scope, $rootScope, $http, $location){
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout){
   //not very DRY yet...
-  $scope.nav = 'partials/front_navbar';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.content = 'partials/front_content';
   $scope.modals = 'partials/modals';
-  $scope.subnavBool = true;
+  $scope.subnav = 'partials/front_subnav';
+  $scope.nav = 'partials/front_navbar';
+  $scope.content = 'partials/front_content';
+  
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
+  
+  //scrollup functionality
+  $scope.scrollup = function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+  }
   
   /* PAGE LOADING CODE */
   //enable masonry & infiniteScroll for content after it loads
@@ -71,8 +69,38 @@ function FrontController($scope, $rootScope, $http, $location){
           $scope.status = 'Login Successful!';
           $scope.logMsg = 'Logged In';
           $scope.currUser = data.userName;
+          $rootScope.loggedIn = true;
           //$scope.userId = data.userId;
           //$location.path('/');
+          
+          /* refresh header */
+          console.log('pre');
+          console.log($templateCache);
+          
+          /* strange code to reload partials if they are cached */
+          if($templateCache.get('partials/front_subnav')){
+            console.log('ZAP');
+            $templateCache.remove('partials/front_subnav');
+            $scope.subnav = '';
+            $scope.subnav = 'partials/front_subnav';
+          }
+          if($templateCache.get('partials/front_navbar')){
+            console.log('ZAP2');
+            $templateCache.remove('partials/front_navbar');
+            $scope.nav = '';
+            $scope.nav = 'partials/front_navbar';
+          }
+          /*console.log($templateCache);
+          console.log('fiend!');
+          
+          $scope.subnav = '';
+          $scope.nav = '';
+          console.log('doing it');
+          //$timeout(function() {
+            console.log('loggeIn = ' + $rootScope.loggedIn);
+            $scope.subnav = 'partials/front_subnav';
+            $scope.nav = 'partials/front_navbar';
+          //},10);*/
         }
         else if(!data.login && data.error){
           $scope.status = data.error;
@@ -113,6 +141,22 @@ function FrontController($scope, $rootScope, $http, $location){
           $scope.status = 'Logout Successful!';
           $scope.logMsg = 'Logged Out';
           $scope.currUser = null;
+          $rootScope.loggedIn = false;
+          $location.path('store');
+
+          /* strange code to reload partials if they are cached */
+          if($templateCache.get('partials/front_subnav')){
+            console.log('ZAP');
+            $templateCache.remove('partials/front_subnav');
+            $scope.subnav = '';
+            $scope.subnav = 'partials/front_subnav';
+          }
+          if($templateCache.get('partials/front_navbar')){
+            console.log('ZAP2');
+            $templateCache.remove('partials/front_navbar');
+            $scope.nav = '';
+            $scope.nav = 'partials/front_navbar';
+          }
         }
         else if(!data.logout && data.error){
           $scope.status = data.error;
@@ -141,11 +185,10 @@ function FrontController($scope, $rootScope, $http, $location){
 }
 
 function StoreController($scope, $http, $location){
-  $scope.nav = 'partials/front_navbar';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.content = 'partials/front_content';
   $scope.modals = 'partials/modals';
-  $scope.subnavBool = true;
+  $scope.subnav = 'partials/front_subnav';
+  $scope.nav = 'partials/front_navbar';
+  $scope.content = 'partials/store_content';
   
   //enable masonry for content after it loads
   /*$scope.enableMasonry = function(){
@@ -259,74 +302,18 @@ function StoreController($scope, $http, $location){
 }
 
 function ProfileController($scope, $http, $location){
-  $scope.nav = 'partials/front_navbar';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.content = 'partials/profile_content';
-  $scope.modals = 'partials/modals';
-  $scope.subnavBool = false;
-  
-  $scope.enableMasonry = function(){
-    runBootstrap();
-    $('.carousel').carousel({interval: false});
-    var $container = $('#content');
-    $container.imagesLoaded(function(){
-      $container.masonry({
-        itemSelector : '.game_pin, .store_pin'
-      });
-    });
-  }
-  
-  $scope.checkLogin = function(){
-    $http({ method: 'GET', url: '/api/checkLogin'})
-      .success(function(data, status, headers, config){
-        //logged in
-        if(data.loggedIn){
-        }
-        //logged out
-        else if(!data.loggedIn){
-          window.location.pathname = '/';
-        }
-        else{
-          $scope.message = "AJAX error";
-        }
-      })
-      .error(function(data, status, headers, config) {
-        $scope.message = 'Error: ' + status;
-      });
-  }
-  $scope.checkLogin();
 }
 function AboutController($scope, $http, $location){
-  $scope.nav = 'partials/front_navbar';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.content = 'partials/about_content';
-  $scope.modals = 'partials/modals';
-  $scope.subnavBool = false;
 }
 function SettingsController($scope, $http, $location){
+}
+
+function Acontroller($scope){
+  //$scope.nav = '<p> Hello A </p>';
+  $scope.modals = 'partials/partial1';
   $scope.nav = 'partials/front_navbar';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.content = 'partials/settings_content';
-  $scope.modals = 'partials/modals';
-  $scope.subnavBool = false;
-  
-  $scope.checkLogin = function(){
-    $http({ method: 'GET', url: '/api/checkLogin'})
-      .success(function(data, status, headers, config){
-        //logged in
-        if(data.loggedIn){
-        }
-        //logged out
-        else if(!data.loggedIn){
-          window.location.pathname = '/';
-        }
-        else{
-          $scope.message = "AJAX error";
-        }
-      })
-      .error(function(data, status, headers, config) {
-        $scope.message = 'Error: ' + status;
-      });
-  }
-  $scope.checkLogin();
+}
+
+function Bcontroller($scope){
+  //$scope.nav = '<p> Hello B </p>';
 }

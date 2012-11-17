@@ -10,7 +10,7 @@ exports.index = function(req, res){
 //store
 exports.store = function(req, res){
 	//res.render('store');
-  res.render('store');
+  res.render('front');
 };
 //profile
 exports.profile = function(req, res){

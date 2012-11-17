@@ -9,7 +9,6 @@
 
 
 $(document).ready(function(e){
-  
   //ensure support for HTML5 localstorage
   if(typeof(Storage)!=="undefined"){
   }
@@ -50,6 +49,7 @@ $(document).ready(function(e){
       }
   });
   $('.scrollup').click(function(){
+      alert("what the fuck");
       $("html, body").animate({ scrollTop: 0 }, 600);
       return false;
   });
