@@ -1,18 +1,18 @@
 /* Override defaults */
-textarea{
+.about textarea{
   margin:0;
   padding:0;
 }
 /* General Layout */
-#content{
+.about #content{
   width: 1075px;
 }
 
-body{
+.about body{
   margin-top: 60px;
 }
 
-#nav{
+.about #nav{
   -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
@@ -22,19 +22,19 @@ body{
   width: 100%;
   z-index: 100;
 }
-#nav_content{
+.about #nav_content{
   width: 1075px;
 }
 
 @media only screen and (max-width : 1074px),
 only screen and (max-device-width : 1074px){
-  #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
+  .about #main_logo:link, .about #main_logo:visited, .about #main_logo:active, .about #main_logo:hover{
     left: 535px;
   }
 }
 
 /* Nav Bar */
-.navbar-inner{
+.about  .navbar-inner{
   /*background:red;
   border:none;
   background: #E3F1E4;
@@ -45,121 +45,39 @@ only screen and (max-device-width : 1074px){
   border-radius: 0;  CSS3 */
 }
 
-.new_followers, .new_tags, .new_messages{
-  padding: 5px;
-  margin-left: 10px;
-}
 
-.nav-collapse{
-  margin: 0 20px;
-}
-.pin_it{
-  margin-left:10px;
-}
-.log_in{
-  margin-right:10px;
-}
-#about_toggle{
-  padding-bottom: 12px;
-}
-#about_dropdown {
-  min-width:100px;
-}
-#follower_toggle, #tag_toggle, #message_toggle{
-  padding:0;
-  margin:0;
-}
-#follower_dropdown, #tag_dropdown, #message_dropdown {
-  left: 170px;
-  min-width: 130px;
-  top: 40px;
-  background: #E9DBCC;
-  -moz-border-radius: 0; /* Firefox */
-  -webkit-border-radius: 0; /* Safari, Chrome */
-  border-radius: 0; /* CSS3 */
-}
-
-#follower_dropdown:after, #tag_dropdown:after, #message_dropdown:after {
-  border:none;
-}
-#follower_dropdown:before, #tag_dropdown:before, #message_dropdown:before {
-  border:none;
-}
-
-/* Drop down going left */
-#profile_toggle{
-  position:relative;
-  min-width: 90px;
-}
-#profile_dropdown{
-  min-width: 0;
-  position: absolute;
-  right: 0;
-  top: 41px;
-  -moz-border-radius: 0; /* Firefox */
-  -webkit-border-radius: 0; /* Safari, Chrome */
-  border-radius: 0; /* CSS3 */
-}
-#profile_small{
-  padding-right:10px;
-}
-#nav_right {
-  font-size:1em;
-}
-#nav_right .dropdown-menu.active{
- top: 41px;
- margin:0;
- border:1px solid #CFCACA;
- background: #E9DBCC;
- -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
- -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
- box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-  
- -moz-border-radius: 0; /* Firefox */
- -webkit-border-radius: 0; /* Safari, Chrome */
- border-radius: 0; /* CSS3 */
-}
-#nav_right .dropdown-menu.active:after {
-  border:none;
-}
-
-#nav_right .dropdown-menu.active:before {
-  border:none;
-}
 
 /* Pin Modal_1 and Pin Modal_2 */
-#pinModal_2{
+.about #pinModal_2{
   width:650px;
 }
-#pinModal_2 input{
+.about #pinModal_2 input{
   width:150px;
 }
-.media_type, .media_source{
+.about .media_type, .about .media_source{
   float:left;
 }
-#myCarousel, .post_metadata{
+.about #myCarousel, .about .post_metadata{
   display:inline-block;
   vertical-align:top;
 }
-#myCarousel{
+.about #myCarousel{
   height:200px;
   width:200px;
 }
-.post_metadata{
+.about .post_metadata{
   width:300px;
 }
-.post_description, .post_tags{
+.about .post_description, .about .post_tags{
   display:inline-block;
   vertical-align:top;
 }
-.post_description{
-}
-.post_tags{
+.about .post_tags{
   width:300px;
 }
 
 /* About content */
-.about_left{
+.about .about_left{
   background:#E9DBCC;
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
@@ -170,13 +88,13 @@ only screen and (max-device-width : 1074px){
   float:left;
   position:fixed;
 }
-.about_tabs{
+.about .about_tabs{
   font-size: 20px;
 }
-.about_tabs li{
+.about .about_tabs li{
   margin-top:20px;
 }
-.about_right{
+.about .about_right{
   background:#E9DBCC;
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
@@ -189,9 +107,9 @@ only screen and (max-device-width : 1074px){
   font-size:18px;
   line-height:22px;
 }
-.about_right b{
+.about .about_right b{
   font-size: 22px;
 }
-.active_tab{
+.about .active_tab{
   border: 1px solid red;
 }

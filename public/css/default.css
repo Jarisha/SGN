@@ -51,7 +51,7 @@ label{
 #content{
   margin: 20px auto 20px;
 }
-/* Top Nav Bar */
+/****************** Top Nav Bar ************************/
 #nav{
   background: #E3F1E4;
   margin:0;
@@ -96,4 +96,172 @@ label{
 }
 #search_bar input:focus{
   color: grey;
+}
+.new_followers, .new_tags, .new_messages{
+  padding: 5px;
+  margin-left: 10px;
+}
+.nav-collapse{
+  margin: 0 20px;
+}
+.pin_it{
+  margin-left:10px;
+}
+.log_in{
+  margin-right:10px;
+}
+
+#about_toggle{
+  padding-bottom: 12px;
+}
+#about_dropdown {
+  min-width:100px;
+}
+#follower_toggle, #tag_toggle, #message_toggle{
+  padding:0;
+  margin:0;
+}
+#follower_dropdown, #tag_dropdown, #message_dropdown {
+  left: 170px;
+  min-width: 130px;
+  top: 40px;
+  background: #E9DBCC;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0;  /* CSS3 */
+}
+#follower_dropdown:after, #tag_dropdown:after, #message_dropdown:after {
+  border:none;
+}
+#follower_dropdown:before, #tag_dropdown:before, #message_dropdown:before {
+  border:none;
+}
+
+/* Drop down going left */
+#profile_toggle{
+  position:relative;
+  min-width: 90px;
+}
+#profile_dropdown{
+  min-width: 0;
+  position: absolute;
+  right: 0;
+  top: 41px;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0; /* CSS3 */
+}
+#profile_small{
+  padding-right:10px;
+}
+#nav_right {
+  font-size:1em;
+}
+#nav_right .dropdown-menu.active{
+ top: 41px;
+ margin:0;
+ border:1px solid #CFCACA;
+ background: #E9DBCC;
+ -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
+ -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+ box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+  
+ -moz-border-radius: 0; /* Firefox */
+ -webkit-border-radius: 0; /* Safari, Chrome */
+ border-radius: 0; /* CSS3 */
+}
+#nav_right .dropdown-menu.active:after {
+  border:none;
+}
+#nav_right .dropdown-menu.active:before {
+  border:none;
+}
+
+/************* Subnav ************************/
+#subnav{
+  border-top: 1px solid #CFCACA;
+  background: #E3F1E4;
+  width:100%;
+  z-index:100;
+  -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
+  -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+  box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+}
+#subnav_content{
+  background: #E3F1E4;
+  width:650px;
+  text-align:center;
+  margin:auto;
+  padding:10px 0;
+}
+#subnav_content .dropdown_tab{
+  position:relative;
+  display:inline-block;
+}
+#subnav_content .dropdown_tab .dropdown-menu{
+  text-align: left;
+  -moz-border-radius: 0; /* Firefox */
+  -webkit-border-radius: 0; /* Safari, Chrome */
+  border-radius: 0; /* CSS3 */
+}
+.two_col_dropdown{
+  margin: 0;
+  padding: 0;
+  background: #E9DBCC;
+  min-width: 290px;
+  top: 30px;
+}
+.one_col_dropdown{
+  margin: 0;
+  padding: 0;
+  background: #E9DBCC;
+  min-width: 145px;
+  top: 30px;
+}
+.two_col_dropdown .col1, .two_col_dropdown .col2{
+  width: 145px;
+  float: left;
+}
+.one_col_dropdown .col1{
+  width: 145px;
+  float:left;
+}
+.two_col_dropdown a, .one_col_dropdown a{
+  margin: 0;
+  padding: 0;
+  padding: 10px 15px;
+}
+.two_col_dropdown div img, .one_col_dropdown div img{
+  margin-right:5px;
+}
+.register_now{
+  font-size: 20px;
+  text-align:center;
+  padding:10px 0;
+}
+
+.game_pin, .store_pin{
+  background:#E9DBCC;
+  width:220px;
+  float:left;
+  margin: 0 0 15px 15px;
+  font-size:12px;
+  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+}
+
+/* Scroll up button */
+.scrollup{
+  background: grey;
+  bottom: 0;
+  font-size: 25px;
+  text-align:center;
+  opacity: 0.8;
+  display: none;
+  height: 80px;
+  position: fixed;
+  right: 100px;
+  width: 80px;
+  border:2px solid black;
 }
