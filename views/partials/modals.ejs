@@ -123,8 +123,8 @@
   <div class="tabbable">
     <ul class="nav nav-tabs">
       <li class="active video_tab"><a href="#video_content" data-toggle="tab">Videos</a></li>
-      <li class="like_tab"><a href="#like_content" data-toggle="tab">Pins</a></li>
-      <li class="repin_tab"><a href="#repin_content" data-toggle="tab">Friends playing</a></li>
+      <li class="pin_tab"><a href="#pin_content" data-toggle="tab">Pins</a></li>
+      <li class="friends_tab"><a href="#friends_content" data-toggle="tab">Friends playing</a></li>
     </ul>
     <div class="tab-content img_container">
       <div class="tab-pane active" id="video_content">
@@ -132,13 +132,13 @@
           <embed id="playerid" width="500px" height="400px" allowfullscreen="true" allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style="" src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer" type="application/x-shockwave-flash">
         </div>
       </div>
-      <div class="tab-pane" id="like_content">
+      <div class="tab-pane" id="pin_content">
         <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
         <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
         <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
         <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
       </div>
-      <div class="tab-pane" id="repin_content">
+      <div class="tab-pane" id="friends_content">
         <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
       </div>
     </div>
@@ -180,7 +180,7 @@
             <input type="checkbox"> Remember me
           </label>
           <br>
-          <button class="btn" data-dismiss="modal" ng-click="postLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+          <button class="btn" data-dismiss="modal" ng-click="ajaxLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
         </div>
       </div>
     </form>
@@ -224,7 +224,7 @@
       </div>
       <div class="control-group">
         <div class="controls">
-          <button class="btn" data-dismiss="modal" ng-click="postRegister()">Register</button>
+          <button class="btn" data-dismiss="modal" ng-click="ajaxRegister()">Register</button>
         </div>
       </div>
     </form>

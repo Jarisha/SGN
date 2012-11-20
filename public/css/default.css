@@ -1,6 +1,14 @@
+/* Default.css contains basic global defaults for css,
+ * as well as components that are consistant across all
+ * pages. The goal being to abstract all generic css
+ * to this file.
+ */
+
 /* global defaults */
 html{}
-body{ background: #ADB5AD;}
+body{
+  background: #ADB5AD;
+}
 textarea{
   resize:none;
 }
@@ -37,4 +45,55 @@ label{
 }
 .hidden{
   display: none !important;
+}
+
+/* Elements */
+#content{
+  margin: 20px auto 20px;
+}
+/* Top Nav Bar */
+#nav{
+  background: #E3F1E4;
+  margin:0;
+}
+#nav_left{}
+#nav_right{
+  float:right;
+}
+#nav_content{
+  background: #E3F1E4;
+  padding:0;
+  margin: auto;
+  border:none;
+  box-shadow:none;
+}
+#main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
+  font-size: 20px;
+  color: #34D0BA;
+  position:absolute;
+  left:50%;
+  white-space: nowrap;
+  margin-left: -100px;
+  top:10px;
+  text-decoration:none;
+  z-index:100;
+}
+.affix{
+  top:0px;
+}
+.nav .caret{
+  margin-top: 8px;
+}
+#search_bar{
+  float: left;
+  padding-left: 25px;
+}
+#search_bar input{
+  width:100px;
+  background: #F0F8F1;
+  border-color: #CFCACA;
+  color: #CFCACA;
+}
+#search_bar input:focus{
+  color: grey;
 }

@@ -1,24 +1,9 @@
 /***** Main Layout *****/
 #content{
-  margin: 20px auto 20px;
   width: 1340px;
-}
-#nav{
-  background: #E3F1E4;
-  margin:0;
-}
-#nav_left{
-}
-#nav_right{
-  float:right;
 }
 #nav_content{
-  background: #E3F1E4;
-  padding:0;
   width: 1340px;
-  margin: auto;
-  border:none;
-  box-shadow:none;
 }
 /* media queries to resize masonry content to fit screen */
 @media only screen and (max-width : 1339px),
@@ -33,17 +18,6 @@ only screen and (max-device-width : 1074px){
 		width: 810px;
 	}
 }
-#main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
-  font-size: 20px;
-  color: #34D0BA;
-  position:absolute;
-  left:50%;
-  white-space: nowrap;
-  margin-left: -100px;
-  top:10px;
-  text-decoration:none;
-  z-index:100;
-}
 @media only screen and (max-width : 809px),
 only screen and (max-device-width : 890px){
   #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
@@ -53,26 +27,7 @@ only screen and (max-device-width : 890px){
 
 /***** Top Nav Bar *****/
 /* main nav */
-.affix{
-  top:0px;
-}
-.navbar-inner{
-  background:red;
-  border:none;
-}
-#search_bar{
-  float: left;
-  padding-left: 25px;
-}
-#search_bar input{
-  width:100px;
-  background: #F0F8F1;
-  border-color: #CFCACA;
-  color: #CFCACA;
-}
-#search_bar input:focus{
-  color: grey;
-}
+
 .new_followers, .new_tags, .new_messages{
   padding: 5px;
   margin-left: 10px;
@@ -150,7 +105,7 @@ only screen and (max-device-width : 890px){
 #nav_right .dropdown-menu.active:before {
   border:none;
 }
-/* subnav */
+/************* Subnav ************************/
 #subnav{
   border-top: 1px solid #CFCACA;
   background: #E3F1E4;
@@ -213,8 +168,8 @@ only screen and (max-device-width : 890px){
   padding:10px 0;
 }
 
-/***** Content *****/
-/* Game Pin object */
+/*************************** FRONT CONTENT ******************************/
+
 .game_pin{
   background:#E9DBCC;
   width:220px;
@@ -226,6 +181,7 @@ only screen and (max-device-width : 890px){
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
 }
+
 .game_options{
   position:absolute;
   margin: -7px 0 0 -5px;
@@ -243,10 +199,6 @@ only screen and (max-device-width : 890px){
   margin-top: 5px;
   margin-bottom:0px;
 }
-.game_description{
-}
-.game_img{
-}
 .game_attributes{
   margin-bottom:5px;
 }
@@ -259,10 +211,6 @@ only screen and (max-device-width : 890px){
 .posted_by img, .posted_by p, .comment img, .comment p{
   display:inline-block;
   vertical-align: top;
-}
-.posted_by p{
-}
-.profile_img{
 }
 .post_text, .respond_txtarea{
   max-width: 170px;
@@ -500,34 +448,3 @@ only screen and (max-device-width : 890px){
 .post_tags{
   width:300px;
 }
-
-/* Register Step 2 */
-.register_step_2{
-  text-align: center;
-}
-.choose_tags{
-}
-.choose_images{
-}
-
-/* My Settings */
-.my_settings_form *{
-  margin-bottom:5px;
-}
-
-/* My Profile */
-.profile_box{
-  background: #34D2AF;
-}
-.profile_box *{
-  display: inline-block;
-}
-.bio{
-  width: 400px;
-  vertical-align: top;
-  padding: 10px;
-}
-.bio_txtarea{
-  width: 400px;
-}
-

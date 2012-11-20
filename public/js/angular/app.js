@@ -3,16 +3,11 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
-  //$routeProvider.when('/view1', {templateUrl: 'partials/partial1', controller: MyCtrl1});
-  //$routeProvider.when('/view2', {templateUrl: 'partials/partial2', controller: MyCtrl2});
-  //$routeProvider.when('/#loginModal', {redirectTo: '/view1'});
-  //$routeProvider.otherwise({redirectTo: '/view1'});
   $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
   $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
   $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
   $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
-
   
   $locationProvider.html5Mode(true);
 }]);
@@ -21,6 +16,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 // Entry Point
 app.run(function($rootScope, $http, $templateCache){
   //declare globals we will use
+  $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
   $rootScope.loggedIn = null;
   $rootScope.userName = null;
@@ -44,6 +40,7 @@ app.run(function($rootScope, $http, $templateCache){
   * - Return result{} object for view specific data
   */
   $rootScope.checkLogin = function(callback){
+    console.log('rootScope.checkLogin()');
     var result = {};
     $http.get('/api/checkLogin')
       .success(function(data, status, headers, config){
@@ -71,6 +68,7 @@ app.run(function($rootScope, $http, $templateCache){
     );
   }
   $rootScope.login = function(name, password, callback, $timeout){
+    console.log('rootScope.login()');
     var result = {};
     $http({ method: 'POST', url: 'api/login', data:
           {"name": name, "password": password }})
@@ -80,14 +78,16 @@ app.run(function($rootScope, $http, $templateCache){
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
           result.message = 'Login Successful!';
-          /* refresh header */
-          $templateCache.remove('partials/front_subnav');
-          $templateCache.remove('partials/front_navbar');
-          $timeout(function() {
 
+          /* If cached, reload and cache partials effected by login */
+          if($templateCache.get('partials/front_subnav')){
+            $templateCache.remove('partials/front_subnav');
             $http.get('partials/front_subnav', {cache:$templateCache});
-            $http.get('partials/front_navbar', {cache:$templateCache});
-          },1000);
+          }
+          if($templateCache.get('partials/navbar')){
+            $templateCache.remove('partials/navbar');
+            $http.get('partials/navbar', {cache:$templateCache});
+          }
         }
         else if(!data.login && data.error){
           result.message = 'Login Failed: ' + data.error;
@@ -103,14 +103,77 @@ app.run(function($rootScope, $http, $templateCache){
       }
     );
   }
-  $rootScope.logout = function(name, password, callback){
+  $rootScope.logout = function(callback){
+    console.log('rootScope.logout()');
     var result = {};
+    $http({ method: 'GET', url:'/api/logout'})
+      .success(function(data, status, headers, config){
+        if(data.logout){
+          $rootScope.loggedIn = false;
+          $rootScope.userName = null;
+          result.message = 'Logout Successful!';
+
+          /* Reload and cache partials */
+          if($templateCache.get('partials/front_subnav')){
+            $templateCache.remove('partials/front_subnav');
+            $http.get('partials/front_subnav', {cache:$templateCache});
+          }
+          if($templateCache.get('partials/navbar')){
+            $templateCache.remove('partials/navbar');
+            $http.get('partials/navbar', {cache:$templateCache});
+          }
+        }
+        else if(!data.logout && data.error){
+          result.message = data.error;
+        }
+        else{
+          result.message = 'AJAX error';
+        }
+        callback(result);
+      })
+      .error(function(data, status, headers, config){
+        result.message = 'Error: ' + status;
+        callback(result);
+      });
   }
   $rootScope.register = function(name, password, confirm, callback){
+    console.log('rootScope.register()');
     var result = {};
+    $http({ method: 'POST', url: 'api/register', data:
+          {"name": name, "password": password, "confirm": confirm }})
+      .success(function(data, status, headers, config){
+        //on success set view vars and log in user
+        if(data.register){
+          $rootScope.loggedIn = true;
+          $rootScope.userName = data.userName;
+          $rootScope.userId = data.userId;
+          result.message = 'Registration Successful!';
+          
+          /* Reload and cache partials */
+          if($templateCache.get('partials/front_subnav')){
+            $templateCache.remove('partials/front_subnav');
+            $http.get('partials/front_subnav', {cache:$templateCache});
+          }
+          if($templateCache.get('partials/navbar')){
+            $templateCache.remove('partials/navbar');
+            $http.get('partials/navbar', {cache:$templateCache});
+          }
+        }
+        else if(!data.register && data.error){
+          result.message = data.error;
+        }
+        else{
+          result.message = 'AJAX error';
+        }
+        callback(result);
+      })
+      .error(function(data, status, headers, config){
+        result.message = 'Error: ' + status;
+        callback(result);
+      });
   }
   
-  //Immediately check if user is logged in
+  //Always check if user is logged in
   $rootScope.checkLogin(function(res){
     if(res.message) $rootScope.status = res.status;
   });
@@ -118,7 +181,7 @@ app.run(function($rootScope, $http, $templateCache){
   //load templates into cache
   $http.get('partials/modals', {cache:$templateCache});
   $http.get('partials/front_subnav', {cache:$templateCache});
-  $http.get('partials/front_navbar', {cache:$templateCache});
+  $http.get('partials/navbar', {cache:$templateCache});
   $http.get('partials/front_content', {cache:$templateCache});
   //$templateCache.put('test.html', '<b> I emphasize testing</b>');
 });

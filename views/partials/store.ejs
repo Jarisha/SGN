@@ -9,7 +9,7 @@
   <br />
   Global: {{ globalMess }}
   <br />
-  <button ng-click="logout()">Logout</button>
+  <button ng-click="ajaxLogout()">Logout</button>
 </p>
 <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
 <noscript>
@@ -22,7 +22,7 @@
 </noscript>
 <div id="content" class="container" ng-include="content" onload="masonScroll()">
 </div>
-<a href="#" class="scrollup">Scroll to Top</a>
+<a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>
 <div id="pag_nav">
   <a href="page_2.html">Page 2</a>
   <a href="page_3.html">Page 3</a>
