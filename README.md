@@ -5,17 +5,13 @@ that allows users to share images & videos of mobile games they like, as well as
 new games to play, all while participating in a community and having fun.
 
 #Frameworks
-Expressjs based framework Backend
-Backbone / Knockout / Angular Front end
-Mongodb Database
+Backend - Express REST API
+Front end - Angular MVC structure + Jquery
+Database - Mongodb via Mongoose
 
 #Site Names
-Gamelot
-Gamer.ly
-Gamester
-Gamivore
-Gamongo
-oyay
-Pinzane
+Oyay
 Playoyo
-pley
+GameArrow
+GameFlame
+GameVP
