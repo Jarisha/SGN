@@ -6,12 +6,18 @@ new games to play, all while participating in a community and having fun.
 
 #Frameworks
 Backend - Express REST API
+
 Front end - Angular MVC structure + Jquery
+
 Database - Mongodb via Mongoose
 
 #Site Names
 Oyay
+
 Playoyo
+
 GameArrow
+
 GameFlame
+
 GameVP
