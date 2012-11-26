@@ -2,7 +2,15 @@
   Profile page JS
 */
 
-$(document).ready(function(e){
+function profileSetup($scope){
+  console.log('profileSetup');
+  /* Setup modals */
+  $scope.postGamePin = function(){
+    $('#pinModal_1').modal();
+  }
+}
+
+/*$(document).ready(function(e){
 
   //Enable masonry
   var $container = $('#tab_content');
@@ -58,4 +66,4 @@ $(document).ready(function(e){
     $bio_p.removeClass('hidden')
           .text(bio_text);
   });
-});
+});*/

@@ -5,7 +5,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
-  <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" ng-click="viewGamePin()">
     <img class="game_img" src="images/game_images/Gun-Bros-screenshot.png"/>
   </a>
   <a name="c1"></a>
@@ -21,7 +21,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -33,7 +33,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
-  <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" ng-click="viewGamePin()">
     <img class="game_img" src="images/game_images/images (1).jpg"/>
   </a>
   <a name="c1"></a>
@@ -49,7 +49,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -61,7 +61,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
-  <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" ng-click="viewGamePin()">
     <img class="game_img" src="images/game_images/images (2).jpg"/>
   </a>
   <a name="c1"></a>
@@ -77,7 +77,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -89,7 +89,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
-  <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" ng-click="viewGamePin()">
     <img class="game_img" src="images/game_images/images (3).jpg"/>
   </a>
   <a name="c1"></a>
@@ -105,7 +105,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -117,7 +117,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
-  <a class="view_trigger" href="#viewPinModal" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" ng-click="viewGamePin()">
     <img class="game_img" src="images/game_images/images (4).jpg"/>
   </a>
   <a name="c1"></a>
@@ -133,7 +133,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -162,7 +162,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -190,7 +190,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -218,7 +218,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -246,7 +246,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -274,7 +274,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -303,7 +303,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -331,7 +331,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -359,7 +359,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -387,7 +387,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -415,7 +415,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -444,7 +444,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -472,7 +472,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -500,7 +500,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -528,7 +528,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -556,7 +556,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -585,7 +585,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -613,7 +613,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -641,7 +641,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -669,7 +669,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -697,7 +697,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -726,7 +726,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -754,7 +754,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -782,7 +782,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -810,7 +810,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>
@@ -838,7 +838,7 @@
     <img src="images/30x30.gif" class="profile_img"/><p 
     class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="images/30x30.gif" class="profile_img"/><textarea 
     class="respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
     <button class="respond_btn hidden">Comment</button>

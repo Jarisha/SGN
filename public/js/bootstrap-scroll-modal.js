@@ -113,6 +113,7 @@
   * ===================== */
 
   function hideWithTransition() {
+    console.log('hideWithTransition');
     var that = this
       , timeout = setTimeout(function () {
           that.$element.off($.support.transition.end)
@@ -126,6 +127,8 @@
   }
 
   function hideModal(that) {
+    //unbind click handler for youtube video
+    $('html *:not(.vid_container)').unbind('click', handler);
     this.$element
       .hide()
       .trigger('hidden')

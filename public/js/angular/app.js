@@ -14,7 +14,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 
 
 // Entry Point
-app.run(function($rootScope, $http, $templateCache){
+app.run(function($rootScope, $http, $templateCache, $location){
   //declare globals we will use
   $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
@@ -67,7 +67,7 @@ app.run(function($rootScope, $http, $templateCache){
       }
     );
   }
-  $rootScope.login = function(name, password, callback, $timeout){
+  $rootScope.login = function(name, password, callback){
     console.log('rootScope.login()');
     var result = {};
     $http({ method: 'POST', url: 'api/login', data:
@@ -112,16 +112,7 @@ app.run(function($rootScope, $http, $templateCache){
           $rootScope.loggedIn = false;
           $rootScope.userName = null;
           result.message = 'Logout Successful!';
-
-          /* Reload and cache partials */
-          if($templateCache.get('partials/front_subnav')){
-            $templateCache.remove('partials/front_subnav');
-            $http.get('partials/front_subnav', {cache:$templateCache});
-          }
-          if($templateCache.get('partials/navbar')){
-            $templateCache.remove('partials/navbar');
-            $http.get('partials/navbar', {cache:$templateCache});
-          }
+          $location.path('/');
         }
         else if(!data.logout && data.error){
           result.message = data.error;

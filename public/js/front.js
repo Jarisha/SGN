@@ -1,46 +1,55 @@
-/* 
-  TODO:
-  Fix "Infinite Scroll" bugs
-  Replace .live() with .on()
-  Newline in notepad++
-*/
-/*$(window).load(function() {
-});*/
+function remason(){
+  console.log('remason!!');
+  var $container = $('#content');
+  $container.imagesLoaded(function(){
+    $container.masonry({
+      itemSelector : '.game_pin, .store_pin'
+    });
+  });
+}
 
-
-$(document).ready(function(e){
-  //ensure support for HTML5 localstorage
-  if(typeof(Storage)!=="undefined"){
+function frontSetup($scope){
+  //Masonry and InfiniteScroll
+  var $container = $('#content');
+  $container.imagesLoaded(function(){
+    $container.masonry({
+      itemSelector : '.game_pin, .store_pin'
+    });
+  });
+  $container.infinitescroll({
+    navSelector  : '#pag_nav',    // selector for the paged navigation
+    nextSelector : '#pag_nav a',  // selector for the NEXT link (to page 2)
+    itemSelector : '.game_pin, .store_pin',   // selector for all items you'll retrieve
+    loading: {
+        finishedMsg: 'No more pages to load.'
+      }
+    },
+    // trigger Masonry as a callback
+    function( newElements ) {
+      // hide new items while they are loading
+      var $newElems = $( newElements ).css({ opacity: 0 });
+      // ensure that images load before adding to masonry layout
+      $newElems.imagesLoaded(function(){
+        // show elems now they're ready
+        $newElems.animate({ opacity: 1 });
+        $container.masonry( 'appended', $newElems, true );
+      });
+    }
+  );
+  /* Setup modals */
+  $scope.promptLogin = function(){
+    $('#loginModal').modal();
   }
-  else{
-    alert('localstorage not supported!');
+  $scope.promptRegister = function(){
+    $('#registerModal').modal();
   }
-    
-  /* Front Page & Pin functionality */
-  $(document).on('mouseenter', '.game_pin', function(e){
-    $(this).find('.game_options').removeClass('hidden');
-  });
-  $(document).on('mouseleave', '.game_pin', function(e){
-    $(this).find('.game_options').addClass('hidden');
-  });
-  
-  /* Temporarary Mock Login functionality */
-  $('.log_state').text(localStorage["logged_in"]);
-  $('button.login_btn').click(function(){
-    localStorage["logged_in"] = 'true';
-    console.log(localStorage["logged_in"]);
-    $('.log_state').text(localStorage["logged_in"]);
-  });
-  $('button.register_btn').click(function(){
-  });
-  $('button.logout_btn').click(function(){
-    localStorage["logged_in"] = '';
-    console.log(localStorage["logged_in"]);
-    $('.log_state').text(localStorage["logged_in"]);
-  });
-  
-  
-  // "Scroll to Top" button
+  $scope.postGamePin = function(){
+    $('#pinModal_1').modal();
+  }
+  $scope.viewGamePin = function(){
+    $('#gamePinModal').modal({dynamic: true});
+  }
+  //scrollup functionality
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
           $('.scrollup').fadeIn();
@@ -48,10 +57,20 @@ $(document).ready(function(e){
           $('.scrollup').fadeOut();
       }
   });
-  $('.scrollup').click(function(){
-      alert("what the fuck");
-      $("html, body").animate({ scrollTop: 0 }, 600);
-      return false;
+  $scope.scrollup = function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+  }
+  //affix subnav to top after it is loaded
+  $scope.affix = function(){
+    $('#subnav').affix({ offset: 42 });
+  }
+  
+  /* Front Page & Pin functionality */
+  $(document).on('mouseenter', '.game_pin', function(e){
+    $(this).find('.game_options').removeClass('hidden');
+  });
+  $(document).on('mouseleave', '.game_pin', function(e){
+    $(this).find('.game_options').addClass('hidden');
   });
   
   // Show "Comment" button when textarea focused
@@ -95,13 +114,7 @@ $(document).ready(function(e){
     $(this).parent().prev('.view_comment').after('<div class="view_comment"><img class="profile_img" src="images/50x50.gif"><p class="view_post_text">' + 
                                             '<b>User</b><br/>' + response + '</p></div>');
   });
- 
-  /* Post Pin Step 2 */
-  //Activate carousel
-  //$('#myCarousel').carousel({
-  //  interval: false
-  //});
   $(document).on('mouseleave','#myCarousel', function(){
     $(this).carousel('pause');
   });
-});
+}
