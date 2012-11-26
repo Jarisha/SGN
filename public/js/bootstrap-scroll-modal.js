@@ -128,7 +128,7 @@
 
   function hideModal(that) {
     //unbind click handler for youtube video
-    $('html *:not(.vid_container)').unbind('click', handler);
+    $('html *:not(.vid_container)').unbind('click', videoHandler);
     this.$element
       .hide()
       .trigger('hidden')

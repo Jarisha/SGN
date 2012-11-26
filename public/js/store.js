@@ -1,6 +1,5 @@
 //Youtube player functionality (my implementation a bit shoddy)
-function handler(){
-  console.log('zappp');
+function videoHandler(){
   if(ytplayer.getPlayerState() === 1){
     ytplayer.pauseVideo();
   }
@@ -8,7 +7,7 @@ function handler(){
 
 function onYouTubePlayerReady(playerid) {
     ytplayer = document.getElementById("playerid");
-    $('html *:not(.vid_container)').bind('click', handler);
+    $('html *:not(.vid_container)').bind('click', videoHandler);
 };
 
 function storeSetup($scope){
