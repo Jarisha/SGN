@@ -1,4 +1,5 @@
 var mongoose = exports.mongoose = require('mongoose');
+var mongooseAuth = exports.mongooseAuth = require('mongoose-auth');
 var config = require('./config');
 
 exports.init = function(){
@@ -13,9 +14,12 @@ exports.init = function(){
     name: { type: String, unique: true},
     password: String
   });
+  
   //exports.userSchema = userSchema;
   //index using name
   userSchema.index({name: 1});
   //userSchema.set('autoIndex', false);
   exports.User = db.model('sgnuser', userSchema);
+  
+
 }
