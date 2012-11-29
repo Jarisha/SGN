@@ -157,9 +157,9 @@
   <div class="modal-body">
     <form class="form-horizontal">
       <div class="control-group">
-        <label class="control-label" for="inputUsername">Username</label>
+        <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
-          <input ng-model="login.name" type="text" id="inputUsername" placeholder="Username">
+          <input ng-model="login.email" type="text" id="inputEmail" placeholder="Email">
         </div>
       </div>
       <div class="control-group">
@@ -174,7 +174,7 @@
         <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Login with</label>
         <div class="controls">
-          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+          <a target="_self" href="/auth/facebook"><img src="images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">
@@ -199,6 +199,12 @@
   <div class="modal-body">
     <form class="form-horizontal">
       <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input ng-model="register.email" type="email" id="inputEmail" placeholder="Email">
+        </div>
+      </div>
+      <div class="control-group">
         <label class="control-label" for="inputUsername">Username</label>
         <div class="controls">
           <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
@@ -207,7 +213,7 @@
       <div class="control-group">
         <label class="control-label" for="inputPassword">Password</label>
         <div class="controls">
-          <input ng-model="register.password" type="password" id="inputPassword" placeholder="Password">
+          <input ng-model="register.password" type="text" id="inputPassword" placeholder="Password">
         </div>
       </div>
       <div class="control-group">
@@ -216,13 +222,13 @@
           <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
         </div>
       </div>
-      <p>{{register.name}} : {{register.password}} : {{register.confirm}}</p>
+      <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
       <div class="control-group">
         <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
         <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Register with</label>
         <div class="controls">
-          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+          <a target="_self" href="/auth/facebook"><img src="images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">

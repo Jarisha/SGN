@@ -16,6 +16,8 @@
     <link href="css/about.css" rel="stylesheet">
     <link href="css/settings.css" rel="stylesheet">
     <!-- Angularjs wants to be in the head -->
+    <!-- fix facebook's stupid #_=_ it appends to the url -->
+    <script type="text/javascript">if (window.location.hash == '#_=_') window.location.hash = '';</script>
      <!-- JQuery -->
 		<script src="js/jquery-1.8.1.min.js"></script>
 		<script src="js/jquery.masonry.min.js"></script>

@@ -1,7 +1,7 @@
 /*
  * Serve JSON to our AngularJS client
  */
-var dbconfig = require('../db_config');
+//var dbconfig = require('../db_config');
 
 exports.name = function (req, res) {
   res.json({
@@ -34,8 +34,8 @@ exports.login = function(req, res){
       error: 'Login Failed: User already logged in'
     });
   }
-  
-	dbconfig.User.findOne({ name: req.body.name, password: req.body.password }, function(err, result){
+  console.log(req.body.email + ' ' + req.body.password);
+	User.findOne({ email: req.body.email, password: req.body.password }, function(err, result){
 		if(err){
       console.log('login error: ' + err);
 			return res.json({
@@ -49,26 +49,25 @@ exports.login = function(req, res){
 				error: 'User not found or wrong password'
 			});
     }
-    //set sesssion
+    //set session
 		req.session.loggedIn = result._id.toString();
+    req.session.userEmail = result.email;
     req.session.userName = result.name;
-    console.log(req.session.userName + " Logged In");
+    console.log(req.session.email + " Logged In");
+    //return all relevant user data
     return res.json({
       login: true,
       userId: req.session.loggedIn,
+      userEmail: req.session.userEmail,
       userName: req.session.userName
     });
 	});
-  //res.render('index.ejs');
 };
 
 exports.logout = function(req, res){
   if(req.session.loggedIn){
     console.log('destroying session'); 
-    req.session.destroy(); // I have to DESTROY the session to logout
-    //req.session.loggedIn = null;  setting session to null doesn't work
-    //req.session = null;           Its not manly enough.
-    //req.logout();
+    req.session.destroy();  //actually log us out
     res.json({
       logout: true
     });
@@ -100,7 +99,7 @@ exports.register = function(req, res){
 		});
 	}
 	else{
-		var user = new dbconfig.User({ name: req.body.name, password: req.body.password});
+		var user = new User({email: req.body.email, name: req.body.name, password: req.body.password});
 		if(!user){ 
 			console.log('create user failed');
 			return res.json({
@@ -118,11 +117,13 @@ exports.register = function(req, res){
 			}
 			req.session.loggedIn = user._id.toString();
       req.session.userName = user.name;
+      req.session.userEmail = user.email;
       console.log(req.session.userName + ' Registered and logged In');
 			return res.json({
 				register: true,
 				userId: req.session.loggedIn,
-        userName: req.session.userName
+        userName: req.session.userName,
+        userEmail: req.session.userEmail
 			});
 		});
 	}

@@ -7,8 +7,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.subnav = 'partials/front_subnav';
   $scope.nav = 'partials/navbar';
   $scope.content = 'partials/front_content';
-  $scope.register = {name: null, password: null, confirm: null};
+  $scope.register = { email: null, name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
+  
   
   //Setup non AJAX related javascript
   $scope.setup = function(){
@@ -17,7 +18,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   /* AJAX FUNCTIONS */
   $scope.ajaxLogin = function(){
-    $rootScope.login($scope.login.name, $scope.login.password, function(res){
+    $rootScope.login($scope.login.email, $scope.login.password, function(res){
       if(res.message) $scope.status = res.message;
       console.log('remason');
       remason();
@@ -26,12 +27,13 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
-
       remason();
     });
   }
   $scope.ajaxRegister = function(){
-    $rootScope.register($scope.register.name, $scope.register.password, $scope.register.confirm, function(res){
+    console.log('pigs');
+    console.log($scope.register.email + ' ' + $scope.register.name + ' ' + $scope.register.password + ' ' + $scope.register.confirm);
+    $rootScope.register($scope.register.email, $scope.register.name, $scope.register.password, $scope.register.confirm, function(res){
       if(res.message) $scope.status = res.message;
       remason();
     });
@@ -58,21 +60,21 @@ function StoreController($scope, $rootScope, $http, $location){
   }*/
   
   /* AJAX FUNCTIONS */
-  $scope.ajaxLogin = function(){
+  /*$scope.ajaxLogin = function(){
     $rootScope.login($scope.login.name, $scope.login.password, function(res){
       if(res.message) $scope.status = res.message;
     });
-  }
+  }*/
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
   }
-  $scope.ajaxRegister = function(){
+  /*$scope.ajaxRegister = function(){
     $rootScope.register($scope.register.name, $scope.register.password, $scope.register.confirm, function(res){
       if(res.message) $scope.status = res.message;
     });
-  }
+  }*/
 }
 
 function ProfileController($scope, $rootScope, $http, $location){

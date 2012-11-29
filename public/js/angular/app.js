@@ -3,6 +3,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
+  $routeProvider.when('/#_=_', {redirectTo: '/'});
   $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
   $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
@@ -67,14 +68,15 @@ app.run(function($rootScope, $http, $templateCache, $location){
       }
     );
   }
-  $rootScope.login = function(name, password, callback){
+  $rootScope.login = function(email, password, callback){
     console.log('rootScope.login()');
     var result = {};
     $http({ method: 'POST', url: 'api/login', data:
-          {"name": name, "password": password }})
+          {"email": email, "password": password }})
       .success(function(data, status, headers, config){
         if(data.login){
           $rootScope.loggedIn = true;
+          $rootScope.userEmail = data.userEmail;
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
           result.message = 'Login Successful!';
@@ -127,15 +129,16 @@ app.run(function($rootScope, $http, $templateCache, $location){
         callback(result);
       });
   }
-  $rootScope.register = function(name, password, confirm, callback){
+  $rootScope.register = function(email, name, password, confirm, callback){
     console.log('rootScope.register()');
     var result = {};
     $http({ method: 'POST', url: 'api/register', data:
-          {"name": name, "password": password, "confirm": confirm }})
+          {"email": email ,"name": name, "password": password, "confirm": confirm }})
       .success(function(data, status, headers, config){
         //on success set view vars and log in user
         if(data.register){
           $rootScope.loggedIn = true;
+          $rootScope.userEmail = data.userEmail;
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
           result.message = 'Registration Successful!';
