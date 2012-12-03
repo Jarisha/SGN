@@ -87,6 +87,7 @@ function ProfileController($scope, $rootScope, $http, $location){
   $scope.subnav = null;
   $scope.nav = 'partials/navbar';
   $scope.content = 'partials/profile_content';
+  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
   
   $scope.setup = function(){
     profileSetup($scope);
@@ -98,6 +99,20 @@ function ProfileController($scope, $rootScope, $http, $location){
       if(res.message) $scope.status = res.message;
     });
   }
+  
+  $scope.getSettings = function(){
+    $http.get('api/getSettings')
+      .success(function(data, status, headers, config){
+        if(data.email) $scope.settings.email = data.email;
+        if(data.username) $scope.settings.username = data.username;
+        if(data.gender) $scope.settings.gender = data.gender;
+        if(data.bio) $scope.settings.bio = data.bio;
+      })
+      .error(function(data, status, headers, config) {
+        result.message = 'Error: ' + status;
+      });
+  }
+  $scope.getSettings();
 }
 function AboutController($scope, $rootScope, $http, $location){
   $rootScope.section = 'about';
@@ -127,6 +142,7 @@ function SettingsController($scope, $rootScope, $http, $location){
   $scope.subnav = null;
   $scope.nav = 'partials/navbar';
   $scope.content = 'partials/settings_content';
+  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
   
   $scope.setup = function(){
     settingsSetup($scope);
@@ -139,4 +155,28 @@ function SettingsController($scope, $rootScope, $http, $location){
       }
     });
   }
+  $scope.getSettings = function(){
+    $http.get('api/getSettings')
+      .success(function(data, status, headers, config){
+        if(data.email) $scope.settings.email = data.email;
+        if(data.username) $scope.settings.username = data.username;
+        if(data.gender) $scope.settings.gender = data.gender;
+        if(data.bio) $scope.settings.bio = data.bio;
+      })
+      .error(function(data, status, headers, config) {
+        result.message = 'Error: ' + status;
+      });
+  }
+  $scope.editSettings = function(){
+    $http({ method: 'POST', url: 'api/editSettings', data:
+          { id: $rootScope.userId, settings: $scope.settings }})
+      .success(function(data, status, headers, config){
+        if(data.error) console.log('error ' + data.error);
+        if(data.edit) alert('settings saved!');
+      })
+      .error(function(data, status, headers, config){
+        console.log('Error' + status);
+      });
+  }
+  $scope.getSettings();
 }

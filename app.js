@@ -24,6 +24,8 @@ var userSchema = mongoose.Schema({
   email: { type: String, unique: true },
   name: { type: String, unique: true},
   password: String,
+  gender: String,
+  bio: String
 });
 //index using name
 userSchema.index({name: 1});
@@ -183,6 +185,8 @@ app.post('/api/login', api.login);
 app.get('/api/logout', api.logout);
 app.post('/api/register', api.register);
 app.get('/api/checkLogin', api.checkLogin);
+app.get('/api/getSettings', api.getSettings);
+app.post('/api/editSettings', api.editSettings);
 
 //Route to 404 Page if not served
 app.get('*', routes.notfound);

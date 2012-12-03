@@ -128,3 +128,59 @@ exports.register = function(req, res){
 		});
 	}
 };
+
+/* Get current user settings to prefill My Settings Page */
+exports.getSettings = function(req, res){
+  User.findOne({ name: req.session.userName }, function(err, result){
+    if(err){
+      console.log('getSettings error: ' + err);
+			return res.json({
+				error: 'getSettings error: ' + err
+			});
+    }
+    if(!result){
+      return res.json({
+				error: 'User with name: ' + req.session.userName + 'not found'
+			});
+    }
+    return res.json({
+      email: result.email,
+      username: result.username,
+      gender: result.gender,
+      bio: result.bio
+    });
+  });
+}
+
+// editSettings 
+exports.editSettings = function(req, res){
+  User.findOne({ name: req.session.userName }, function(err, result){
+    if(err){
+      console.log('editSettings error: ' + err);
+			return res.json({
+				error: 'editSettings error: ' + err
+			});
+    }
+    if(!result){
+      return res.json({
+				error: 'User with name: ' + req.session.userName + 'not found'
+			});
+    }
+    // valid email and username required.
+    if(!(req.body.settings.email && req.body.settings.username)){
+      return res.json({
+				error: 'Email or Username is blank'
+			});
+    }
+    //update object
+    result.email = req.body.settings.email;
+    result.username = req.body.settings.username;
+    result.bio = req.body.settings.bio;
+    if(req.body.settings.gender) result.gender = req.body.settings.gender;
+    result.save();
+
+    return res.json({
+      edit: true
+    });
+  });
+}

@@ -1,12 +1,13 @@
 <div id="profile_col">
   <div class="left_container">
-    <div class="left_padding">
-      <div class="profile_pic">
-        <img src="images/tony_profile.jpg" width="165"/>
+    <div class="left_padding" style="position:relative">
+      <div class="profile_pic" >
+        <img src="images/50x50.gif" width="165"/>
+        <p style="position: absolute; top:90px; font-size: 15px;" >Upload a profile image</p>
       </div>
       <div class="profile_xp">
-        <span class="curr_level">Level 2</span>
-        <span class="to_level">40XP to level</span>
+        <span class="curr_level">Level 1</span>
+        <span class="to_level">20XP to level</span>
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
@@ -20,11 +21,9 @@
   </div>
   <div class="right_container">
     <div class="right_padding">
-      <p class="profile_name">Tony Schwartz</p>
-      <p class="bio_text"> Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. 
-      Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to 
-      dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. </p>
-      <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Four score and seven years ago
+      <p class="profile_name">{{userName}}</p>
+      <p class="bio_text">{{settings.bio}}</p>
+      <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
       <div class="bio_opts_container hidden">
         <p class="bio_opts">400 remaining</p>
@@ -63,11 +62,11 @@
       <span class="view_all"><a href="#">View All</a></span>
     </div>
     <img src="images/misc_images/badge1.png" width="60"/>
-    <img src="images/misc_images/badge2.png" width="60"/>
+    <!--<img src="images/misc_images/badge2.png" width="60"/>
     <img src="images/misc_images/badge3.png" width="60"/>
     <img src="images/misc_images/badge4.png" width="60"/>
     <img src="images/misc_images/badge5.png" width="60"/>
-    <img src="images/misc_images/badge6.png" width="60"/>
+    <img src="images/misc_images/badge6.png" width="60"/> -->
   </div>
 </div>
 <div id="follower_col">

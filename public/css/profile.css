@@ -211,7 +211,7 @@
 }
 .profile .xp_gained{
   float:left;
-  width: 103px;
+  width: 10px;
   border-right: 2px solid black;
   -moz-border-radius-topleft: 5px; /* Firefox */
   -moz-border-radius-bottomleft: 5px; /* Firefox */
@@ -220,8 +220,8 @@
   background:Chartreuse ;
 }
 .profile .xp_remaining{
-  float:right;
-  width: 65px;
+  float: right;
+  width: 158px;
   -moz-border-radius-topright: 5px; /* Firefox */
   -moz-border-radius-bottomright: 5px; /* Firefox */
   border-top-right-radius: 5px; /* CSS3 */
