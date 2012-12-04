@@ -1,5 +1,4 @@
 var mongoose = exports.mongoose = require('mongoose');
-var mongooseAuth = exports.mongooseAuth = require('mongoose-auth');
 var config = require('./config');
 
 exports.init = function(){
@@ -11,34 +10,15 @@ exports.init = function(){
   
   //define schema
   var userSchema = exports.userSchema = mongoose.Schema({
+    email: { type: String, unique: true },
     name: { type: String, unique: true},
-    password: String
+    password: String,
+    gender: String,
+    bio: String,
+    fbConnect: Boolean
   });
-  var User;
-  
-  // STEP 1: Schema Decoration and Configuration for the Routing
-    userSchema.plugin(mongooseAuth, {
-        // Here, we attach your User model to every module
-        everymodule: {
-          everyauth: {
-              User: function () {
-                return User;
-              }
-          }
-        }
-
-      , facebook: {
-          everyauth: {
-              myHostname: 'http://localhost:3000'
-            , appId: '177752685682496'
-            , appSecret: 'bcd13f474bae8217643ece20c68cd3a4'
-            , redirectPath: '/'
-          }
-        }
-    });
-  exports.userSchema = userSchema;
   //index using name
   userSchema.index({name: 1});
   //userSchema.set('autoIndex', false);
-  exports.User = db.model('sgnuser', userSchema);
+  var User = exports.User = db.model('sgnuser', userSchema);
 }

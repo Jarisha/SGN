@@ -3,7 +3,6 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
-  $routeProvider.when('/#_=_', {redirectTo: '/'});
   $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
   $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
