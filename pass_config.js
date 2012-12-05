@@ -20,6 +20,7 @@ exports.init = function(){
       callbackURL: "http://localhost:3001/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
+      console.log(profile);
       console.log(profile.emails[0].value);
       console.log(profile.displayName);
       

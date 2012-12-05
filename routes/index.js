@@ -1,34 +1,4 @@
-
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
-  //res.render('index');
-  res.render('front');
-};
-//store
-exports.store = function(req, res){
-	//res.render('store');
-  res.render('front');
-};
-//profile
-exports.profile = function(req, res){
-	res.render('profile');
-};
-//settings
-exports.settings = function(req, res){
-	res.render('settings');
-};
-//about
-exports.about = function(req, res){
-	res.render('about');
-};
-//page not found
-exports.notfound = function(req, res){
-    res.send('Page Not Found');
-};
-
+//Serve all partials
 exports.partials = function (req, res) {
   var name = req.params.name;
   res.render('partials/' + name);

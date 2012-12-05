@@ -7,20 +7,20 @@
   <div class="modal-body">
     <div class="media_type">
       <div class="btn-group" data-toggle="buttons-radio">
-        <img src="images/image.png" />
+        <img src="<%= rootPath %>/images/image.png" />
         <button class="btn">Image</button>
         <p>Image</p>
-        <img src="images/video.png" />
+        <img src="<%= rootPath %>/images/video.png" />
         <button class="btn">Video</button>
         <p>Video</p>
       </div>
     </div>
     <div class="media_source">
       <div class="btn-group" data-toggle="buttons-radio">
-        <img src="images/upload.png" />
+        <img src="<%= rootPath %>/images/upload.png" />
         <button class="btn">Upload</button>
         <p>Upload</p>
-        <img src="images/url.png" />
+        <img src="<%= rootPath %>/images/url.png" />
         <button class="btn">URL</button>
         <p>URL</p>
       </div>
@@ -31,7 +31,7 @@
 <!-- Front Pin Modal -->
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img" src="images/50x50.gif" /></a>
+    <a href="#"><img class="profile_img" src="<%= rootPath %>/images/50x50.gif" /></a>
     <button class="follow" type="button">Follow</button>
     <p class="poster"><a href="#">Joe Shmoe</a> via <a href="#">Katie Shmoe</a></p>
     <p class="date_posted">Posted 3 weeks ago onto #cooking</p>
@@ -47,16 +47,16 @@
       <a href="#"><span>#cooking</span></a></p>
     </div>
     <div class="view_img_container">
-      <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+      <a href="#"><img class="view_img" src="<%= rootPath %>/images/game_images/Gun-Bros-screenshot.png"/></a>
     </div>
     <div class="view_comment_container">
       <p> Cooking Mama is my favorite game ever I love it more than life itself combined.
       <div class="view_comment">
-        <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><p 
+        <a href="#"><img src="<%= rootPath %>/images/50x50.gif" class="profile_img"/></a><p 
         class="view_post_text"><b>Jamie</b><br/> This game is a really cool cooking game and I play it all the time!1! </p>
       </div>
       <div class="view_respond clearfix">
-        <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><textarea 
+        <a href="#"><img src="<%= rootPath %>/images/50x50.gif" class="profile_img"/></a><textarea 
         class="view_respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
         <button class="view_respond_btn hidden">Comment</button>
       </div>
@@ -77,13 +77,13 @@
     </ul>
     <div class="tab-content img_container">
       <div class="tab-pane active" id="like_content">
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
       <div class="tab-pane" id="repin_content">
-        <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
     </div>
   </div>
@@ -92,7 +92,7 @@
 <!-- Store Pin Modal -->
 <div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img" src="images/game_images/gameloft_logo.jpg" width="50"/></a>
+    <a href="#"><img class="profile_img" src="<%= rootPath %>/images/game_images/gameloft_logo.jpg" width="50"/></a>
     <button class="follow" type="button">Download</button>
     <p class="poster"><a href="#">The Dark Knight Rises</a></p>
     <p class="date_posted">By <a href="">Gameloft</a></p>
@@ -105,7 +105,7 @@
       <a href="#"><span>#cooking</span></a></p>
     </div>
     <div class="view_img_container">
-      <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+      <a href="#"><img class="view_img" src="<%= rootPath %>/images/game_images/Gun-Bros-screenshot.png"/></a>
     </div>
     <div class="view_comment_container">
       <p> Risen from the ashes, the Dark Knight returns in this action packed sequel to destroy
@@ -136,13 +136,13 @@
         </div>
       </div>
       <div class="tab-pane" id="pin_content">
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
       <div class="tab-pane" id="friends_content">
-        <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
     </div>
   </div>
@@ -170,11 +170,11 @@
       </div>
       <p>{{login.name}} : {{login.password}}</p>
       <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
-        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
+        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Login with</label>
         <div class="controls">
-          <a target="_self" href="/auth/facebook"><img src="images/facebook_small.png"/></a>
+          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">
@@ -224,11 +224,11 @@
       </div>
       <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
       <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
-        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
+        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Register with</label>
         <div class="controls">
-          <a target="_self" href="/auth/facebook"><img src="images/facebook_small.png"/></a>
+          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">

@@ -1,8 +1,11 @@
 var express = require('express');
 var routes = require('./routes');
 var config = require('./config');
-var api = require('./routes/api');
+//var api = require('./routes/api');
 var dbConfig = require('./db_config');
+var userApi = require('./routes/api/user');
+var gamepinApi = require('./routes/api/gamepin');
+var storepinApi = require('./routes/api/storepin');
 var passConfig = require('./pass_config');
 var MongoStore = require('connect-mongo')(express);
 
@@ -15,6 +18,8 @@ passConfig.init();
   
 //configure settings & middleware
 app.configure(function(){
+  app.locals.port = config.port;
+  app.locals.rootPath = 'http://localhost:'+ config.port;
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');  //hope to use HTML + Angular only
   app.use(express.methodOverride());
@@ -67,7 +72,6 @@ app.get('/registerMe', function(req, res){
 app.get('/auth/facebook',
   passConfig.passport.authenticate('facebook', { scope: ['email'] })
 );
-
 app.get('/auth/facebook/callback',
   passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
   function(req, res) {
@@ -82,22 +86,67 @@ app.get('/auth/facebook/callback',
       req.session.userName = req.user.name;
       res.redirect('/');
     }
+  }
+);
+app.get('/allUsers', function(req, res){
+  var html = '<ul>';
+  dbConfig.User.find({}, function(err, result){
+    if(err){
+      return res.send('err: ' + err);
+    }
+		if(!result){
+      return res.send('no users in db');
+    }
+    for(user in result){
+      html += '<li><a href="/user/'+result[user].name+'">'+ result[user].name +'</a></li>';
+    }
+    html += '</ul>';
+    return res.send('List of Users: '+html);
   });
+});
+app.get('/user/*', function(req, res){
+  return res.render('base');
+});
+
+app.get('/settings', function(req, res){
+  return res.render('base');
+});
 
 //All view partials must be served
 app.get('/partials/:name', routes.partials);
 
-// JSON API
-app.get('/api/name', api.name);
-app.post('/api/login', api.login);
-app.get('/api/logout', api.logout);
-app.post('/api/register', api.register);
-app.get('/api/checkLogin', api.checkLogin);
-app.get('/api/getSettings', api.getSettings);
-app.post('/api/editSettings', api.editSettings);
+/********* JSON API ***********/
+//User
+app.post('/api/login', userApi.login);
+app.get('/api/logout', userApi.logout);
+app.post('/api/register', userApi.register);
+app.get('/api/checkLogin', userApi.checkLogin);
+app.get('/api/getSettings', userApi.getSettings);
+app.post('/api/editSettings', userApi.editSettings);
+app.get('/api/deactivate', userApi.deactivate);
+app.post('/api/addFollowers', userApi.addFollowers);
+app.post('/api/removeFollowers', userApi.removeFollowers);
+app.get('/api/getPort', userApi.getPort);
+//Gamepin
+app.post('/api/gamepin/post', gamepinApi.post);
+app.post('/api/gamepin/edit', gamepinApi.edit);
+app.post('/api/gamepin/remove', gamepinApi.remove);
+app.post('/api/gamepin/comment', gamepinApi.comment);
+app.post('/api/gamepin/editComment', gamepinApi.editComment);
+app.post('/api/gamepin/like', gamepinApi.like);
+app.post('/api/gamepin/share', gamepinApi.share);
+app.post('/api/gamepin/search', gamepinApi.search);
+//Storepin
+app.post('/api/gamepin/post', storepinApi.post);
+app.post('/api/gamepin/favorite', storepinApi.favorite);
+app.post('/api/gamepin/share', storepinApi.share);
+app.post('/api/gamepin/download', storepinApi.download);
+app.post('/api/gamepin/search', storepinApi.search);
 
 //Route to 404 Page if not served
-app.get('*', routes.notfound);
+app.get('*', function(req, res){
+  return res.send('Page Not Found');
+});
 
 // Start server
 app.listen(3001, function(){

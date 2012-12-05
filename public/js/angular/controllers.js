@@ -2,11 +2,12 @@
 /* Controllers */
 
 function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout){
-  $rootScope.section = 'front';
-  $scope.modals = 'partials/modals';
-  $scope.subnav = 'partials/front_subnav';
-  $scope.nav = 'partials/navbar';
-  $scope.content = 'partials/front_content';
+  $rootScope.css = 'front';
+  $rootScope.title = 'front';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
+  $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.register = { email: null, name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
   
@@ -41,11 +42,12 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
 }
 
 function StoreController($scope, $rootScope, $http, $location){
-  $rootScope.section = 'store';
-  $scope.modals = 'partials/modals';
-  $scope.subnav = 'partials/store_subnav';
-  $scope.nav = 'partials/navbar';
-  $scope.content = 'partials/store_content';
+  $rootScope.css = 'store';
+  $rootScope.title = 'front';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
+  $scope.subnav = $rootScope.rootPath + '/partials/store_subnav';
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/store_content';
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
   
@@ -78,15 +80,17 @@ function StoreController($scope, $rootScope, $http, $location){
 }
 
 function ProfileController($scope, $rootScope, $http, $location){
+  console.log('did we make it?');
   //redirect if not logged in
-  if(!$rootScope.loggedIn)
-    $location.path('/');
+  //if(!$rootScope.loggedIn)
+  //  $location.path('/');
   
-  $rootScope.section = 'profile';
-  $scope.modals = 'partials/modals';
+  $rootScope.css = 'profile';
+  $rootScope.title = 'profile';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
-  $scope.nav = 'partials/navbar';
-  $scope.content = 'partials/profile_content';
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/profile_content';
   $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
   
   $scope.setup = function(){
@@ -94,7 +98,7 @@ function ProfileController($scope, $rootScope, $http, $location){
   }
   
   /* AJAX FUNCTIONS */
-  $scope.ajaxLogout = function(){;
+  $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
@@ -115,11 +119,12 @@ function ProfileController($scope, $rootScope, $http, $location){
   $scope.getSettings();
 }
 function AboutController($scope, $rootScope, $http, $location){
-  $rootScope.section = 'about';
-  $scope.modals = 'partials/modals';
+  $rootScope.css = 'about';
+  $rootScope.title = 'about';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
-  $scope.nav = 'partials/navbar';
-  $scope.content = 'partials/about_content';
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/about_content';
   
   $scope.setup = function(){
     aboutSetup($scope);
@@ -137,11 +142,12 @@ function SettingsController($scope, $rootScope, $http, $location){
   if(!$rootScope.loggedIn)
     $location.path('/');
   
-  $rootScope.section = 'settings';
-  $scope.modals = 'partials/modals';
+  $rootScope.css = 'settings';
+  $rootScope.title = 'settings';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
-  $scope.nav = 'partials/navbar';
-  $scope.content = 'partials/settings_content';
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/settings_content';
   $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
   
   $scope.setup = function(){
@@ -179,4 +185,29 @@ function SettingsController($scope, $rootScope, $http, $location){
       });
   }
   $scope.getSettings();
+}
+function UserController($scope, $rootScope, $http, $location, $routeParams){
+  //redirect if not logged in
+  if(!$rootScope.loggedIn)
+    $location.path('/');
+    
+  $rootScope.css = 'profile';
+  $rootScope.title = 'user';
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
+  $scope.subnav = null;
+  $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/user_content';
+  
+  $scope.setup = function(){
+    profileSetup($scope);
+  }
+  
+  console.log($routeParams.user);
+  
+  $scope.ajaxLogout = function(){
+    $rootScope.logout( function(res){
+      if(res.message) $scope.status = res.message;
+    });
+  }
+  
 }

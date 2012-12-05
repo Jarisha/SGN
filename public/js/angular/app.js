@@ -8,6 +8,8 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
   $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
   $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
+  //$routeProvider.when('/user/:user', {templateUrl: 'partials/profile', controller: UserController });
+  $routeProvider.when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
   
   $locationProvider.html5Mode(true);
 }]);
@@ -15,12 +17,14 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 
 // Entry Point
 app.run(function($rootScope, $http, $templateCache, $location){
+  console.log('entryPoint');
   //declare globals we will use
   $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
   $rootScope.loggedIn = null;
   $rootScope.userName = null;
   $rootScope.userId = null;
+  $rootScope.rootPath = '';
   
   /**
   * Debugging Tools
@@ -166,6 +170,15 @@ app.run(function($rootScope, $http, $templateCache, $location){
       });
   }
   
+  //Set root path by getting config port
+  $http.get('/api/getPort')
+    .success(function(data, status, headers, config){
+      $rootScope.rootPath = 'http://localhost:'+ data.port;
+    })
+    .error(function(data, status, headers, config) {
+      result.message = 'Error: ' + status;
+    });
+    
   //Always check if user is logged in
   $rootScope.checkLogin(function(res){
     if(res.message) $rootScope.status = res.status;

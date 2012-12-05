@@ -1,9 +1,7 @@
-/*
- * SGN API
- *
-*/
-
 /********************************* User *******************************/
+var dbConfig = require('../../db_config');
+var config = require('../../config');
+
 // Check if we are logged, and return session vars if so
 exports.checkLogin = function(req, res){
 	if(req.session.loggedIn){
@@ -30,7 +28,7 @@ exports.login = function(req, res){
     });
   }
   console.log(req.body.email + ' ' + req.body.password);
-	User.findOne({ email: req.body.email, password: req.body.password }, function(err, result){
+	dbConfig.User.findOne({ email: req.body.email, password: req.body.password }, function(err, result){
 		if(err){
       console.log('login error: ' + err);
 			return res.json({
@@ -95,8 +93,8 @@ exports.register = function(req, res){
 		});
 	}
 	else{
-		var user = new User({email: req.body.email, name: req.body.name, password: req.body.password});
-		if(!user){ 
+		var user = new dbConfig.User({email: req.body.email, name: req.body.name, password: req.body.password});
+		if(!user){
 			console.log('create user failed');
 			return res.json({
         register: false,
@@ -127,7 +125,7 @@ exports.register = function(req, res){
 
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
-  User.findOne({ name: req.session.userName }, function(err, result){
+  dbConfig.User.findOne({ name: req.session.userName }, function(err, result){
     if(err){
       console.log('getSettings error: ' + err);
 			return res.json({
@@ -150,7 +148,7 @@ exports.getSettings = function(req, res){
 
 // editSettings 
 exports.editSettings = function(req, res){
-  User.findOne({ name: req.session.userName }, function(err, result){
+  dbConfig.User.findOne({ name: req.session.userName }, function(err, result){
     if(err){
       console.log('editSettings error: ' + err);
 			return res.json({
@@ -181,119 +179,36 @@ exports.editSettings = function(req, res){
   });
 }
 
+//get port # from server.  This belongs in a misc.js rather than user.js
+exports.getPort = function(req, res){
+  return res.json({
+    port: config.port
+  });
+}
 //deactivate
 exports.deactivate = function(req, res){
   return res.json({
-    success: true;
+    success: true
   })
 }
 
 //addFollowers
 exports.addFollowers = function(req, res){
   return res.json({
-    success: true;
+    success: true
   })
 }
 
 //removeFollowers
 exports.removeFollowers = function(req, res){
   return res.json({
-    success: true;
+    success: true
   })
 }
 
 //getProfileData
 exports.getProfileData = function(req, res){
   return res.json({
-    success: true;
-  })
-}
-
-/*************************************** Gamepin ***************************************/
-//post
-exports.comment = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//edit
-exports.edit = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//remove
-exports.remove = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//comment
-exports.comment = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//editComment
-exports.editComment = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//like
-exports.like = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//share
-exports.share = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-//search
-exports.search = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-
-/******************************* StorePin **********************/
-//post
-exports.post = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-//favorite
-exports.favorite = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-//share
-exports.share = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-//download
-exports.download = function(req, res){
-  return res.json({
-    success: true;
-  })
-}
-//search
-exports.search = function(req, res){
-  return res.json({
-    success: true;
+    success: true
   })
 }

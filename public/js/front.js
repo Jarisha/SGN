@@ -84,11 +84,11 @@ function frontSetup($scope){
   });
   
   // Post comment (insert HTML string)
-  var comment = '<div class="comment"><img class="profile_img" src="images/30x30.gif"><p class="post_text"></p></div>';
+  var comment = '<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text"></p></div>';
   $(document).on('click', '.respond_btn', function(e){
     var response = $.trim($(this).prevAll('.respond_txtarea').val());
     $(this).prevAll('.respond_txtarea').val('');
-    $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="images/30x30.gif"><p class="post_text">' + 
+    $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text">' + 
                                             '<b>User</b>&nbsp;' + response + '</p></div>');
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
@@ -111,7 +111,7 @@ function frontSetup($scope){
   $('.view_respond_btn').click(function(e){
     var response = $.trim($(this).prevAll('.view_respond_txtarea').val());
     $(this).prevAll('.view_respond_txtarea').val('');
-    $(this).parent().prev('.view_comment').after('<div class="view_comment"><img class="profile_img" src="images/50x50.gif"><p class="view_post_text">' + 
+    $(this).parent().prev('.view_comment').after('<div class="view_comment"><img class="profile_img" src="<%= rootPath %>/images/50x50.gif"><p class="view_post_text">' + 
                                             '<b>User</b><br/>' + response + '</p></div>');
   });
   $(document).on('mouseleave','#myCarousel', function(){
