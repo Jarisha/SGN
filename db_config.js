@@ -12,7 +12,7 @@ exports.init = function(){
   var userSchema = exports.userSchema = mongoose.Schema({
     email: { type: String, unique: true },
     name: { type: String, unique: true},
-    password: String,
+    passHash: String,
     gender: String,
     bio: String,
     fbConnect: Boolean

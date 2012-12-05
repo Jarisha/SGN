@@ -1,5 +1,6 @@
 /********************************* User *******************************/
 var dbConfig = require('../../db_config');
+var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
 
 // Check if we are logged, and return session vars if so
@@ -27,34 +28,41 @@ exports.login = function(req, res){
       error: 'Login Failed: User already logged in'
     });
   }
-  console.log(req.body.email + ' ' + req.body.password);
-	dbConfig.User.findOne({ email: req.body.email, password: req.body.password }, function(err, result){
-		if(err){
+  dbConfig.User.findOne({ email: req.body.email}, function(err, result){
+    if(err){
       console.log('login error: ' + err);
-			return res.json({
-        login: false,
-				error: 'login error: ' + err
-			});
-    }
-		if(!result){
       return res.json({
         login: false,
-				error: 'User not found or wrong password'
-			});
+        error: 'login error: ' + err
+      });
     }
-    //set session
-		req.session.loggedIn = result._id.toString();
-    req.session.userEmail = result.email;
-    req.session.userName = result.name;
-    console.log(req.session.email + " Logged In");
-    //return all relevant user data
-    return res.json({
-      login: true,
-      userId: req.session.loggedIn,
-      userEmail: req.session.userEmail,
-      userName: req.session.userName
-    });
-	});
+    if(!result){
+      return res.json({
+        login: false,
+        error: 'User with specified email not found.'
+      });
+    }
+    if(bcrypt.compareSync(req.body.password, result.passHash)){
+      //set session
+      req.session.loggedIn = result._id.toString();
+      req.session.userEmail = result.email;
+      req.session.userName = result.name;
+      console.log(req.session.userEmail + " Logged In");
+      //return all relevant user data
+      return res.json({
+        login: true,
+        userId: req.session.loggedIn,
+        userEmail: req.session.userEmail,
+        userName: req.session.userName
+      });
+    }
+    else{
+      return res.json({
+        login: false,
+        error: 'Wrong password. Try again.'
+      });
+    }
+  });
 };
 
 // Destroy Session
@@ -93,7 +101,8 @@ exports.register = function(req, res){
 		});
 	}
 	else{
-		var user = new dbConfig.User({email: req.body.email, name: req.body.name, password: req.body.password});
+    var hash = bcrypt.hashSync(req.body.password);
+		var user = new dbConfig.User({email: req.body.email, name: req.body.name, passHash: hash});
 		if(!user){
 			console.log('create user failed');
 			return res.json({

@@ -8,6 +8,7 @@ var gamepinApi = require('./routes/api/gamepin');
 var storepinApi = require('./routes/api/storepin');
 var passConfig = require('./pass_config');
 var MongoStore = require('connect-mongo')(express);
+var bcrypt = require('bcrypt-nodejs');
 
 //create app
 var app = express();
@@ -110,6 +111,12 @@ app.get('/user/*', function(req, res){
 
 app.get('/settings', function(req, res){
   return res.render('base');
+});
+//used for testing purposes only
+app.get('/test', function(req, res){
+  bcrypt.genSalt(11, function(err, salt){
+    res.send(salt);
+  });
 });
 
 //All view partials must be served
