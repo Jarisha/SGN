@@ -252,9 +252,24 @@ exports.removeFollowers = function(req, res){
   })
 }
 
-//getProfileData
-exports.getProfileData = function(req, res){
-  return res.json({
-    success: true
-  })
+//getProfileData: return all relevant profile view data to front end
+exports.getProfile = function(req, res){
+  dbConfig.User.findOne({ name: req.body.userName }, function(err, result){
+    if(err){
+      return res.json({
+        success: false,
+        error: 'Error: ' + err
+      })
+    }
+    if(!result){
+      return res.json({
+        success: false,
+        error: 'Error: User not found in database'
+      });
+    }
+    return res.json({
+      success: true,
+      name: result.name
+    });
+  });
 }

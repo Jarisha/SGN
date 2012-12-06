@@ -21,7 +21,7 @@
   </div>
   <div class="right_container">
     <div class="right_padding">
-      <p class="profile_name">{{userName}}</p>
+      <p class="profile_name">{{profile.name}}</p>
       <p class="bio_text">{{settings.bio}}</p>
       <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
@@ -40,6 +40,7 @@
         <p>3 Friends</p>
     </div>
     <img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/>
+    <button class="add_follower"><img src="<%= rootPath %>/images/friend_add.png"  width="40" /><p>Add</p></button>
   </div>
   <div class="bot_container">
     <div class="comrade_tabs">
@@ -49,6 +50,8 @@
     <img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img 
     src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img 
     src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/>
+    <button class="add_follower"><img src="<%= rootPath %>/images/friend_tag.png"  width="40" /><p>Add</p></button>
+    
   </div>
 </div>
 <!-- <div id="button_col">

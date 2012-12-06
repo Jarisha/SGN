@@ -295,6 +295,7 @@ function SettingsController($scope, $rootScope, $http, $location){
   }
   $scope.getSettings();
 }
+//Looking at another user's page
 function UserController($scope, $rootScope, $http, $location, $routeParams){
   //redirect if not logged in
   if(!$rootScope.loggedIn)
@@ -306,17 +307,30 @@ function UserController($scope, $rootScope, $http, $location, $routeParams){
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/user_content';
+  $scope.profile = {name: null};
   
   $scope.setup = function(){
     profileSetup($scope);
   }
   
   console.log($routeParams.user);
+  //get profile data for this user
+  $scope.getProfile = function(){
+    $http({method:'post', url:'/api/getProfile', data:{ userName: $routeParams.user}})
+      .success(function(data, status, headers, config){
+        //redirect to my_profile is username matches current user
+        if($rootScope.userName === data.name) $location.path('/profile');
+        $scope.profile.name = data.name;
+      })
+      .error(function(data, status, headers, config){
+        console.log('Error: ' + status);
+      });
+  }
   
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
   }
-  
+  $scope.getProfile();
 }

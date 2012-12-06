@@ -138,6 +138,7 @@ app.get('/api/deactivate', userApi.deactivate);
 app.post('/api/addFollowers', userApi.addFollowers);
 app.post('/api/removeFollowers', userApi.removeFollowers);
 app.get('/api/getPort', userApi.getPort);
+app.post('/api/getProfile', userApi.getProfile);
 //Gamepin
 app.post('/api/gamepin/post', gamepinApi.post);
 app.post('/api/gamepin/edit', gamepinApi.edit);

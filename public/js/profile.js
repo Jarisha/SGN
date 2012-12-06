@@ -1,5 +1,5 @@
 /* 
-  Profile page JS
+  Profile page JS for My Profile and View Other User'ss Profile
 */
 
 function profileSetup($scope){
