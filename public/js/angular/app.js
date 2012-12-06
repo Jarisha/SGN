@@ -8,7 +8,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
   $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
   $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
-  //$routeProvider.when('/user/:user', {templateUrl: 'partials/profile', controller: UserController });
   $routeProvider.when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
   
   $locationProvider.html5Mode(true);

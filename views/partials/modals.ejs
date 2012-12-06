@@ -156,10 +156,12 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
       <div class="control-group">
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
-          <input ng-model="login.email" type="text" id="inputEmail" placeholder="Email">
+          <input ng-model="login.email" type="email" id="inputEmail" placeholder="Email">
         </div>
       </div>
       <div class="control-group">
@@ -168,7 +170,7 @@
           <input ng-model="login.password" type="password" id="inputPassword" placeholder="Password">
         </div>
       </div>
-      <p>{{login.name}} : {{login.password}}</p>
+      <p>{{login.email}} : {{login.password}}</p>
       <div class="control-group">
         <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
         <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
@@ -183,7 +185,7 @@
             <input type="checkbox"> Remember me
           </label>
           <br>
-          <button class="btn" data-dismiss="modal" ng-click="ajaxLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+          <button class="btn" ng-click="ajaxLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
         </div>
       </div>
     </form>
@@ -198,6 +200,8 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
       <div class="control-group">
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
@@ -233,7 +237,51 @@
       </div>
       <div class="control-group">
         <div class="controls">
-          <button class="btn" data-dismiss="modal" ng-click="ajaxRegister()">Register</button>
+          <button class="btn" ng-click="ajaxRegister()">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal hide" id="fbRegisterModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <h3 id="myModalLabel">Register with sgn via facebook</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input ng-model="register.email" type="email" id="inputEmail" placeholder="Email">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Username</label>
+        <div class="controls">
+          <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+          <input ng-model="register.password" type="password" id="inputPassword" placeholder="Password">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="confirm">Confirm</label>
+        <div class="controls">
+          <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
+        </div>
+      </div>
+      <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn" ng-click="ajaxRegister()">Register</button>
         </div>
       </div>
     </form>

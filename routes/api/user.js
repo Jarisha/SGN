@@ -3,8 +3,12 @@ var dbConfig = require('../../db_config');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
 
-// Check if we are logged, and return session vars if so
+// Check if we are logged, and return user vars if so
+// This is called on every angular generated page to determine if we are logged in
 exports.checkLogin = function(req, res){
+  //If a user strays from register step 2 page without completing the process,
+  //delete the saved data from register step 1.
+  if(req.session.newUser) req.session.newUser = null;
 	if(req.session.loggedIn){
 		return res.json({
 			loggedIn: true,
@@ -17,6 +21,26 @@ exports.checkLogin = function(req, res){
 			loggedIn: false,
 		});
 	}
+}
+
+//If we are registering with facebook, send profile params to front end
+exports.facebookRegister = function(req, res){
+  if(req.session.fbUser){
+    //delete req.user
+    var temp = req.session.fbUser;
+    req.session.fbUser = null;
+    return res.json({
+      fb: true,
+      fbEmail: temp.email,
+      fbName: temp.name,
+      fbConnect: true
+    });
+  }
+  else{
+    return res.json({
+      fb: false
+    });
+  }
 }
 
 // Login: Set session given correct params 
@@ -82,7 +106,7 @@ exports.logout = function(req, res){
   }
 }
 
-// Register: Add user and set session
+// Register step 1: hash password and put user data into session
 exports.register = function(req, res){
   
   // Prompt error if we are already logged in (client should prevent this from happening)
@@ -102,7 +126,7 @@ exports.register = function(req, res){
 	}
 	else{
     var hash = bcrypt.hashSync(req.body.password);
-		var user = new dbConfig.User({email: req.body.email, name: req.body.name, passHash: hash});
+		/*var user = new dbConfig.User({email: req.body.email, name: req.body.name, passHash: hash});
 		if(!user){
 			console.log('create user failed');
 			return res.json({
@@ -110,7 +134,15 @@ exports.register = function(req, res){
 				error: 'create user failed'
 			});
 		}
-		user.save(function(err){
+    //save data into newUser object so step 2 can use it to complete the registration */
+    req.session.newUser = {};
+    req.session.newUser.email = req.body.email;
+    req.session.newUser.name = req.body.name;
+    req.session.newUser.passHash = hash;
+    return res.json({
+      register: true
+    });
+		/*user.save(function(err){
 			if(err){
 				console.log('next( %s )', err);
 				return res.json({
@@ -128,7 +160,7 @@ exports.register = function(req, res){
         userName: req.session.userName,
         userEmail: req.session.userEmail
 			});
-		});
+		});*/
 	}
 };
 

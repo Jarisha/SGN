@@ -33,9 +33,18 @@ exports.init = function(){
             error: 'login error: ' + err
           });
         }
-        //If not found, register new account and connect to facebook
+        
+        //If not found, we are registering.  Go to register step 2.
         if(!result){
-          console.log('facebook user NOT found in DB');
+          newUser = {};
+          newUser.email = profile.emails[0].value;
+          newUser.name = profile.displayName;
+          newUser.fbConnect = true;
+          newUser.registerMe = true;
+          
+          return done(null, newUser);
+          
+          /*console.log('facebook user NOT found in DB');
           var user = new User({email: profile.emails[0].value, name: profile.displayName, fbConnect: true });
           if(!user){
             console.log('create user failed');
@@ -47,7 +56,7 @@ exports.init = function(){
             console.log('facebook user with name: %s, email: %s created', profile.displayName, profile.emails[0].value);
             user.registerMe = true;
             return done(null, user);
-          });
+          });*/
         }
         //If found, log in and connect to facebook
         else{

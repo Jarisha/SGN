@@ -15,7 +15,8 @@ exports.init = function(){
     passHash: String,
     gender: String,
     bio: String,
-    fbConnect: Boolean
+    fbConnect: Boolean,
+    favCategories: []
   });
   //index using name
   userSchema.index({name: 1});

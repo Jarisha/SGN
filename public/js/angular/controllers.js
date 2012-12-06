@@ -9,7 +9,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.register = { email: null, name: null, password: null, confirm: null};
-  $scope.login = {name: null, password: null};
+  $scope.login = {email: null, password: null};
   
   
   //Setup non AJAX related javascript
@@ -18,12 +18,75 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   
   /* AJAX FUNCTIONS */
+  //If doing facebook register, spawn modal with fb data prefilled
+  $scope.facebookRegister = function(){
+    $http.get('/api/facebookRegister')
+      .success(function(data, status, headers, config){
+        if(data.fb){
+          $scope.register.email = data.fbEmail;
+          $scope.register.name = data.fbName;
+          $('#fbRegisterModal').modal();
+        }
+      })
+      .error(function(data, status, headers, config) {
+        $scope.message = 'Server Error: ' + status;
+      });
+  }
+  
   $scope.ajaxLogin = function(){
-    $rootScope.login($scope.login.email, $scope.login.password, function(res){
-      if(res.message) $scope.status = res.message;
-      console.log('remason');
-      remason();
-    });
+    console.log('rootScope.login()');
+    $http({ method: 'POST', url: 'api/login', data:
+          {"email": $scope.login.email, "password": $scope.login.password }})
+      .success(function(data, status, headers, config){
+        if(data.login){
+          $rootScope.loggedIn = true;
+          $rootScope.userEmail = data.userEmail;
+          $rootScope.userName = data.userName;
+          $rootScope.userId = data.userId;
+          $scope.status = 'Login Successful!';
+          $('#loginModal').modal('hide');
+          
+          /* If cached, reload and cache partials effected by login */
+          if($templateCache.get('partials/front_subnav')){
+            $templateCache.remove('partials/front_subnav');
+            $http.get('partials/front_subnav', {cache:$templateCache});
+          }
+          if($templateCache.get('partials/navbar')){
+            $templateCache.remove('partials/navbar');
+            $http.get('partials/navbar', {cache:$templateCache});
+          }
+          remason();
+        }
+        else if(!data.login && data.error){
+          $scope.status = 'Login Failed: ' + data.error;
+        }
+        else{
+          $scope.status = 'Login Failed: AJAX error';
+        }
+      })
+      .error(function(data, status, headers, config){
+        $scope.message = 'Server Error: ' + status;
+      });
+  }
+  $scope.ajaxRegister = function(){
+    $http({ method: 'POST', url: 'api/register', data:
+          {"email": $scope.register.email ,"name": $scope.register.name,
+          "password": $scope.register.password, "confirm": $scope.register.confirm }})
+      .success(function(data, status, headers, config){
+        //on success go to register step 2
+        if(data.register){
+          window.location = '/register';
+        }
+        else if(!data.register && data.error){
+          $scope.status = data.error;
+        }
+        else{
+          $scope.status = 'AJAX error';
+        }
+      })
+      .error(function(data, status, headers, config){
+        $scope.status = 'Error: ' + status;
+      });
   }
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
@@ -31,17 +94,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       remason();
     });
   }
-  $scope.ajaxRegister = function(){
-    console.log('pigs');
-    console.log($scope.register.email + ' ' + $scope.register.name + ' ' + $scope.register.password + ' ' + $scope.register.confirm);
-    $rootScope.register($scope.register.email, $scope.register.name, $scope.register.password, $scope.register.confirm, function(res){
-      if(res.message) $scope.status = res.message;
-      remason();
-    });
-  }
 }
 
-function StoreController($scope, $rootScope, $http, $location){
+function StoreController($scope, $rootScope, $http, $location, $templateCache){
   $rootScope.css = 'store';
   $rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -62,21 +117,73 @@ function StoreController($scope, $rootScope, $http, $location){
   }*/
   
   /* AJAX FUNCTIONS */
-  /*$scope.ajaxLogin = function(){
-    $rootScope.login($scope.login.name, $scope.login.password, function(res){
-      if(res.message) $scope.status = res.message;
-    });
-  }*/
+  $scope.ajaxLogin = function(){
+    console.log('rootScope.login()');
+    $http({ method: 'POST', url: 'api/login', data:
+          {"email": $scope.login.email, "password": $scope.login.password }})
+      .success(function(data, status, headers, config){
+        if(data.login){
+          $rootScope.loggedIn = true;
+          $rootScope.userEmail = data.userEmail;
+          $rootScope.userName = data.userName;
+          $rootScope.userId = data.userId;
+          $scope.status = 'Login Successful!';
+          $('#loginModal').modal('hide');
+          
+          /* If cached, reload and cache partials effected by login */
+          if($templateCache.get('partials/front_subnav')){
+            $templateCache.remove('partials/front_subnav');
+            $http.get('partials/front_subnav', {cache:$templateCache});
+          }
+          if($templateCache.get('partials/navbar')){
+            $templateCache.remove('partials/navbar');
+            $http.get('partials/navbar', {cache:$templateCache});
+          }
+          remason();
+        }
+        else if(!data.login && data.error){
+          $scope.status = 'Login Failed: ' + data.error;
+        }
+        else{
+          $scope.status = 'Login Failed: AJAX error';
+        }
+      })
+      .error(function(data, status, headers, config){
+        $scope.message = 'Server Error: ' + status;
+      });
+  }
+  $scope.ajaxRegister = function(){
+    $http({ method: 'POST', url: 'api/register', data:
+          {"email": $scope.register.email ,"name": $scope.register.name,
+          "password": $scope.register.password, "confirm": $scope.register.confirm }})
+      .success(function(data, status, headers, config){
+        //on success set view vars and log in user
+        if(data.register){
+          $rootScope.loggedIn = true;
+          $rootScope.userEmail = data.userEmail;
+          $rootScope.userName = data.userName;
+          $rootScope.userId = data.userId;
+          $scope.status = 'Registration Successful!';
+          
+          $('#registerModal').modal('hide');
+          $location.path('/');
+        }
+        else if(!data.register && data.error){
+          $scope.status = data.error;
+        }
+        else{
+          $scope.status = 'AJAX error';
+        }
+      })
+      .error(function(data, status, headers, config){
+        $scope.status = 'Error: ' + status;
+      });
+  }
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
   }
-  /*$scope.ajaxRegister = function(){
-    $rootScope.register($scope.register.name, $scope.register.password, $scope.register.confirm, function(res){
-      if(res.message) $scope.status = res.message;
-    });
-  }*/
 }
 
 function ProfileController($scope, $rootScope, $http, $location){

@@ -38,11 +38,24 @@ function frontSetup($scope){
   );
   /* Setup modals */
   $scope.promptLogin = function(){
+    //clear modal
+    $scope.status = null;
+    $scope.login.email = null;
+    $scope.login.password = null;
+    //spawn
     $('#loginModal').modal();
   }
   $scope.promptRegister = function(){
+    $scope.status = null;
+    $scope.register.email = null;
+    $scope.register.name = null;
+    $scope.register.password = null;
+    $scope.register.confirm = null;
     $('#registerModal').modal();
   }
+  
+  $scope.facebookRegister();
+  
   $scope.postGamePin = function(){
     $('#pinModal_1').modal();
   }

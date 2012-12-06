@@ -50,6 +50,7 @@ app.configure('production', function(){
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
+  console.log(req.session.fbUser);
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -67,9 +68,49 @@ app.get('/about', function(req, res){
 app.get('/fbfail', function(req, res){
   res.send('facebook login failure');
 });
-app.get('/registerMe', function(req, res){
-  res.send('choose stuff that you like');
+//Register step 1: modal.  Step 2 is this page.
+app.get('/register', function(req, res){
+  res.render('register');
 });
+
+//This should probably be an API call
+app.post('/register', function(req, res){
+  //Redirect user home if they didn't come here from Register step 1
+  if(!req.session.newUser){ console.log('go home'); return res.redirect('/');}
+  
+  var newEmail = req.session.newUser.email,
+      newName = req.session.newUser.name,
+      newHash = req.session.newUser.passHash;
+  var newUser = new dbConfig.User({email: newEmail, name: newName, passHash: newHash});
+  if(!newUser){
+    return res.json({
+      register: false,
+      error: 'create user failed'
+    });
+  }
+  //set user[fav_categories] given post data
+  for(category in req.body.categories){
+    console.log(req.body.categories[category]);
+    newUser.favCategories.push(req.body.categories[category]);
+  }
+  //save new user into database and log in
+  newUser.save(function(err){
+    if(err){
+      return res.json({
+        register: false,
+				error: 'save user failed'
+			});
+    }
+    req.session.loggedIn = newUser._id.toString();
+    req.session.userName = newUser.name;
+    req.session.userEmail = newUser.email;
+    console.log(req.session.userName + ' Registered and logged In');
+    return res.json({
+      register: true
+    });
+  });
+});
+
 app.get('/auth/facebook',
   passConfig.passport.authenticate('facebook', { scope: ['email'] })
 );
@@ -78,7 +119,8 @@ app.get('/auth/facebook/callback',
   function(req, res) {
     //if we need to register this facebook user, continue on to registration
     if(req.user.registerMe){
-      res.redirect('/registerMe');
+      req.session.fbUser = req.user;
+      res.redirect('/');
     }
     //if we were only logging in this facbeook user, go home
     else{
@@ -124,6 +166,7 @@ app.get('/partials/:name', routes.partials);
 
 /********* JSON API ***********/
 //User
+app.get('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/login', userApi.login);
 app.get('/api/logout', userApi.logout);
 app.post('/api/register', userApi.register);
