@@ -80,8 +80,9 @@ app.post('/register', function(req, res){
   
   var newEmail = req.session.newUser.email,
       newName = req.session.newUser.name,
-      newHash = req.session.newUser.passHash;
-  var newUser = new dbConfig.User({email: newEmail, name: newName, passHash: newHash});
+      newHash = req.session.newUser.passHash,
+      newFbConnect = req.session.newUser.fbConnect;
+  var newUser = new dbConfig.User({email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect});
   if(!newUser){
     return res.json({
       register: false,

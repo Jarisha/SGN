@@ -138,6 +138,7 @@ exports.register = function(req, res){
     req.session.newUser = {};
     req.session.newUser.email = req.body.email;
     req.session.newUser.name = req.body.name;
+    req.session.newUser.fbConnect = req.body.fbConnect;
     req.session.newUser.passHash = hash;
     return res.json({
       register: true

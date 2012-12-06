@@ -8,7 +8,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  $scope.register = { email: null, name: null, password: null, confirm: null};
+  $scope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   $scope.login = {email: null, password: null};
   
   
@@ -25,6 +25,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         if(data.fb){
           $scope.register.email = data.fbEmail;
           $scope.register.name = data.fbName;
+          $scope.register.fbConnect = true;
           $('#fbRegisterModal').modal();
         }
       })
@@ -71,7 +72,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.ajaxRegister = function(){
     $http({ method: 'POST', url: 'api/register', data:
           {"email": $scope.register.email ,"name": $scope.register.name,
-          "password": $scope.register.password, "confirm": $scope.register.confirm }})
+          "password": $scope.register.password, "confirm": $scope.register.confirm,
+          "fbConnect": $scope.register.fbConnect }})
       .success(function(data, status, headers, config){
         //on success go to register step 2
         if(data.register){
