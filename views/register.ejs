@@ -24,22 +24,7 @@
 		<script src="<%= rootPath %>/js/bootstrap-transition.js"></script>
 		<script src="<%= rootPath %>/js/bootstrap-scroll-modal.js"></script>
     <!-- Page Specific JS -->
-    <script type="text/javascript">
-      $(document).ready(function(){
-        var postData = '';
-        $('#registerSubmit').click(function(e){
-          $('button.active').each(function(){
-            postData += 'categories[]='+$(this).text()+'&';
-          });
-          $.post('/register', postData , function(data) {
-            if(data.register)
-              window.location = '/';
-            else if(error)
-              console.log('error: ' + error);
-          });
-        });
-      });
-    </script>
+    <script src="<%= rootPath %>/js/register.js"></script>
 	</head>
   <body style="margin: 20px">
     <p>Choose up to 3 different categories that you like</p>

@@ -244,7 +244,7 @@
   </div>
 </div>
 
-<!-- Register Modal -->
+<!-- Facebook Register Modal -->
 <div class="modal hide" id="fbRegisterModal" >
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
@@ -264,18 +264,6 @@
         <label class="control-label" for="inputUsername">Username</label>
         <div class="controls">
           <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-          <input ng-model="register.password" type="password" id="inputPassword" placeholder="Password">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="confirm">Confirm</label>
-        <div class="controls">
-          <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
         </div>
       </div>
       <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>

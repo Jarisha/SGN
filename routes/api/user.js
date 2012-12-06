@@ -3,11 +3,9 @@ var dbConfig = require('../../db_config');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
 
-// Check if we are logged, and return user vars if so
-// This is called on every angular generated page to determine if we are logged in
+//Checks if user is logged in. Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
-  //If a user strays from register step 2 page without completing the process,
-  //delete the saved data from register step 1.
+  //Clear newUser which stores register data
   if(req.session.newUser) req.session.newUser = null;
 	if(req.session.loggedIn){
 		return res.json({
@@ -108,7 +106,6 @@ exports.logout = function(req, res){
 
 // Register step 1: hash password and put user data into session
 exports.register = function(req, res){
-  
   // Prompt error if we are already logged in (client should prevent this from happening)
   if(req.session.loggedIn){
     return res.json({
@@ -116,7 +113,6 @@ exports.register = function(req, res){
       error: 'Registration Failed: User already logged in'
     });
   }
-  
   //validate user input
 	if(req.body.password !== req.body.confirm){
 		return res.json({
@@ -126,14 +122,6 @@ exports.register = function(req, res){
 	}
 	else{
     var hash = bcrypt.hashSync(req.body.password);
-		/*var user = new dbConfig.User({email: req.body.email, name: req.body.name, passHash: hash});
-		if(!user){
-			console.log('create user failed');
-			return res.json({
-        register: false,
-				error: 'create user failed'
-			});
-		}
     //save data into newUser object so step 2 can use it to complete the registration */
     req.session.newUser = {};
     req.session.newUser.email = req.body.email;
@@ -143,27 +131,43 @@ exports.register = function(req, res){
     return res.json({
       register: true
     });
-		/*user.save(function(err){
-			if(err){
-				console.log('next( %s )', err);
-				return res.json({
-          register: false,
-					error: 'create user failed'
-				});
-			}
-			req.session.loggedIn = user._id.toString();
-      req.session.userName = user.name;
-      req.session.userEmail = user.email;
-      console.log(req.session.userName + ' Registered and logged In');
-			return res.json({
-				register: true,
-				userId: req.session.loggedIn,
-        userName: req.session.userName,
-        userEmail: req.session.userEmail
-			});
-		});*/
 	}
 };
+
+exports.register_2 = function(req, res){
+  var newEmail = req.session.newUser.email,
+      newName = req.session.newUser.name,
+      newHash = req.session.newUser.passHash,
+      newFbConnect = req.session.newUser.fbConnect;
+  var newUser = new dbConfig.User({email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect});
+  if(!newUser){
+    return res.json({
+      register: false,
+      error: 'create user failed'
+    });
+  }
+  console.log(req.body.categories);
+  //set user[fav_categories] given post data
+  for(category in req.body.categories){
+    newUser.favCategories.push(req.body.categories[category]);
+  }
+  //save new user into database and log in
+  newUser.save(function(err){
+    if(err){
+      return res.json({
+        register: false,
+				error: 'save user failed'
+			});
+    }
+    req.session.loggedIn = newUser._id.toString();
+    req.session.userName = newUser.name;
+    req.session.userEmail = newUser.email;
+    console.log(req.session.userName + ' Registered and logged In');
+    return res.json({
+      register: true
+    });
+  });
+}
 
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
