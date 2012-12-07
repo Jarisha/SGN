@@ -1,10 +1,15 @@
 /*************************************** Gamepin ***************************************/
 var dbConfig = require('../../db_config');
-//post
+//post gamepin.  Create the gamepin object and store in db
 exports.post = function(req, res){
   return res.json({
-    success: true
-  })
+    success: true,
+    message: 'Post game_pin successfull!'
+  });
+  /*return res.json({
+    success: false,
+    error: 'Error: post gamepin failed'
+  });*/
 }
 
 //edit

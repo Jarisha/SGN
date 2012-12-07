@@ -5,26 +5,51 @@
     <h3 class="control-label" for="inputUsername">Post your game video or screenshot!</h3>
   </div>
   <div class="modal-body">
-    <div class="media_type">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <img src="<%= rootPath %>/images/image.png" />
-        <button class="btn">Image</button>
-        <p>Image</p>
-        <img src="<%= rootPath %>/images/video.png" />
-        <button class="btn">Video</button>
-        <p>Video</p>
-      </div>
+    <div class="btn-group" data-toggle="buttons-radio" style="text-align: center">
+      <button type="button" data-dismiss="modal" class="btn post_media" value="youtube">Youtube Video <img src="<%= rootPath %>/images/video.png" /> </button>
+      <button type="button" data-dismiss="modal" class="btn post_media" value="upload">Image Upload <img src="<%= rootPath %>/images/upload.png" /> </button>
+      <button type="button" data-dismiss="modal" class="btn post_media" value="url">Image Url <img src="<%= rootPath %>/images/url.png" /> </button>
     </div>
-    <div class="media_source">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <img src="<%= rootPath %>/images/upload.png" />
-        <button class="btn">Upload</button>
-        <p>Upload</p>
-        <img src="<%= rootPath %>/images/url.png" />
-        <button class="btn">URL</button>
-        <p>URL</p>
-      </div>
+  </div>
+</div>
+
+<!-- Youtube Video -->
+<div class="modal hide fade" id="pinYoutube">
+  <div class="modal-header">
+    <p>Post video via youtube URL</p>
+    <input class="load_input" placeholder="" type="text"></input><button class="btn load_vid">Load</button>
+  </div>
+  <div class="modal-body" style="width: 600px;">
+    <div class="post_content">Video/Image/Slideshow goes here</div>
+    <br />
+    <label for="game_name">Game Name</label>
+    <input id="game_name" type="text"></input>
+    <br />
+    <label for="game_pub">Game Publisher</label>
+    <input id="game_pub" type="text"></input>
+    <br />
+    <label for="game_desc">Game Description</label>
+    <input id="game_desc" type="text"></input>
+    <br />
+    <div>
+      <p>Select a Primary Category</p>
+      <select class="category_select">
+        <option selected="selected" value="casino">Casino</option>
+        <option value="casual">Casual</option>
+        <option value="shooter">Shooter</option>
+        <option value="rpg">RPG</option>
+        <option value="action">Action</option>
+        <option value="simulation">Simulation</option>
+        <option value="racing">Racing</option>
+        <option value="puzzle">Puzzle</option>
+        <option value="fighting">Fighting</option>
+        <option value="social">Social</option>
+        <option value="space">Space</option>
+        <option value="horror">Horror</option>
+        <option value="strategy">Strategy</option>
+      </select>
     </div>
+    <button class="post_vid" type="button">Post it!</button>
   </div>
 </div>
 

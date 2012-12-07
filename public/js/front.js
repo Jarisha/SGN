@@ -8,7 +8,7 @@ function remason(){
   });
 }
 
-function frontSetup($scope){
+function frontSetup($scope, $http){
   //Masonry and InfiniteScroll
   var $container = $('#content');
   $container.imagesLoaded(function(){
@@ -57,11 +57,75 @@ function frontSetup($scope){
   $scope.facebookRegister();
   
   $scope.postGamePin = function(){
-    $('#pinModal_1').modal();
+    //clear values
+    $('#pinModal_1 button.active').removeClass('active');
+    $('#pinModal_1').modal({dynamic: true});
+    //$('#pinYoutube').modal({dynamic: true});
   }
   $scope.viewGamePin = function(){
     $('#gamePinModal').modal({dynamic: true});
   }
+  //Load correct Post step 2 modal based on type of media selected
+  $('.post_media').click(function(e){
+    //console.log($(this).val());
+    
+    var media = $(this).val();
+    switch(media){
+      case 'upload':
+        break;
+      case 'youtube':
+        //Hack. Resolve by spawning this modal once the hide animation completes for the previous modal.
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
+        break;
+      case 'url':
+        break;
+    }
+  });
+  //Post youtube video functionality
+  var url,
+      embed;
+  $('#pinYoutube .load_vid').click(function(e){
+    //if url is empty do nothing
+    if(!$('input.load_input').val()) return false;
+    url = $('input.load_input').val();
+    var arr = url.split("?v=");
+    embed = arr[1];
+    $('.post_content').html('<iframe width="560" height="315" src="http://www.youtube.com/embed/' +
+                            arr[1] +'" frameborder="0" allowfullscreen></iframe>');
+    
+  });
+  //validate on front end via HTML5
+  /*var post_url = url;
+  var post_name = $('input#game_name').val();
+  var post_pub = $('input#game_pub').val();
+  var post_desc = $('input#game_desc').val();
+  var post_tag = $('.category_select').find(":selected").val();*/
+  console.log();
+  
+  //post game_pin
+  $('.post_vid').click(function(){
+    console.log($('#game_name').val());
+    var postData = {content: embed, name: $('input#game_name').val(), publisher: $('input#game_pub').val(),
+    description: $('input#game_desc').val(), category: $('.category_select').find(":selected").val()};
+    console.log(postData);
+    
+    $http({method:'post', url:'/api/gamepin/post', data:{'data': postData}})
+      .success(function(data, status, headers, config){
+        if(data.success){
+          $scope.status = data.message;
+        }
+        else if(!data.success && data.error){
+          $scope.status = 'Error: ' + data.error;
+        }
+        else{
+          $scope.status = 'AJAX error';
+        }
+      })
+      .error(function(data, status, headers, config){
+        $scope.status = 'Error: ' + status;
+      });
+  });
+  
   //scrollup functionality
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {

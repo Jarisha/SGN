@@ -8,7 +8,7 @@ exports.init = function(){
     console.log('mongodb connected on ' + config.db);
   });
   
-  //define schema
+  //User schema
   var userSchema = exports.userSchema = mongoose.Schema({
     email: { type: String, unique: true },
     name: { type: String, unique: true},
@@ -22,4 +22,9 @@ exports.init = function(){
   userSchema.index({name: 1});
   //userSchema.set('autoIndex', false);
   var User = exports.User = db.model('sgnuser', userSchema);
+  
+  //Gamepin schema
+  var gamepinSchema = exports.gamepinSchema = mongoose.Schema({
+    
+  });
 }

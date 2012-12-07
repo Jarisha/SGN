@@ -51,6 +51,15 @@ label{
 #content{
   margin: 20px auto 20px;
 }
+/* Override bootstrap defaults */
+.modal{
+  width: 650px;
+}
+.modal-body{
+  max-height: none;
+}
+
+
 /****************** Top Nav Bar ************************/
 #nav{
   background: #E3F1E4;
