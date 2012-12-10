@@ -14,7 +14,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //Setup non AJAX related javascript
   $scope.setup = function(){
-    frontSetup($scope, $http);
+    frontSetup($scope, $rootScope, $http);
   }
   
   /* AJAX FUNCTIONS */

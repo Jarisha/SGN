@@ -17,23 +17,24 @@
 <div class="modal hide fade" id="pinYoutube">
   <div class="modal-header">
     <p>Post video via youtube URL</p>
-    <input class="load_input" placeholder="" type="text"></input><button class="btn load_vid">Load</button>
+    <input ng-model="post.url" class="load_input" placeholder="" type="text"></input><button class="btn load_vid">Load</button>
   </div>
   <div class="modal-body" style="width: 600px;">
     <div class="post_content">Video/Image/Slideshow goes here</div>
     <br />
+    <p style="color:red;">{{status}}</p>
     <label for="game_name">Game Name</label>
-    <input id="game_name" type="text"></input>
+    <input ng-model="post.name" id="game_name" type="text"></input>
     <br />
     <label for="game_pub">Game Publisher</label>
-    <input id="game_pub" type="text"></input>
+    <input ng-model="post.publisher" id="game_pub" type="text"></input>
     <br />
     <label for="game_desc">Game Description</label>
-    <input id="game_desc" type="text"></input>
+    <input ng-model="post.description" id="game_desc" type="text"></input>
     <br />
     <div>
       <p>Select a Primary Category</p>
-      <select class="category_select">
+      <select ng-model="post.category" class="category_select">
         <option selected="selected" value="casino">Casino</option>
         <option value="casual">Casual</option>
         <option value="shooter">Shooter</option>
@@ -49,6 +50,7 @@
         <option value="strategy">Strategy</option>
       </select>
     </div>
+    <p>{{post.name}}:{{post.publisher}}:{{post.description}}:{{post.category}}:{{post.content}}</p>
     <button class="post_vid" type="button">Post it!</button>
   </div>
 </div>

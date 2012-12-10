@@ -25,6 +25,13 @@ exports.init = function(){
   
   //Gamepin schema
   var gamepinSchema = exports.gamepinSchema = mongoose.Schema({
-    
+    content: String,
+    //image: GridFS image
+    gameName: String,
+    publisher: String,
+    description: String,
+    category: String
   });
+  gamepinSchema.index({category: 1});
+  var GamePin = exports.GamePin = db.model('sgnpins', gamepinSchema);
 }

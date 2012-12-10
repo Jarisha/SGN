@@ -25,6 +25,10 @@ app.run(function($rootScope, $http, $templateCache, $location){
   $rootScope.userId = null;
   $rootScope.rootPath = '';
   
+  //post modal fields. Stored in object
+  $rootScope.post = {url:null, content: null, name: null, publisher: null,
+    description: null, category: null};
+  
   /**
   * Debugging Tools
   *

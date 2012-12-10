@@ -8,7 +8,7 @@ function remason(){
   });
 }
 
-function frontSetup($scope, $http){
+function frontSetup($scope, $rootScope, $http){
   //Masonry and InfiniteScroll
   var $container = $('#content');
   $container.imagesLoaded(function(){
@@ -46,6 +46,7 @@ function frontSetup($scope, $http){
     $('#loginModal').modal();
   }
   $scope.promptRegister = function(){
+    //clear modal
     $scope.status = null;
     $scope.register.email = null;
     $scope.register.name = null;
@@ -53,11 +54,17 @@ function frontSetup($scope, $http){
     $scope.register.confirm = null;
     $('#registerModal').modal();
   }
-  
   $scope.facebookRegister();
-  
   $scope.postGamePin = function(){
-    //clear values
+    //clear modal
+    $rootScope.post.name = null;
+    $rootScope.post.publisher = null;
+    $rootScope.post.category = null;
+    $rootScope.post.description = null;
+    $rootScope.post.url = null;
+    $rootScope.post.content = null;
+    $('.post_content').empty();
+    
     $('#pinModal_1 button.active').removeClass('active');
     $('#pinModal_1').modal({dynamic: true});
     //$('#pinYoutube').modal({dynamic: true});
@@ -82,39 +89,31 @@ function frontSetup($scope, $http){
     }
   });
   //Post youtube video functionality
-  var url,
-      embed;
+  var url;
+  var embed;
+  var arr;
   $('#pinYoutube .load_vid').click(function(e){
     //if url is empty do nothing
     if(!$('input.load_input').val()) return false;
     url = $('input.load_input').val();
-    var arr = url.split("?v=");
+    arr = url.split("?v=");
     embed = arr[1];
     $('.post_content').html('<iframe width="560" height="315" src="http://www.youtube.com/embed/' +
                             arr[1] +'" frameborder="0" allowfullscreen></iframe>');
-    
+    $rootScope.post.content = embed;
   });
-  //validate on front end via HTML5
-  /*var post_url = url;
-  var post_name = $('input#game_name').val();
-  var post_pub = $('input#game_pub').val();
-  var post_desc = $('input#game_desc').val();
-  var post_tag = $('.category_select').find(":selected").val();*/
-  console.log();
   
   //post game_pin
   $('.post_vid').click(function(){
-    console.log($('#game_name').val());
-    var postData = {content: embed, name: $('input#game_name').val(), publisher: $('input#game_pub').val(),
-    description: $('input#game_desc').val(), category: $('.category_select').find(":selected").val()};
-    console.log(postData);
-    
-    $http({method:'post', url:'/api/gamepin/post', data:{'data': postData}})
+    $http({method:'post', url:'/api/gamepin/post', data:{'data': $rootScope.post}})
       .success(function(data, status, headers, config){
         if(data.success){
+          //close modal
+          $('#pinYoutube').modal('hide');
           $scope.status = data.message;
         }
         else if(!data.success && data.error){
+          //display error in modal
           $scope.status = 'Error: ' + data.error;
         }
         else{
