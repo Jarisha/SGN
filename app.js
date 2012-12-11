@@ -120,6 +120,28 @@ app.get('/test', function(req, res){
     res.send(salt);
   });
 });
+app.post('/', function(req, res){
+  //req. form is nulL
+  console.log(req.body);
+  console.log(req.form);
+  console.log(req.files);
+  /*req.form.complete(function(err, fields, files){
+    if (err) {
+      next(err);
+    } else {
+      console.log('\nuploaded %s to %s'
+        ,  files.image.filename
+        , files.image.path);
+      res.redirect('back');
+    }
+  });
+
+  req.form.on('progress', function(bytesReceived, bytesExpected){
+    var percent = (bytesReceived / bytesExpected * 100) | 0;
+    process.stdout.write('Uploading: %' + percent + '\r');
+  });*/
+  res.send('lolbifrons');
+});
 
 //All view partials must be served
 app.get('/partials/:name', routes.partials);

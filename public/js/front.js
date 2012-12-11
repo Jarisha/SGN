@@ -77,14 +77,27 @@ function frontSetup($scope, $rootScope, $http){
     //console.log($(this).val());
     
     var media = $(this).val();
+    var $modal_header = $('#pinYoutube .modal-header');
     switch(media){
       case 'upload':
+        //TODO: do back end functionality
+        $modal_header.html('<p>Upload image from Computer</p><br />'+
+          '<form method="post" enctype="multipart/form-data">' +
+          '<p>Image: <input type="file" name="image" /></p>' +
+          '<p><input type="submit" value="Upload" /></p></form>');
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
         break;
       case 'youtube':
         //Hack. Resolve by spawning this modal once the hide animation completes for the previous modal.
+        $modal_header.html('<p>Post video via youtube URL</p>' +
+          '<input ng-model="post.url" class="load_input" placeholder="" type="text">' +
+          '</input><button class="btn load_vid">Load</button>');
         setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
         break;
+      //via image URL (direct link to image or call web scraper to return all valid images on page url)
       case 'url':
+        $modal_header.html('<p>Upload from the web</p><br /><input type="text"></input>');
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
         break;
     }
   });
@@ -92,7 +105,7 @@ function frontSetup($scope, $rootScope, $http){
   var url;
   var embed;
   var arr;
-  $('#pinYoutube .load_vid').click(function(e){
+  $(document).on('click', '#pinYoutube .load_vid', function(e){
     //if url is empty do nothing
     if(!$('input.load_input').val()) return false;
     url = $('input.load_input').val();
@@ -101,6 +114,7 @@ function frontSetup($scope, $rootScope, $http){
     $('.post_content').html('<iframe width="560" height="315" src="http://www.youtube.com/embed/' +
                             arr[1] +'" frameborder="0" allowfullscreen></iframe>');
     $rootScope.post.content = embed;
+    return true;
   });
   
   //post game_pin
