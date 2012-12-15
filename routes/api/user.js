@@ -1,11 +1,15 @@
 /********************************* User *******************************/
-var dbConfig = require('../../db_config');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
+var app = require('../../app');
 
 //Checks if user is logged in. Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
   //Clear newUser which stores register data
+	/*app.db.save('test', 'test_key', {val: 'test_val'}, {returnbody: true }, function(err, data){
+		console.log(data);
+	});*/
+	
   if(req.session.newUser) req.session.newUser = null;
 	if(req.session.loggedIn){
 		return res.json({
@@ -50,41 +54,30 @@ exports.login = function(req, res){
       error: 'Login Failed: User already logged in'
     });
   }
-  dbConfig.User.findOne({ email: req.body.email}, function(err, result){
-    if(err){
-      console.log('login error: ' + err);
-      return res.json({
-        login: false,
-        error: 'login error: ' + err
-      });
-    }
-    if(!result){
-      return res.json({
-        login: false,
-        error: 'User with specified email not found.'
-      });
-    }
-    if(bcrypt.compareSync(req.body.password, result.passHash)){
-      //set session
-      req.session.loggedIn = result._id.toString();
-      req.session.userEmail = result.email;
-      req.session.userName = result.name;
-      console.log(req.session.userEmail + " Logged In");
-      //return all relevant user data
-      return res.json({
+	//check if email exists in db
+	app.db.exists('users', req.body.email, function(err, exists){
+		if(!exists) return res.json({login: false, error: 'Email not found in db'});
+		next();
+	});
+	//get user, check password, log in
+	function next(){
+		app.db.get('users', req.body.email, function(err, user){
+			if(err) return res.json({ login: false, error: 'Unable to fetch user'});
+			if(!(bcrypt.compareSync(req.body.password, user.passHash))){
+				return res.json({ login: false, error: 'Wrong password.' })
+			}
+			//set session to log in
+      req.session.loggedIn = user.email
+      req.session.userEmail = user.email;
+      req.session.userName = user.name;
+			return res.json({
         login: true,
         userId: req.session.loggedIn,
         userEmail: req.session.userEmail,
         userName: req.session.userName
       });
-    }
-    else{
-      return res.json({
-        login: false,
-        error: 'Wrong password. Try again.'
-      });
-    }
-  });
+		});
+	}
 };
 
 // Destroy Session
@@ -120,53 +113,58 @@ exports.register = function(req, res){
 			error: 'Password does not match confirm'
 		});
 	}
-	else{
-    var hash = bcrypt.hashSync(req.body.password);
-    //save data into newUser object so step 2 can use it to complete the registration */
-    req.session.newUser = {};
-    req.session.newUser.email = req.body.email;
-    req.session.newUser.name = req.body.name;
-    req.session.newUser.fbConnect = req.body.fbConnect;
-    req.session.newUser.passHash = hash;
-    return res.json({
-      register: true
-    });
+	//check if another user with this email exists already
+	app.db.exists('users', req.body.email, function(err, exists){
+		if(exists){
+			return res.json({
+				register: false,
+				error: 'This email is already registered.  Please log in'
+			});
+		}
+		next();
+	});
+	function next(){
+		var hash = bcrypt.hashSync(req.body.password);
+		//save data into session so step 2 can use it to complete the registration
+		req.session.newUser = {};
+		req.session.newUser.email = req.body.email;
+		req.session.newUser.name = req.body.name;
+		req.session.newUser.fbConnect = req.body.fbConnect;
+		req.session.newUser.passHash = hash;
+		return res.json({
+			register: true
+		});
 	}
+	
 };
-
+//Register step 2: Construct new user from session.newUser & categories selected
 exports.register_2 = function(req, res){
   var newEmail = req.session.newUser.email,
       newName = req.session.newUser.name,
       newHash = req.session.newUser.passHash,
-      newFbConnect = req.session.newUser.fbConnect;
-  var newUser = new dbConfig.User({email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect});
-  if(!newUser){
-    return res.json({
-      register: false,
-      error: 'create user failed'
-    });
-  }
-  console.log(req.body.categories);
-  //set user[fav_categories] given post data
+      newFbConnect = req.session.newUser.fbConnect,
+			favCategories = [];
+  //set fav_categories
   for(category in req.body.categories){
-    newUser.favCategories.push(req.body.categories[category]);
+    favCategories.push(req.body.categories[category]);
   }
-  //save new user into database and log in
-  newUser.save(function(err){
-    if(err){
-      return res.json({
-        register: false,
-				error: 'save user failed'
-			});
-    }
-    req.session.loggedIn = newUser._id.toString();
-    req.session.userName = newUser.name;
-    req.session.userEmail = newUser.email;
-    console.log(req.session.userName + ' Registered and logged In');
-    return res.json({
-      register: true
-    });
-  });
+	//save new user into database and log in
+	app.db.save('users', newEmail,
+		{email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect, favCat: favCategories},
+		{returnbody: true},
+		function(err, data){
+			if(err) return res.json({ register: false, error: 'user save failed' });
+			next();
+		}
+	)
+	//set session to logged in
+	function next(){
+		req.session.loggedIn = newEmail;
+    req.session.userName = newName;
+    req.session.userEmail = newEmail;
+		console.log(req.session.userName + ' Registered and logged In');
+		return res.json({ register: true });
+	}
 }
 
 // Get current user settings to prefill My Settings Page

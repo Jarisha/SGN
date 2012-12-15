@@ -1,4 +1,4 @@
-# Social Gaming Network
+# Quyay
 
 A web- & app-based social gaming network with a cutting-edge user interface similar to Pinterest,
 that allows users to share images & videos of mobile games they like, as well as discover recommended 
@@ -9,15 +9,6 @@ Backend - Express REST API
 
 Front end - Angular MVC structure + Jquery
 
-Database - Mongodb via Mongoose
+Database - Riak
 
-#Site Names
-Oyay
-
-Playoyo
-
-GameArrow
-
-GameFlame
-
-GameVP
+Sessions - Redis

@@ -1,4 +1,10 @@
-var mongoose = exports.mongoose = require('mongoose');
+var db = exports.db = require('riak-js').getClient({host: "localhost", port: "8098"});
+var config = require('./config');
+
+exports.init = function(){
+  
+}
+/*var mongoose = exports.mongoose = require('mongoose');
 var config = require('./config');
 
 exports.init = function(){
@@ -34,4 +40,4 @@ exports.init = function(){
   });
   gamepinSchema.index({category: 1});
   var GamePin = exports.GamePin = db.model('sgnpins', gamepinSchema);
-}
+}*/

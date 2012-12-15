@@ -1,20 +1,17 @@
 var express = require('express');
 var routes = require('./routes');
 var config = require('./config');
-var dbConfig = require('./db_config');
 var userApi = require('./routes/api/user');
 var gamepinApi = require('./routes/api/gamepin');
 var storepinApi = require('./routes/api/storepin');
-var passConfig = require('./pass_config');
-var MongoStore = require('connect-mongo')(express);
+//var passConfig = require('./pass_config');
+//var MongoStore = require('connect-mongo')(express);
 var bcrypt = require('bcrypt-nodejs');
+var RedisStore = require('connect-redis')(express);
+var db = exports.db = require('riak-js').getClient({host: "localhost", port: "8098"});
 
 //create app
 var app = express();
-
-//initialize mongo and passport
-dbConfig.init();
-passConfig.init();
   
 //configure settings & middleware
 app.configure(function(){
@@ -27,16 +24,9 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
-  app.use(express.session({
-    secret: 'sgnsecret',
-    cookie: { maxAge:  24 * 60 *  10 * 1000 }, //Sessions expire after a day
-    store: new MongoStore({
-      db: config.db,
-      clear_interval: 3600  //Interval in seconds to clear expired sessions
-    })
-  }));
-  app.use(passConfig.passport.initialize());
-  app.use(passConfig.passport.session());
+  app.use(express.session({ secret: "tazazaz", store: new RedisStore}))
+  //app.use(passConfig.passport.initialize());
+  //app.use(passConfig.passport.session());
 });
 
 app.configure('development', function(){
@@ -71,7 +61,7 @@ app.get('/register', function(req, res){
   if(!req.session.newUser){ console.log('go home'); return res.redirect('/');}
   res.render('register');
 });
-app.get('/auth/facebook',
+/*app.get('/auth/facebook',
   passConfig.passport.authenticate('facebook', { scope: ['email'] })
 );
 app.get('/auth/facebook/callback',
@@ -90,7 +80,7 @@ app.get('/auth/facebook/callback',
       res.redirect('/');
     }
   }
-);
+);*/
 app.get('/allUsers', function(req, res){
   var html = '<ul>';
   dbConfig.User.find({}, function(err, result){
@@ -125,21 +115,6 @@ app.post('/', function(req, res){
   console.log(req.body);
   console.log(req.form);
   console.log(req.files);
-  /*req.form.complete(function(err, fields, files){
-    if (err) {
-      next(err);
-    } else {
-      console.log('\nuploaded %s to %s'
-        ,  files.image.filename
-        , files.image.path);
-      res.redirect('back');
-    }
-  });
-
-  req.form.on('progress', function(bytesReceived, bytesExpected){
-    var percent = (bytesReceived / bytesExpected * 100) | 0;
-    process.stdout.write('Uploading: %' + percent + '\r');
-  });*/
   res.send('lolbifrons');
 });
 
