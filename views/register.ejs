@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- ng-class applies controller defined class to apply correct CSS -->
+<html lang="en" ng-app="myApp" ng-class="css">
+	<head>
+    <meta charset="utf-8">
+    <title>SGN Angular | {{title}} </title>
+    <link rel="shortcut icon" href="<%= rootPath %>/images/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link href="<%= rootPath %>/css/bootstrap.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/bootstrap-scroll-modal.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/default.css" rel="stylesheet">
+    <!-- fix facebook's stupid #_=_ it appends to the url -->
+    <script type="text/javascript">if (window.location.hash == '#_=_') window.location.hash = '';</script>
+     <!-- JQuery -->
+		<script src="<%= rootPath %>/js/jquery-1.8.1.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.masonry.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.imagesloaded.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.infinitescroll.min.js"></script>
+    <!-- Twitter Bootstrap -->
+    <script src="<%= rootPath %>/js/bootstrap.js"></script>
+		<script src="<%= rootPath %>/js/bootstrap-transition.js"></script>
+		<script src="<%= rootPath %>/js/bootstrap-scroll-modal.js"></script>
+    <!-- Page Specific JS -->
+    <script src="<%= rootPath %>/js/register.js"></script>
+	</head>
+  <body style="margin: 20px">
+    <p>Choose up to 3 different categories that you like</p>
+    <div class="btn-group" data-toggle="buttons-checkbox">
+      <button type="button" class="btn" name="categories[]">Casino</button>
+      <button type="button" class="btn" name="categories[]">Casual</button>
+      <button type="button" class="btn" name="categories[]">Shooter</button>
+      <button type="button" class="btn" name="categories[]">RPG</button>
+      <button type="button" class="btn" name="categories[]">Action</button>
+      <button type="button" class="btn" name="categories[]">Simulation</button>
+      <button type="button" class="btn" name="categories[]">Racing</button>
+      <button type="button" class="btn" name="categories[]">Puzzle</button>
+      <button type="button" class="btn" name="categories[]">Fighting</button>
+      <button type="button" class="btn" name="categories[]">Social</button>
+      <button type="button" class="btn" name="categories[]">Space</button>
+      <button type="button" class="btn" name="categories[]">Horror</button>
+      <button type="button" class="btn" name="categories[]">Strategy</button>
+    </div>
+    <button id="registerSubmit" type="button">Submit</button>
+  </body>
+</html>

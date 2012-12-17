@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- ng-class applies controller defined class to apply correct CSS -->
+<html lang="en" ng-app="myApp" ng-class="css">
+	<head>
+    <meta charset="utf-8">
+    <title>SGN Angular | {{title}} </title>
+    <link rel="shortcut icon" href="<%= rootPath %>/images/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- CSS -->
+    <link href="<%= rootPath %>/css/bootstrap.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/bootstrap-scroll-modal.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/default.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/front.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/store.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/profile.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/about.css" rel="stylesheet">
+    <link href="<%= rootPath %>/css/settings.css" rel="stylesheet">
+    <!-- Angularjs wants to be in the head -->
+    <!-- fix facebook's stupid #_=_ it appends to the url -->
+    <script type="text/javascript">if (window.location.hash == '#_=_') window.location.hash = '';</script>
+     <!-- JQuery -->
+		<script src="<%= rootPath %>/js/jquery-1.8.1.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.masonry.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.imagesloaded.min.js"></script>
+		<script src="<%= rootPath %>/js/jquery.infinitescroll.min.js"></script>
+    <!-- Angular -->
+    <script src="<%= rootPath %>/js/lib/angular/angular.js"></script>
+		<script src="<%= rootPath %>/js/angular/app.js"></script>
+		<script src="<%= rootPath %>/js/angular/services.js"></script>
+		<script src="<%= rootPath %>/js/angular/controllers.js"></script>
+		<script src="<%= rootPath %>/js/angular/filters.js"></script>
+		<script src="<%= rootPath %>/js/angular/directives.js"></script>
+    <!-- Twitter Bootstrap -->
+    <script src="<%= rootPath %>/js/bootstrap.js"></script>
+		<script src="<%= rootPath %>/js/bootstrap-transition.js"></script>
+		<script src="<%= rootPath %>/js/bootstrap-scroll-modal.js"></script>
+    <!-- Page Specific JS -->
+		<script src="<%= rootPath %>/js/front.js"></script>
+    <script src="<%= rootPath %>/js/store.js"></script>
+    <script src="<%= rootPath %>/js/about.js"></script>
+    <script src="<%= rootPath %>/js/settings.js"></script>
+    <script src="<%= rootPath %>/js/profile.js"></script>
+    
+	</head>
+  <body ng-view >
+    <!-- $routeProvider specifies a HTML partial here, connected to specified controller -->
+  </body>
+</html>

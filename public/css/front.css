@@ -1,236 +1,41 @@
 /***** Main Layout *****/
-#content{
-  margin: 20px auto 20px;
+.front #content{
   width: 1340px;
 }
-#nav{
-  background: #E3F1E4;
-  margin:0;
-}
-#nav_left{
-}
-#nav_right{
-  float:right;
-}
-#nav_content{
-  background: #E3F1E4;
-  padding:0;
+.front #nav_content{
   width: 1340px;
-  margin: auto;
-  border:none;
-  box-shadow:none;
 }
 /* media queries to resize masonry content to fit screen */
 @media only screen and (max-width : 1339px),
 only screen and (max-device-width : 1339px){
-	#content, #nav_content {
+	.front #content, .front #nav_content {
 		width: 1075px;
 	}
 }
 @media only screen and (max-width : 1074px),
 only screen and (max-device-width : 1074px){
-	#content, #nav_content {
+	.front #content, .front #nav_content {
 		width: 810px;
 	}
 }
-#main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
-  font-size: 20px;
-  color: #34D0BA;
-  position:absolute;
-  left:50%;
-  white-space: nowrap;
-  margin-left: -100px;
-  top:10px;
-  text-decoration:none;
-  z-index:100;
-}
 @media only screen and (max-width : 809px),
 only screen and (max-device-width : 890px){
-  #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
+  .front #main_logo:link, .front #main_logo:visited, .front #main_logo:active, .front #main_logo:hover{
     left: 405px;
   }
 }
 
-/***** Top Nav Bar *****/
-/* main nav */
-.affix{
-  top:0px;
-}
-.navbar-inner{
-  background:red;
-  border:none;
-}
-#search_bar{
-  float: left;
-  padding-left: 25px;
-}
-#search_bar input{
-  width:100px;
-  background: #F0F8F1;
-  border-color: #CFCACA;
-  color: #CFCACA;
-}
-#search_bar input:focus{
-  color: grey;
-}
-.new_followers, .new_tags, .new_messages{
-  padding: 5px;
-  margin-left: 10px;
-}
-.nav-collapse{
-  margin: 0 20px;
-}
-.pin_it{
-  margin-left:10px;
-}
-.log_in{
-  margin-right:10px;
-}
-#about_toggle{
-  padding-bottom: 12px;
-}
-#about_dropdown {
-  min-width:100px;
-}
-#follower_toggle, #tag_toggle, #message_toggle{
-  padding:0;
-  margin:0;
-}
-#follower_dropdown, #tag_dropdown, #message_dropdown {
-  left: 170px;
-  min-width: 130px;
-  top: 40px;
-  background: #E9DBCC;
-  -moz-border-radius: 0; /* Firefox */
-  -webkit-border-radius: 0; /* Safari, Chrome */
-  border-radius: 0;  /* CSS3 */
-}
-#follower_dropdown:after, #tag_dropdown:after, #message_dropdown:after {
-  border:none;
-}
-#follower_dropdown:before, #tag_dropdown:before, #message_dropdown:before {
-  border:none;
-}
-/* Drop down going left */
-#profile_toggle{
-  position:relative;
-  min-width: 90px;
-}
-#profile_dropdown{
-  min-width: 0;
-  position: absolute;
-  right: 0;
-  top: 41px;
-  -moz-border-radius: 0; /* Firefox */
-  -webkit-border-radius: 0; /* Safari, Chrome */
-  border-radius: 0; /* CSS3 */
-}
-#profile_small{
-  padding-right:10px;
-}
-#nav_right {
-  font-size:1em;
-}
-#nav_right .dropdown-menu.active{
- top: 41px;
- margin:0;
- border:1px solid #CFCACA;
- background: #E9DBCC;
- -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
- -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
- box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-  
- -moz-border-radius: 0; /* Firefox */
- -webkit-border-radius: 0; /* Safari, Chrome */
- border-radius: 0; /* CSS3 */
-}
-#nav_right .dropdown-menu.active:after {
-  border:none;
-}
-#nav_right .dropdown-menu.active:before {
-  border:none;
-}
-/* subnav */
-#subnav{
-  border-top: 1px solid #CFCACA;
-  background: #E3F1E4;
-  width:100%;
-  z-index:100;
-  -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
-  -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
-  box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-}
-#subnav_content{
-  background: #E3F1E4;
-  width:650px;
-  text-align:center;
-  margin:auto;
-  padding:10px 0;
-}
-#subnav_content .dropdown_tab{
-  position:relative;
-  display:inline-block;
-}
-#subnav_content .dropdown_tab .dropdown-menu{
-  text-align: left;
-  -moz-border-radius: 0; /* Firefox */
-  -webkit-border-radius: 0; /* Safari, Chrome */
-  border-radius: 0; /* CSS3 */
-}
-.two_col_dropdown{
-  margin: 0;
-  padding: 0;
-  background: #E9DBCC;
-  min-width: 290px;
-  top: 30px;
-}
-.one_col_dropdown{
-  margin: 0;
-  padding: 0;
-  background: #E9DBCC;
-  min-width: 145px;
-  top: 30px;
-}
-.two_col_dropdown .col1, .two_col_dropdown .col2{
-  width: 145px;
-  float: left;
-}
-.one_col_dropdown .col1{
-  width: 145px;
-  float:left;
-}
-.two_col_dropdown a, .one_col_dropdown a{
-  margin: 0;
-  padding: 0;
-  padding: 10px 15px;
-}
-.two_col_dropdown div img, .one_col_dropdown div img{
-  margin-right:5px;
-}
-.register_now{
-  font-size: 20px;
-  text-align:center;
-  padding:10px 0;
+/*************************** FRONT CONTENT ******************************/
+
+.front .game_pin{
+	padding:15px 15px 0 15px;
 }
 
-/***** Content *****/
-/* Game Pin object */
-.game_pin{
-  background:#E9DBCC;
-  width:220px;
-  float:left;
-  padding:15px 15px 0 15px;
-  margin: 0 0 15px 15px;
-  font-size:12px;
-  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
-  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
-  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-}
-.game_options{
+.front .game_options{
   position:absolute;
   margin: -7px 0 0 -5px;
 }
-.game_options *{
+.front .game_options *{
   background: white;
   display: inline-block;
   text-align:center;
@@ -239,295 +44,182 @@ only screen and (max-device-width : 890px){
   border:2px solid black;
   cursor: pointer;
 }
-.game_description, .game_attributes, .posted_by{
+.front .game_description, .front .game_attributes, .front .posted_by{
   margin-top: 5px;
   margin-bottom:0px;
 }
-.game_description{
-}
-.game_img{
-}
-.game_attributes{
+.front .game_attributes{
   margin-bottom:5px;
 }
-.posted_by, .comment, .respond{
+.front .posted_by, .front .comment, .front .respond{
   padding: 10px 15px;
   margin: 1px -15px 0 -15px;
   border-bottom: 1px solid #A5C0C8;
   background: #CBE6EE;
 }
-.posted_by img, .posted_by p, .comment img, .comment p{
+.front .posted_by img, .front .posted_by p, .front .comment img, .front .comment p{
   display:inline-block;
   vertical-align: top;
 }
-.posted_by p{
-}
-.profile_img{
-}
-.post_text, .respond_txtarea{
+.front .post_text, .front .respond_txtarea{
   max-width: 170px;
   margin-left: 5px;
   line-height: 1.1em;  
 }
-.respond_txtarea{
+.front .respond_txtarea{
   font-size:11px;
   height: 20px;
   line-height: 1em; 
 }
-.respond_btn{
+.front .respond_btn{
   margin-top:10px;
   float:right;
 }
-/* Scroll up button */
-.scrollup{
-  background: grey;
-  bottom: 0;
-  font-size: 25px;
-  text-align:center;
-  opacity: 0.8;
-  display: none;
-  height: 80px;
-  position: fixed;
-  right: 100px;
-  width: 80px;
-  border:2px solid black;
-}
-/* Registration_1 Page */
-.welcome_img{
-  text-align: center;
-}
-.register_options{
-  text-align: center;
-}
-.social_media_login{
-  text-align: center;
-}
-/* Registration_Email Page */
-.register_container{
-  width:700px;
-  background:#DDDDDD;
-  margin: 0 auto;
-}
-.register_container h1{
-  text-align:center;
-}
-.profile_outer, .profile_inner{
-  display: inline-block;
-  vertical-align: top;
-}
-.profile_outer{
-  background:white;
-}
-.profile_inner{
-  margin:5px;
-  position:relative;
-}
-.upload_profile_pic{
-  position: absolute;
-  top:190px;
-  left:55px;
-}
-.user_params_required{
-  display: inline-block;
-  width:300px;
-  margin-left:60px;
-}
-.user_params_optional{
-  padding-bottom:10px;
-}
-.user_info{
-  display: inline-block;
-  width:320px;
-  padding-left:30px;
-}
-.user_bio{
-  display: inline-block;
-  vertical-align: top;
-}
-.user_bio textarea{
-  width: 300px;
-  height: 100px;
-}
-.register_submit{
-  text-align:center;
-}
-.register_submit button{
-}
+
 /* View Pin modal */
-#gamePinModal{
+.front #gamePinModal{
   height: 100%;
   overflow-y: auto;
 }
-#gamePinModal .modal-body{
+.front #gamePinModal .modal-body{
   overflow:hidden;
   padding:0;
 }
-.modal-header *{
+.front .modal-header *{
 }
-.modal-header button{
+.front .modal-header button{
   float:right;
 }
-.poster{
+.front .poster{
   font-size: 25px;
   margin-left: 60px;
 }
-.date_posted{
+.front .date_posted{
   margin-top: 7px;
   margin-left: 60px;
 }
-.modal-header .profile_img{
+.front .modal-header .profile_img{
   float:left;
 }
-.view_metadata, .view_tags{
+.front .view_metadata, .front .view_tags{
   display: inline-block;
   vertical-align: top;
 }
-.view_metadata{
+.front .view_metadata{
   padding-top:5px;
   background:grey;
   height:50px;
   width:50%;
 }
-.view_metadata > *{
+.front .view_metadata > *{
   margin-left:10px;
 }
-.game_title{
+.front .game_title{
   font-size:20px;
 }
-.game_publisher{
+.front .game_publisher{
   font-size:14px;
 }
-.view_tags{
+.front .view_tags{
   height:50px;
   width:50%;
 }
-.view_tags p span{
+.front .view_tags p span{
   background:yellow;
   margin-left:10px;
 }
-.view_tags > p{
+.front .view_tags > p{
   margin-left:10px;
   margin-top:10px;
   font-size:18px;
 }
-.view_comment_container{
+.front .view_comment_container{
   padding: 10px 15px;
 }
-.view_img_container{
+.front .view_img_container{
   text-align: center;
   background: grey;
 }
-.view_comment{
+.front .view_comment{
   padding: 10px 15px 0;
   margin: 0 -15px;
   border-top: 1px solid #FCFAFA;
 }
-.view_comment *{
+.front .view_comment *{
   display:inline-block;
 }
-.view_post_text{
+.front .view_post_text{
   width:450px;
   vertical-align:top;
   margin-left: 10px;
 }
-.view_respond{
+.front .view_respond{
   padding-top: 15px;
 }
-.view_respond_txtarea{
+.front .view_respond_txtarea{
   margin-left:15px;
   width: 450px;
   height: 40px;
 }
-.view_respond_btn{
+.front .view_respond_btn{
   margin-top:10px;
   float:right;
 }
-.like_tab{
+.front .like_tab{
   width:50%;
   font-size: 20px;
   text-align: center;
 }
-.repin_tab{
+.front .repin_tab{
   width:50%;
   font-size: 20px;
   text-align: center;
 }
-#like_content img, #repin_content img{
+.front #like_content img, .front #repin_content img{
   margin:5px;
 }
-.img_container{
+.front .img_container{
   padding:10px;
 }
-.share_list{
+.front .share_list{
   left: 550px;
   position: absolute;
   top: 60px;
 }
-.share_element{
+.front .share_element{
   margin-top:20px;
 }
-.share_element button{
+.front .share_element button{
   white-space:nowrap;  /*huzzah!*/
 }
 
 /* Pin Modal_1 and Pin Modal_2 */
-#pinModal_2{
+.front #pinModal_2{
   width:650px;
 }
-#pinModal_2 input{
+.front #pinModal_2 input{
   width:150px;
 }
-.media_type, .media_source{
+.front .media_type, .front .media_source{
   float:left;
 }
-#myCarousel, .post_metadata{
+.front #myCarousel, .front .post_metadata{
   display:inline-block;
   vertical-align:top;
 }
-#myCarousel{
+.front #myCarousel{
   height:200px;
   width:200px;
 }
-.post_metadata{
+.front .post_metadata{
   width:300px;
 }
-.post_description, .post_tags{
+.front .post_description, .front .post_tags{
   display:inline-block;
   vertical-align:top;
 }
-.post_description{
+.front .post_description{
 }
-.post_tags{
+.front .post_tags{
   width:300px;
 }
-
-/* Register Step 2 */
-.register_step_2{
-  text-align: center;
-}
-.choose_tags{
-}
-.choose_images{
-}
-
-/* My Settings */
-.my_settings_form *{
-  margin-bottom:5px;
-}
-
-/* My Profile */
-.profile_box{
-  background: #34D2AF;
-}
-.profile_box *{
-  display: inline-block;
-}
-.bio{
-  width: 400px;
-  vertical-align: top;
-  padding: 10px;
-}
-.bio_txtarea{
-  width: 400px;
-}
-

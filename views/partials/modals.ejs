@@ -5,33 +5,61 @@
     <h3 class="control-label" for="inputUsername">Post your game video or screenshot!</h3>
   </div>
   <div class="modal-body">
-    <div class="media_type">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <img src="images/image.png" />
-        <button class="btn">Image</button>
-        <p>Image</p>
-        <img src="images/video.png" />
-        <button class="btn">Video</button>
-        <p>Video</p>
-      </div>
+    <div class="btn-group" data-toggle="buttons-radio" style="text-align: center">
+      <button type="button" data-dismiss="modal" class="btn post_media" value="youtube">Youtube Video <img src="<%= rootPath %>/images/video.png" /> </button>
+      <button type="button" data-dismiss="modal" class="btn post_media" value="upload">Image Upload <img src="<%= rootPath %>/images/upload.png" /> </button>
+      <button type="button" data-dismiss="modal" class="btn post_media" value="url">Image Url <img src="<%= rootPath %>/images/url.png" /> </button>
     </div>
-    <div class="media_source">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <img src="images/upload.png" />
-        <button class="btn">Upload</button>
-        <p>Upload</p>
-        <img src="images/url.png" />
-        <button class="btn">URL</button>
-        <p>URL</p>
-      </div>
+  </div>
+</div>
+
+<!-- Youtube Video -->
+<div class="modal hide fade" id="pinYoutube">
+  <div class="modal-header">
+    <p>Post video via youtube URL</p>
+    <input ng-model="post.url" class="load_input" placeholder="" type="text">
+    </input><button class="btn load_vid">Load</button>
+  </div>
+  <div class="modal-body" style="width: 600px;">
+    <div class="post_content">Video/Image/Slideshow goes here</div>
+    <br />
+    <p style="color:red;">{{status}}</p>
+    <label for="game_name">Game Name</label>
+    <input ng-model="post.name" id="game_name" type="text"></input>
+    <br />
+    <label for="game_pub">Game Publisher</label>
+    <input ng-model="post.publisher" id="game_pub" type="text"></input>
+    <br />
+    <label for="game_desc">Game Description</label>
+    <input ng-model="post.description" id="game_desc" type="text"></input>
+    <br />
+    <div>
+      <p>Select a Primary Category</p>
+      <select ng-model="post.category" class="category_select">
+        <option selected="selected" value="casino">Casino</option>
+        <option value="casual">Casual</option>
+        <option value="shooter">Shooter</option>
+        <option value="rpg">RPG</option>
+        <option value="action">Action</option>
+        <option value="simulation">Simulation</option>
+        <option value="racing">Racing</option>
+        <option value="puzzle">Puzzle</option>
+        <option value="fighting">Fighting</option>
+        <option value="social">Social</option>
+        <option value="space">Space</option>
+        <option value="horror">Horror</option>
+        <option value="strategy">Strategy</option>
+      </select>
     </div>
+    <p>{{post.name}}:{{post.publisher}}:{{post.description}}:{{post.category}}:{{post.content}}</p>
+    <button class="post_vid" type="button">Post it!</button>
   </div>
 </div>
 
 <!-- Front Pin Modal -->
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img" src="images/50x50.gif" /></a>
+    <a href="#"><img class="profile_img" src="<%= rootPath %>/images/50x50.gif" /></a>
     <button class="follow" type="button">Follow</button>
     <p class="poster"><a href="#">Joe Shmoe</a> via <a href="#">Katie Shmoe</a></p>
     <p class="date_posted">Posted 3 weeks ago onto #cooking</p>
@@ -47,16 +75,16 @@
       <a href="#"><span>#cooking</span></a></p>
     </div>
     <div class="view_img_container">
-      <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+      <a href="#"><img class="view_img" src="<%= rootPath %>/images/game_images/Gun-Bros-screenshot.png"/></a>
     </div>
     <div class="view_comment_container">
       <p> Cooking Mama is my favorite game ever I love it more than life itself combined.
       <div class="view_comment">
-        <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><p 
+        <a href="#"><img src="<%= rootPath %>/images/50x50.gif" class="profile_img"/></a><p 
         class="view_post_text"><b>Jamie</b><br/> This game is a really cool cooking game and I play it all the time!1! </p>
       </div>
       <div class="view_respond clearfix">
-        <a href="#"><img src="images/50x50.gif" class="profile_img"/></a><textarea 
+        <a href="#"><img src="<%= rootPath %>/images/50x50.gif" class="profile_img"/></a><textarea 
         class="view_respond_txtarea" placeholder="Post comment" tabindex=""></textarea>
         <button class="view_respond_btn hidden">Comment</button>
       </div>
@@ -72,18 +100,18 @@
   </ul>
   <div class="tabbable">
     <ul class="nav nav-tabs">
-      <li class="active like_tab"><a href="#like_content" data-toggle="tab">10 Pins</a></li>
-      <li class="repin_tab"><a href="#repin_content" data-toggle="tab">12 Repins</a></li>
+      <li class="active like_tab"><a target="_self" href="#like_content" data-toggle="tab">10 Pins</a></li>
+      <li class="repin_tab"><a target="_self" href="#repin_content" data-toggle="tab">12 Repins</a></li>
     </ul>
     <div class="tab-content img_container">
       <div class="tab-pane active" id="like_content">
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
       <div class="tab-pane" id="repin_content">
-        <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
     </div>
   </div>
@@ -92,7 +120,7 @@
 <!-- Store Pin Modal -->
 <div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img" src="images/game_images/gameloft_logo.jpg" width="50"/></a>
+    <a href="#"><img class="profile_img" src="<%= rootPath %>/images/game_images/gameloft_logo.jpg" width="50"/></a>
     <button class="follow" type="button">Download</button>
     <p class="poster"><a href="#">The Dark Knight Rises</a></p>
     <p class="date_posted">By <a href="">Gameloft</a></p>
@@ -105,7 +133,7 @@
       <a href="#"><span>#cooking</span></a></p>
     </div>
     <div class="view_img_container">
-      <a href="#"><img class="view_img" src="images/game_images/Gun-Bros-screenshot.png"/></a>
+      <a href="#"><img class="view_img" src="<%= rootPath %>/images/game_images/Gun-Bros-screenshot.png"/></a>
     </div>
     <div class="view_comment_container">
       <p> Risen from the ashes, the Dark Knight returns in this action packed sequel to destroy
@@ -122,24 +150,27 @@
   </ul>
   <div class="tabbable">
     <ul class="nav nav-tabs">
-      <li class="active video_tab"><a href="#video_content" data-toggle="tab">Videos</a></li>
-      <li class="like_tab"><a href="#like_content" data-toggle="tab">Pins</a></li>
-      <li class="repin_tab"><a href="#repin_content" data-toggle="tab">Friends playing</a></li>
+      <li class="active video_tab"><a target="_self" href="#video_content" data-toggle="tab">Videos</a></li>
+      <li class="pin_tab"><a target="_self" href="#pin_content" data-toggle="tab">Pins</a></li>
+      <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
     </ul>
     <div class="tab-content img_container">
       <div class="tab-pane active" id="video_content">
         <div class="vid_container">
-          <embed id="playerid" width="500px" height="400px" allowfullscreen="true" allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style="" src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer" type="application/x-shockwave-flash">
+          <embed id="playerid" width="500px" height="400px" allowfullscreen="true"
+            allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style=""
+            src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer"
+            type="application/x-shockwave-flash">
         </div>
       </div>
-      <div class="tab-pane" id="like_content">
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
-        <a href=""><img src="images/50x50.gif"/></a><a href=""><img src="images/50x50.gif"/></a>
+      <div class="tab-pane" id="pin_content">
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
+        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
-      <div class="tab-pane" id="repin_content">
-        <a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a><a><img src="images/50x50.gif"/></a>
+      <div class="tab-pane" id="friends_content">
+        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
       </div>
     </div>
   </div>
@@ -153,10 +184,12 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
       <div class="control-group">
-        <label class="control-label" for="inputUsername">Username</label>
+        <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
-          <input ng-model="login.name" type="text" id="inputUsername" placeholder="Username">
+          <input ng-model="login.email" type="email" id="inputEmail" placeholder="Email">
         </div>
       </div>
       <div class="control-group">
@@ -165,13 +198,13 @@
           <input ng-model="login.password" type="password" id="inputPassword" placeholder="Password">
         </div>
       </div>
-      <p>{{login.name}} : {{login.password}}</p>
+      <p>{{login.email}} : {{login.password}}</p>
       <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
-        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
+        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Login with</label>
         <div class="controls">
-          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">
@@ -180,7 +213,7 @@
             <input type="checkbox"> Remember me
           </label>
           <br>
-          <button class="btn" data-dismiss="modal" ng-click="postLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
+          <button class="btn" ng-click="ajaxLogin()">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
         </div>
       </div>
     </form>
@@ -195,6 +228,14 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input ng-model="register.email" type="email" id="inputEmail" placeholder="Email">
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label" for="inputUsername">Username</label>
         <div class="controls">
@@ -213,18 +254,50 @@
           <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
         </div>
       </div>
-      <p>{{register.name}} : {{register.password}} : {{register.confirm}}</p>
+      <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
       <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="images/facebook_small.png" /></span>
-        <span> <img src="images/twitter_small.jpg"/></span><span><img src="images/G_plus_small.jpg"/></span> -->
+        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
+        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
         <label class="control-label" for="inputPassword">Register with</label>
         <div class="controls">
-          <a href="#"><img src="images/facebook_small.png"/></a>&nbsp;<a href="#"><img src="images/twitter_small.jpg"/></a>&nbsp;<a href="#"><img src="images/G_plus_small.jpg"/></a>
+          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
         </div>
       </div>
       <div class="control-group">
         <div class="controls">
-          <button class="btn" data-dismiss="modal" ng-click="postRegister()">Register</button>
+          <button class="btn" ng-click="ajaxRegister()">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Facebook Register Modal -->
+<div class="modal hide" id="fbRegisterModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <h3 id="myModalLabel">Register with sgn via facebook</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <p style="color:red;">{{status}}</p>
+      <br>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input ng-model="register.email" type="email" id="inputEmail" placeholder="Email">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Username</label>
+        <div class="controls">
+          <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
+        </div>
+      </div>
+      <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn" ng-click="ajaxRegister()">Register</button>
         </div>
       </div>
     </form>

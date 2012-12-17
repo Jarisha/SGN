@@ -17,7 +17,7 @@
  * limitations under the License.
  * ========================================================== */
 
-var runBootstrap = function(){
+//var runBootstrap = function(){
   !function ($) {
   
     $(function () {
@@ -910,7 +910,7 @@ var runBootstrap = function(){
     }
   
     Affix.prototype.checkPosition = function () {
-      if (!this.$element.is(':visible')) { console.log('invis'); return;}
+      if (!this.$element.is(':visible')) { return;}
       
       var scrollHeight = $(document).height()
         , scrollTop = this.$window.scrollTop()
@@ -1798,4 +1798,4 @@ var runBootstrap = function(){
     })
   
   }(window.jQuery);
-}
+//}

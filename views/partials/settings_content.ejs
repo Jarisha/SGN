@@ -5,29 +5,29 @@
   <ul class="param_list">
     <li class="param clearfix">
       <label for="id_email">email</label>
-      <div><input id="id_email" type="text"></input></div>
+      <div><input id="id_email" type="text" ng-model="settings.email"></input></div>
     </li>
     <hr/>
-    <li class="param clearfix">          
+    <li class="param clearfix">
       <label>password</label>
-      <div><a href="#">Change Password (dropdown)</a></input></div>
+      <div><a href="#">Reset Password</a></input></div>
     </li>
     <hr/>
     <li class="param clearfix">  
       <label for="id_username">username</label>
-      <div><input id="id_username" type="text"></input></div>
+      <div><input id="id_username" type="text" ng-model="settings.username"></input></div>
     </li>
     <hr/>
-    <li class="param clearfix">  
+    <li class="param clearfix">
       <label for="id_gender">gender</label>
-      <input id="1" type="radio" name="group2" value="male"><label class="gender_option" for="1">Male</label>
-      <input id="2" type="radio" name="group2" value="female"><label class="gender_option"for="2">Female</label>
-      <input id="3" type="radio" name="group2" value="none" checked><label class="gender_option" for="3">Decline to State</label>
+      <input id="1" type="radio" name="group2" ng-model="settings.gender" value="male"><label class="gender_option" for="1">Male</label>
+      <input id="2" type="radio" name="group2" ng-model="settings.gender" value="female"><label class="gender_option"for="2">Female</label>
+      <input id="3" type="radio" name="group2" ng-model="settings.gender" value="decline" checked><label class="gender_option" for="3">Decline to State</label>
     </li>
     <hr/>
     <li class="param clearfix">
       <label for="id_bio">Bio</label>
-      <div><textarea id="id_bio" type="text"></textarea></div>
+      <div><textarea id="id_bio" type="text" ng-model="settings.bio"></textarea></div>
     </li>
     <hr/>
     <li class="param clearfix">  
@@ -54,8 +54,8 @@
       <div><button type="submit">Deactivate Account</button></div>
     </li>
     <hr/>
-    <li class="param clearfix"> 
-      <button>Save Changes</button>
+    <li class="param clearfix">
+      <button type="button" ng-click="editSettings()">Save Changes</button>
       <button>Cancel Changes</button>
     </li>
   </ul>

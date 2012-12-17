@@ -1,0 +1,14 @@
+<div ng-include="modals"></div>
+<div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
+<!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
+<noscript>
+  <style type="text/css">
+      #content  {display:none;}
+  </style>
+  <div class="noscriptmsg">
+    You don't have javascript enabled.  Please Enable javascript to view this site.
+  </div>
+</noscript>
+<div id="content" class="container" ng-include="content" onload="setup()">
+</div>
+<a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>

@@ -3,6 +3,6 @@
 //db
 exports.db_host = 'localhost';
 exports.db = 'sgndb';
-exports.port = 3000;
+exports.port = 3001;
 
 //express app

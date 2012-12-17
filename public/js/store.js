@@ -1,21 +1,23 @@
-/* 
-  TODO:
-  Fix "Infinite Scroll" bugs
-  Replace .live() with .on()
-  Newline in notepad++
-*/
-$(document).ready(function(e){
+//Youtube player functionality (my implementation a bit shoddy)
+function videoHandler(){
+  if(ytplayer.getPlayerState() === 1){
+    ytplayer.pauseVideo();
+  }
+}
 
-  /* Front Page MasonScroll Loading*/
-  //Enable masonry after images load
-  /*var $container = $('#content');
+function onYouTubePlayerReady(playerid) {
+    ytplayer = document.getElementById("playerid");
+    $('html *:not(.vid_container)').bind('click', videoHandler);
+};
+
+function storeSetup($scope){
+  //Masonry and InfiniteScroll
+  var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
     });
   });
-  
-  // "Infinite Scroll"
   $container.infinitescroll({
     navSelector  : '#pag_nav',    // selector for the paged navigation
     nextSelector : '#pag_nav a',  // selector for the NEXT link (to page 2)
@@ -35,23 +37,31 @@ $(document).ready(function(e){
         $container.masonry( 'appended', $newElems, true );
       });
     }
-  );*/
+  );
   
-  /* Temporarary Mock Login functionality */
-  $('.log_state').text(localStorage["logged_in"]);
-  $('button.login_btn').click(function(){
-    localStorage["logged_in"] = 'true';
-    console.log(localStorage["logged_in"]);
-    $('.log_state').text(localStorage["logged_in"]);
-  });
-  $('button.register_btn').click(function(){
-  });
-  $('button.logout_btn').click(function(){
-    localStorage["logged_in"] = '';
-    console.log(localStorage["logged_in"]);
-    $('.log_state').text(localStorage["logged_in"]);
-  });
-  
+  /* Setup modals */
+  $scope.promptLogin = function(){
+    //clear modal
+    $scope.status = null;
+    $scope.login.email = null;
+    $scope.login.password = null;
+    //spawn
+    $('#loginModal').modal();
+  }
+  $scope.promptRegister = function(){
+    $scope.status = null;
+    $scope.register.email = null;
+    $scope.register.name = null;
+    $scope.register.password = null;
+    $scope.register.confirm = null;
+    $('#registerModal').modal();
+  }
+  $scope.postGamePin = function(){
+    $('#pinModal_1').modal();
+  }
+  $scope.viewStorePin = function(){
+    $('#storePinModal').modal({dynamic: true});
+  }
   // "Scroll to Top" button
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
@@ -60,12 +70,13 @@ $(document).ready(function(e){
           $('.scrollup').fadeOut();
       }
   });
-  $('.scrollup').click(function(){
-      $("html, body").animate({ scrollTop: 0 }, 600);
-      return false;
-  });
-    
-  /* Store Page & Pin functionality */
+  $scope.scrollup = function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+  }
+  $scope.affix = function(){
+    $('#subnav').affix({ offset: 42 });
+  }
+  
   //Show Pin options on hover
   $(document).on('mouseenter', '.store_pin' ,function(e){
     $(this).find('.fav_game').removeClass('hidden');
@@ -77,7 +88,6 @@ $(document).ready(function(e){
   });
   
   /* Store page enlarged pin */ 
-  // Load content into enlarged pin upon click
   $('.view_trigger').click(function(e){
     var img_src;
     //load carousel img if there is carousel
@@ -87,23 +97,13 @@ $(document).ready(function(e){
     img_src = $(this).children('.game_img').attr('src');
     $('#storePinModal').find('.view_img').attr('src', img_src);
   });
-  
-  //Youtube video functionality
-  /*var myPlayer = $('#playerid')[0];
-  
-  //Stop video if user clicks anywhere outside it (¿innefficient?)
-  $('html *:not(.vid_container)').click(function(e){
-    if(myPlayer.getPlayerState() === 1){
-      myPlayer.pauseVideo();
-    }
-  });*/
-  
   //Enable store pin slides
-  /* $('.carousel').carousel({interval: false}); */
+  $('.carousel').carousel({interval: false});
   $(document).on('mouseenter', '.carousel', function(){
     $(this).children('.carousel-control').removeClass('hidden');
   });
   $(document).on('mouseleave', '.carousel', function(){
     $(this).children('.carousel-control').addClass('hidden');
   });
-});
+  
+}
