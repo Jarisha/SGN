@@ -4,14 +4,16 @@ var config = require('./config');
 var userApi = require('./routes/api/user');
 var gamepinApi = require('./routes/api/gamepin');
 var storepinApi = require('./routes/api/storepin');
-//var passConfig = require('./pass_config');
-//var MongoStore = require('connect-mongo')(express);
+var passConfig = require('./pass_config');
 var bcrypt = require('bcrypt-nodejs');
 var RedisStore = require('connect-redis')(express);
 var db = exports.db = require('riak-js').getClient({host: "localhost", port: "8098"});
 
 //create app
 var app = express();
+
+//initialize passport
+passConfig.init();
   
 //configure settings & middleware
 app.configure(function(){
@@ -24,8 +26,11 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "tazazaz", store: new RedisStore}))
-  //app.use(passConfig.passport.initialize());
+  app.use(express.session({ secret: "tazazaz",
+                          store: new RedisStore,
+                          cookie: { maxAge: 6048800 /* one week */ }
+                          }));
+  app.use(passConfig.passport.initialize());
   //app.use(passConfig.passport.session());
 });
 
@@ -39,6 +44,7 @@ app.configure('production', function(){
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
+  console.log(req.session);
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -61,26 +67,32 @@ app.get('/register', function(req, res){
   if(!req.session.newUser){ console.log('go home'); return res.redirect('/');}
   res.render('register');
 });
-/*app.get('/auth/facebook',
+app.get('/logout', function(req, res){
+  console.log('destroying session');
+  req.logout();
+  req.session.destroy();  //actually log us out
+  res.redirect('/');
+});
+app.get('/auth/facebook',
   passConfig.passport.authenticate('facebook', { scope: ['email'] })
 );
 app.get('/auth/facebook/callback',
   passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
   function(req, res) {
-    //if we need to register this facebook user, continue on to registration
+    //if we need to register this facebook user, store user params into req.session.fbUser
     if(req.user.registerMe){
       req.session.fbUser = req.user;
       res.redirect('/');
     }
-    //if we were only logging in this facbeook user, go home
+    //if logging in, set fb flag and log in
     else{
-      req.session.loggedIn = req.user._id;
+      req.session.loggedIn = req.user.email;
       req.session.userEmail = req.user.email;
       req.session.userName = req.user.name;
       res.redirect('/');
     }
   }
-);*/
+);
 app.get('/allUsers', function(req, res){
   var html = '<ul>';
   dbConfig.User.find({}, function(err, result){
@@ -115,7 +127,6 @@ app.post('/', function(req, res){
   console.log(req.body);
   console.log(req.form);
   console.log(req.files);
-  res.send('lolbifrons');
 });
 
 //All view partials must be served

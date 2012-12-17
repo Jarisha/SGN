@@ -1,6 +1,7 @@
 var dbConfig = require('./db_config');
 var passport = exports.passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var app = require('./app');
 
 exports.init = function(){
   //configure passport
@@ -8,10 +9,9 @@ exports.init = function(){
     done(null, user.email);
   });
   
+  //sent on every requests
   passport.deserializeUser(function(email, done) {
-    dbConfig.User.findOne({email:email}, function(err, user) {
-      done(err, user);
-    });
+    return(null, email);
   });
   
   passport.use(new FacebookStrategy({
@@ -23,52 +23,34 @@ exports.init = function(){
       console.log(profile);
       console.log(profile.emails[0].value);
       console.log(profile.displayName);
+      //var dummyUser = {email: 'test@gmail.com', name: 'test'};
+      //return done(null, dummyUser);
       
       //Look for user with email
-      dbConfig.User.findOne({ email: profile.emails[0].value }, function(err, result){
-        if(err){
-          console.log('login error: ' + err);
-          return res.json({
-            login: false,
-            error: 'login error: ' + err
-          });
+      app.db.get('users', profile.emails[0].value, function(err, user){
+        console.log('!!!!!!!');
+        //If not found, we are registering.
+        if(err) return register();
+        //Else, log in
+        user.registerMe = false;
+        //set facebook flag if not set for this user
+        if(!user.fbConnect){
+          user.fbConnect = true;
+          app.db.save('users', profile.emails[0].value, user);
+          return done(null, user);
         }
-        
-        //If not found, we are registering.  Go to register step 2.
-        if(!result){
-          newUser = {};
-          newUser.email = profile.emails[0].value;
-          newUser.name = profile.displayName;
-          newUser.fbConnect = true;
-          newUser.registerMe = true;
-          
-          return done(null, newUser);
-          
-          /*console.log('facebook user NOT found in DB');
-          var user = new User({email: profile.emails[0].value, name: profile.displayName, fbConnect: true });
-          if(!user){
-            console.log('create user failed');
-          }
-          user.save(function(err){
-            if(err){
-              console.log('next( %s )', err);
-            }
-            console.log('facebook user with name: %s, email: %s created', profile.displayName, profile.emails[0].value);
-            user.registerMe = true;
-            return done(null, user);
-          });*/
-        }
-        //If found, log in and connect to facebook
-        else{
-          console.log('facebook user found in DB, loggging in');
-          if(!result.fbConnect){
-            //set facebook data
-            fbConnect = true;
-          }
-          result.registerMe = false;
-          return done(null, result);
-        }
+        return done(null, user);
       });
+      //If not found, we are registering.  Go to register step 2.
+      function register(){
+        newUser = {};
+        newUser.email = profile.emails[0].value;
+        newUser.name = profile.displayName;
+        newUser.fbConnect = true;
+        newUser.registerMe = true;
+        
+        return done(null, newUser);
+      }
     }
   ));
 }

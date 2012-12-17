@@ -54,7 +54,7 @@ function frontSetup($scope, $rootScope, $http){
     $scope.register.confirm = null;
     $('#registerModal').modal();
   }
-  $scope.facebookRegister();
+  $scope.facebookRegister(); //triggers AJAX fbRegister in front controller
   $scope.postGamePin = function(){
     //clear modal
     $rootScope.post.name = null;

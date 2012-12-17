@@ -25,7 +25,7 @@ exports.checkLogin = function(req, res){
 	}
 }
 
-//If we are registering with facebook, send profile params to front end
+//If we are registering with facebook, send profile params (stored in req.session.fbUser) to front end
 exports.facebookRegister = function(req, res){
   if(req.session.fbUser){
     //delete req.user
