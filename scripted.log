@@ -5778,3 +5778,3581 @@ Server has started.
 /scripts/lib/jsrender.js - undefined
 /resources/shortcut.json - undefined
 /resources/_command.tmpl.html - undefined
+=================================================== 
+launching node again: Mon 12/17/2012 14:34:16.77 
+Starting scripted.js... 
+Registering a servlet for path: /ls
+Creating servlet handler for function: getContents
+Registering a servlet for path: /jsdepend/getContents
+Creating servlet handler for function: getDependencies
+Registering a servlet for path: /jsdepend/getDependencies
+Creating servlet handler for function: getTransitiveDependencies
+Registering a servlet for path: /jsdepend/getTransitiveDependencies
+Creating servlet handler for function: getDGraph
+Registering a servlet for path: /jsdepend/getDGraph
+Creating servlet handler for function: findFileNamesContaining
+Registering a servlet for path: /jsdepend/findFileNamesContaining
+Creating servlet handler for function: getConf
+Registering a servlet for path: /jsdepend/getConf
+Registering a servlet for path: /exec
+Registering a servlet for path: /kill
+Registering a servlet for path: /get
+Registering a servlet for path: /get2
+Registering a servlet for path: /put
+Registering a servlet for path: /fs_list
+SockJS v0.3.1 bound to "/echo"
+SockJS v0.3.1 bound to "/isearch"
+SockJS v0.3.1 bound to "/ifsearch"
+Server has started.
+/editor.html?C:/node/SGN/./app.js - undefined
+/css/main.css - undefined
+/scripts/lib/requirejs/require.js - undefined
+/scripts/orion/editor/editor.css - undefined
+/scripts/scripted/exec/console.css - undefined
+/scripts/orion/textview/textview.css - undefined
+/scripts/orion/textview/rulers.css - undefined
+/scripts/lib/dojo/resources/dojo.css - undefined
+/scripts/orion/textview/tooltip.css - undefined
+/scripts/examples/textview/textstyler.css - undefined
+/scripts/examples/editor/htmlStyles.css - undefined
+/scripts/lib/dijit/themes/nihilo/nihilo.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/Common.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/Button.css - undefined
+/scripts/css/commands.css - undefined
+/scripts/orion/textview/annotations.css - undefined
+/scripts/css/ide.css - undefined
+/scripts/css/default-theme.css - undefined
+/scripts/lib/dijit/themes/dijit.css - undefined
+/scripts/lib/dijit/themes/nihilo/layout/AccordionContainer.css - undefined
+/scripts/lib/dijit/themes/nihilo/Common.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/Checkbox.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/RadioButton.css - undefined
+/scripts/lib/dijit/themes/nihilo/layout/TabContainer.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/Select.css - undefined
+/scripts/lib/dijit/themes/nihilo/Tree.css - undefined
+/scripts/lib/dijit/themes/nihilo/ProgressBar.css - undefined
+/scripts/lib/dijit/themes/nihilo/TitlePane.css - undefined
+/scripts/lib/dijit/themes/nihilo/Calendar.css - undefined
+/scripts/lib/dijit/themes/nihilo/TimePicker.css - undefined
+/scripts/lib/dijit/themes/nihilo/Toolbar.css - undefined
+/scripts/lib/dijit/themes/nihilo/Dialog.css - undefined
+/scripts/lib/dijit/themes/nihilo/form/Slider.css - undefined
+/scripts/lib/dijit/themes/nihilo/Editor.css - undefined
+/scripts/lib/dijit/themes/nihilo/Menu.css - undefined
+/scripts/lib/dijit/themes/nihilo/ColorPalette.css - undefined
+/scripts/lib/dijit/themes/nihilo/layout/SplitContainer.css - undefined
+/scripts/lib/dijit/themes/nihilo/layout/BorderContainer.css - undefined
+/scripts/lib/dijit/themes/nihilo/layout/ContentPane.css - undefined
+/scripts/lib/dijit/icons/commonIcons.css - undefined
+/scripts/lib/dijit/icons/editorIcons.css - undefined
+/scripts/setup.js - undefined
+/scripts/scripted/editor/scriptedEditor.js - undefined
+/scripts/scripted/fileapi.js - undefined
+/scripts/scripted/navigator/explorer-table.js - undefined
+/scripts/scripted/widgets/OpenResourceDialog.js - undefined
+/scripts/orion/textview/keyBinding.js - undefined
+/scripts/scripted/utils/navHistory.js - undefined
+/scripts/lib/jquery-1.7.2.min.js - undefined
+/scripts/servlets/jsdepend-client.js - undefined
+/scripts/scripted/utils/os.js - undefined
+/scripts/scripted/exec/exec-console.js - undefined
+/scripts/orion/searchClient.js - undefined
+/scripts/scripted/exec/exec-on-load.js - undefined
+/scripts/orion/editor/editor.js - undefined
+/scripts/examples/textview/textStyler.js - undefined
+/images/console.png - undefined
+/scripts/orion/editor/editorFeatures.js - undefined
+/scripts/orion/editor/jsTemplateContentAssist.js - undefined
+/images/help.png - undefined
+/scripts/orion/editor/contentAssist.js - undefined
+/scripts/orion/editor/textMateStyler.js - undefined
+/scripts/orion/editor/jslintdriver.js - undefined
+/images/split.png - undefined
+/scripts/orion/searchAndReplace/textSearcher.js - undefined
+/scripts/orion/selection.js - undefined
+/scripts/orion/parameterCollectors.js - undefined
+/scripts/orion/textview/textView.js - undefined
+/scripts/scripted/editor/jshintdriver.js - undefined
+/scripts/plugins/esprima/indexerService.js - undefined
+/scripts/orion/commands.js - undefined
+/scripts/orion/editor/htmlGrammar.js - undefined
+/scripts/plugins/esprima/moduleVerifier.js - undefined
+/scripts/orion/textview/textModel.js - undefined
+/scripts/orion/editor/htmlContentAssist.js - undefined
+/scripts/plugins/esprima/esprimaJsContentAssist.js - undefined
+/scripts/orion/textview/projectionTextModel.js - undefined
+/scripts/lib/beautify.js - undefined
+/scripts/orion/editor/jslintworker.js - undefined
+/scripts/servlets/stub-maker.js - undefined
+/scripts/scripted/exec/exec-after-save.js - undefined
+/scripts/scripted/exec/exec-keys.js - undefined
+/scripts/orion/editor/cssContentAssist.js - undefined
+/scripts/lib/dijit/lib/main.js - undefined
+/scripts/scripted/navigator/explorer.js - undefined
+/scripts/lib/dijit/Dialog.js - undefined
+/scripts/lib/jshint-r12-80277ef.js - undefined
+/scripts/lib/requirejs/text.js - undefined
+/scripts/lib/dojo/lib/main-browser.js - undefined
+/scripts/scripted/fileSearchClient.js - undefined
+/scripts/scripted/widgets/OpenOutlineDialog.js - undefined
+/scripts/scripted/widgets/_OrionDialogMixin.js - undefined
+/scripts/scripted/widgets/SearchDialog.js - undefined
+/scripts/lib/jquery-ui-custom.js - undefined
+/scripts/orion/searchUtils.js - undefined
+/scripts/lib/dijit/form/TextBox.js - undefined
+/scripts/orion/util.js - undefined
+/scripts/servlets/incremental-search-client.js - undefined
+/scripts/lib/dijit/form/Button.js - undefined
+/scripts/scripted/exec/exec-shared.js - undefined
+/scripts/scripted/exec/param-resolver.js - undefined
+/scripts/lib/dijit/layout/ContentPane.js - undefined
+/scripts/orion/textview/annotations.js - undefined
+/scripts/orion/textview/util.js - undefined
+/scripts/orion/textview/tooltip.js - undefined
+/scripts/orion/textview/undoStack.js - undefined
+/scripts/lib/requirejs/i18n.js - undefined
+/scripts/orion/textview/rulers.js - undefined
+/scripts/scripted/editor/dialogs.js - undefined
+/scripts/orion/textview/eventTarget.js - undefined
+/scripts/lib/dijit/layout/BorderContainer.js - undefined
+/scripts/orion/editor/regex.js - undefined
+/scripts/orion/PageUtil.js - undefined
+/scripts/orion/textview/textDND.js - undefined
+/scripts/lib/dijit/form/DropDownButton.js - undefined
+/scripts/lib/dijit/Tooltip.js - undefined
+/scripts/lib/dijit/TooltipDialog.js - undefined
+/scripts/plugins/esprima/types.js - undefined
+/scripts/plugins/esprima/esprimaVisitor.js - undefined
+/scripts/lib/dijit/PopupMenuItem.js - undefined
+/scripts/lib/esprima/esprima.js - undefined
+/scripts/lib/dijit/MenuSeparator.js - undefined
+/scripts/lib/dijit/Menu.js - undefined
+/scripts/lib/dijit/MenuItem.js - undefined
+/scripts/scripted/navigator/treetable.js - undefined
+/scripts/lib/dojo/window.js - undefined
+/scripts/lib/doctrine/doctrine.js - undefined
+/scripts/lib/dojo/fx.js - undefined
+/scripts/lib/dojo/dnd/TimedMoveable.js - undefined
+/scripts/lib/dojo/dnd/move.js - undefined
+/scripts/lib/dijit/DialogUnderlay.js - undefined
+/scripts/lib/dijit/_Templated.js - undefined
+/scripts/lib/dijit/_DialogMixin.js - undefined
+/scripts/lib/dijit/_CssStateMixin.js - undefined
+/scripts/lib/dijit/_Widget.js - undefined
+/scripts/scripted/widgets/templates/OpenResourceDialog.html - undefined
+/scripts/lib/dijit/form/_FormMixin.js - undefined
+/scripts/lib/dojo/lib/kernel.js - undefined
+/scripts/lib/dijit/templates/Dialog.html - undefined
+/scripts/lib/dojo/_base/Deferred.js - undefined
+/scripts/lib/dojo/_base/connect.js - undefined
+/scripts/lib/dojo/_base/lang.js - undefined
+/scripts/lib/dojo/_base/window.js - undefined
+/scripts/lib/dojo/_base/declare.js - undefined
+/scripts/lib/dojo/_base/NodeList.js - undefined
+/scripts/lib/dojo/_base/json.js - undefined
+/scripts/lib/dojo/_base/Color.js - undefined
+/scripts/lib/dojo/_base/array.js - undefined
+/scripts/lib/dojo/_base/event.js - undefined
+/scripts/servlets/incremental-file-search-client.js - undefined
+/scripts/lib/dojo/_base/fx.js - undefined
+/scripts/lib/dojo/_base/query.js - undefined
+/scripts/plugins/outline/esprimaOutlinerPlugin.js - undefined
+/scripts/lib/dojo/_base/xhr.js - undefined
+/scripts/scripted/widgets/templates/SearchDialog.html - undefined
+/scripts/scripted/widgets/templates/OpenOutlineDialog.html - undefined
+/scripts/lib/dojo/_base/html.js - undefined
+/scripts/lib/dojo/hash.js - undefined
+/scripts/lib/dijit/form/ValidationTextBox.js - undefined
+/scripts/lib/dijit/form/_FormWidget.js - undefined
+/scripts/lib/dijit/form/templates/TextBox.html - undefined
+/scripts/lib/sockjs-592774a-0.3.1.min.js - undefined
+/scripts/lib/dijit/form/templates/Button.html - undefined
+/scripts/lib/dijit/_HasDropDown.js - undefined
+/scripts/lib/dijit/_Container.js - undefined
+/scripts/lib/dijit/form/templates/ComboButton.html - undefined
+/scripts/lib/dijit/form/templates/DropDownButton.html - undefined
+/scripts/servlets/exec-client.js - undefined
+/scripts/lib/dijit/layout/_ContentPaneResizeMixin.js - undefined
+/scripts/orion/textview/nls/messages.js - undefined
+/scripts/scripted/utils/pathUtils.js - undefined
+/scripts/orion/editor/nls/messages.js - undefined
+/scripts/lib/dijit/layout/_LayoutWidget.js - undefined
+/scripts/lib/dijit/templates/TooltipDialog.html - undefined
+/scripts/lib/dijit/templates/MenuSeparator.html - undefined
+/scripts/lib/dijit/nls/loading.js - undefined
+/scripts/lib/dijit/_Contained.js - undefined
+/scripts/lib/dijit/templates/Menu.html - undefined
+/scripts/lib/dijit/nls/common.js - undefined
+/scripts/lib/dijit/templates/MenuItem.html - undefined
+/scripts/lib/dijit/_KeyNavContainer.js - undefined
+/scripts/lib/dijit/CheckedMenuItem.js - undefined
+/scripts/lib/dojo/html.js - undefined
+/scripts/lib/dojo/string.js - undefined
+/scripts/lib/dojo/cookie.js - undefined
+/scripts/lib/dojo/dnd/Moveable.js - undefined
+/scripts/lib/dojo/dnd/Mover.js - undefined
+/scripts/lib/dojo/fx/Toggler.js - undefined
+/scripts/plugins/esprima/indexerWorker.js - undefined
+/scripts/lib/dijit/form/templates/ValidationTextBox.html - undefined
+/scripts/lib/dojo/parser.js - undefined
+/scripts/lib/dijit/_WidgetBase.js - undefined
+/scripts/lib/dijit/templates/CheckedMenuItem.html - undefined
+/scripts/lib/dijit/_base.js - undefined
+/scripts/lib/dojo/dnd/common.js - undefined
+/scripts/lib/requirejs/require.js - undefined
+/scripts/lib/dojo/dnd/autoscroll.js - undefined
+/scripts/lib/dojo/i18n.js - undefined
+/scripts/lib/dojo/regexp.js - undefined
+/scripts/lib/dojo/cache.js - undefined
+/scripts/lib/dojo/_base/_loader/hostenv_browser.js - undefined
+/scripts/lib/dojo/date/stamp.js - undefined
+/scripts/lib/dijit/form/nls/validate.js - undefined
+/scripts/lib/dojo/Stateful.js - undefined
+/scripts/lib/dijit/_base/sniff.js - undefined
+/scripts/lib/dijit/_base/scroll.js - undefined
+/scripts/lib/dijit/_base/focus.js - undefined
+/scripts/lib/dijit/_base/window.js - undefined
+/scripts/lib/dijit/_base/manager.js - undefined
+/scripts/lib/dijit/_base/typematic.js - undefined
+/scripts/lib/dijit/_base/place.js - undefined
+/scripts/lib/dijit/_base/popup.js - undefined
+/scripts/lib/dijit/_base/wai.js - undefined
+/scripts/lib/dojo/AdapterRegistry.js - undefined
+/scripts/lib/dojo/uacss.js - undefined
+/scripts/lib/dojo/lib/backCompat.js - undefined
+/scripts/lib/dojo/_base/_loader/bootstrap.js - undefined
+/scripts/lib/dijit/templates/Tooltip.html - undefined
+/scripts/lib/dijit/templates/MenuSeparator.html - undefined
+/scripts/lib/dijit/templates/MenuItem.html - undefined
+/scripts/lib/dijit/templates/CheckedMenuItem.html - undefined
+/scripts/lib/dijit/templates/Menu.html - undefined
+/scripts/lib/dijit/form/templates/TextBox.html - undefined
+/scripts/lib/dijit/form/templates/ValidationTextBox.html - undefined
+/scripts/lib/dijit/form/templates/Button.html - undefined
+/scripts/lib/dijit/form/templates/DropDownButton.html - undefined
+/scripts/lib/dijit/form/templates/ComboButton.html - undefined
+/scripts/lib/dijit/templates/TooltipDialog.html - undefined
+/scripts/lib/dijit/templates/Dialog.html - undefined
+/scripts/scripted/widgets/templates/OpenResourceDialog.html - undefined
+/scripts/scripted/widgets/templates/OpenOutlineDialog.html - undefined
+/scripts/scripted/widgets/templates/SearchDialog.html - undefined
+{ [Error: ENOENT, open 'C:\node\SGN\.scripted'] errno: 34, code: 'ENOENT', path: 'C:\\node\\SGN\\.scripted' }
+{ [Error: ENOENT, open 'C:\Users\Tony\.scriptedrc']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\Users\\Tony\\.scriptedrc' }
+/images/core_sprites.png - undefined
+/images/icon.png - undefined
+/scripts/lib/jsrender.js - undefined
+/scripts/plugins/esprima/indexerService.js - undefined
+/resources/shortcut.json - undefined
+/scripts/plugins/esprima/esprimaJsContentAssist.js - undefined
+/resources/_command.tmpl.html - undefined
+/scripts/plugins/esprima/esprimaVisitor.js - undefined
+/scripts/plugins/esprima/types.js - undefined
+/scripts/lib/esprima/esprima.js - undefined
+/scripts/lib/doctrine/doctrine.js - undefined
+/scripts/servlets/jsdepend-client.js - undefined
+/scripts/servlets/stub-maker.js - undefined
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/connect/node_modules/qs/lib
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/connect/node_modules/qs/test
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/cookie
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/cookie-signature
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/crc
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/debug
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/fresh
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/methods
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/mkdirp
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/range-parser
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/express/node_modules/send
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/jade
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/mocha
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/mongoose
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/mongoose-types
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/node_modules/should
+WARNING: time limit exceeded: not read: ./node_modules/mongoose-auth/test
+WARNING: time limit exceeded: not read: ./node_modules/passport
+WARNING: time limit exceeded: not read: ./node_modules/passport-facebook
+WARNING: time limit exceeded: not read: ./node_modules/riak-js
+WARNING: time limit exceeded: not read: ./node_modules/supergoose
+WARNING: time limit exceeded: not read: ./public
+WARNING: time limit exceeded: not read: ./routes
+WARNING: time limit exceeded: not read: ./views
+>> Processing put request for C:/node/SGN/./app.js
+Text to be written is of length: 5775
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\wscript']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\wscript' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\wscript']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\wscript' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\wscript']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\wscript' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\test']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\test' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson\wscript']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson\\wscript' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\external-libs\bson']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\external-libs\\bson' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\cursor.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\cursor.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\cursorstream.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\cursorstream.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\db.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\db.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\gridfs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\gridfs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\responses']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\responses' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\cursor.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\cursor.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\cursorstream.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\cursorstream.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\db.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\db.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\gridfs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\gridfs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\responses']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\responses' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\test_gs_working_field_read.tmp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\test_gs_working_field_read.tmp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\test_gs_weird_bug_streamed.tmp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\test_gs_weird_bug_streamed.tmp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\node_modules\bson\lib\bson']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\node_modules\\bson\\lib\\bson' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\node_modules\bson\test\browser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\node_modules\\bson\\test\\browser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\node_modules\bson\test\node\data']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\node_modules\\bson\\test\\node\\data' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\node_modules\bson\test\node\tools']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\node_modules\\bson\\test\\node\\tools' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\connect-mongo\node_modules\mongodb\node_modules\bson\tools\jasmine-1.1.0']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\connect-mongo\\node_modules\\mongodb\\node_modules\\bson\\tools\\jasmine-1.1.0' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\Makefile' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\media']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\Makefile' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\media']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\Makefile' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\media']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\Makefile' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\media']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\lib\modules']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\lib\\modules' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\lib\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\lib\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\style.css']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\style.css' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\style.css']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\style.css' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\style.css']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\style.css' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\node-gently\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\node-gently\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\unit']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\unit' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\legacy\simple']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\simple' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\legacy\system']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\system' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\qs\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\qs\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\qs\test\browser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\qs\\test\\browser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\debug\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\debug\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\debug\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\debug\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\node-swt\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\node-swt\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\node-wsfederation\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\node-wsfederation\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\oauth\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\oauth\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\oauth\examples\express-gdata\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\oauth\\examples\\express-gdata\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\openid\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\openid\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\openid\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\openid\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\request\tests\ssl\ca']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\request\\tests\\ssl\\ca' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\request\vendor\cookie']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\request\\vendor\\cookie' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\node_modules\sax\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\node_modules\sax\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\node_modules\sax\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\test\fixtures']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\test\\fixtures' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\test\util']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\test\\util' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\lib' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\everyauth\test']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect\node_modules\formidable']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth\node_modules\connect']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth\\node_modules\\connect' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\everyauth']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\everyauth' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\lib\nodes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\lib\\nodes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\runtime.min.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\runtime.min.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\coffee-script\bin']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\coffee-script\\bin' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\coffee-script\extras']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\coffee-script\\extras' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\coffee-script\lib\coffee-script']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\coffee-script\\lib\\coffee-script' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\commander\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\commander\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\mkdirp\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\mkdirp\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules\mkdirp\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules\\mkdirp\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\jade\node_modules']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\jade\\node_modules' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\benchmarks' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\History.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\History.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.html']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.html' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\2.7.x\images']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\2.7.x\\images' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\api.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\api.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\connections.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\connections.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\contributing.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\contributing.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\css']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\css' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\documents.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\documents.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\faq.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\faq.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\guide.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\guide.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\helpers']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\helpers' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\index.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\index.jade' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\layout.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\layout.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\middleware.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\middleware.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\migration.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\migration.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\models.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\models.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\plugins.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\plugins.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\populate.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\populate.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\prior.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\prior.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\queries.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\queries.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\releases']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\releases' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\schematypes.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\schematypes.jade' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\subdocs.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\subdocs.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\validation.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\validation.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\2.7.x\docs\style']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\2.7.x\\docs\\style' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\2.8.x\images']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\2.8.x\\images' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\2.8.x\docs\style']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\2.8.x\\docs\\style' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\History.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\History.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.html']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.html' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\Makefile' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\History.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\History.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.html']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.html' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\helpers']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\helpers' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\helpers']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\helpers' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\helpers']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\helpers' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\images\apps']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\images\\apps' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\includes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\includes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\docs\source']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\docs\\source' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\README.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\README.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\static.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\static.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\website.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\website.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\lib\errors']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\lib\\errors' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\lib\schema']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\lib\\schema' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\lib\types']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\lib\\types' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\lib\drivers\node-mongodb-native']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\hooks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\hooks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\lib\mongodb\commands']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\mongodb\\commands' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\lib\mongodb\gridfs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\mongodb\\gridfs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\lib\mongodb\responses']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\mongodb\\responses' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\lib\mongodb\connection\strategies']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\mongodb\\connection\\strategies' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\benchmarks']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\benchmarks' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\lib\bson']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\lib\\bson' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\test\node\data']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\test\\node\\data' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\test\node\tools']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\test\\node\\tools' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\test\browser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\test\\browser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb\node_modules\bson\tools\jasmine-1.1.0']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb\\node_modules\\bson\\tools\\jasmine-1.1.0' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\ms\test\support']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\ms\\test\\support' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\sliced\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\sliced\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\sliced\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\sliced\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\support\expresso\bin']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\support\\expresso\\bin' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\support\expresso\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\support\\expresso\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\support\expresso\docs\layout']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\support\\expresso\\docs\\layout' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\support\expresso\test\serial']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\support\\expresso\\test\\serial' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\test\drivers\node-mongodb-native']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\test\\drivers\\node-mongodb-native' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose\node_modules\mongodb']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose\\node_modules\\mongodb' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\index.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\index.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\Makefile']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\Makefile' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\confirmable']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\confirmable' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\everymodule']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\everymodule' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\facebook']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\facebook' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\github']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\github' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\google']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\google' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\instagram']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\instagram' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\password']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\password' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\registration']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\registration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\lib\modules\twitter']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\lib\\modules\\twitter' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\bcrypt-nodejs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\bcrypt-nodejs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\example\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\example\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\lib\modules']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\lib\\modules' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\lib\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\lib\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\media']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\media' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\utils.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\utils.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\style.css']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\style.css' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\LICENSE']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\LICENSE' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\node-gently\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\node-gently\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\node-gently\lib\gently']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\node-gently\\lib\\gently' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\TODO']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\TODO' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\node-gently\test\simple']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\node-gently\\test\\simple' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\integration']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\integration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\run.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\run.js' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\unit']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\unit' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\fixture\file']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\fixture\\file' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\fixture\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\fixture\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\package.json' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: EPERM, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 50,
+  code: 'EPERM',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\integration']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\integration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\unit']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\unit' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\legacy\integration']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\integration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\legacy\simple']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\simple' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\test\legacy\system']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\system' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\mime\types']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\mime\\types' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\qs\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\qs\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\qs\test\browser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\qs\\test\\browser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\debug\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\debug\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\debug\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\debug\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\node-swt\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\node-swt\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\node-wsfederation\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\node-wsfederation\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\examples\express-gdata\views']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\examples\\express-gdata\\views' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\openid\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\openid\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\openid\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\openid\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\request\tests\ssl\ca']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\request\\tests\\ssl\\ca' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\oauth\tests']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\oauth\\tests' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\xml2js\src']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\xml2js\\src' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\xml2js\node_modules\sax\examples']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\examples' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\xml2js\node_modules\sax\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\xml2js\node_modules\sax\test']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\xml2js\\node_modules\\sax\\test' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\xml2js\test\fixtures']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\xml2js\\test\\fixtures' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\test\util']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\test\\util' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\bin']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\bin' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\lib\router']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\lib\\router' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\commander\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\commander\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\cookie']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\cookie' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\cookie-signature']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\cookie-signature' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\crc']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\crc' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\debug']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\debug' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\fresh']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\fresh' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\methods']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\methods' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\lib\middleware\session']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\lib\\middleware\\session' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\lib\public\icons']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\lib\\public\\icons' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\bytes']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\bytes' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\pause']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\pause' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\qs']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\qs' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\benchmark']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\benchmark' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\lib']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\lib' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\tool']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\tool' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\node-gently\example']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\node-gently\\example' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\node-gently\lib\gently']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\node-gently\\lib\\gently' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\node-gently\test\simple']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\node-gently\\test\\simple' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\integration']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\integration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\unit']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\unit' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\fixture\file']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\fixture\\file' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\fixture\js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\fixture\\js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\fixture\http\special-chars-in-filename']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\fixture\\http\\special-chars-in-filename' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\legacy\integration']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\integration' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\legacy\simple']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\simple' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\connect\node_modules\formidable\test\legacy\system']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\connect\\node_modules\\formidable\\test\\legacy\\system' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\package.json']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\package.json' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\Readme.md']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\Readme.md' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\mkdirp']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\mkdirp' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\range-parser']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\range-parser' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\node_modules\send']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\node_modules\\send' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\express\test.js']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\express\\test.js' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\jade']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\jade' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\mocha']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\mocha' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\mocha']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\mocha' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\mocha']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\mocha' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\mocha']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\mocha' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\should']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\should' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\mongoose-auth\node_modules\everyauth\node_modules\connect']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\mongoose-auth\\node_modules\\everyauth\\node_modules\\connect' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\supergoose']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\supergoose' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\supergoose']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\supergoose' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\supergoose']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\supergoose' }
+{ [Error: ENOENT, stat 'C:\node\SGN\node_modules\supergoose']
+  errno: 34,
+  code: 'ENOENT',
+  path: 'C:\\node\\SGN\\node_modules\\supergoose' }
