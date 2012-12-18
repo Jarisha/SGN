@@ -9,7 +9,7 @@ exports.checkLogin = function(req, res){
 	/*app.db.save('test', 'test_key', {val: 'test_val'}, {returnbody: true }, function(err, data){
 		console.log(data);
 	});*/
-	
+  console.log(req.session);
   if(req.session.newUser) req.session.newUser = null;
 	if(req.session.loggedIn){
 		return res.json({
@@ -224,9 +224,9 @@ exports.editSettings = function(req, res){
 }
 
 //get port # from server.  This belongs in a misc.js rather than user.js
-exports.getPort = function(req, res){
+exports.getPath = function(req, res){
   return res.json({
-    port: config.port
+    path: app.server.locals.rootPath
   });
 }
 //deactivate

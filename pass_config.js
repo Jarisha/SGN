@@ -1,9 +1,8 @@
-var dbConfig = require('./db_config');
 var passport = exports.passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var app = require('./app');
 
-exports.init = function(){
+exports.init = function(Fb_ID, Fb_secret, rootPath){
   //configure passport
   passport.serializeUser(function(user, done) {
     done(null, user.email);
@@ -15,9 +14,9 @@ exports.init = function(){
   });
   
   passport.use(new FacebookStrategy({
-      clientID: "177752685682496",
-      clientSecret: "bcd13f474bae8217643ece20c68cd3a4",
-      callbackURL: "http://localhost:3001/auth/facebook/callback"
+      clientID: Fb_ID,
+      clientSecret: Fb_secret,
+      callbackURL: rootPath + "/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);
