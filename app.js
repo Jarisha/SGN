@@ -7,18 +7,13 @@ var storepinApi = require('./routes/api/storepin');
 var passConfig = require('./pass_config');
 var bcrypt = require('bcrypt-nodejs');
 var RedisStore = require('connect-redis')(express);
-var db = exports.db = require('riak-js').getClient({host: "localhost", port: "8098"});
+var db = exports.db = require('riak-js').getClient({host: config.db_host, port: config.db_port});
 
 //create app
-var app = express();
-
-//initialize passport
-passConfig.init();
+var app = exports.server = express();
   
 //configure settings & middleware
 app.configure(function(){
-  app.locals.port = config.port;
-  app.locals.rootPath = 'http://localhost:'+ config.port;
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');  //hope to use HTML + Angular only
   app.use(express.methodOverride());
@@ -27,7 +22,9 @@ app.configure(function(){
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
   app.use(express.session({ secret: "tazazaz",
-                          store: new RedisStore,
+                          /*store : new RedisStore({ 
+                            host : config.redis_host,
+                          }),*/
                           cookie: { maxAge: 6048800 /* one week */ }
                           }));
   app.use(passConfig.passport.initialize());
@@ -35,6 +32,18 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.locals.port = config.dev_port;
+  app.locals.rootPath = "http://" + config.dev_host + ':' + config.dev_port;
+  //initialize passport
+  passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('tony', function(){
+  app.locals.port = config.tony_port;
+  app.locals.rootPath =  "http://" + config.tony_host + ':' + config.tony_port;
+  //initialize passport
+  passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
@@ -145,7 +154,7 @@ app.post('/api/editSettings', userApi.editSettings);
 app.get('/api/deactivate', userApi.deactivate);
 app.post('/api/addFollowers', userApi.addFollowers);
 app.post('/api/removeFollowers', userApi.removeFollowers);
-app.get('/api/getPort', userApi.getPort);
+app.get('/api/getPath', userApi.getPath);
 app.post('/api/getProfile', userApi.getProfile);
 //Gamepin
 app.post('/api/gamepin/post', gamepinApi.post);
@@ -169,6 +178,6 @@ app.get('*', function(req, res){
 });
 
 // Start server
-app.listen(3000, function(){
+app.listen(config.tony_port, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });

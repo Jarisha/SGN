@@ -1,5 +1,4 @@
 /******************************* StorePin **********************/
-var dbConfig = require('../../db_config');
 //post
 exports.post = function(req, res){
   return res.json({

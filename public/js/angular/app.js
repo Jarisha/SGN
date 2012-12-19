@@ -174,9 +174,10 @@ app.run(function($rootScope, $http, $templateCache, $location){
   }
   
   //Set root path by getting config port
-  $http.get('/api/getPort')
+  $http.get('/api/getPath')
     .success(function(data, status, headers, config){
-      $rootScope.rootPath = 'http://localhost:'+ data.port;
+      $rootScope.rootPath = data.path;
+      console.log(data.path);
     })
     .error(function(data, status, headers, config) {
       result.message = 'Error: ' + status;
