@@ -22,9 +22,9 @@ app.configure(function(){
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
   app.use(express.session({ secret: "tazazaz",
-                          /*store : new RedisStore({ 
+                          store : new RedisStore({ 
                             host : config.redis_host,
-                          }),*/
+                          }),
                           cookie: { maxAge: 6048800 /* one week */ }
                           }));
   app.use(passConfig.passport.initialize());
@@ -37,6 +37,11 @@ app.configure('development', function(){
   //initialize passport
   passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  
+  // Start server
+  app.listen(config.dev_port, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
 });
 
 app.configure('tony', function(){
@@ -45,6 +50,11 @@ app.configure('tony', function(){
   //initialize passport
   passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  
+  // Start server
+  app.listen(config.tony_port, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
 });
 
 app.configure('production', function(){
@@ -175,9 +185,4 @@ app.post('/api/gamepin/search', storepinApi.search);
 //Route to 404 Page if not served
 app.get('*', function(req, res){
   return res.send('Page Not Found');
-});
-
-// Start server
-app.listen(config.tony_port, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
