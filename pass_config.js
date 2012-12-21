@@ -19,15 +19,11 @@ exports.init = function(Fb_ID, Fb_secret, rootPath){
       callbackURL: rootPath + "/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      console.log(profile.emails[0].value);
-      console.log(profile.displayName);
       //var dummyUser = {email: 'test@gmail.com', name: 'test'};
       //return done(null, dummyUser);
       
       //Look for user with email
       app.db.get('users', profile.emails[0].value, function(err, user){
-        console.log('!!!!!!!');
         //If not found, we are registering.
         if(err) return register();
         //Else, log in

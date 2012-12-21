@@ -63,7 +63,7 @@ app.configure('production', function(){
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
-  console.log(req.session);
+  //console.log(req.session);
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -83,7 +83,7 @@ app.get('/fbfail', function(req, res){
 });
 //Page for Register Step 2: Choose categories you like.
 app.get('/register', function(req, res){
-  if(!req.session.newUser){ console.log('go home'); return res.redirect('/');}
+  if(!req.session.newUser){ console.log('Registration Step 1 incomplete: Go home!'); return res.redirect('/');}
   res.render('register');
 });
 app.get('/logout', function(req, res){
@@ -105,6 +105,7 @@ app.get('/auth/facebook/callback',
     }
     //if logging in, set fb flag and log in
     else{
+      console.log('Login via facebook success!');
       req.session.loggedIn = req.user.email;
       req.session.userEmail = req.user.email;
       req.session.userName = req.user.name;
@@ -114,19 +115,7 @@ app.get('/auth/facebook/callback',
 );
 app.get('/allUsers', function(req, res){
   var html = '<ul>';
-  dbConfig.User.find({}, function(err, result){
-    if(err){
-      return res.send('err: ' + err);
-    }
-		if(!result){
-      return res.send('no users in db');
-    }
-    for(user in result){
-      html += '<li><a href="/user/'+result[user].name+'">'+ result[user].name +'</a></li>';
-    }
-    html += '</ul>';
-    return res.send('List of Users: '+html);
-  });
+  res.send('TODO: Switch to levedb to index users via username');
 });
 app.get('/user/*', function(req, res){
   return res.render('base');
@@ -141,6 +130,8 @@ app.get('/test', function(req, res){
     res.send(salt);
   });
 });
+
+//file upload
 app.post('/', function(req, res){
   //req. form is nulL
   console.log(req.body);

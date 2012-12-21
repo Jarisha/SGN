@@ -6,10 +6,6 @@ var app = require('../../app');
 //Checks if user is logged in. Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
   //Clear newUser which stores register data
-	/*app.db.save('test', 'test_key', {val: 'test_val'}, {returnbody: true }, function(err, data){
-		console.log(data);
-	});*/
-  console.log(req.session);
   if(req.session.newUser) req.session.newUser = null;
 	if(req.session.loggedIn){
 		return res.json({
@@ -67,7 +63,7 @@ exports.login = function(req, res){
 				return res.json({ login: false, error: 'Wrong password.' })
 			}
 			//set session to log in
-      req.session.loggedIn = user.email
+      req.session.loggedIn = user.email;
       req.session.userEmail = user.email;
       req.session.userName = user.name;
 			return res.json({
@@ -135,7 +131,6 @@ exports.register = function(req, res){
 			register: true
 		});
 	}
-	
 };
 //Register step 2: Construct new user from session.newUser & categories selected
 exports.register_2 = function(req, res){
@@ -169,56 +164,33 @@ exports.register_2 = function(req, res){
 
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
-  dbConfig.User.findOne({ name: req.session.userName }, function(err, result){
-    if(err){
-      console.log('getSettings error: ' + err);
-			return res.json({
-				error: 'getSettings error: ' + err
-			});
-    }
-    if(!result){
-      return res.json({
-				error: 'User with name: ' + req.session.userName + 'not found'
-			});
-    }
-    return res.json({
-      email: result.email,
-      username: result.username,
-      gender: result.gender,
-      bio: result.bio
-    });
+  app.db.get('users', req.session.userEmail, function(err, user){
+    if(err) return res.json({ error: 'User not found' });
+    return res.json({ email: user.email,
+                      username: user.username,
+                      gender: user.gender,
+                      bio: user.bio
+                    });
   });
 }
 
 // editSettings 
 exports.editSettings = function(req, res){
-  dbConfig.User.findOne({ name: req.session.userName }, function(err, result){
-    if(err){
-      console.log('editSettings error: ' + err);
-			return res.json({
-				error: 'editSettings error: ' + err
-			});
-    }
-    if(!result){
-      return res.json({
-				error: 'User with name: ' + req.session.userName + 'not found'
-			});
-    }
-    // valid email and username required.
+  app.db.get('users', req.session.userEmail, function(err, user){
+    //validate all form data
     if(!(req.body.settings.email && req.body.settings.username)){
       return res.json({
 				error: 'Email or Username is blank'
 			});
     }
-    //update object
-    result.email = req.body.settings.email;
-    result.username = req.body.settings.username;
-    result.bio = req.body.settings.bio;
-    if(req.body.settings.gender) result.gender = req.body.settings.gender;
-    result.save();
-
-    return res.json({
-      edit: true
+    //update user object
+    user.email = req.body.settings.email;
+    user.name = req.body.settings.username;
+    user.bio = req.body.settings.bio;
+    if(req.body.settings.gender) user.gender = req.body.settings.gender;
+    app.db.save('users', user.email, user, function(err){
+      if(err) return res.json({ error: 'Edit Settings: save user to db failed' });
+      return res.json({ success: true });
     });
   });
 }
@@ -252,22 +224,5 @@ exports.removeFollowers = function(req, res){
 
 //getProfileData: return all relevant profile view data to front end
 exports.getProfile = function(req, res){
-  dbConfig.User.findOne({ name: req.body.userName }, function(err, result){
-    if(err){
-      return res.json({
-        success: false,
-        error: 'Error: ' + err
-      })
-    }
-    if(!result){
-      return res.json({
-        success: false,
-        error: 'Error: User not found in database'
-      });
-    }
-    return res.json({
-      success: true,
-      name: result.name
-    });
-  });
+  return res.json({ success: false, Error: 'TODO: Get leveldb + 2i indexing setup first' });
 }

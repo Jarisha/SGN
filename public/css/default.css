@@ -79,8 +79,8 @@ label{
 #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
   font-size: 20px;
   color: #34D0BA;
-  position:absolute;
-  left:50%;
+  position: absolute;
+  left:56%;
   white-space: nowrap;
   margin-left: -100px;
   top:10px;
