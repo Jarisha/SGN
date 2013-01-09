@@ -1,6 +1,6 @@
 //Riak
 exports.db_host = '10.0.1.49';
-exports.db_port = 8098;
+exports.db_port = 8100;
 //Redis
 exports.redis_host = '10.0.1.49'
 

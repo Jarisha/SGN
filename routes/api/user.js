@@ -29,8 +29,8 @@ exports.facebookRegister = function(req, res){
     req.session.fbUser = null;
     return res.json({
       fb: true,
-      fbEmail: temp.email,
-      fbName: temp.name,
+      fbEmail: temp.data.email,
+      fbName: temp.data.name,
       fbConnect: true
     });
   }
@@ -51,28 +51,30 @@ exports.login = function(req, res){
     });
   }
 	//check if email exists in db
-	app.db.exists('users', req.body.email, function(err, exists){
-		if(!exists) return res.json({login: false, error: 'Email not found in db'});
-		next();
-	});
-	//get user, check password, log in
+  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
+    if(err) return res.json({login: false, error: 'Error: ' +  err});
+    if(!exists) return res.json({login: false, error: 'Email not found in db'});
+    return next();
+  });
 	function next(){
-		app.db.get('users', req.body.email, function(err, user){
-			if(err) return res.json({ login: false, error: 'Unable to fetch user'});
-			if(!(bcrypt.compareSync(req.body.password, user.passHash))){
+    //get user
+    var user = app.riak.bucket('users').objects.new(req.body.email);
+    user.fetch(function(err, obj){
+      //check password
+      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
 				return res.json({ login: false, error: 'Wrong password.' })
 			}
-			//set session to log in
-      req.session.loggedIn = user.email;
-      req.session.userEmail = user.email;
-      req.session.userName = user.name;
-			return res.json({
+      //log in
+      req.session.loggedIn = obj.data.email;
+      req.session.userEmail = obj.data.email;
+      req.session.userName = obj.data.name;
+      return res.json({
         login: true,
         userId: req.session.loggedIn,
         userEmail: req.session.userEmail,
         userName: req.session.userName
       });
-		});
+    });
 	}
 };
 
@@ -110,23 +112,26 @@ exports.register = function(req, res){
 		});
 	}
 	//check if another user with this email exists already
-	app.db.exists('users', req.body.email, function(err, exists){
-		if(exists){
-			return res.json({
-				register: false,
-				error: 'This email is already registered.  Please log in'
-			});
-		}
-		next();
-	});
+  app.riak.bucket('users').object.exists('req.body.email', function(err, exists){
+    if(err)
+      return res.json({ error: 'Error: ' + err });
+    if(exists){
+      return res.json({
+        register: false,
+        error: 'This email is already registerd. Please log in'
+      });
+    }
+    next();
+  });
 	function next(){
 		var hash = bcrypt.hashSync(req.body.password);
 		//save data into session so step 2 can use it to complete the registration
-		req.session.newUser = {};
-		req.session.newUser.email = req.body.email;
-		req.session.newUser.name = req.body.name;
-		req.session.newUser.fbConnect = req.body.fbConnect;
-		req.session.newUser.passHash = hash;
+		req.session.newUser = {
+      email: req.body.email,
+      name: req.body.name,
+      fbConnect: req.body.fbConnect,
+      passHash: hash
+    };
 		return res.json({
 			register: true
 		});
@@ -139,24 +144,24 @@ exports.register_2 = function(req, res){
       newHash = req.session.newUser.passHash,
       newFbConnect = req.session.newUser.fbConnect,
 			favCategories = [];
+  var newUser = {email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect, favCat: favCategories};
   //set fav_categories
   for(category in req.body.categories){
     favCategories.push(req.body.categories[category]);
   }
-	//save new user into database and log in
-	app.db.save('users', newEmail,
-		{email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect, favCat: favCategories},
-		{returnbody: true},
-		function(err, data){
-			if(err) return res.json({ register: false, error: 'user save failed' });
-			next();
-		}
-	)
-	//set session to logged in
-	function next(){
-		req.session.loggedIn = newEmail;
-    req.session.userName = newName;
-    req.session.userEmail = newEmail;
+  //make new user
+  var user = app.riak.bucket('users').objects.new(newUser.email, newUser, {returnbody: true});
+  //save user
+  user.save(function(err, obj){
+    if(err)
+      return res.json({ register: false, error: 'Error: ' + err });
+    next(obj);
+  });
+	//log in
+	function next(obj){
+		req.session.loggedIn = obj.data.email;
+    req.session.userName = obj.data.name;
+    req.session.userEmail = obj.data.email;
 		console.log(req.session.userName + ' Registered and logged In');
 		return res.json({ register: true });
 	}
@@ -164,33 +169,41 @@ exports.register_2 = function(req, res){
 
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
-  app.db.get('users', req.session.userEmail, function(err, user){
-    if(err) return res.json({ error: 'User not found' });
-    return res.json({ email: user.email,
-                      username: user.username,
-                      gender: user.gender,
-                      bio: user.bio
-                    });
+  app.riak.bucket('users').objects.get(req.session.userEmail, function(err, obj){
+    if(err) return res.json({ error: 'User not found: ' + err });
+    return res.json({
+      email: obj.data.email,
+      name: obj.data.name,
+      gender: obj.data.gender,
+      bio: obj.data.bio
+    });
   });
 }
 
 // editSettings 
 exports.editSettings = function(req, res){
-  app.db.get('users', req.session.userEmail, function(err, user){
-    //validate all form data
-    if(!(req.body.settings.email && req.body.settings.username)){
-      return res.json({
-				error: 'Email or Username is blank'
-			});
+  //validate user input
+  if(!(req.body.settings.email && req.body.settings.username)){
+    return res.json({
+      error: 'Email or Username is blank'
+    });
+  }
+  //get current user object
+  var user = app.riak.bucket('users').objects.new(req.session.userEmail);
+  //need to refresh navbar if user changes name
+  user.fetch(function(err, obj){
+    //update settings & possibly session
+    if(req.body.settings.email) obj.data.email = req.body.settings.email;
+    if(req.body.settings.username){
+      obj.data.name = req.body.settings.username;
+      req.session.userName = req.body.settings.username;
     }
-    //update user object
-    user.email = req.body.settings.email;
-    user.name = req.body.settings.username;
-    user.bio = req.body.settings.bio;
-    if(req.body.settings.gender) user.gender = req.body.settings.gender;
-    app.db.save('users', user.email, user, function(err){
-      if(err) return res.json({ error: 'Edit Settings: save user to db failed' });
-      return res.json({ success: true });
+    obj.data.bio = req.body.settings.bio;
+    if(req.body.settings.gender) obj.data.gender = req.body.settings.gender;
+    //save settings
+    obj.save(function(err, obj){
+      console.log('Settings saved');
+      return res.json({ success: true, name: obj.data.name })
     });
   });
 }

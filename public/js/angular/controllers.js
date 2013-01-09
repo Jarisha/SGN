@@ -133,6 +133,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
           $('#loginModal').modal('hide');
           
           /* If cached, reload and cache partials effected by login */
+          /* This is a method to force reload subsections of pages */
           if($templateCache.get('partials/front_subnav')){
             $templateCache.remove('partials/front_subnav');
             $http.get('partials/front_subnav', {cache:$templateCache});
@@ -246,7 +247,7 @@ function AboutController($scope, $rootScope, $http, $location){
     });
   }
 }
-function SettingsController($scope, $rootScope, $http, $location){
+function SettingsController($scope, $rootScope, $http, $location, $templateCache){
   //redirect if not logged in
   if(!$rootScope.loggedIn)
     $location.path('/');
@@ -274,7 +275,7 @@ function SettingsController($scope, $rootScope, $http, $location){
     $http.get('api/getSettings')
       .success(function(data, status, headers, config){
         if(data.email) $scope.settings.email = data.email;
-        if(data.username) $scope.settings.username = data.username;
+        if(data.name) $scope.settings.username = data.name;
         if(data.gender) $scope.settings.gender = data.gender;
         if(data.bio) $scope.settings.bio = data.bio;
       })
@@ -287,7 +288,10 @@ function SettingsController($scope, $rootScope, $http, $location){
           { id: $rootScope.userId, settings: $scope.settings }})
       .success(function(data, status, headers, config){
         if(data.error) console.log('error ' + data.error);
-        if(data.edit) alert('settings saved!');
+        if(data.success){
+          if(data.name) $rootScope.userName = data.name;
+          console.log('settings saved!');
+        }
       })
       .error(function(data, status, headers, config){
         console.log('Error' + status);

@@ -6,11 +6,17 @@ var gamepinApi = require('./routes/api/gamepin');
 var storepinApi = require('./routes/api/storepin');
 var passConfig = require('./pass_config');
 var bcrypt = require('bcrypt-nodejs');
+var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
-var db = exports.db = require('riak-js').getClient({host: config.db_host, port: config.db_port});
+//var db = exports.db = require('riak-js').getClient({host: config.db_host, port: config.db_port});
+var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
 
 //create app
 var app = exports.server = express();
+
+//configifure log
+winston.add(winston.transports.File, { filename: 'web.log'});
+winston.remove(winston.transports.Console);
   
 //configure settings & middleware
 app.configure(function(){
@@ -29,6 +35,13 @@ app.configure(function(){
                           }));
   app.use(passConfig.passport.initialize());
   //app.use(passConfig.passport.session());
+  //logging middleware
+  app.use(function(req, res, next){
+    winston.info(req.method)
+    winston.info(req.url);
+    next();
+  });
+  
 });
 
 app.configure('development', function(){
@@ -106,9 +119,10 @@ app.get('/auth/facebook/callback',
     //if logging in, set fb flag and log in
     else{
       console.log('Login via facebook success!');
-      req.session.loggedIn = req.user.email;
-      req.session.userEmail = req.user.email;
-      req.session.userName = req.user.name;
+      console.log(req.user);
+      req.session.loggedIn = req.user.data.email;
+      req.session.userEmail = req.user.data.email;
+      req.session.userName = req.user.data.name;
       res.redirect('/');
     }
   }
