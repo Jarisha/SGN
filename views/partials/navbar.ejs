@@ -2,8 +2,9 @@
   <a id="main_logo" href="/">Quyay</a>
   <ul id="nav_left" class="nav">
     <li>
-      <form id="search_bar" class="navbar-search">
-        <input type="text" class="search-query" placeholder="Search">
+      <form id="search_bar" class="navbar-search" ng-submit="textSearch(searchText)">
+        <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
+        <p>{{searchText}}</p>
       </form>
     </li>
     <li ng-show="loggedIn">

@@ -10,11 +10,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   $scope.login = {email: null, password: null};
+  $scope.pinList = [];
+  $scope.searchText = '';
   
-  
-  //Setup non AJAX related javascript
+  //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
+    $scope.getPinList();
     frontSetup($scope, $rootScope, $http);
+  }
+  
+  $scope.textSearch = function(text){
+    $scope.getPinList('', text);
   }
   
   /* AJAX FUNCTIONS */
@@ -95,6 +101,21 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       if(res.message) $scope.status = res.message;
       remason();
     });
+  }
+  //gets list of pins.  Takes in options for text search or category search.
+  $scope.getPinList = function(cat, text){
+    $http({ method: 'POST', url: 'api/getPinList', data:{category:cat, searchTerm: text}})
+      .success(function(data, status, headers, config){
+        $scope.pinList = [];
+        for(var obj in data.objects){
+          $scope.pinList.push({ description: data.objects[obj].fields.description,
+                              poster: data.objects[obj].fields.poster,
+                              category: data.objects[obj].fields.category });
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log('error');
+      });
   }
 }
 

@@ -239,3 +239,35 @@ exports.removeFollowers = function(req, res){
 exports.getProfile = function(req, res){
   return res.json({ success: false, Error: 'TODO: Get leveldb + 2i indexing setup first' });
 }
+
+exports.getPinList = function(req, res){
+  s = 0;
+  var query = {
+    q: 'returnAll:y',
+    start: s,
+    rows: 10000,
+    presort: 'key'
+  };
+  if(req.body.searchTerm){
+    query = {
+      q: 'description:'+req.body.searchTerm,
+      start: s,
+      rows: 10000,
+      presort: 'key'
+    }
+    console.log('search');
+  }
+  if(req.body.category){
+    query = {
+      q: 'category:'+req.body.category,
+      start: s,
+      rows: 10000,
+      presort: 'key'
+    }
+  }  
+  app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    return res.json({ objects: response.response.docs });
+  });
+  
+  //return res.json({ message: 'Success!' });
+}

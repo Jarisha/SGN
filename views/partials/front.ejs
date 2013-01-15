@@ -7,7 +7,7 @@
   <br />
   Status: {{status}}
   <br />
-  Global: {{ globalMess }}
+  Global: {{globalMess}}
   <br />
   <button ng-click="ajaxLogout()">Logout</button>
 </p>
@@ -20,6 +20,7 @@
     You don't have javascript enabled.  Please Enable javascript to view this site.
   </div>
 </noscript>
+<!-- onload="setup()" -->
 <div id="content" class="container" ng-include="content" onload="setup()">
 </div>
 <a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>

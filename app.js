@@ -8,7 +8,6 @@ var passConfig = require('./pass_config');
 var bcrypt = require('bcrypt-nodejs');
 var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
-//var db = exports.db = require('riak-js').getClient({host: config.db_host, port: config.db_port});
 var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
 
 //create app
@@ -37,11 +36,10 @@ app.configure(function(){
   //app.use(passConfig.passport.session());
   //logging middleware
   app.use(function(req, res, next){
-    winston.info(req.method)
+    winston.info(req.method);
     winston.info(req.url);
     next();
   });
-  
 });
 
 app.configure('development', function(){
@@ -129,7 +127,7 @@ app.get('/auth/facebook/callback',
 );
 app.get('/allUsers', function(req, res){
   var html = '<ul>';
-  res.send('TODO: Switch to levedb to index users via username');
+  //res.send('TODO: Switch to levedb to index users via username');
 });
 app.get('/user/*', function(req, res){
   return res.render('base');
@@ -171,6 +169,8 @@ app.post('/api/addFollowers', userApi.addFollowers);
 app.post('/api/removeFollowers', userApi.removeFollowers);
 app.get('/api/getPath', userApi.getPath);
 app.post('/api/getProfile', userApi.getProfile);
+app.post('/api/getPinList', userApi.getPinList);
+
 //Gamepin
 app.post('/api/gamepin/post', gamepinApi.post);
 app.post('/api/gamepin/edit', gamepinApi.edit);
