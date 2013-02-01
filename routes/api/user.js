@@ -1,6 +1,7 @@
 /********************************* User *******************************/
 var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
+var util = require('../../utility');
 var app = require('../../app');
 
 //Checks if user is logged in. Called on every angularjs infused page.
@@ -50,16 +51,25 @@ exports.login = function(req, res){
       error: 'Login Failed: User already logged in'
     });
   }
+  //validation.  TODO: more rigorous validations
+  if(!req.body.email) return res.json({login: false, error: 'Invalid email entered'});
+  if(!req.body.password) return res.json({login: false, error: 'Invalid password entered'});
 	//check if email exists in db
   app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
     if(err) return res.json({login: false, error: 'Error: ' +  err});
-    if(!exists) return res.json({login: false, error: 'Email not found in db'});
+    if(!exists){
+      console.log('Does not exist!');
+      return res.json({login: false, error: 'Email not found in db'});
+    }
     return next();
   });
 	function next(){
     //get user
     var user = app.riak.bucket('users').objects.new(req.body.email);
-    user.fetch(function(err, obj){
+    user.fetch(util.user_resolve, function(err, obj){
+      console.log(err);
+      util.clearChanges(obj);
+      
       //check password
       if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
 				return res.json({ login: false, error: 'Wrong password.' })
@@ -76,7 +86,7 @@ exports.login = function(req, res){
       });
     });
 	}
-};
+}
 
 // Destroy Session
 exports.logout = function(req, res){
@@ -105,6 +115,12 @@ exports.register = function(req, res){
     });
   }
   //validate user input
+  //validation.  TODO: more rigorous validations
+  if(!req.body.email) return res.json({login: false, error: 'No email entered'});
+  if(!req.body.name) return res.json({login: false, error: 'No name entered'});
+  if(!req.body.password) return res.json({login: false, error: 'No password entered'});
+  if(!req.body.confirm) return res.json({login: false, error: 'No confirm entered'});
+  
 	if(req.body.password !== req.body.confirm){
 		return res.json({
       register: false,
@@ -118,7 +134,7 @@ exports.register = function(req, res){
     if(exists){
       return res.json({
         register: false,
-        error: 'This email is already registerd. Please log in'
+        error: 'This email is already registered. Please log in'
       });
     }
     next();
@@ -143,14 +159,41 @@ exports.register_2 = function(req, res){
       newName = req.session.newUser.name,
       newHash = req.session.newUser.passHash,
       newFbConnect = req.session.newUser.fbConnect,
-			favCategories = [];
-  var newUser = {email: newEmail, name: newName, passHash: newHash, fbConnect: newFbConnect, favCat: favCategories};
-  //set fav_categories
-  for(category in req.body.categories){
-    favCategories.push(req.body.categories[category]);
-  }
+			favCategories = [],
+      dayJoined = util.getDate();
+    //set fav_categories
+    for(category in req.body.categories){
+      favCategories.push(req.body.categories[category]);
+    }
+    var newUser = {
+                email: newEmail,
+                passHash: newHash,
+                name: newName,
+                fbConnect: newFbConnect,
+                favCat: favCategories,
+                profileImg: '',
+                gender: null,
+                bio:null,
+                dateJoined: dayJoined,
+                currXP:0,
+                nextXP:100,
+                level:1,
+                posts:[],
+                likes:[],
+                followers:[],
+                following:[],
+                friends:[],
+                recentActivity:[],
+                changes:{
+                  posts: {add:[], remove:[]},
+                  likes: {add:[], remove:[]},
+                  followers: {add:[], remove:[]},
+                  following: {add:[], remove:[]},
+                  friends: {add:[], remove:[]}
+                }
+    };
   //make new user
-  var user = app.riak.bucket('users').objects.new(newUser.email, newUser, {returnbody: true});
+  var user = app.riak.bucket('users').objects.new(newUser.email, newUser);
   //save user
   user.save(function(err, obj){
     if(err)
@@ -221,15 +264,60 @@ exports.deactivate = function(req, res){
   })
 }
 
-//addFollowers
-exports.addFollowers = function(req, res){
-  return res.json({
-    success: true
-  })
+//addFollowers: source user follows target user
+exports.follow = function(req, res){
+  var sourceId = req.body.sourceId,
+      targetId = req.body.targetId;  
+  var src = app.riak.bucket('users').objects.new(sourceId),
+      targ = app.riak.bucket('users').objects.new(targetId);
+  //validate
+  if(sourceId === targetId){
+    return res.json({ error: "Error: cannot follow yourself" });
+  }
+  
+  //source user adds target to following
+  src.fetch(util.user_resolve, function(err, obj){
+    if(err){
+      return res.json({ error: "Fetch User: " + err });
+    }
+    util.clearChanges(obj);
+    
+    if(obj.data.following.indexOf(targetId) === -1){
+      obj.data.following.push(targetId);
+      obj.data.changes.following.add.push(targetId);
+      obj.save(function(err,saved){
+        console.log(sourceId + " following ["+ saved.data.following +"]");
+        next();
+      });
+    }
+    else{
+      return res.json({ error: "User " + targetId + " aready on following list" });
+    }
+  });
+  function next(){
+    //target user adds source to followers
+    targ.fetch(util.user_resolve, function(err, obj){
+      if(err){
+        return res.json({ error: "Fetch User: " + err });
+      }
+      util.clearChanges(obj);
+      if(obj.data.followers.indexOf(sourceId) === -1){
+        obj.data.followers.push(sourceId);
+        obj.data.changes.followers.add.push(sourceId);
+        obj.save(function(err, saved){
+          console.log(targetId + " followers ["+ saved.data.followers +"]");
+          return res.json({ success: true });
+        });
+      }
+      else{
+        return res.json({ error: "User " + targetId + " aready on following list" });
+      }
+    });
+  }
 }
 
 //removeFollowers
-exports.removeFollowers = function(req, res){
+exports.unfollow = function(req, res){
   return res.json({
     success: true
   })
@@ -237,7 +325,14 @@ exports.removeFollowers = function(req, res){
 
 //getProfileData: return all relevant profile view data to front end
 exports.getProfile = function(req, res){
-  return res.json({ success: false, Error: 'TODO: Get leveldb + 2i indexing setup first' });
+  var usr = app.riak.bucket('users').objects.new(req.body.userEmail);
+  usr.fetch(util.user_resolve, function(err, obj){
+    if(err){
+      return res.json({error: err});
+    }
+    util.clearChanges(obj);
+    return res.json(obj.data);
+  });
 }
 
 exports.getPinList = function(req, res){
@@ -245,8 +340,8 @@ exports.getPinList = function(req, res){
   var query = {
     q: 'returnAll:y',
     start: s,
-    rows: 10000,
-    presort: 'key'
+    rows: 100
+    //presort: 'key'
   };
   if(req.body.searchTerm){
     query = {
@@ -264,8 +359,13 @@ exports.getPinList = function(req, res){
       rows: 10000,
       presort: 'key'
     }
-  }  
+  }
+  console.log(query);
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      console.log(err);
+      return res.json({error: err});
+    }
     return res.json({ objects: response.response.docs });
   });
   

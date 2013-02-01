@@ -15,7 +15,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
-    $scope.getPinList();
     frontSetup($scope, $rootScope, $http);
   }
   
@@ -96,6 +95,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         $scope.status = 'Error: ' + status;
       });
   }
+  
+  
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
@@ -109,7 +110,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         $scope.pinList = [];
         for(var obj in data.objects){
           $scope.pinList.push({ description: data.objects[obj].fields.description,
-                              poster: data.objects[obj].fields.poster,
+                              poster: data.objects[obj].fields.posterId,
                               category: data.objects[obj].fields.category });
         }
       })
@@ -117,6 +118,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         console.log('error');
       });
   }
+  $scope.getPinList();
 }
 
 function StoreController($scope, $rootScope, $http, $location, $templateCache){
@@ -224,6 +226,24 @@ function ProfileController($scope, $rootScope, $http, $location){
   $scope.content = $rootScope.rootPath + '/partials/profile_content';
   $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
   
+  $scope.profile = {  name: null,
+                      email: null,
+                      fbConnect: null,
+                      favCat: null,
+                      profileImg: null,
+                      gender: null,
+                      bio: null,
+                      dateJoined: null,
+                      currXP: null,
+                      nextXP: null,
+                      level: null,
+                      posts: [],
+                      likes: [],
+                      followers: [],
+                      following: [],
+                      friends: []
+  };
+  
   $scope.setup = function(){
     profileSetup($scope);
   }
@@ -235,19 +255,33 @@ function ProfileController($scope, $rootScope, $http, $location){
     });
   }
   
-  $scope.getSettings = function(){
-    $http.get('api/getSettings')
+  $scope.getProfile = function(){
+    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $rootScope.userId}})
       .success(function(data, status, headers, config){
-        if(data.email) $scope.settings.email = data.email;
-        if(data.username) $scope.settings.username = data.username;
-        if(data.gender) $scope.settings.gender = data.gender;
-        if(data.bio) $scope.settings.bio = data.bio;
+        //TODO: do this via for..in loop.  Maybe.
+        $scope.profile.name = data.name;
+        $scope.profile.email = data.email;
+        $scope.profile.fbConnect = data.fbConnect;
+        $scope.profile.favCat = data.favCat;
+        $scope.profile.profileImg = data.profileImg;
+        $scope.profile.gender = data.gender;
+        $scope.profile.bio = data.bio;
+        $scope.profile.dateJoined = data.dateJoined;
+        $scope.profile.currXP = data.currXP;
+        $scope.profile.nextXP = data.nextXP;
+        $scope.profile.level = data.level;
+        $scope.profile.posts = data.posts;
+        $scope.profile.likes = data.likes;
+        $scope.profile.followers = data.followers;
+        $scope.profile.following = data.following;
+        $scope.profile.friends = data.friends;
+        console.log($scope.profile);
       })
-      .error(function(data, status, headers, config) {
-        result.message = 'Error: ' + status;
+      .error(function(data, status, headers, config){
+        console.log('Error: ' + status);
       });
   }
-  $scope.getSettings();
+  $scope.getProfile();
 }
 function AboutController($scope, $rootScope, $http, $location){
   $rootScope.css = 'about';
@@ -332,20 +366,69 @@ function UserController($scope, $rootScope, $http, $location, $routeParams){
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/user_content';
-  $scope.profile = {name: null};
+  $scope.profile = {  name: null,
+                      email: null,
+                      fbConnect: null,
+                      favCat: null,
+                      profileImg: null,
+                      gender: null,
+                      bio: null,
+                      dateJoined: null,
+                      currXP: null,
+                      nextXP: null,
+                      level: null,
+                      posts: [],
+                      likes: [],
+                      followers: [],
+                      following: [],
+                      friends: []
+  };
   
   $scope.setup = function(){
     profileSetup($scope);
   }
   
+  $scope.follow = function(target){
+    $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: target} })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          console.log('Now following' + target);
+        }
+        if(data.error){
+          console.log(error);
+        }
+        //TODO: update user's follower list in REAL TIME!
+      })
+      .error(function(data, status, headers, config){
+        console.log('Error: ' + status);
+      });
+  }
+  
   console.log($routeParams.user);
   //get profile data for this user
   $scope.getProfile = function(){
-    $http({method:'post', url:'/api/getProfile', data:{ userName: $routeParams.user}})
+    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $routeParams.user}})
       .success(function(data, status, headers, config){
         //redirect to my_profile is username matches current user
         if($rootScope.userName === data.name) $location.path('/profile');
+        //TODO: do this via for..in loop
         $scope.profile.name = data.name;
+        $scope.profile.email = data.email;
+        $scope.profile.fbConnect = data.fbConnect;
+        $scope.profile.favCat = data.favCat;
+        $scope.profile.profileImg = data.profileImg;
+        $scope.profile.gender = data.gender;
+        $scope.profile.bio = data.bio;
+        $scope.profile.dateJoined = data.dateJoined;
+        $scope.profile.currXP = data.currXP;
+        $scope.profile.nextXP = data.nextXP;
+        $scope.profile.level = data.level;
+        $scope.profile.posts = data.posts;
+        $scope.profile.likes = data.likes;
+        $scope.profile.followers = data.followers;
+        $scope.profile.following = data.following;
+        $scope.profile.friends = data.friends;
+        console.log($scope.profile);
       })
       .error(function(data, status, headers, config){
         console.log('Error: ' + status);

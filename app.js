@@ -5,6 +5,7 @@ var userApi = require('./routes/api/user');
 var gamepinApi = require('./routes/api/gamepin');
 var storepinApi = require('./routes/api/storepin');
 var passConfig = require('./pass_config');
+var riakConfig = require('./riak_config');
 var bcrypt = require('bcrypt-nodejs');
 var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
@@ -13,10 +14,15 @@ var riak = exports.riak = require('nodiak').getClient('http', config.db_host, co
 //create app
 var app = exports.server = express();
 
+//configure riak
+riakConfig.init();
+
 //configifure log
 winston.add(winston.transports.File, { filename: 'web.log'});
 winston.remove(winston.transports.Console);
-  
+
+//initialize riak buckets
+
 //configure settings & middleware
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -75,6 +81,7 @@ app.configure('production', function(){
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
   //console.log(req.session);
+  riakConfig.init();
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -165,8 +172,8 @@ app.get('/api/checkLogin', userApi.checkLogin);
 app.get('/api/getSettings', userApi.getSettings);
 app.post('/api/editSettings', userApi.editSettings);
 app.get('/api/deactivate', userApi.deactivate);
-app.post('/api/addFollowers', userApi.addFollowers);
-app.post('/api/removeFollowers', userApi.removeFollowers);
+app.post('/api/follow', userApi.follow);
+app.post('/api/unfollow', userApi.removeFollowers);
 app.get('/api/getPath', userApi.getPath);
 app.post('/api/getProfile', userApi.getProfile);
 app.post('/api/getPinList', userApi.getPinList);

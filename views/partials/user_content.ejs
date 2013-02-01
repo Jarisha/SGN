@@ -1,20 +1,21 @@
+<!-- This is the view of another user's profile -->
 <div id="profile_col">
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" >
-        <img src="<%= rootPath %>/images/50x50.gif" width="165"/>
+        <img src="<%= rootPath %>{{profile.profileImg}}" width="165"/>
         <p style="position: absolute; top:90px; font-size: 15px;" >Upload a profile image</p>
       </div>
       <div class="profile_xp">
-        <span class="curr_level">Level 1</span>
-        <span class="to_level">20XP to level</span>
+        <span class="curr_level">Level {{profile.level}}</span>
+        <span class="to_level">{{profile.nextXP}}XP to level</span>
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
-          &nbsp;
+          {{profile.currXP}}
         </span>
         <span class="xp_remaining">
-          &nbsp;
+          {{profile.nextXP}}
         </span>
       </div>
     </div>
@@ -22,42 +23,35 @@
   <div class="right_container">
     <div class="right_padding">
       <p class="profile_name">{{profile.name}}</p>
-      <p class="bio_text">{{settings.bio}}</p>
+      <p class="bio_text">{{profile.bio}}</p>
       <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
       <div class="bio_opts_container hidden">
         <p class="bio_opts">400 remaining</p>
       </div>
       <div class="social_media">
-        <a href="">Facebook Page</a><a href="">Twitter</a>
-        <a href="">Gamer Profile</a><a href="">Blog Site</a>
+        <a href="" ng-show="profile.fbConnect">Facebook Page</a>
       </div>
     </div>
   </div>
   <div class="bot_container">
     <div class="comrade_tabs">
         <img src="<%= rootPath %>/images/friend_add.png" width="40"/>
-        <p>3 Friends</p>
+        <p>{{profile.friends.length}} Friends</p>
     </div>
-    <img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/>
+    <a ng-repeat="friend in profile.friends" href="{{friend}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
     <button class="add_follower"><img src="<%= rootPath %>/images/friend_add.png"  width="40" /><p>Add</p></button>
   </div>
   <div class="bot_container">
     <div class="comrade_tabs">
         <img src="<%= rootPath %>/images/friend_tag.png" width="40"/>
-        <p>25 Followers</p>
+        <p>{{profile.followers.length}} Followers</p>
     </div>
-    <img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img 
-    src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/><img 
-    src="<%= rootPath %>/images/60x60.gif"/><img src="<%= rootPath %>/images/60x60.gif"/>
-    <button class="add_follower"><img src="<%= rootPath %>/images/friend_tag.png"  width="40" /><p>Add</p></button>
+    <a ng-repeat="follower in profile.followers" href="{{follower}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
+    <button class="add_follower" ng-click="follow(profile.email)"><img src="<%= rootPath %>/images/friend_tag.png"  width="40" /><p>Add</p></button>
     
   </div>
 </div>
-<!-- <div id="button_col">
-  <button> Follow </button>
-  <button> Add Friend </button>
-</div> -->
 <div id="badge_col">
   <div class="badge_chest">
     <div class="badge_head clearfix">
@@ -66,26 +60,14 @@
     </div>
     <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
     <img src="<%= rootPath %>/images/misc_images/badge2.png" width="60"/>
-    <!--<img src="<%= rootPath %>/images/misc_images/badge3.png" width="60"/>
-    <img src="<%= rootPath %>/images/misc_images/badge4.png" width="60"/>
-    <img src="<%= rootPath %>/images/misc_images/badge5.png" width="60"/>
-    <img src="<%= rootPath %>/images/misc_images/badge6.png" width="60"/> -->
   </div>
 </div>
 <div id="follower_col">
   <div class="badge_chest">
     <div class="badge_head clearfix">
-      <b class="badge_title">10 Following</b>
+      <b class="badge_title">Following {{profile.following.length}} Qusers</b>
       <span class="view_all"><a href="#">View All</a></span>
     </div>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
-    <img src="<%= rootPath %>/images/60x60.gif" width="60"/>
+    <a ng-repeat="following in profile.following" href="/user/{{following}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
   </div>
 </div>

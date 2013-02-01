@@ -8,7 +8,12 @@ function remason(){
   });
 }
 
+function test(){
+  console.log('test111!!!');
+}
+
 function frontSetup($scope, $rootScope, $http){
+  console.log('frontSetup');
   //Masonry and InfiniteScroll
   var $container = $('#content');
   $container.imagesLoaded(function(){
