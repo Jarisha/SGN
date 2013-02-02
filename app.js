@@ -182,17 +182,12 @@ app.post('/api/getPinList', userApi.getPinList);
 app.post('/api/gamepin/post', gamepinApi.post);
 app.post('/api/gamepin/edit', gamepinApi.edit);
 app.post('/api/gamepin/remove', gamepinApi.remove);
+app.post('/api/gamepin/getComments', gamepinApi.getComments);
 app.post('/api/gamepin/comment', gamepinApi.comment);
 app.post('/api/gamepin/editComment', gamepinApi.editComment);
 app.post('/api/gamepin/like', gamepinApi.like);
 app.post('/api/gamepin/share', gamepinApi.share);
 app.post('/api/gamepin/search', gamepinApi.search);
-//Storepin
-app.post('/api/gamepin/post', storepinApi.post);
-app.post('/api/gamepin/favorite', storepinApi.favorite);
-app.post('/api/gamepin/share', storepinApi.share);
-app.post('/api/gamepin/download', storepinApi.download);
-app.post('/api/gamepin/search', storepinApi.search);
 
 //Route to 404 Page if not served
 app.get('*', function(req, res){

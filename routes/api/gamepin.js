@@ -1,4 +1,7 @@
 /*************************************** Gamepin ***************************************/
+var util = require('../../utility');
+var app = require('../../app');
+
 //post gamepin.  Create the gamepin object and store in db
 exports.post = function(req, res){
   //validate data
@@ -48,12 +51,40 @@ exports.remove = function(req, res){
   })
 }
 
+//take array of comments, get comment obj, sort them, return sorted list of objs.
+exports.getComments = function(req, res){
+  //console.log(req.body.commentIds);
+  var commentList = [];
+  app.riak.bucket('comments').objects.get(req.body.commentIds, function(err, objs){
+    if(err){
+      return res.json({ error: err });
+    }
+    //if nodiak gives us a single object, convert that into an array with 1 element.
+    if(objs && Object.prototype.toString.call( objs ) !== '[object Array]')
+      objs = [objs];
+    for(var o = 0; objs && o < objs.length; o++){
+      commentList.push({  id: objs[o].key,
+                          pin: objs[o].data.pin,
+                          poster: objs[o].data.poster,
+                          content: objs[o].data.content
+                      });
+    }
+    //sort based on ID
+    commentList.sort(function(a,b){
+      return a.id - b.id;
+    });
+    return res.json({ success:true, list: commentList });
+  });
+}
+
 //comment
 exports.comment = function(req, res){
   console.log(req.body);
-  return res.json({
+  
+
+  /*return res.json({
     success: true
-  })
+  })*/
 }
 
 //editComment

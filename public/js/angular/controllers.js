@@ -11,7 +11,16 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   $scope.login = {email: null, password: null};
   $scope.pinList = [];
+  var commentList = [];
   $scope.searchText = '';
+  
+  $scope.test = function(){
+    console.log('test');
+  }
+  
+  $scope.mason = function(){
+    remason();
+  }
   
   //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
@@ -104,20 +113,59 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     });
   }
   //gets list of pins.  Takes in options for text search or category search.
+  //warning: very nasty code lies ahead
   $scope.getPinList = function(cat, text){
     $http({ method: 'POST', url: 'api/getPinList', data:{category:cat, searchTerm: text}})
       .success(function(data, status, headers, config){
+        var cmtResolve = [];
+        if(data.error){
+          console.log(data.error);
+        }
         $scope.pinList = [];
-        for(var obj in data.objects){
-          $scope.pinList.push({ description: data.objects[obj].fields.description,
-                              poster: data.objects[obj].fields.posterId,
-                              category: data.objects[obj].fields.category });
+        //fill commentList and pinList with empty values to start
+        for(var i = 0; i < data.objects.length; i++){
+          commentList.push([]);
+          $scope.pinList.push({});
+          if(data.objects[i].fields.comments){
+            cmtResolve.push({index:i, cmtIds: data.objects[i].fields.comments.split(" ")});
+          }
+          //if(data.objects[i].fields.comments) cmtLen++;
+        }
+        //send comment IDs to server, get comments back and store them in pinList
+        //for(c in cmtResolve){
+        if(cmtResolve.length < 1){
+          next();
+        }
+        for(var i = 0; i < cmtResolve.length; i++){
+          (function(j){
+            $http({ method: 'POST', url: 'api/gamepin/getComments', data: {commentIds: cmtResolve[j].cmtIds} })
+              .success(function(data, status, headers, config){
+                if(data.error) console.log(data.error);
+                if(data.success){
+                  $scope.pinList[cmtResolve[j].index].comments = data.list;
+                  if(j === cmtResolve.length - 1) next();
+                }
+              })
+              .error(function(data, status, headers, config){
+                console.log('AJAX error');
+              });
+          })(i);
+        }
+        function next(){
+          //console.log(data.objects);
+          for(var i = 0; i < data.objects.length; i++){
+            $scope.pinList[i].id = data.objects[i].id;
+            $scope.pinList[i].description = data.objects[i].fields.description;
+            $scope.pinList[i].poster = data.objects[i].fields.posterId;
+            $scope.pinList[i].category = data.objects[i].fields.category;
+          }
         }
       })
       .error(function(data, status, headers, config){
         console.log('error');
       });
   }
+  
   $scope.getPinList();
 }
 

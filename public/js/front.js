@@ -15,11 +15,12 @@ function test(){
 function frontSetup($scope, $rootScope, $http){
   console.log('frontSetup');
   //Masonry and InfiniteScroll
-  var $container = $('#content');
+  /*var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
     });
+    console.log('mason');
   });
   $container.infinitescroll({
     navSelector  : '#pag_nav',    // selector for the paged navigation
@@ -40,7 +41,7 @@ function frontSetup($scope, $rootScope, $http){
         $container.masonry( 'appended', $newElems, true );
       });
     }
-  );
+  );*/
   /* Setup modals */
   $scope.promptLogin = function(){
     //clear modal

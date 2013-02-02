@@ -18,6 +18,7 @@ angular.module('myApp.directives', [])
         if(scope.$last){
           console.log('last proc!');
           scope.setup();
+          remason();
         }
       }
     };

@@ -12,15 +12,15 @@
   <a name="c1"></a>
   <p class="game_description">{{pin.description}}</p>
   <p class="game_attributes">
-    <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>3 comments</span>
+    <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
   </p>
   <div class="posted_by">
     <img src="<%= rootPath %>/images/30x30.gif" class="profile_img" /><p
     class="post_text"><a href="/user/{{pin.poster}}"><b>{{pin.poster}}</b></a> onto {{pin.category}}</p>
   </div>
-  <div class="comment">
+  <div ng-repeat="cmt in pin.comments" class="comment">
     <img src="<%= rootPath %>/images/30x30.gif" class="profile_img"/><p 
-    class="post_text"><b>Jamie</b> This game is a really cool RTS game and I pley it all the time!1! </p>
+    class="post_text"><a href="/user/{{cmt.poster}}">{{cmt.poster}}</a> {{cmt.content}} </p>
   </div>
   <div ng-show="loggedIn" class="respond clearfix" tabindex="">
     <img src="<%= rootPath %>/images/30x30.gif" class="profile_img"/><textarea 

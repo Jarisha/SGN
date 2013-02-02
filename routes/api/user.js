@@ -360,14 +360,14 @@ exports.getPinList = function(req, res){
       presort: 'key'
     }
   }
-  console.log(query);
+  //should have resolve function for any read including search
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
       console.log(err);
       return res.json({error: err});
     }
+    //console.log(response);
     return res.json({ objects: response.response.docs });
   });
-  
-  //return res.json({ message: 'Success!' });
 }
+

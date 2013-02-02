@@ -2,8 +2,6 @@
 var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']);
 //var app = angular.module('myApp', []);
 
-console.log(app);
-
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
