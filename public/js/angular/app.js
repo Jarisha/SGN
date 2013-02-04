@@ -14,7 +14,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   $locationProvider.html5Mode(true);
 }]);
 
-
 // Entry Point
 app.run(function($rootScope, $http, $templateCache, $location){
   console.log('entryPoint');

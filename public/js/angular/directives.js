@@ -16,9 +16,9 @@ angular.module('myApp.directives', [])
       restrict: 'A',
       link: function(scope, element, attrs){
         if(scope.$last){
-          console.log('last proc!');
+          //console.log('last proc!');
           scope.setup();
-          remason();
+          //remason();
         }
       }
     };

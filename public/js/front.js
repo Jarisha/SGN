@@ -1,6 +1,6 @@
 function remason(){
-  console.log('remason!!');
   var $container = $('#content');
+  console.log($('#content > *').length);
   $container.imagesLoaded(function(){
     $container.masonry({
       itemSelector : '.game_pin, .store_pin',

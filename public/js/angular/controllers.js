@@ -37,13 +37,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   /* AJAX FUNCTIONS */
   //If doing facebook register, spawn modal with fb data prefilled
   $scope.facebookRegister = function(){
+    $('#content.masonry').masonry( 'destroy' );
     $http.get('/api/facebookRegister')
       .success(function(data, status, headers, config){
+        remason();
         if(data.fb){
           $scope.register.email = data.fbEmail;
           $scope.register.name = data.fbName;
           $scope.register.fbConnect = true;
           $('#fbRegisterModal').modal();
+        }
+        else{
         }
       })
       .error(function(data, status, headers, config) {
@@ -73,6 +77,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
             $templateCache.remove('partials/navbar');
             $http.get('partials/navbar', {cache:$templateCache});
           }
+          console.log("login remason");
           remason();
         }
         else if(!data.login && data.error){
@@ -112,6 +117,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
+      console.log("logout remason");
       remason();
     });
   }
@@ -156,7 +162,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         }
         function next(){
           if(cmtResolve.length > 0){
-            remason();
+            //console.log("getComments remason");
+            //remason();
             $('#subnav').affix({ offset: 42 });
           }
           for(var i = 0; i < data.objects.length; i++){
@@ -174,6 +181,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.addComment = function(text, index){
     //add the comment in the view
     $scope.pinList[index].comments.push({poster: $rootScope.userId, content: text});
+    console.log("addComment: remason()");
     remason();
     $http({ method:'post', url:'/api/gamepin/addComment',
       data:{pinId: $scope.pinList[index].id, posterId: $rootScope.userId, content: text} })
@@ -235,6 +243,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
             $templateCache.remove('partials/navbar');
             $http.get('partials/navbar', {cache:$templateCache});
           }
+          console.log("Login success: remason()");
           remason();
         }
         else if(!data.login && data.error){
