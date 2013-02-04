@@ -183,7 +183,7 @@ app.post('/api/gamepin/post', gamepinApi.post);
 app.post('/api/gamepin/edit', gamepinApi.edit);
 app.post('/api/gamepin/remove', gamepinApi.remove);
 app.post('/api/gamepin/getComments', gamepinApi.getComments);
-app.post('/api/gamepin/comment', gamepinApi.comment);
+app.post('/api/gamepin/addComment', gamepinApi.addComment);
 app.post('/api/gamepin/editComment', gamepinApi.editComment);
 app.post('/api/gamepin/like', gamepinApi.like);
 app.post('/api/gamepin/share', gamepinApi.share);

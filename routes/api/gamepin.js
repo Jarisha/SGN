@@ -78,13 +78,38 @@ exports.getComments = function(req, res){
 }
 
 //comment
-exports.comment = function(req, res){
+exports.addComment = function(req, res){
   console.log(req.body);
-  
-
-  /*return res.json({
-    success: true
-  })*/
+  var commentId;
+  var pinId = req.body.pinId,
+      posterId = req.body.posterId,
+      text = req.body.content;
+  //validations
+  if(text === '' || text === null || text === undefined){
+    return res.json({ error: "Error: text is empty" });
+  }
+  util.generateId(function(id){
+    commentId = id;
+    next();
+  });
+  function next(){
+    var cmt = app.riak.bucket('comments').objects.new(commentId, {pin: pinId, poster: posterId, content: text});
+    cmt.save(function(err, saved_cmt){
+      var pin = app.riak.bucket('gamepins').objects.new(pinId);
+      pin.fetch(util.pin_resolve, function(err, obj){
+        if(err){
+          return res.json({ error: "Fetch Pin: " + err });;
+        }
+        util.clearChanges(obj);
+        obj.data.comments.push(saved_cmt.key);
+        obj.data.changes.comments.add.push(saved_cmt.key);
+        obj.save(function(err, saved_pin){
+          console.log("Comment #" + saved_cmt.key + " written to pin #" + saved_pin.key);
+          return res.json({ success: true });
+        });
+      });
+    });
+  }
 }
 
 //editComment

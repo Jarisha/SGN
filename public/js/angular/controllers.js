@@ -12,7 +12,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.login = {email: null, password: null};
   $scope.pinList = [];
   var commentList = [];
+  $scope.newComment = { text: null };
   $scope.searchText = '';
+  
+  console.log('frontController');
   
   $scope.test = function(){
     console.log('test');
@@ -125,7 +128,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         //fill commentList and pinList with empty values to start
         for(var i = 0; i < data.objects.length; i++){
           commentList.push([]);
-          $scope.pinList.push({});
+          $scope.pinList.push({id:null, description:null, poster:null, category:null, comments:[]});
           if(data.objects[i].fields.comments){
             cmtResolve.push({index:i, cmtIds: data.objects[i].fields.comments.split(" ")});
           }
@@ -152,7 +155,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
           })(i);
         }
         function next(){
-          //console.log(data.objects);
+          if(cmtResolve.length > 0){
+            remason();
+            $('#subnav').affix({ offset: 42 });
+          }
           for(var i = 0; i < data.objects.length; i++){
             $scope.pinList[i].id = data.objects[i].id;
             $scope.pinList[i].description = data.objects[i].fields.description;
@@ -165,8 +171,24 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         console.log('error');
       });
   }
-  
+  $scope.addComment = function(text, index){
+    //add the comment in the view
+    $scope.pinList[index].comments.push({poster: $rootScope.userId, content: text});
+    remason();
+    $http({ method:'post', url:'/api/gamepin/addComment',
+      data:{pinId: $scope.pinList[index].id, posterId: $rootScope.userId, content: text} })
+      .success(function(data, status, headers, config){
+        console.log('post comment success!');
+      })
+      .error(function(data, status, headers, config){
+        console.log('error');
+      });
+    //API call to add comment to DB
+    
+    //$scope.pinList[index]
+  }
   $scope.getPinList();
+  //affix subnav
 }
 
 function StoreController($scope, $rootScope, $http, $location, $templateCache){

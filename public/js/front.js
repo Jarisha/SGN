@@ -3,7 +3,8 @@ function remason(){
   var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
+      itemSelector : '.game_pin, .store_pin',
+      isAnimated: true
     });
   });
 }
@@ -158,6 +159,7 @@ function frontSetup($scope, $rootScope, $http){
   }
   //affix subnav to top after it is loaded
   $scope.affix = function(){
+    console.log('affix subnav');
     $('#subnav').affix({ offset: 42 });
   }
   
@@ -181,15 +183,15 @@ function frontSetup($scope, $rootScope, $http){
   
   // Post comment (insert HTML string)
   var comment = '<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text"></p></div>';
-  $(document).on('click', '.respond_btn', function(e){
+  /*$(document).on('click', '.respond_btn', function(e){
     var response = $.trim($(this).prevAll('.respond_txtarea').val());
     $(this).prevAll('.respond_txtarea').val('');
-    $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text">' + 
+    $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="{{rootPath}}/images/30x30.gif"><p class="post_text">' + 
                                             '<b>User</b>&nbsp;' + response + '</p></div>');
     $container.masonry({
       itemSelector : '.game_pin, .store_pin'
     });
-  });
+  });*/
   
   /* View Pin */ 
   // Load image into enlarged pin upon click
