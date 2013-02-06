@@ -1,16 +1,17 @@
-'use strict';
 var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']);
-//var app = angular.module('myApp', []);
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
+  $routeProvider.when('/page/:page', {templateUrl: '../partials/front', controller: FrontController});
+  $routeProvider.when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController});
+  $routeProvider.when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController});
   $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
   $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
   $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
   $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
   $routeProvider.when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
-  
+    
   $locationProvider.html5Mode(true);
 }]);
 
@@ -177,21 +178,20 @@ app.run(function($rootScope, $http, $templateCache, $location){
   $http.get('/api/getPath')
     .success(function(data, status, headers, config){
       $rootScope.rootPath = data.path;
-      console.log(data.path);
     })
     .error(function(data, status, headers, config) {
       result.message = 'Error: ' + status;
     });
-    
+  console.log($rootScope.rootPath);
+  //load templates into cache
+  $http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
+  $http.get($rootScope.rootPath + '/partials/front_subnav', {cache:$templateCache});
+  $http.get($rootScope.rootPath + '/partials/navbar', {cache:$templateCache});
+  $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});
+  //$templateCache.put('test.html', '<b> I emphasize testing</b>');
   //Always check if user is logged in
   $rootScope.checkLogin(function(res){
     if(res.message) $rootScope.status = res.status;
   });
   
-  //load templates into cache
-  $http.get('partials/modals', {cache:$templateCache});
-  $http.get('partials/front_subnav', {cache:$templateCache});
-  $http.get('partials/navbar', {cache:$templateCache});
-  $http.get('partials/front_content', {cache:$templateCache});
-  //$templateCache.put('test.html', '<b> I emphasize testing</b>');
 });

@@ -1,7 +1,8 @@
 'use strict';
 /* Controllers */
 
-function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout){
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams){
+  
   $rootScope.css = 'front';
   $rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -11,11 +12,18 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   $scope.login = {email: null, password: null};
   $scope.pinList = [];
-  var commentList = [];
+  $scope.showPins = [];
+  $scope.loadIndex = 0;
+  //TODO: fill pageNav
+  $scope.pages = [];
+  var interval = 20;
+  
+  var commentList = ['','',''];
   $scope.newComment = { text: null };
   $scope.searchText = '';
   
   console.log('frontController');
+  console.log($scope.content);
   
   $scope.test = function(){
     console.log('test');
@@ -113,7 +121,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       });
   }
   
-  
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
@@ -124,13 +131,15 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   //gets list of pins.  Takes in options for text search or category search.
   //warning: very nasty code lies ahead
   $scope.getPinList = function(cat, text){
-    $http({ method: 'POST', url: 'api/getPinList', data:{category:cat, searchTerm: text}})
+    cat = cat || $routeParams.cat;
+    text = text || $routeParams.tex;
+    
+    $http({ method: 'POST', url: $rootScope.rootPath +'/api/getPinList', data:{category:cat, searchTerm: text}})
       .success(function(data, status, headers, config){
         var cmtResolve = [];
         if(data.error){
           console.log(data.error);
-        }
-        $scope.pinList = [];
+        };
         //fill commentList and pinList with empty values to start
         for(var i = 0; i < data.objects.length; i++){
           commentList.push([]);
@@ -138,10 +147,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
           if(data.objects[i].fields.comments){
             cmtResolve.push({index:i, cmtIds: data.objects[i].fields.comments.split(" ")});
           }
-          //if(data.objects[i].fields.comments) cmtLen++;
         }
         //send comment IDs to server, get comments back and store them in pinList
-        //for(c in cmtResolve){
         if(cmtResolve.length < 1){
           next();
         }
@@ -172,6 +179,12 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
             $scope.pinList[i].poster = data.objects[i].fields.posterId;
             $scope.pinList[i].category = data.objects[i].fields.category;
           }
+          //load first 'page' into the view
+          for(var i = 0; i < interval; i++){
+            $scope.showPins[i] = $scope.pinList[i];
+          }
+          $scope.loadIndex = interval;
+          console.log($scope.showPins);
         }
       })
       .error(function(data, status, headers, config){
@@ -194,6 +207,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     //API call to add comment to DB
     
     //$scope.pinList[index]
+  }
+  $scope.loadMore = function(){
+    console.log('loadMore');
+    for(var i = $scope.loadIndex; i < $scope.loadIndex + interval; i++){
+      $scope.showPins[i] = $scope.pinList[i];
+    }
+    $scope.showPins = $scope.showPins;
+    console.log($scope.showPins);
+  }
+  $scope.loadOne = function(){
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
   }
   $scope.getPinList();
   //affix subnav
@@ -520,4 +544,8 @@ function UserController($scope, $rootScope, $http, $location, $routeParams){
     });
   }
   $scope.getProfile();
+}
+
+function TempController($scope, $rootScope, $http, $location, $routeParams){
+  console.log('TempController');
 }

@@ -13,16 +13,26 @@ function test(){
   console.log('test111!!!');
 }
 
+//evil global variable
+flag = true;
+
 function frontSetup($scope, $rootScope, $http){
   console.log('frontSetup');
-  //Masonry and InfiniteScroll
+  
+  window.onscroll = function(e){
+    var a = window.scrollMaxY;
+    var b = window.pageYOffset;
+    //console.log(a-b);
+    /*if(flag && (a-b) <= 200){
+      console.log('pop');
+      $scope.loadMore();
+      flag = false;
+    }*/
+  }
+  
+  
+  //InfiniteScroll
   /*var $container = $('#content');
-  $container.imagesLoaded(function(){
-    $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
-    });
-    console.log('mason');
-  });
   $container.infinitescroll({
     navSelector  : '#pag_nav',    // selector for the paged navigation
     nextSelector : '#pag_nav a',  // selector for the NEXT link (to page 2)

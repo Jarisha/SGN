@@ -51,6 +51,7 @@ exports.login = function(req, res){
       error: 'Login Failed: User already logged in'
     });
   }
+  
   //validation.  TODO: more rigorous validations
   if(!req.body.email) return res.json({login: false, error: 'Invalid email entered'});
   if(!req.body.password) return res.json({login: false, error: 'Invalid password entered'});
@@ -336,29 +337,34 @@ exports.getProfile = function(req, res){
 }
 
 exports.getPinList = function(req, res){
+  console.log(req.body);
+  var interval = 20;
+  var page = req.body.page || 0;
+  console.log("page: " + page);
   s = 0;
+  //default query returns all gamepins
+  /*var query = {
+    q: 'returnAll:y',
+    start: page*interval,
+    rows: interval,
+    presort: 'key'
+  };*/
+  
   var query = {
     q: 'returnAll:y',
-    start: s,
-    rows: 100
-    //presort: 'key'
+    start: 0,
+    rows: 1000,
+    presort: 'key'
   };
+  
+  //can search via category dropdown OR search input
   if(req.body.searchTerm){
-    query = {
-      q: 'description:'+req.body.searchTerm,
-      start: s,
-      rows: 10000,
-      presort: 'key'
-    }
     console.log('search');
+    query.q = 'description:'+req.body.searchTerm;
   }
-  if(req.body.category){
-    query = {
-      q: 'category:'+req.body.category,
-      start: s,
-      rows: 10000,
-      presort: 'key'
-    }
+  else if(req.body.category){
+    console.log('search');
+    query.q = 'category:'+req.body.category;
   }
   //should have resolve function for any read including search
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
@@ -366,8 +372,9 @@ exports.getPinList = function(req, res){
       console.log(err);
       return res.json({error: err});
     }
+    console.log(response.response.docs.length);
     //console.log(response);
-    return res.json({ objects: response.response.docs });
+    return res.json({ objects: response.response.docs, interval: interval });
   });
 }
 

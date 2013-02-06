@@ -36,7 +36,8 @@ app.configure(function(){
                           store : new RedisStore({ 
                             host : config.redis_host,
                           }),
-                          cookie: { maxAge: 6048800 /* one week */ }
+                          cookie: { maxAge: 86400000
+                                    }
                           }));
   app.use(passConfig.passport.initialize());
   //app.use(passConfig.passport.session());
@@ -137,6 +138,19 @@ app.get('/allUsers', function(req, res){
   //res.send('TODO: Switch to levedb to index users via username');
 });
 app.get('/user/*', function(req, res){
+  return res.render('base');
+});
+
+//TODO put regex to filter appropriately
+app.get('/page/*', function(req, res){
+  return res.render('base');
+});
+
+app.get('/category/*/*', function(req, res){
+  return res.render('base');
+});
+
+app.get('/text/*/*', function(req, res){
   return res.render('base');
 });
 
