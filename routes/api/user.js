@@ -109,6 +109,7 @@ exports.logout = function(req, res){
 // Register step 1: hash password and put user data into session
 exports.register = function(req, res){
   // Prompt error if we are already logged in (client should prevent this from happening)
+  console.log(req.body);
   if(req.session.loggedIn){
     return res.json({
       register: false,

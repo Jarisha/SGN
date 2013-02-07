@@ -2,39 +2,67 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
-  $routeProvider.when('/', {templateUrl: 'partials/front', controller: FrontController});
-  $routeProvider.when('/page/:page', {templateUrl: '../partials/front', controller: FrontController});
-  $routeProvider.when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController});
-  $routeProvider.when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController});
-  $routeProvider.when('/store', {templateUrl: 'partials/store', controller: StoreController});
-  $routeProvider.when('/profile', {templateUrl: 'partials/profile', controller: ProfileController});
-  $routeProvider.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController});
-  $routeProvider.when('/about', {templateUrl: 'partials/about', controller: AboutController});
-  $routeProvider.when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
+  console.log('app.config()');
+  $routeProvider
+    .when('/',  { templateUrl: 'partials/front',
+                  controller: FrontController,
+                  resolve: {
+                    beforeRoute:function($q, $route, $timeout, $http, $rootScope){
+                      console.log('beforeRoute');
+                      var deferred = $q.defer();
+                      //get all pins
+                      $timeout(function(){ 
+                        console.log($rootScope.rootPath);
+                        deferred.resolve('2 second lag');
+                      }, 2000);
+                      return deferred.promise;
+                    }
+                  }
+                })
+    .when('/page/:page', {templateUrl: '../partials/front', controller: FrontController})
+    .when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController})
+    .when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController})
+    .when('/store', {templateUrl: 'partials/store', controller: StoreController})
+    .when('/profile', {templateUrl: 'partials/profile', controller: ProfileController})
+    .when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
+    .when('/about', {templateUrl: 'partials/about', controller: AboutController})
+    .when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
     
+  
   $locationProvider.html5Mode(true);
 }]);
 
 // Entry Point
 app.run(function($rootScope, $http, $templateCache, $location){
-  console.log('entryPoint');
-  //declare globals we will use
+  console.log('app.run()');
+  //Global variables - session data
   $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
   $rootScope.loggedIn = null;
   $rootScope.userName = null;
   $rootScope.userId = null;
   $rootScope.rootPath = '';
+  $rootScope.login = {email: null, password: null};
+  $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   
   //post modal fields. Stored in object
   $rootScope.post = {url:null, content: null, name: null, publisher: null,
     description: null, category: null};
   
-  /**
-  * Debugging Tools
-  *
-  * Allows you to execute debug functions from the view
-  */
+  //detect routeChanges
+  $rootScope.$on("$routeChangeStart", function(event, next, current){
+    console.log('Route Change Started!');
+  });
+  $rootScope.$on("$routeChangeSuccess", function(event, next, current){
+    console.log('Route Change Success!');
+  });
+  $rootScope.$on("$routeChangeError", function(event, next, current, rejection){
+    console.log('Route Change Error: ' + rejection); 
+  });
+  
+  
+  //Debugging Tools
+  //Allows you to execute debug functions from the view
   $rootScope.log = function(variable) {
     console.log(variable);
   };
@@ -42,13 +70,11 @@ app.run(function($rootScope, $http, $templateCache, $location){
     alert(text);
   };
   
-  /* AJAX requests
-  * - Takes $http post params as arguments
-  * - Sets global rootScope vars
-  * - Return result{} object for view specific data
-  */
-  $rootScope.checkLogin = function(callback){
-    console.log('rootScope.checkLogin()');
+  //Global AJAX calls
+  
+  //checkLogin checks if we are logged in, and gets our session params and
+  //stores them in $rootScope for easy access
+  $rootScope.checkLogin = function(){
     var result = {};
     $http.get('/api/checkLogin')
       .success(function(data, status, headers, config){
@@ -67,52 +93,13 @@ app.run(function($rootScope, $http, $templateCache, $location){
         else{
           result.status = "AJAX error";
         }
-        callback(result);
       })
       .error(function(data, status, headers, config) {
         result.message = 'Error: ' + status;
-        callback(result);
       }
     );
   }
-  $rootScope.login = function(email, password, callback){
-    console.log('rootScope.login()');
-    var result = {};
-    $http({ method: 'POST', url: 'api/login', data:
-          {"email": email, "password": password }})
-      .success(function(data, status, headers, config){
-        if(data.login){
-          $rootScope.loggedIn = true;
-          $rootScope.userEmail = data.userEmail;
-          $rootScope.userName = data.userName;
-          $rootScope.userId = data.userId;
-          result.message = 'Login Successful!';
-
-          /* If cached, reload and cache partials effected by login */
-          if($templateCache.get('partials/front_subnav')){
-            $templateCache.remove('partials/front_subnav');
-            $http.get('partials/front_subnav', {cache:$templateCache});
-          }
-          if($templateCache.get('partials/navbar')){
-            $templateCache.remove('partials/navbar');
-            $http.get('partials/navbar', {cache:$templateCache});
-          }
-        }
-        else if(!data.login && data.error){
-          result.message = 'Login Failed: ' + data.error;
-        }
-        else{
-          result.message = 'Login Failed: AJAX error';
-        }
-        callback(result);
-      })
-      .error(function(data, status, headers, config){
-        result.message = 'Server Error: ' + status;
-        callback(result);
-      }
-    );
-  }
-  $rootScope.logout = function(callback){
+  $rootScope.logout = function(){
     console.log('rootScope.logout()');
     var result = {};
     $http({ method: 'GET', url:'/api/logout'})
@@ -120,78 +107,102 @@ app.run(function($rootScope, $http, $templateCache, $location){
         if(data.logout){
           $rootScope.loggedIn = false;
           $rootScope.userName = null;
-          result.message = 'Logout Successful!';
           $location.path('/');
+          console.log("logout remason");
+          remason();
         }
         else if(!data.logout && data.error){
-          result.message = data.error;
+          console.log(data.error);
         }
         else{
-          result.message = 'AJAX error';
+          console.log('AJAX error');
         }
-        callback(result);
       })
       .error(function(data, status, headers, config){
         result.message = 'Error: ' + status;
-        callback(result);
       });
   }
-  $rootScope.register = function(email, name, password, confirm, callback){
-    console.log('rootScope.register()');
-    var result = {};
+  $rootScope.register = function(){
     $http({ method: 'POST', url: 'api/register', data:
-          {"email": email ,"name": name, "password": password, "confirm": confirm }})
+          {"email": $rootScope.register.email ,"name": $rootScope.register.name,
+          "password": $rootScope.register.password, "confirm": $rootScope.register.confirm,
+          "fbConnect": $rootScope.register.fbConnect }})
       .success(function(data, status, headers, config){
-        //on success set view vars and log in user
+        //on success go to register step 2
         if(data.register){
+          window.location = '/register';
+        }
+        else if(!data.register && data.error){
+          console.log(data.error);
+        }
+        else{
+          console.log('AJAX error');
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log('Error: ' + status);
+      });
+  }
+  $rootScope.login = function(){
+    console.log($rootScope.login.email + ' ' + $rootScope.login.password);
+    $http({ method: 'POST', url: 'api/login', data:
+          {"email": $rootScope.login.email, "password": $rootScope.login.password }})
+      .success(function(data, status, headers, config){
+        //clear password from memory
+        $rootScope.login.password = null;
+        if(data.login){
           $rootScope.loggedIn = true;
           $rootScope.userEmail = data.userEmail;
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
-          result.message = 'Registration Successful!';
+          $('#loginModal').modal('hide');
           
-          /* Reload and cache partials */
-          if($templateCache.get('partials/front_subnav')){
-            $templateCache.remove('partials/front_subnav');
-            $http.get('partials/front_subnav', {cache:$templateCache});
+          /* If cached, reload and cache partials effected by login */
+          if($templateCache.get($rootScope.rootPath +'/partials/front_subnav')){
+            $templateCache.remove($rootScope.rootPath +'/partials/front_subnav');
+            $http.get($rootScope.rootPath +'/partials/front_subnav', {cache:$templateCache});
           }
-          if($templateCache.get('partials/navbar')){
-            $templateCache.remove('partials/navbar');
-            $http.get('partials/navbar', {cache:$templateCache});
+          if($templateCache.get($rootScope.rootPath +'/partials/navbar')){
+            $templateCache.remove($rootScope.rootPath +'/partials/navbar');
+            $http.get($rootScope.rootPath +'/partials/navbar', {cache:$templateCache});
           }
+          console.log("login remason");
+          remason();
         }
-        else if(!data.register && data.error){
-          result.message = data.error;
+        else if(!data.login && data.error){
+          console.log('Login Failed: ' + data.error);
         }
         else{
-          result.message = 'AJAX error';
+          console.log('Login Failed: ' + data.error);
         }
-        callback(result);
       })
       .error(function(data, status, headers, config){
-        result.message = 'Error: ' + status;
-        callback(result);
+        //clear password from memory
+        $rootScope.login.password = null;
+        console.log('Server Error: ' + status);
       });
   }
   
-  //Set root path by getting config port
+  //Always check if user is logged in
+  $rootScope.checkLogin();
+  
+  //Get full path to simplify urls for loading images/html
   $http.get('/api/getPath')
     .success(function(data, status, headers, config){
       $rootScope.rootPath = data.path;
+      next();
     })
     .error(function(data, status, headers, config) {
       result.message = 'Error: ' + status;
     });
-  console.log($rootScope.rootPath);
-  //load templates into cache
-  $http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
-  $http.get($rootScope.rootPath + '/partials/front_subnav', {cache:$templateCache});
-  $http.get($rootScope.rootPath + '/partials/navbar', {cache:$templateCache});
-  $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});
+  //Load front page html partials into cache
+  function next(){
+    $http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
+    $http.get($rootScope.rootPath + '/partials/front_subnav', {cache:$templateCache});
+    $http.get($rootScope.rootPath + '/partials/navbar', {cache:$templateCache});
+    $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});
+  }
+  //example of what $templateCache can do
   //$templateCache.put('test.html', '<b> I emphasize testing</b>');
-  //Always check if user is logged in
-  $rootScope.checkLogin(function(res){
-    if(res.message) $rootScope.status = res.status;
-  });
   
 });

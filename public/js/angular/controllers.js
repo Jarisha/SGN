@@ -1,34 +1,33 @@
 'use strict';
-/* Controllers */
-
-function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams){
-  
+/* Controllers
+ * Angular controllers contain 2 way data-binded variables that are shared in the view.
+ * The Angular router will detect url changes and route us to the correct controller + template.
+ * The template will be used to fill ng-view, which represents all the content inside the <body></body>
+ */
+ 
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeRoute){
+  console.log('frontController');
+  console.log(beforeRoute);
+  /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
   $rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  $scope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
-  $scope.login = {email: null, password: null};
   $scope.pinList = [];
   $scope.showPins = [];
   $scope.loadIndex = 0;
-  //TODO: fill pageNav
   $scope.pages = [];
-  var interval = 20;
-  
-  var commentList = ['','',''];
   $scope.newComment = { text: null };
   $scope.searchText = '';
   
-  console.log('frontController');
+  /* temp variables - used only in this controller */
+  var commentList = [];
+  var interval = 20;
   console.log($scope.content);
   
-  $scope.test = function(){
-    console.log('test');
-  }
-  
+  /* $scope wide functions, can be called from view */
   $scope.mason = function(){
     remason();
   }
@@ -62,44 +61,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         $scope.message = 'Server Error: ' + status;
       });
   }
-  
-  $scope.ajaxLogin = function(){
-    console.log('rootScope.login()');
-    $http({ method: 'POST', url: 'api/login', data:
-          {"email": $scope.login.email, "password": $scope.login.password }})
-      .success(function(data, status, headers, config){
-        if(data.login){
-          $rootScope.loggedIn = true;
-          $rootScope.userEmail = data.userEmail;
-          $rootScope.userName = data.userName;
-          $rootScope.userId = data.userId;
-          $scope.status = 'Login Successful!';
-          $('#loginModal').modal('hide');
-          
-          /* If cached, reload and cache partials effected by login */
-          if($templateCache.get('partials/front_subnav')){
-            $templateCache.remove('partials/front_subnav');
-            $http.get('partials/front_subnav', {cache:$templateCache});
-          }
-          if($templateCache.get('partials/navbar')){
-            $templateCache.remove('partials/navbar');
-            $http.get('partials/navbar', {cache:$templateCache});
-          }
-          console.log("login remason");
-          remason();
-        }
-        else if(!data.login && data.error){
-          $scope.status = 'Login Failed: ' + data.error;
-        }
-        else{
-          $scope.status = 'Login Failed: AJAX error';
-        }
-      })
-      .error(function(data, status, headers, config){
-        $scope.message = 'Server Error: ' + status;
-      });
-  }
-  $scope.ajaxRegister = function(){
+
+  /*$scope.ajaxRegister = function(){
     $http({ method: 'POST', url: 'api/register', data:
           {"email": $scope.register.email ,"name": $scope.register.name,
           "password": $scope.register.password, "confirm": $scope.register.confirm,
@@ -119,7 +82,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       .error(function(data, status, headers, config){
         $scope.status = 'Error: ' + status;
       });
-  }
+  }*/
   
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
@@ -184,7 +147,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
             $scope.showPins[i] = $scope.pinList[i];
           }
           $scope.loadIndex = interval;
-          console.log($scope.showPins);
+          //console.log($scope.showPins);
         }
       })
       .error(function(data, status, headers, config){
@@ -223,7 +186,12 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   //affix subnav
 }
 
+FrontController.beforePage = function(){
+  console.log('beforePageLoad');
+}
+
 function StoreController($scope, $rootScope, $http, $location, $templateCache){
+  /* $scope wide variables, binded to view */
   $rootScope.css = 'store';
   $rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -232,6 +200,8 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
   $scope.content = $rootScope.rootPath + '/partials/store_content';
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
+  
+  /* temp variables - used only in this controller */
   
   //Setup non AJAX related javascript
   $scope.setup = function(){
