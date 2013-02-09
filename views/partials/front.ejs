@@ -1,4 +1,5 @@
-<div ng-include="modals"></div>
+<!-- Check if user is coming back from facebook register -->
+<div ng-include="modals" onload="facebookRegister()"></div>
 <div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
 <!--<p style="position: fixed; top:200px; left: 200px; border:solid black 2px; z-index:200; background: white;">
   User: {{userName}}
@@ -24,8 +25,10 @@
 <!-- onload="setup()" -->
 <div style="position:fixed; top:100px; left:100px; z-index:1000">
   <button ng-click="loadOne()">Load MOre</button>
+  <button ng-click="fbModal()">FB Modal()</button>
+  <button ng-click="log(masonInit)">getMasonState()</button>
 </div>
-<div id="content" class="container" ng-include="content">
+<div id="content" class="container" ng-include="content" onload="log('content-loaded')">
 </div>
 <a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>
 <div id="pag_nav">

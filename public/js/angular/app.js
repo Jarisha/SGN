@@ -3,18 +3,23 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   console.log('app.config()');
+  
   $routeProvider
     .when('/',  { templateUrl: 'partials/front',
                   controller: FrontController,
+                  //this function delays loading the route until content is loaded
                   resolve: {
-                    beforeRoute:function($q, $route, $timeout, $http, $rootScope){
+                    //loadContentloadPins
+                    beforeRoute:function($q, gamepinService){
                       console.log('beforeRoute');
                       var deferred = $q.defer();
-                      //get all pins
-                      $timeout(function(){ 
-                        console.log($rootScope.rootPath);
-                        deferred.resolve('2 second lag');
-                      }, 2000);
+                      gamepinService.getPinList(function(data){
+                        if(data.objects){
+                          deferred.resolve(data.objects);
+                        }
+                        else
+                          deferred.reject("Error");
+                      });
                       return deferred.promise;
                     }
                   }
@@ -33,7 +38,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 }]);
 
 // Entry Point
-app.run(function($rootScope, $http, $templateCache, $location){
+app.run(function( $rootScope, $http, $templateCache, $location){
   console.log('app.run()');
   //Global variables - session data
   $rootScope.section = '';
@@ -42,6 +47,7 @@ app.run(function($rootScope, $http, $templateCache, $location){
   $rootScope.userName = null;
   $rootScope.userId = null;
   $rootScope.rootPath = '';
+  $rootScope.something = 'blah';
   $rootScope.login = {email: null, password: null};
   $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   
@@ -59,7 +65,9 @@ app.run(function($rootScope, $http, $templateCache, $location){
   $rootScope.$on("$routeChangeError", function(event, next, current, rejection){
     console.log('Route Change Error: ' + rejection); 
   });
-  
+  $rootScope.$on("$viewContentLoaded", function(event, next, current, rejection){
+    console.log('ng view loaded');
+  });
   
   //Debugging Tools
   //Allows you to execute debug functions from the view
@@ -99,7 +107,7 @@ app.run(function($rootScope, $http, $templateCache, $location){
       }
     );
   }
-  $rootScope.logout = function(){
+  $rootScope.logoutSubmit = function(){
     console.log('rootScope.logout()');
     var result = {};
     $http({ method: 'GET', url:'/api/logout'})
@@ -122,7 +130,7 @@ app.run(function($rootScope, $http, $templateCache, $location){
         result.message = 'Error: ' + status;
       });
   }
-  $rootScope.register = function(){
+  $rootScope.registerSubmit = function(){
     $http({ method: 'POST', url: 'api/register', data:
           {"email": $rootScope.register.email ,"name": $rootScope.register.name,
           "password": $rootScope.register.password, "confirm": $rootScope.register.confirm,
@@ -143,7 +151,7 @@ app.run(function($rootScope, $http, $templateCache, $location){
         console.log('Error: ' + status);
       });
   }
-  $rootScope.login = function(){
+  $rootScope.loginSubmit = function(){
     console.log($rootScope.login.email + ' ' + $rootScope.login.password);
     $http({ method: 'POST', url: 'api/login', data:
           {"email": $rootScope.login.email, "password": $rootScope.login.password }})
@@ -190,17 +198,19 @@ app.run(function($rootScope, $http, $templateCache, $location){
   $http.get('/api/getPath')
     .success(function(data, status, headers, config){
       $rootScope.rootPath = data.path;
-      next();
+      //next();
     })
     .error(function(data, status, headers, config) {
       result.message = 'Error: ' + status;
     });
   //Load front page html partials into cache
+  //Load partials we will need regardless of page?
   function next(){
-    $http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
+    //$rootScope.modals = $rootScope.rootPath + '/partials/modals';
+    /*$http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
     $http.get($rootScope.rootPath + '/partials/front_subnav', {cache:$templateCache});
     $http.get($rootScope.rootPath + '/partials/navbar', {cache:$templateCache});
-    $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});
+    $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});*/
   }
   //example of what $templateCache can do
   //$templateCache.put('test.html', '<b> I emphasize testing</b>');

@@ -1,34 +1,23 @@
-function remason(){
-  var $container = $('#content');
-  console.log($('#content > *').length);
-  $container.imagesLoaded(function(){
-    $container.masonry({
-      itemSelector : '.game_pin, .store_pin',
-      isAnimated: true
-    });
-  });
-}
 
 function test(){
   console.log('test111!!!');
 }
 
-//evil global variable
-flag = true;
 
+
+//frontSetup applies UI related, JQuery, and non angular functionality to our html
 function frontSetup($scope, $rootScope, $http){
   console.log('frontSetup');
   
-  window.onscroll = function(e){
-    var a = window.scrollMaxY;
-    var b = window.pageYOffset;
-    //console.log(a-b);
-    /*if(flag && (a-b) <= 200){
-      console.log('pop');
-      $scope.loadMore();
-      flag = false;
-    }*/
-  }
+  /*$scope.initMasonry = function(){
+    var $container = $('#content');
+    $container.imagesLoaded(function(){
+      $container.masonry({
+        itemSelector : '.game_pin, .store_pin',
+        isAnimated: true
+      });
+    });
+  }*/
   
   
   //InfiniteScroll
@@ -53,6 +42,7 @@ function frontSetup($scope, $rootScope, $http){
       });
     }
   );*/
+  
   /* Setup modals */
   $scope.promptLogin = function(){
     //clear modal
@@ -71,7 +61,6 @@ function frontSetup($scope, $rootScope, $http){
     $scope.register.confirm = null;
     $('#registerModal').modal();
   }
-  $scope.facebookRegister(); //triggers AJAX fbRegister in front controller
   $scope.postGamePin = function(){
     //clear modal
     $rootScope.post.name = null;
@@ -91,7 +80,6 @@ function frontSetup($scope, $rootScope, $http){
   }
   //Load correct Post step 2 modal based on type of media selected
   $('.post_media').click(function(e){
-    //console.log($(this).val());
     
     var media = $(this).val();
     var $modal_header = $('#pinYoutube .modal-header');
@@ -156,7 +144,7 @@ function frontSetup($scope, $rootScope, $http){
       });
   });
   
-  //scrollup functionality
+  //fade in scroll-to-top tab
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
           $('.scrollup').fadeIn();
@@ -169,7 +157,6 @@ function frontSetup($scope, $rootScope, $http){
   }
   //affix subnav to top after it is loaded
   $scope.affix = function(){
-    console.log('affix subnav');
     $('#subnav').affix({ offset: 42 });
   }
   
@@ -185,8 +172,7 @@ function frontSetup($scope, $rootScope, $http){
   $(document).on('focus', '.respond_txtarea', function(e){
     $(this).nextAll('.respond_btn').removeClass('hidden');
     //Remason layout to account for button appearing
-    $container = $('#content');
-    $container.masonry({
+    $('#content').masonry({
       itemSelector : '.game_pin, .store_pin'
     });
   });

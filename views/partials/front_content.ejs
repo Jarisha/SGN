@@ -1,6 +1,5 @@
 <!-- loop through all gamepins on screen -->
-<p appVersion></p>
-<div ng-repeat="pin in showPins" class="game_pin" mason>
+<div ng-repeat="pin in showPins" class="game_pin" repeat-done>
   <div class="game_options hidden">
     <a class="like_btn">Like</a>
     <a class="pin_btn">Repin</a>
@@ -23,11 +22,9 @@
     class="post_text"><a href="/user/{{cmt.poster}}">{{cmt.poster}}</a> {{cmt.content}} </p>
   </div>
   <div ng-show="loggedIn" class="respond clearfix" tabindex="">
-    <!--<form name="commentForm" ng-submit="sendForm()">-->
       <img src="<%= rootPath %>/images/30x30.gif" class="profile_img"/><textarea 
       class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
       <button class="respond_btn hidden" type="submit" ng-click="addComment(text, $index)">Comment</button>
       <p>{{text}}</p>
-    <!--</form>-->
   </div>
 </div>

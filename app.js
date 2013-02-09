@@ -50,6 +50,7 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  riakConfig.init();
   app.locals.port = config.dev_port;
   app.locals.rootPath = "http://" + config.dev_host + ':' + config.dev_port;
   //initialize passport
@@ -63,6 +64,7 @@ app.configure('development', function(){
 });
 
 app.configure('tony', function(){
+  riakConfig.init();
   app.locals.port = config.tony_port;
   app.locals.rootPath =  "http://" + config.tony_host + ':' + config.tony_port;
   //initialize passport
@@ -76,13 +78,12 @@ app.configure('tony', function(){
 });
 
 app.configure('production', function(){
+  riakConfig.init();
   app.use(express.errorHandler());
 });
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
-  //console.log(req.session);
-  riakConfig.init();
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -120,6 +121,7 @@ app.get('/auth/facebook/callback',
     //if we need to register this facebook user, store user params into req.session.fbUser
     if(req.user.registerMe){
       req.session.fbUser = req.user;
+      console.log("set req.session.fbUser");
       res.redirect('/');
     }
     //if logging in, set fb flag and log in
@@ -178,6 +180,7 @@ app.get('/partials/:name', routes.partials);
 /********* JSON API ***********/
 //User
 app.get('/api/facebookRegister', userApi.facebookRegister);
+app.post('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/login', userApi.login);
 app.get('/api/logout', userApi.logout);
 app.post('/api/register', userApi.register);
@@ -191,6 +194,9 @@ app.post('/api/unfollow', userApi.removeFollowers);
 app.get('/api/getPath', userApi.getPath);
 app.post('/api/getProfile', userApi.getProfile);
 app.post('/api/getPinList', userApi.getPinList);
+app.post('/api/categorySearch', userApi.categorySearch);
+app.post('/api/textSearch', userApi.textSearch);
+
 
 //Gamepin
 app.post('/api/gamepin/post', gamepinApi.post);

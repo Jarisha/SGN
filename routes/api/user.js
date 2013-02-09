@@ -336,20 +336,96 @@ exports.getProfile = function(req, res){
     return res.json(obj.data);
   });
 }
+/* The following funcs used to retrieve list of pins that populate front page
+ * We depend on riak solr search with presort:'key' in order to get a chronologically
+ * sorted list.
+ */
 
+//return list of gamepin-with-comments objs given no search params
 exports.getPinList = function(req, res){
+  var returnList = [];
+  //associative arrays make things easier.  Lets call them maps for short.
+  var commentMap = {};
+  var pinMap = {};
+  //feed comment ids into nodiak
+  var commentIds = [];
+  
+  var query = {
+    q: 'returnAll:y',
+    start: 0,
+    rows: 1000,
+    presort: 'key'
+  };
+  //get list of pins in sorted order
+  app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      console.log(err);
+      return res.json({error: err});
+    }
+    objs = response.response.docs;
+    for(obj in objs){
+      var cmts = [];
+      //convert commments from string to proper array
+      if(objs[obj].fields.comments)
+        cmts = objs[obj].fields.comments.split(" ");
+      pinMap[objs[obj].id] = {  id: objs[obj].id,
+                                category: objs[obj].fields.category,
+                                description: objs[obj].fields.description,
+                                poster: objs[obj].fields.posterId,
+                                comments: []
+                              };
+      //keep track of the comment's index so we dont have to sort later
+      for(c in cmts){
+        commentIds.push(cmts[c]);
+        commentMap[cmts[c]] = c;
+      }
+      if(obj === '10') break;
+    }
+    next();
+    //console.log(response.response.docs);
+  });
+  //fetch comments and attach them to their respective gamepin obj
+  function next(){
+    app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
+      if(err){
+        return res.json({error: 'get comments failure or no comments'});
+      }
+      //if nodiak gives us a single object, convert that into an array with 1 element
+      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
+        cmt_objs = [cmt_objs];
+      for(c in cmt_objs){
+        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
+                                                          id: cmt_objs[c].key,
+                                                          pin: cmt_objs[c].data.pin,
+                                                          poster: cmt_objs[c].data.poster,
+                                                          content: cmt_objs[c].data.content };
+      }
+      //console.log(pinMap);
+      //for..in loop will iterate in the order that the elements were declared
+      //because riak search gives us an ordered list, we can rely on maintaining the order
+      for(pin in pinMap){
+        returnList.push(pinMap[pin]);
+      }
+      return res.json({ objects: returnList });
+    });
+  }
+}
+
+//return list of gamepin-with-comment objs of given category
+exports.categorySearch = function(req, res){
+  
+}
+//return list of gamepin-with-comment objs with matching text in gamepin.description
+exports.textSearch = function(req, res){
+  
+}
+
+/*exports.getPinList = function(req, res){
   console.log(req.body);
   var interval = 20;
   var page = req.body.page || 0;
   console.log("page: " + page);
   s = 0;
-  //default query returns all gamepins
-  /*var query = {
-    q: 'returnAll:y',
-    start: page*interval,
-    rows: interval,
-    presort: 'key'
-  };*/
   
   var query = {
     q: 'returnAll:y',
@@ -377,5 +453,4 @@ exports.getPinList = function(req, res){
     //console.log(response);
     return res.json({ objects: response.response.docs, interval: interval });
   });
-}
-
+}*/

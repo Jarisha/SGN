@@ -5,9 +5,12 @@
  * The template will be used to fill ng-view, which represents all the content inside the <body></body>
  */
  
-function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeRoute){
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeRoute,
+                         gamepinService, $window){
   console.log('frontController');
-  console.log(beforeRoute);
+  $scope.showPins = beforeRoute;
+  
+  //console.log(beforeRoute);
   /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
   $rootScope.title = 'front';
@@ -16,21 +19,56 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.pinList = [];
-  $scope.showPins = [];
+  //$scope.showPins = [];
   $scope.loadIndex = 0;
   $scope.pages = [];
   $scope.newComment = { text: null };
   $scope.searchText = '';
+  //masonry uses .mason to initialize, and 'appended' to add more
+  //need a flag to show this distinction in our directive that applies masonry
+  $scope.masonInit = false;
+  $scope.appendHtml = '';
+  $scope.container = $('#content');
+  $scope.masonInit = true;
+  $scope.flag = true;
+  $scope.pinIndex = 0;
+  $scope.pinInterval = 20;
+  
+  
+  $scope.fbModal = function(){
+    $('#fbRegisterModal').modal();
+  }
+  $scope.changeState = function(){
+    $scope.masonInit = false;
+  }
+  $scope.masonry = function(){
+    $scope.container.imagesLoaded(function(){
+      $scope.container.masonry({
+        itemSelector : '.game_pin, .store_pin',
+        //isAnimated: true
+      });
+    });
+  }
+  $scope.remason = function(){
+    $scope.container.masonry('reload');
+  }
+  
+  //load more pins when user scrolls down to a certain point
+  $window.onscroll = function(e){
+    var a = $window.scrollMaxY;
+    var b = $window.pageYOffset;
+    //console.log(a-b);
+    if($scope.flag && (a-b) <= 300){
+      console.log('pop');
+      $scope.$apply($scope.loadOne());
+      $scope.flag = false;
+    }
+  }
   
   /* temp variables - used only in this controller */
   var commentList = [];
   var interval = 20;
   console.log($scope.content);
-  
-  /* $scope wide functions, can be called from view */
-  $scope.mason = function(){
-    remason();
-  }
   
   //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
@@ -43,15 +81,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   /* AJAX FUNCTIONS */
   //If doing facebook register, spawn modal with fb data prefilled
+  //Must do a POST, otherwise response is cached
   $scope.facebookRegister = function(){
-    $('#content.masonry').masonry( 'destroy' );
-    $http.get('/api/facebookRegister')
+    //$('#content.masonry').masonry( 'destroy' );
+    $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
-        remason();
+        //remason();
         if(data.fb){
-          $scope.register.email = data.fbEmail;
-          $scope.register.name = data.fbName;
-          $scope.register.fbConnect = true;
+          console.log('fb = true');
+          $rootScope.register.email = data.fbEmail;
+          $rootScope.register.name = data.fbName;
+          $rootScope.register.fbConnect = true;
           $('#fbRegisterModal').modal();
         }
         else{
@@ -59,99 +99,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       })
       .error(function(data, status, headers, config) {
         $scope.message = 'Server Error: ' + status;
-      });
-  }
-
-  /*$scope.ajaxRegister = function(){
-    $http({ method: 'POST', url: 'api/register', data:
-          {"email": $scope.register.email ,"name": $scope.register.name,
-          "password": $scope.register.password, "confirm": $scope.register.confirm,
-          "fbConnect": $scope.register.fbConnect }})
-      .success(function(data, status, headers, config){
-        //on success go to register step 2
-        if(data.register){
-          window.location = '/register';
-        }
-        else if(!data.register && data.error){
-          $scope.status = data.error;
-        }
-        else{
-          $scope.status = 'AJAX error';
-        }
-      })
-      .error(function(data, status, headers, config){
-        $scope.status = 'Error: ' + status;
-      });
-  }*/
-  
-  $scope.ajaxLogout = function(){
-    $rootScope.logout( function(res){
-      if(res.message) $scope.status = res.message;
-      console.log("logout remason");
-      remason();
-    });
-  }
-  //gets list of pins.  Takes in options for text search or category search.
-  //warning: very nasty code lies ahead
-  $scope.getPinList = function(cat, text){
-    cat = cat || $routeParams.cat;
-    text = text || $routeParams.tex;
-    
-    $http({ method: 'POST', url: $rootScope.rootPath +'/api/getPinList', data:{category:cat, searchTerm: text}})
-      .success(function(data, status, headers, config){
-        var cmtResolve = [];
-        if(data.error){
-          console.log(data.error);
-        };
-        //fill commentList and pinList with empty values to start
-        for(var i = 0; i < data.objects.length; i++){
-          commentList.push([]);
-          $scope.pinList.push({id:null, description:null, poster:null, category:null, comments:[]});
-          if(data.objects[i].fields.comments){
-            cmtResolve.push({index:i, cmtIds: data.objects[i].fields.comments.split(" ")});
-          }
-        }
-        //send comment IDs to server, get comments back and store them in pinList
-        if(cmtResolve.length < 1){
-          next();
-        }
-        for(var i = 0; i < cmtResolve.length; i++){
-          (function(j){
-            $http({ method: 'POST', url: 'api/gamepin/getComments', data: {commentIds: cmtResolve[j].cmtIds} })
-              .success(function(data, status, headers, config){
-                if(data.error) console.log(data.error);
-                if(data.success){
-                  $scope.pinList[cmtResolve[j].index].comments = data.list;
-                  if(j === cmtResolve.length - 1) next();
-                }
-              })
-              .error(function(data, status, headers, config){
-                console.log('AJAX error');
-              });
-          })(i);
-        }
-        function next(){
-          if(cmtResolve.length > 0){
-            //console.log("getComments remason");
-            //remason();
-            $('#subnav').affix({ offset: 42 });
-          }
-          for(var i = 0; i < data.objects.length; i++){
-            $scope.pinList[i].id = data.objects[i].id;
-            $scope.pinList[i].description = data.objects[i].fields.description;
-            $scope.pinList[i].poster = data.objects[i].fields.posterId;
-            $scope.pinList[i].category = data.objects[i].fields.category;
-          }
-          //load first 'page' into the view
-          for(var i = 0; i < interval; i++){
-            $scope.showPins[i] = $scope.pinList[i];
-          }
-          $scope.loadIndex = interval;
-          //console.log($scope.showPins);
-        }
-      })
-      .error(function(data, status, headers, config){
-        console.log('error');
       });
   }
   $scope.addComment = function(text, index){
@@ -171,6 +118,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     
     //$scope.pinList[index]
   }
+  //LoadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
     console.log('loadMore');
     for(var i = $scope.loadIndex; i < $scope.loadIndex + interval; i++){
@@ -180,21 +128,27 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     console.log($scope.showPins);
   }
   $scope.loadOne = function(){
+    console.log('load Zs');
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
+    $timeout( function(){ $scope.flag = true }, 100 );
   }
-  $scope.getPinList();
-  //affix subnav
-}
 
-FrontController.beforePage = function(){
-  console.log('beforePageLoad');
+  /* code run in front controller */
+  //$scope.facebookRegister();
+  
+  //affix subnav
 }
 
 function StoreController($scope, $rootScope, $http, $location, $templateCache){
   /* $scope wide variables, binded to view */
   $rootScope.css = 'store';
   $rootScope.title = 'front';
-  $scope.modals = $rootScope.rootPath + '/partials/modals';
+  //$scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = $rootScope.rootPath + '/partials/store_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/store_content';
@@ -206,7 +160,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
   //Setup non AJAX related javascript
   $scope.setup = function(){
     storeSetup($scope);
-  }
+  } 
   //Youtube video functionality
   /*function onYouTubePlayerReady(playerId){
     console.log(playerId);
