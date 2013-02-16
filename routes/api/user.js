@@ -379,7 +379,7 @@ exports.getPinList = function(req, res){
         commentIds.push(cmts[c]);
         commentMap[cmts[c]] = c;
       }
-      if(obj === '10') break;
+      //if(obj === '10') break;
     }
     next();
     //console.log(response.response.docs);
@@ -413,11 +413,120 @@ exports.getPinList = function(req, res){
 
 //return list of gamepin-with-comment objs of given category
 exports.categorySearch = function(req, res){
+  var returnList = [];
+  var commentMap = {};
+  var pinMap = {};
+  var commentIds = [];
   
+  var query = {
+    q: 'category:'+req.body.category,
+    start: 0,
+    rows: 1000,
+    presort: 'key'
+  };
+  //get list of pins in sorted order
+  app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      console.log(err);
+      return res.json({error: err});
+    }
+    objs = response.response.docs;
+    for(obj in objs){
+      var cmts = [];
+      if(objs[obj].fields.comments)
+        cmts = objs[obj].fields.comments.split(" ");
+      pinMap[objs[obj].id] = {  id: objs[obj].id,
+                                category: objs[obj].fields.category,
+                                description: objs[obj].fields.description,
+                                poster: objs[obj].fields.posterId,
+                                comments: []
+                              };
+      //keep track of the comment's index so we dont have to sort later
+      for(c in cmts){
+        commentIds.push(cmts[c]);
+        commentMap[cmts[c]] = c;
+      }
+    }
+    next();
+  });
+  function next(){
+    app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
+      if(err){
+        return res.json({error: 'get comments failure or no comments'});
+      }
+      //if nodiak gives us a single object, convert that into an array with 1 element
+      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
+        cmt_objs = [cmt_objs];
+      for(c in cmt_objs){
+        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
+                                                          id: cmt_objs[c].key,
+                                                          pin: cmt_objs[c].data.pin,
+                                                          poster: cmt_objs[c].data.poster,
+                                                          content: cmt_objs[c].data.content };
+      }
+      for(pin in pinMap){
+        returnList.push(pinMap[pin]);
+      }
+      return res.json({ objects: returnList });
+    });
+  }
 }
 //return list of gamepin-with-comment objs with matching text in gamepin.description
 exports.textSearch = function(req, res){
+  var returnList = [];
+  var commentMap = {};
+  var pinMap = {};
+  var commentIds = [];
   
+  var query = {
+    q: 'description:'+req.body.text,
+    start: 0,
+    rows: 1000,
+    presort: 'key'
+  };
+  app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      console.log(err);
+      return res.json({error: err});
+    }
+    objs = response.response.docs;
+    for(obj in objs){
+      var cmts = [];
+      if(objs[obj].fields.comments)
+        cmts = objs[obj].fields.comments.split(" ");
+      pinMap[objs[obj].id] = {  id: objs[obj].id,
+                                category: objs[obj].fields.category,
+                                description: objs[obj].fields.description,
+                                poster: objs[obj].fields.posterId,
+                                comments: []
+                              };
+      for(c in cmts){
+        commentIds.push(cmts[c]);
+        commentMap[cmts[c]] = c;
+      }
+    }
+    next();
+  });
+  function next(){
+    app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
+      if(err){
+        return res.json({error: 'get comments failure or no comments'});
+      }
+      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
+        cmt_objs = [cmt_objs];
+      for(c in cmt_objs){
+        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
+                                                          id: cmt_objs[c].key,
+                                                          pin: cmt_objs[c].data.pin,
+                                                          poster: cmt_objs[c].data.poster,
+                                                          content: cmt_objs[c].data.content };
+      }
+      for(pin in pinMap){
+        returnList.push(pinMap[pin]);
+      }
+      return res.json({ objects: returnList });
+    });
+  }
 }
 
 /*exports.getPinList = function(req, res){

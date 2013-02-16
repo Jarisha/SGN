@@ -3,18 +3,17 @@
   width: 1340px;
 }
 .store #nav_content{
-  width: 1340px;
 }
 /* media queries to resize masonry content to fit screen */
 @media only screen and (max-width : 1339px),
 only screen and (max-device-width : 1339px){
-	.store #content, .store #nav_content {
+	.store #content {
 		width: 1075px;
 	}
 }
 @media only screen and (max-width : 1074px),
 only screen and (max-device-width : 1074px){
-	.store #content, .store #nav_content {
+	.store #content {
 		width: 810px;
 	}
 }
@@ -83,15 +82,15 @@ only screen and (max-device-width : 890px){
   font-size:18px;
   position: absolute;
   /* float:right could work */
-  background: /*#42879B;*/ #E3C8AC;
-  border: 1px solid #A5C0C8;
+  background: /*#42879B;*/ #DCDCDC;
+  border: 1px solid black;
   color: black;
   right: 15px;
   padding:2px;
   -moz-border-radius: 3px; /* Firefox */
   -webkit-border-radius: 3px; /* Safari, Chrome */
   border-radius: 3px; /* CSS3 */
-  z-index: 99;
+  z-index: 1;
 }
 .store .download_btn{
   font-size:20px;
@@ -105,8 +104,8 @@ only screen and (max-device-width : 890px){
   text-align: center;
   padding: 10px 15px;
   margin: 0 -15px 0 -15px;
-  border-bottom: 1px solid #A5C0C8;
-  background: #CBE6EE;
+  border-bottom: 1px solid #DCDCDC;
+  background: #EBEBEB;
   position: relative;
 }
 

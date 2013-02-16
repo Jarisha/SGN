@@ -11,11 +11,14 @@ var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
 var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
 
+//testing purposes only
+var util = require('./utility');
+
 //create app
 var app = exports.server = express();
 
 //configure riak
-riakConfig.init();
+//riakConfig.init();
 
 //configifure log
 winston.add(winston.transports.File, { filename: 'web.log'});
@@ -196,7 +199,6 @@ app.post('/api/getProfile', userApi.getProfile);
 app.post('/api/getPinList', userApi.getPinList);
 app.post('/api/categorySearch', userApi.categorySearch);
 app.post('/api/textSearch', userApi.textSearch);
-
 
 //Gamepin
 app.post('/api/gamepin/post', gamepinApi.post);

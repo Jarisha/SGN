@@ -90,6 +90,7 @@ exports.addComment = function(req, res){
   }
   util.generateId(function(id){
     commentId = id;
+    console.log(id);
     next();
   });
   function next(){

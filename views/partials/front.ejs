@@ -24,13 +24,13 @@
 </noscript>
 <!-- onload="setup()" -->
 <div style="position:fixed; top:100px; left:100px; z-index:1000">
-  <button ng-click="loadOne()">Load MOre</button>
-  <button ng-click="fbModal()">FB Modal()</button>
-  <button ng-click="log(masonInit)">getMasonState()</button>
+  <!--<button ng-click="loadOne()">Load MOre</button>-->
 </div>
 <div id="content" class="container" ng-include="content" onload="log('content-loaded')">
 </div>
-<a href="#" ng-click="scrollup()" class="scrollup">Scroll to Top</a>
+<a href="#" ng-click="scrollup()" id="scrollup">
+  <img src="<%= rootPath %>/images/UI/scrollup.png">
+</a>
 <div id="pag_nav">
   <a ng-repeat="page in pages" href="{{page.url}}">{{page.index}}</a>
   <!--<a href="page_2.html">Page 2</a>

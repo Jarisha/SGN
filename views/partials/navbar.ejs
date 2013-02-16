@@ -1,15 +1,8 @@
-<div id="nav_content" class="navbar-inner">
-  <a id="main_logo" href="/" ng-click="getPinList()">Quyay</a>
-  <ul id="nav_left" class="nav">
-    <li>
-      <form id="search_bar" class="navbar-search" ng-submit="textSearch(searchText)">
-        <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
-        <p>{{searchText}}</p>
-      </form>
-    </li>
+<div id="notifications" ng-show="loggedIn && (css=='front' || css=='profile')">
+  <ul id="notify_list">
     <li ng-show="loggedIn">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
-        <img class="new_followers" src="<%= rootPath %>/images/friend_add.png" width="30" height="30"/>
+        <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">John is following you</a></li>
@@ -21,7 +14,7 @@
     </li>
     <li ng-show="loggedIn">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
-        <img class="new_tags" src="<%= rootPath %>/images/friend_tag.png" width="30" height="30"/>
+        <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
@@ -32,7 +25,7 @@
     </li>
     <li ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
-        <img class="new_messages" src="<%= rootPath %>/images/friend_message.png" width="30" height="30"/>
+        <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
       </a>
       <ul id="message_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bob Smith messaged you</a></li>
@@ -41,10 +34,28 @@
       </ul>
     </li>
   </ul>
+  <img id="notify" src="<%= rootPath %>/images/UI/Nav_Left.png" width="280"/><img
+  id="notify_triangle" src="<%= rootPath %>/images/UI/triangle.png" />
+</div>
+<div id="nav_content" class="navbar-inner">
+  <a id="main_logo" href="/">Quyay</a>
+  <ul id="nav_left" class="nav">
+    <li>
+      <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
+      <form id="search_bar" class="navbar-search" ng-submit="textsearch(searchText)">
+        <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
+        <p>{{searchText}}</p>
+      </form>
+    </li>
+  </ul>
   <ul id="nav_right" class="nav">
-    <li ng-show="loggedIn"><a style="font-size: 25px;" ng-click="postGamePin()">Q</a></li>
+    <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()">
+      <img id="profile_small" src="<%= rootPath %>/images/UI/POST_noeffects.png" />
+    </a></li>
     <li id="about_tab" class="dropdown">
-      <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+      <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
+        <img id="profile_small" src="<%= rootPath %>/images/UI/Q_effects.png" /><b class="caret"></b>
+      </a>
         <ul class="dropdown-menu active">
           <li><a href="/about">Help</a></li>
           <li><a href="/about">Contact</a></li>
@@ -53,11 +64,14 @@
           <li><a href="/about">Team</a></li>
         </ul>
     </li>
-    <li ng-show="!loggedIn"><a ng-click="promptLogin()"> Login </a></li>
-    <li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>
+    <li ng-show="!loggedIn"><a ng-click="promptLogin()">
+      <img id="login_btn" src="<%= rootPath %>/images/UI/Login_effects.png" />
+    </a></li>
+    <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">
       <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img id="profile_small" src="<%= rootPath %>/images/30x30.gif" height="22" width="22" />{{userName}}<b class="caret"></b>
+        <img ng-show="userName == 'carries'" id="profile_small" src="<%= rootPath %>/images/profile/csbiophoto.png" height="22" width="22" />
+        <img ng-show="userName != 'carries'" id="profile_small" src="<%= rootPath %>/images/tony_profile.jpg" height="22" width="22" />{{userName}}<b class="caret"></b>
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">Followers</a></li>
@@ -70,4 +84,5 @@
     </li>
   </ul>
 </div>
+
 <div ng-include="subnav" id="subnav" onload="affix()" <!--data-spy="affix" data-offset-top="42" --> </div>

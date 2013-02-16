@@ -62,6 +62,38 @@ angular.module('myApp.services', []).
           .error(function(data, status, headers, config){
             console.log('AJAX error');
           });
+      },
+      categorySearch: function(cat, callback){
+        $http({ method: 'POST', url: $rootScope.rootPath +'/api/categorySearch',
+                data: {category: cat} })
+          .success(function(data, status, headers, config){
+            if(data.objects){
+              callback(data);
+            }
+            else{
+              console.log("getPinList Error");
+              callback('error');
+            }
+          })
+          .error(function(data, status, headers, config){
+            console.log('AJAX error');
+          });
+      },
+      textSearch: function(txt, callback){
+        $http({ method: 'POST', url: $rootScope.rootPath +'/api/textSearch',
+              data: {text: txt} })
+          .success(function(data, status, headers, config){
+            if(data.objects){
+              callback(data);
+            }
+            else{
+              console.log("getPinList Error");
+              callback('error');
+            }
+          })
+          .error(function(data, status, headers, config){
+            console.log('AJAX error');
+          });
       }
     }
   })

@@ -5,12 +5,27 @@
  * The template will be used to fill ng-view, which represents all the content inside the <body></body>
  */
  
-function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeRoute,
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeFront,
                          gamepinService, $window){
   console.log('frontController');
-  $scope.showPins = beforeRoute;
+  $scope.showPins = [];
+  $scope.gamePins = beforeFront;
+  var imgCount = 0;
   
-  //console.log(beforeRoute);
+  
+  for(var i = 0; i < $scope.gamePins.length; i++){
+    imgCount++;
+    if(imgCount > 36)
+      imgCount = 1;
+    $scope.gamePins[i].imgPath = "http://localhost:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+  }
+  
+  var start = 0;
+  var interval = 20;
+  var stop;
+  
+  loadFirst();
+  //console.log(beforeFront);
   /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
   $rootScope.title = 'front';
@@ -18,14 +33,11 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  $scope.pinList = [];
   //$scope.showPins = [];
   $scope.loadIndex = 0;
   $scope.pages = [];
   $scope.newComment = { text: null };
   $scope.searchText = '';
-  //masonry uses .mason to initialize, and 'appended' to add more
-  //need a flag to show this distinction in our directive that applies masonry
   $scope.masonInit = false;
   $scope.appendHtml = '';
   $scope.container = $('#content');
@@ -34,33 +46,23 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.pinIndex = 0;
   $scope.pinInterval = 20;
   
-  
   $scope.fbModal = function(){
     $('#fbRegisterModal').modal();
   }
   $scope.changeState = function(){
     $scope.masonInit = false;
   }
-  $scope.masonry = function(){
-    $scope.container.imagesLoaded(function(){
-      $scope.container.masonry({
-        itemSelector : '.game_pin, .store_pin',
-        //isAnimated: true
-      });
-    });
-  }
-  $scope.remason = function(){
-    $scope.container.masonry('reload');
+  
+  $scope.lol = function(){
+    console.log('lol');
   }
   
   //load more pins when user scrolls down to a certain point
   $window.onscroll = function(e){
     var a = $window.scrollMaxY;
     var b = $window.pageYOffset;
-    //console.log(a-b);
     if($scope.flag && (a-b) <= 300){
-      console.log('pop');
-      $scope.$apply($scope.loadOne());
+      $scope.$apply($scope.loadMore());
       $scope.flag = false;
     }
   }
@@ -68,25 +70,49 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   /* temp variables - used only in this controller */
   var commentList = [];
   var interval = 20;
-  console.log($scope.content);
   
   //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
     frontSetup($scope, $rootScope, $http);
   }
   
-  $scope.textSearch = function(text){
-    $scope.getPinList('', text);
-  }
-  
   /* AJAX FUNCTIONS */
   //If doing facebook register, spawn modal with fb data prefilled
+  $scope.catSearch = function(cat){
+    gamepinService.categorySearch(cat ,function(data){
+      $scope.showPins = [];
+      start = 0, interval = 20, stop = 0;
+      $scope.gamePins = data.objects;
+      //temporary code
+      for(var i = 0; i < $scope.gamePins.length; i++){
+        imgCount++;
+        if(imgCount > 36)
+          imgCount = 1;
+        $scope.gamePins[i].imgPath = "http://10.0.1.17:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+      }
+      loadFirst();
+    });
+  }
+  $scope.textsearch = function(txt){
+    gamepinService.textSearch(txt ,function(data){
+      $scope.showPins = [];
+      start = 0, interval = 20, stop = 0;
+      $scope.gamePins = data.objects;
+      for(var i = 0; i < $scope.gamePins.length; i++){
+        imgCount++;
+        if(imgCount > 36)
+          imgCount = 1;
+        $scope.gamePins[i].imgPath = "http://10.0.1.17:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+      }
+      loadFirst();
+    });
+  }
+  
   //Must do a POST, otherwise response is cached
   $scope.facebookRegister = function(){
     //$('#content.masonry').masonry( 'destroy' );
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
-        //remason();
         if(data.fb){
           console.log('fb = true');
           $rootScope.register.email = data.fbEmail;
@@ -103,13 +129,15 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   $scope.addComment = function(text, index){
     //add the comment in the view
-    $scope.pinList[index].comments.push({poster: $rootScope.userId, content: text});
-    console.log("addComment: remason()");
-    remason();
+    $scope.showPins[index].comments.push({poster: $rootScope.userId, content: text});
+    
+    //console.log("addComment: remason()");
     $http({ method:'post', url:'/api/gamepin/addComment',
-      data:{pinId: $scope.pinList[index].id, posterId: $rootScope.userId, content: text} })
+      data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userId, content: text} })
       .success(function(data, status, headers, config){
         console.log('post comment success!');
+        $scope.text = null;
+        $rootScope.remason();
       })
       .error(function(data, status, headers, config){
         console.log('error');
@@ -118,15 +146,21 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     
     //$scope.pinList[index]
   }
-  //LoadMore invoked to show more gamepins when the user scrolls down
-  $scope.loadMore = function(){
-    console.log('loadMore');
-    for(var i = $scope.loadIndex; i < $scope.loadIndex + interval; i++){
-      $scope.showPins[i] = $scope.pinList[i];
+  //loadFirst to load initial gamepins into view
+  function loadFirst(){
+    for(stop = start + interval ;start < stop && start < $scope.gamePins.length; start++){
+      $scope.showPins.push($scope.gamePins[start]);
     }
-    $scope.showPins = $scope.showPins;
     console.log($scope.showPins);
   }
+  //loadMore invoked to show more gamepins when the user scrolls down
+  $scope.loadMore = function(){
+    for(stop = start + interval ;start < stop && start < $scope.gamePins.length; start++){
+      $scope.showPins.push($scope.gamePins[start]);
+    }
+    $timeout( function(){ $scope.flag = true }, 100 );
+  }
+  //test usage only
   $scope.loadOne = function(){
     console.log('load Zs');
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
@@ -192,7 +226,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
             $http.get('partials/navbar', {cache:$templateCache});
           }
           console.log("Login success: remason()");
-          remason();
+          $rootScope.remason();
         }
         else if(!data.login && data.error){
           $scope.status = 'Login Failed: ' + data.error;
@@ -290,7 +324,7 @@ function ProfileController($scope, $rootScope, $http, $location){
         $scope.profile.email = data.email;
         $scope.profile.fbConnect = data.fbConnect;
         $scope.profile.favCat = data.favCat;
-        $scope.profile.profileImg = data.profileImg;
+        $scope.profile.profileImg = data.profileImg || '/images/profile/csbiophoto.png';
         $scope.profile.gender = data.gender;
         $scope.profile.bio = data.bio;
         $scope.profile.dateJoined = data.dateJoined;
@@ -382,11 +416,12 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
   $scope.getSettings();
 }
 //Looking at another user's page
-function UserController($scope, $rootScope, $http, $location, $routeParams){
+function UserController($scope, $rootScope, $http, $location, $routeParams, beforeUser){
   //redirect if not logged in
-  if(!$rootScope.loggedIn)
-    $location.path('/');
-    
+  //if(!$rootScope.loggedIn)
+  //  $location.path('/');
+  
+  
   $rootScope.css = 'profile';
   $rootScope.title = 'user';
   $scope.modals = $rootScope.rootPath + '/partials/modals';

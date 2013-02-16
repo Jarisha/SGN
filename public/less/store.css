@@ -1,0 +1,234 @@
+/***** Main Layout *****/
+.store #content{
+  width: 1340px;
+}
+.store #nav_content{
+}
+/* media queries to resize masonry content to fit screen */
+@media only screen and (max-width : 1339px),
+only screen and (max-device-width : 1339px){
+	.store #content {
+		width: 1075px;
+	}
+}
+@media only screen and (max-width : 1074px),
+only screen and (max-device-width : 1074px){
+	.store #content {
+		width: 810px;
+	}
+}
+@media only screen and (max-width : 809px),
+only screen and (max-device-width : 890px){
+  .store #main_logo:link, .store #main_logo:visited, .store #main_logo:active, .store #main_logo:hover{
+    left: 405px;
+  }
+}
+
+/*************************** STORE CONTENT ******************************/
+
+.store .store_pin{
+	padding:0 15px 0 15px;
+}
+.store .fav_game{
+  position:absolute;
+  background: grey;
+  top: 0;
+  left: 10px;
+  z-index: 99;
+}
+.store .fav_friends{
+  position:absolute;
+  background: grey;
+  top: 20px;
+  left: 10px;
+  z-index: 99;
+}
+/* slideshow */
+.store .carousel{
+  margin: 0 -15px 0 -15px;
+}
+.store .carousel-control {
+    background: none repeat scroll 0 0 #E3C8AC;
+    border: 3px solid black;
+    -moz-border-radius: 0 0 0 0; /* Firefox */
+    -webkit-border-radius: 0 0 0 0; /* Safari, Chrome */
+    border-radius: 0 0 0 0; /* CSS3 */
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: 100;
+    height: 20px;
+    line-height: 10px;
+    margin-top: -20px;
+    opacity: 0.5;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 20px;
+}
+.store .carousel-control.right {
+  right: 0;
+}
+.store .carousel-control.left{
+  left: 0;
+}
+.store .carousel-inner .item img{
+  margin:auto;
+}
+.store .game_name{
+  font-size: 18px;
+  text-align:left;
+}
+.store .game_price{
+  font-size:18px;
+  position: absolute;
+  /* float:right could work */
+  background: /*#42879B;*/ #DCDCDC;
+  border: 1px solid black;
+  color: black;
+  right: 15px;
+  padding:2px;
+  -moz-border-radius: 3px; /* Firefox */
+  -webkit-border-radius: 3px; /* Safari, Chrome */
+  border-radius: 3px; /* CSS3 */
+  z-index: 1;
+}
+.store .download_btn{
+  font-size:20px;
+}
+
+.store .store_body{
+  position:relative;
+}
+
+.store .store_container{
+  text-align: center;
+  padding: 10px 15px;
+  margin: 0 -15px 0 -15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: #EBEBEB;
+  position: relative;
+}
+
+/* View Pin modal */
+.store #storePinModal{
+  height: 100%;
+  overflow-y: auto;
+}
+.store #storePinModal .modal-body{
+  overflow:hidden;
+  padding:0;
+}
+.store .modal-header button{
+  float:right;
+}
+.store .poster{
+  font-size: 25px;
+  margin-left: 60px;
+}
+.store .date_posted{
+  margin-top: 7px;
+  margin-left: 60px;
+}
+.store .modal-header .profile_img{
+  float:left;
+}
+.store .view_metadata, .store .view_tags{
+  display: inline-block;
+  vertical-align: top;
+}
+.store .view_metadata{
+  padding-top:5px;
+  background:grey;
+  height:50px;
+  width:50%;
+}
+.store .view_metadata > *{
+  margin-left:10px;
+}
+.store .game_title{
+  font-size:20px;
+}
+.store .game_publisher{
+  font-size:14px;
+}
+.store .view_tags{
+  height:50px;
+  width:50%;
+}
+.store .view_tags p span{
+  background:yellow;
+  margin-left:10px;
+}
+.store .view_tags > p{
+  margin-left:10px;
+  margin-top:10px;
+  font-size:18px;
+}
+.store .view_comment_container{
+  padding: 10px 15px;
+}
+.store .view_img_container{
+  text-align: center;
+  background: grey;
+}
+.store .view_comment{
+  padding: 10px 15px 0;
+  margin: 0 -15px;
+  border-top: 1px solid #FCFAFA;
+}
+.store .view_comment *{
+  display:inline-block;
+}
+.store .view_post_text{
+  width:450px;
+  vertical-align:top;
+  margin-left: 10px;
+}
+.store .view_respond{
+  padding-top: 15px;
+}
+.store .view_respond_txtarea{
+  margin-left:15px;
+  width: 450px;
+  height: 40px;
+}
+.store .view_respond_btn{
+  margin-top:10px;
+  float:right;
+}
+.store .video_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+.store .pin_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+.store .friends_tab{
+  width:33%;
+  font-size: 20px;
+  text-align: center;
+}
+
+.store .vid_container{
+  text-align: center;
+}
+.store #pin_content img, .store #friends_content img {
+  margin:5px;
+}
+.store .img_container{
+  padding:10px;
+}
+.store .share_list{
+  left: 550px;
+  position: absolute;
+  top: 60px;
+}
+.store .share_element{
+  margin-top:20px;
+}
+.store .share_element button{
+  white-space:nowrap;  /*huzzah!*/
+}

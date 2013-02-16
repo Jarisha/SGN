@@ -147,9 +147,9 @@ function frontSetup($scope, $rootScope, $http){
   //fade in scroll-to-top tab
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
-          $('.scrollup').fadeIn();
+          $('#scrollup').fadeIn();
       } else {
-          $('.scrollup').fadeOut();
+          $('#scrollup').fadeOut();
       }
   });
   $scope.scrollup = function(){

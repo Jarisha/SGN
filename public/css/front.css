@@ -3,18 +3,19 @@
   width: 1340px;
 }
 .front #nav_content{
-  width: 1340px;
+  /*width: 1340px;*/
+  width: 100%;
 }
 /* media queries to resize masonry content to fit screen */
 @media only screen and (max-width : 1339px),
 only screen and (max-device-width : 1339px){
-	.front #content, .front #nav_content {
+	.front #content{
 		width: 1075px;
 	}
 }
 @media only screen and (max-width : 1074px),
 only screen and (max-device-width : 1074px){
-	.front #content, .front #nav_content {
+	.front #content{
 		width: 810px;
 	}
 }
@@ -42,7 +43,11 @@ only screen and (max-device-width : 890px){
   width: 60px;
   margin-left:5px;
   border:2px solid black;
+  border-radius: 4px;
   cursor: pointer;
+}
+.front .game_description{
+  font-size: 14px;
 }
 .front .game_description, .front .game_attributes, .front .posted_by{
   margin-top: 5px;
@@ -54,8 +59,8 @@ only screen and (max-device-width : 890px){
 .front .posted_by, .front .comment, .front .respond{
   padding: 10px 15px;
   margin: 1px -15px 0 -15px;
-  border-bottom: 1px solid #A5C0C8;
-  background: #CBE6EE;
+  border-bottom: 1px solid #DCDCDC;
+  background: #EBEBEB;
 }
 .front .posted_by img, .front .posted_by p, .front .comment img, .front .comment p{
   display:inline-block;
@@ -78,6 +83,7 @@ only screen and (max-device-width : 890px){
 
 /* View Pin modal */
 .front #gamePinModal{
+  border-radius:0;
   height: 100%;
   overflow-y: auto;
 }
@@ -182,7 +188,7 @@ only screen and (max-device-width : 890px){
   padding:10px;
 }
 .front .share_list{
-  left: 550px;
+  left: 650px;
   position: absolute;
   top: 60px;
 }

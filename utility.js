@@ -3,6 +3,7 @@ var app = require('./app');
 var http = require('http');
 var random = require('secure_random');
 var bcrypt = require('bcrypt-nodejs');
+var config = require('./config');
 
 /* map reduce functions */
 exports.listObjects = function(bucket, callback){
@@ -931,7 +932,7 @@ var generateId = exports.generateId = function(callback){
   var ID_obj;
   //do GET request to nodeflake
   var options = {
-    host: '10.0.1.29',
+    host: config.nodeflake_host,
     port: 1337,
     path: '/',
     method: 'GET',

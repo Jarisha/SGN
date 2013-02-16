@@ -1,0 +1,231 @@
+/***** Main Layout *****/
+.front #content{
+  width: 1340px;
+}
+.front #nav_content{
+  /*width: 1340px;*/
+  width: 100%;
+}
+/* media queries to resize masonry content to fit screen */
+@media only screen and (max-width : 1339px),
+only screen and (max-device-width : 1339px){
+	.front #content{
+		width: 1075px;
+	}
+}
+@media only screen and (max-width : 1074px),
+only screen and (max-device-width : 1074px){
+	.front #content{
+		width: 810px;
+	}
+}
+@media only screen and (max-width : 809px),
+only screen and (max-device-width : 890px){
+  .front #main_logo:link, .front #main_logo:visited, .front #main_logo:active, .front #main_logo:hover{
+    left: 405px;
+  }
+}
+
+/*************************** FRONT CONTENT ******************************/
+
+.front .game_pin{
+	padding:15px 15px 0 15px;
+}
+
+.front .game_options{
+  position:absolute;
+  margin: -7px 0 0 -5px;
+}
+.front .game_options *{
+  background: white;
+  display: inline-block;
+  text-align:center;
+  width: 60px;
+  margin-left:5px;
+  border:2px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.front .game_description{
+  font-size: 14px;
+}
+.front .game_description, .front .game_attributes, .front .posted_by{
+  margin-top: 5px;
+  margin-bottom:0px;
+}
+.front .game_attributes{
+  margin-bottom:5px;
+}
+.front .posted_by, .front .comment, .front .respond{
+  padding: 10px 15px;
+  margin: 1px -15px 0 -15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: #EBEBEB;
+}
+.front .posted_by img, .front .posted_by p, .front .comment img, .front .comment p{
+  display:inline-block;
+  vertical-align: top;
+}
+.front .post_text, .front .respond_txtarea{
+  max-width: 170px;
+  margin-left: 5px;
+  line-height: 1.1em;  
+}
+.front .respond_txtarea{
+  font-size:11px;
+  height: 20px;
+  line-height: 1em; 
+}
+.front .respond_btn{
+  margin-top:10px;
+  float:right;
+}
+
+/* View Pin modal */
+.front #gamePinModal{
+  border-radius:0;
+  height: 100%;
+  overflow-y: auto;
+}
+.front #gamePinModal .modal-body{
+  overflow:hidden;
+  padding:0;
+}
+.front .modal-header *{
+}
+.front .modal-header button{
+  float:right;
+}
+.front .poster{
+  font-size: 25px;
+  margin-left: 60px;
+}
+.front .date_posted{
+  margin-top: 7px;
+  margin-left: 60px;
+}
+.front .modal-header .profile_img{
+  float:left;
+}
+.front .view_metadata, .front .view_tags{
+  display: inline-block;
+  vertical-align: top;
+}
+.front .view_metadata{
+  padding-top:5px;
+  background:grey;
+  height:50px;
+  width:50%;
+}
+.front .view_metadata > *{
+  margin-left:10px;
+}
+.front .game_title{
+  font-size:20px;
+}
+.front .game_publisher{
+  font-size:14px;
+}
+.front .view_tags{
+  height:50px;
+  width:50%;
+}
+.front .view_tags p span{
+  background:yellow;
+  margin-left:10px;
+}
+.front .view_tags > p{
+  margin-left:10px;
+  margin-top:10px;
+  font-size:18px;
+}
+.front .view_comment_container{
+  padding: 10px 15px;
+}
+.front .view_img_container{
+  text-align: center;
+  background: grey;
+}
+.front .view_comment{
+  padding: 10px 15px 0;
+  margin: 0 -15px;
+  border-top: 1px solid #FCFAFA;
+}
+.front .view_comment *{
+  display:inline-block;
+}
+.front .view_post_text{
+  width:450px;
+  vertical-align:top;
+  margin-left: 10px;
+}
+.front .view_respond{
+  padding-top: 15px;
+}
+.front .view_respond_txtarea{
+  margin-left:15px;
+  width: 450px;
+  height: 40px;
+}
+.front .view_respond_btn{
+  margin-top:10px;
+  float:right;
+}
+.front .like_tab{
+  width:50%;
+  font-size: 20px;
+  text-align: center;
+}
+.front .repin_tab{
+  width:50%;
+  font-size: 20px;
+  text-align: center;
+}
+.front #like_content img, .front #repin_content img{
+  margin:5px;
+}
+.front .img_container{
+  padding:10px;
+}
+.front .share_list{
+  left: 650px;
+  position: absolute;
+  top: 60px;
+}
+.front .share_element{
+  margin-top:20px;
+}
+.front .share_element button{
+  white-space:nowrap;  /*huzzah!*/
+}
+
+/* Pin Modal_1 and Pin Modal_2 */
+.front #pinModal_2{
+  width:650px;
+}
+.front #pinModal_2 input{
+  width:150px;
+}
+.front .media_type, .front .media_source{
+  float:left;
+}
+.front #myCarousel, .front .post_metadata{
+  display:inline-block;
+  vertical-align:top;
+}
+.front #myCarousel{
+  height:200px;
+  width:200px;
+}
+.front .post_metadata{
+  width:300px;
+}
+.front .post_description, .front .post_tags{
+  display:inline-block;
+  vertical-align:top;
+}
+.front .post_description{
+}
+.front .post_tags{
+  width:300px;
+}

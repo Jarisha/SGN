@@ -1,5 +1,5 @@
 <div id="subnav_content">
-  <a href="#"><b>Following</b></a>&nbsp;<span>&#149;</span>&nbsp;
+  <a href="#">Following</a>
   <div class="dropdown_tab">
     <a class="dropdown-toggle" data-toggle="dropdown" href="About.html">
       Categories
@@ -8,50 +8,52 @@
       <ul class="dropdown-menu two_col_dropdown">
         <div class="col1">
           <li>
-            <a href="#" ng-click="getPinList('Casino','')"><img src="<%= rootPath %>/images/genre1.png" width="22" height="22">Casino</a>
+            <a href="#" ng-click="catSearch('Casino')"><img src="<%= rootPath %>/images/genre1.png" width="22" height="22">Casino</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Casual','')"><img src="<%= rootPath %>/images/genre2.png" width="22" height="22">Casual</a>
+            <a href="#" ng-click="catSearch('Casual')"><img src="<%= rootPath %>/images/genre2.png" width="22" height="22">Casual</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Shooter','')"><img src="<%= rootPath %>/images/genre3.png" width="22" height="22">Shooter</a>
+            <a href="#" ng-click="catSearch('Shooter')"><img src="<%= rootPath %>/images/genre3.png" width="22" height="22">Shooter</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Action','')"><img src="<%= rootPath %>/images/genre4.png" width="22" height="22">Action</a>
+            <a href="#" ng-click="catSearch('Action')"><img src="<%= rootPath %>/images/genre4.png" width="22" height="22">Action</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Simulation','')"><img src="<%= rootPath %>/images/genre5.png" width="22" height="22">Simulation</a>
+            <a href="#" ng-click="catSearch('Simulation')"><img src="<%= rootPath %>/images/genre5.png" width="22" height="22">Simulation</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Racing','')"><img src="<%= rootPath %>/images/genre6.png" width="22" height="22">Racing</a>
+            <a href="#" ng-click="catSearch('Racing')"><img src="<%= rootPath %>/images/genre6.png" width="22" height="22">Racing</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Puzzle','')"><img src="<%= rootPath %>/images/genre7.png" width="22" height="22">Puzzle</a>
+            <a href="#" ng-click="catSearch('Puzzle')"><img src="<%= rootPath %>/images/genre7.png" width="22" height="22">Puzzle</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Fighting','')"><img src="<%= rootPath %>/images/genre8.png" width="22" height="22">Fighting</a>
+            <a href="#" ng-click="catSearch('Fighting')"><img src="<%= rootPath %>/images/genre8.png" width="22" height="22">Fighting</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Social','')"><img src="<%= rootPath %>/images/genre9.png" width="22" height="22">Social</a>
+            <a href="#" ng-click="catSearch('Social')"><img src="<%= rootPath %>/images/genre9.png" width="22" height="22">Social</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Space','')"><img src="<%= rootPath %>/images/genre10.png" width="22" height="22">Space</a>
+            <a href="#" ng-click="catSearch('Space')"><img src="<%= rootPath %>/images/genre10.png" width="22" height="22">Space</a>
           </li>
         </div>
         <div class="col2">
           <li>
-            <a href="#" ng-click="getPinList('Horror','')"><img src="<%= rootPath %>/images/genre1.png" width="22" height="22">Horror</a>
+            <a href="#" ng-click="catSearch('Horror')"><img src="<%= rootPath %>/images/genre1.png" width="22" height="22">Horror</a>
           </li>
           <li>
-            <a href="#" ng-click="getPinList('Strategy','')"><img src="<%= rootPath %>/images/genre2.png" width="22" height="22">Strategy</a>
+            <a href="#" ng-click="catSearch('Strategy')"><img src="<%= rootPath %>/images/genre2.png" width="22" height="22">Strategy</a>
           </li>
         </div>
     </ul>
-  </div>&nbsp;<span>&#149;</span>&nbsp;
-  <a href="#">Popular</a>&nbsp;<span>&#149;</span>&nbsp;
+  </div>
+  <a href="#">Popular</a>
   <a href="/store">Store</a>
 </div>
-<hr/>
 <div class="register_now" ng-show="!loggedIn">
-  <a ng-click="promptRegister()" >Register with Quyay now!</a>
+  <div class="register_inner">
+    <img ng-click="promptRegister()" src="<%= rootPath %>/images/UI/JoinQ_noeffects.png" />
+    <p id="register_btn">Register with Quyay now!</p>
+  </div>
 </div>

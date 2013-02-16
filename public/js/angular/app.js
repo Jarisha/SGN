@@ -4,14 +4,14 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   console.log('app.config()');
   
+  //Router provides templateUrl that fills <body>, controller, and pre-routing logic 
   $routeProvider
     .when('/',  { templateUrl: 'partials/front',
                   controller: FrontController,
                   //this function delays loading the route until content is loaded
                   resolve: {
                     //loadContentloadPins
-                    beforeRoute:function($q, gamepinService){
-                      console.log('beforeRoute');
+                    beforeFront:function($q, $rootScope, gamepinService){
                       var deferred = $q.defer();
                       gamepinService.getPinList(function(data){
                         if(data.objects){
@@ -20,6 +20,12 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                         else
                           deferred.reject("Error");
                       });
+                      /*
+                      var dummyList = [];
+                      for(var i = 0; i < 100; i++){
+                        dummyList.push({id:'Z', description:'Z', poster:'Z', category:'Z' });
+                      }
+                      deferred.resolve(dummyList);*/
                       return deferred.promise;
                     }
                   }
@@ -31,14 +37,30 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/profile', {templateUrl: 'partials/profile', controller: ProfileController})
     .when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
     .when('/about', {templateUrl: 'partials/about', controller: AboutController})
-    .when('/user/:user', {templateUrl: '../partials/profile', controller: UserController});
+    .when('/user/:user', {  templateUrl: '../partials/profile',
+                            controller: UserController,
+                            resolve: {
+                              beforeUser: function($q, $rootScope, $location){
+                                var deferred = $q.defer();
+                                console.log('beforeUser');
+                                console.log($rootScope.loggedIn);
+                                if(!$rootScope.loggedIn){
+                                  console.log('not logged in redirect');
+                                  $location.path('/');
+                                }
+                                else
+                                  deferred.resolve();
+                                return deferred.promise;
+                              }
+                            }
+                          });
     
   
   $locationProvider.html5Mode(true);
 }]);
 
 // Entry Point
-app.run(function( $rootScope, $http, $templateCache, $location){
+app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   console.log('app.run()');
   //Global variables - session data
   $rootScope.section = '';
@@ -77,6 +99,19 @@ app.run(function( $rootScope, $http, $templateCache, $location){
   $rootScope.alert = function(text) {
     alert(text);
   };
+  
+  //Masonry calls
+  $rootScope.masonry = function(){
+    $('#content').imagesLoaded(function(){
+      $('#content').masonry({
+        itemSelector : '.game_pin, .store_pin',
+      });
+    });
+  }
+  $rootScope.remason = function(){
+    $('#content').masonry('reload');
+  }
+  
   
   //Global AJAX calls
   
@@ -117,7 +152,7 @@ app.run(function( $rootScope, $http, $templateCache, $location){
           $rootScope.userName = null;
           $location.path('/');
           console.log("logout remason");
-          remason();
+          $timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.logout && data.error){
           console.log(data.error);
@@ -175,7 +210,7 @@ app.run(function( $rootScope, $http, $templateCache, $location){
             $http.get($rootScope.rootPath +'/partials/navbar', {cache:$templateCache});
           }
           console.log("login remason");
-          remason();
+          $timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.login && data.error){
           console.log('Login Failed: ' + data.error);
