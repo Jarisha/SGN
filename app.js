@@ -70,6 +70,7 @@ app.configure('tony', function(){
   riakConfig.init();
   app.locals.port = config.tony_port;
   app.locals.rootPath =  "http://" + config.tony_host + ':' + config.tony_port;
+  console.log(app.locals.rootPath);
   //initialize passport
   passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
