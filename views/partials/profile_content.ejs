@@ -10,10 +10,10 @@
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
-          {{profile.currXP}}
+          {{profile.currXP || 1}}
         </span>
         <span class="xp_remaining">
-          {{profile.nextXP}}
+          {{profile.nextXP || 99}}
         </span>
       </div>
     </div>

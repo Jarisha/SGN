@@ -129,11 +129,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   $scope.addComment = function(text, index){
     //add the comment in the view
-    $scope.showPins[index].comments.push({poster: $rootScope.userId, content: text});
+    $scope.showPins[index].comments.push({posterName: $rootScope.userName, content: text});
     
-    //console.log("addComment: remason()");
     $http({ method:'post', url:'/api/gamepin/addComment',
-      data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userId, content: text} })
+      data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userId, posterName: $rootScope.userName, content: text} })
       .success(function(data, status, headers, config){
         console.log('post comment success!');
         $scope.text = null;
@@ -151,7 +150,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     for(stop = start + interval ;start < stop && start < $scope.gamePins.length; start++){
       $scope.showPins.push($scope.gamePins[start]);
     }
-    console.log($scope.showPins);
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
@@ -317,10 +315,10 @@ function ProfileController($scope, $rootScope, $http, $location){
   }
   
   $scope.getProfile = function(){
-    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $rootScope.userId}})
+    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $rootScope.userId }})
       .success(function(data, status, headers, config){
         //TODO: do this via for..in loop.  Maybe.
-        $scope.profile.name = data.name;
+        $scope.profile.name = data.username;
         $scope.profile.email = data.email;
         $scope.profile.fbConnect = data.fbConnect;
         $scope.profile.favCat = data.favCat;
@@ -374,7 +372,7 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/settings_content';
-  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
+  $scope.settings = {email: null, username: null, gender: null, bio: null}
   
   $scope.setup = function(){
     settingsSetup($scope);
@@ -391,7 +389,10 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
     $http.get('api/getSettings')
       .success(function(data, status, headers, config){
         if(data.email) $scope.settings.email = data.email;
-        if(data.name) $scope.settings.username = data.name;
+        if(data.username){
+          $scope.settings.username = data.username;
+          $rootScope.userName = data.username;
+        }
         if(data.gender) $scope.settings.gender = data.gender;
         if(data.bio) $scope.settings.bio = data.bio;
       })
@@ -405,7 +406,13 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
       .success(function(data, status, headers, config){
         if(data.error) console.log('error ' + data.error);
         if(data.success){
-          if(data.name) $rootScope.userName = data.name;
+          if(data.username){
+            console.log(data.username);
+            $rootScope.userName = data.username;
+            $scope.settings.username = data.username;
+          }
+          console.log($rootScope.userName);
+          console.log($scope.settings.username);
           console.log('settings saved!');
         }
       })
@@ -417,11 +424,6 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
 }
 //Looking at another user's page
 function UserController($scope, $rootScope, $http, $location, $routeParams, beforeUser){
-  //redirect if not logged in
-  //if(!$rootScope.loggedIn)
-  //  $location.path('/');
-  
-  
   $rootScope.css = 'profile';
   $rootScope.title = 'user';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -466,15 +468,15 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, befo
       });
   }
   
-  console.log($routeParams.user);
+  console.log($routeParams.username);
   //get profile data for this user
   $scope.getProfile = function(){
-    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $routeParams.user}})
+    $http({method:'post', url:'/api/getProfile', data:{ userName: $routeParams.username}})
       .success(function(data, status, headers, config){
         //redirect to my_profile is username matches current user
         if($rootScope.userName === data.name) $location.path('/profile');
         //TODO: do this via for..in loop
-        $scope.profile.name = data.name;
+        $scope.profile.name = data.username;
         $scope.profile.email = data.email;
         $scope.profile.fbConnect = data.fbConnect;
         $scope.profile.favCat = data.favCat;

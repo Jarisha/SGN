@@ -1,65 +1,9 @@
-/* contains riak utility functions such as conflict resolution, etc */
+/* contains riak utility functions: conflict resolution, id generation, etc */
 var app = require('./app');
 var http = require('http');
 var random = require('secure_random');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('./config');
-
-/* map reduce functions */
-exports.listObjects = function(bucket, callback){
-  app.riak.mapred.inputs(bucket)
-    .map({
-        language: 'erlang',
-        module: 'riak_mapreduce_utils',
-        function: 'map_id' })
-
-    .execute(function(err, results) {
-        if(!err){
-          if(callback) callback();
-        }
-    }
-  );
-}
-
-exports.listKeys = function(bucket, callback){
-  app.riak.mapred.inputs(bucket)
-    .map({
-        language: 'erlang',
-        module: 'riak_mapreduce_utils',
-        function: 'map_key' })
-
-    .execute(function(err, results) {
-        if(!err){
-          callback(results);
-        }
-    }
-  );
-}
-
-exports.deleteObjects = function(bucket, callback){
-  app.riak.mapred.inputs(bucket)
-    .map({
-        language: 'erlang',
-        module: 'riak_mapreduce_utils',
-        function: 'map_delete',
-        keep: false })
-    
-    .reduce({
-        language: 'erlang',
-        module: 'riak_kv_mapreduce',
-        function: 'reduce_sum'}) 
-    
-    .execute(function(err, results) {
-        if(!err){
-          console.log(results);
-          if(callback) callback();
-        }
-        if(err){
-          console.log(err);
-        }
-    }
-  );
-}
 
 //Takes in array and returns new one with duplicate entries removed
 function arrNoDupe(a) {
@@ -172,8 +116,7 @@ var user_resolve = exports.user_resolve = function(siblings){
   var net_changes = { posts: {add:[], remove:[], edit:[]},
                       likes: {add:[], remove:[], edit:[]},
                       followers: {add:[], remove:[]},
-                      following: {add:[], remove:[]},
-                      friends: {add:[], remove:[]}
+                      following: {add:[], remove:[]}
                     };
   
   //join sibling changes into net changes
@@ -186,8 +129,6 @@ var user_resolve = exports.user_resolve = function(siblings){
     net_changes.followers.remove = net_changes.followers.remove.concat(siblings[s].data.changes.followers.remove);
     net_changes.following.add = net_changes.following.add.concat(siblings[s].data.changes.following.add);
     net_changes.following.remove = net_changes.following.remove.concat(siblings[s].data.changes.following.remove);
-    net_changes.friends.add = net_changes.friends.add.concat(siblings[s].data.changes.friends.add);
-    net_changes.friends.remove = net_changes.friends.remove.concat(siblings[s].data.changes.friends.remove);
   }
   //resolve posts
   siblings[0].data.posts = siblings[0].data.posts.concat(net_changes.posts.add);
@@ -217,13 +158,6 @@ var user_resolve = exports.user_resolve = function(siblings){
     if(siblings[0].data.following.indexOf(net_changes.following.remove[p]) !== -1)
       siblings[0].data.following.splice(siblings[0].data.following.indexOf(net_changes.following.remove[p]), 1);
   }
-  //resolve friends
-  siblings[0].data.friends = siblings[0].data.friends.concat(net_changes.friends.add);
-  siblings[0].data.friends = arrNoDupe(siblings[0].data.friends);
-  for(var p in net_changes.friends.remove){
-    if(siblings[0].data.friends.indexOf(net_changes.friends.remove[p]) !== -1)
-      siblings[0].data.friends.splice(siblings[0].data.friends.indexOf(net_changes.friends.remove[p]), 1);
-  }
   return siblings[0];
 }
 
@@ -231,212 +165,6 @@ var user_resolve = exports.user_resolve = function(siblings){
 var categories = ['Casino', 'Casual', 'Shooter', 'Action',
                   'Simulation', 'Racing', 'Puzzle', 'Fighting',
                   'Social', 'Space', 'Horror', 'Strategy'];
-
-//generate n users. Range s to n-1.
-var generateUsers = exports.generateUsers = function(s, n, callback){
-  var userArray = [];
-  var userIds = [];
-  var clock = s;
-  for(var i = s; i < n; i++){
-    userIds.push('user' + i + '@gmail.com');
-    //user schema
-    userArray.push(
-      { email: 'user' + i + '@gmail.com',
-        //passHash: bcrypt.hashSync('user'+i),
-        passHash: 'user'+i,
-        name: 'user' + i,
-        fbConnect: i%2==0 ? true : false,
-        favCat: null,
-        profileImg: '/images/profile/profile'+i%10+'.png',
-        gender: null,
-        bio:null,
-        dateJoined:null,
-        currXP:0,
-        nextXP:100,
-        level:1,
-        posts:[],
-        likes:[],
-        followers:[],
-        following:[],
-        friends:[],
-        recentActivity:[],
-        changes:{ posts: {add:[], remove:[]},
-                  likes: {add:[], remove:[]},
-                  followers: {add:[], remove:[]},
-                  following: {add:[], remove:[]},
-                  friends: {add:[], remove:[]}
-                }
-      }
-    );
-  }
-  //set random favorite category
-  for(var i = s; i < n; i++){
-    (function(i){
-      random.getRandomInt(0, 11, function(err, rand) {
-        userArray[i].favCat = categories[rand];
-        if(i === n-1) next();
-      });
-    })(i);
-  }
-  //create new user. If one exists with given key, overwrite it.
-  function next(){
-    //Returns an array of err objects for users not found, and objs for found users
-    app.riak.bucket('users').objects.get(userIds, user_resolve, function(err, objs){
-      var sub;
-      //if nodiak gives us a single object, convert that into an array with 1 element.
-      if(err && Object.prototype.toString.call( err ) !== '[object Array]')
-        err = [err];
-      //loop through all not found keys and create objects for these
-      for(var e = 0; err && e < err.length; e++){
-        if(err[e].status_code === 404){
-          sub = err[e].data.substring(err[e].data.indexOf('r') + 1, err[e].data.indexOf('@'));
-          key = parseInt(sub, 10);
-          var new_usr = app.riak.bucket('users').objects.new(err[e].data, userArray[key]);
-          new_usr.data.dateJoined = getDate();
-          new_usr.save(function(err, saved){
-            console.log('User not found. New user created: ');
-            console.log(saved.data.email);
-          });
-        }
-      }
-      //if nodiak gives us a single object, convert that into an array with 1 element
-      if(objs && Object.prototype.toString.call( objs ) !== '[object Array]')
-        objs = [objs];
-      //loop through all found objects and overwrite them
-      for(var o = 0; objs && o < objs.length; o++){
-        clearChanges(objs[o]);
-        sub = objs[o].key.substring(objs[o].key.indexOf('r') + 1, objs[o].key.indexOf('@'));
-        key = parseInt(sub, 10);
-        if(objs[o].siblings) console.log('siblings found and resolved');
-        var merge_user = app.riak.bucket('users').objects.new(objs[o].key, userArray[key]);
-        merge_user.metadata.vclock = objs[o].metadata.vclock;
-        merge_user.save(function(err, saved){
-          console.log('User updated');
-          console.log(saved.data.email);
-        });
-      }
-      callback();
-    });
-  }
-}
-
-//generate n pins. range s to n-1
-var generatePins = exports.generatePins = function(s, n){
-  var pinArray = [];
-  var pinIds = [];
-  var clock;
-  var user_keys = [];
-  
-  //get user keys
-  mr.listKeys('users', function(results){
-    user_keys = results.data;
-    if(user_keys.length > 0) next();
-    else{
-      console.log('No users in db. Unable to generate pins without owners.');
-      return 0;
-    }
-  });
-  function next(){
-    var clock = s;
-    for(var i = s; i < n; i++){
-      pinIds.push(100 + i);
-      //gamepin schema
-      pinArray.push(
-        { posterId: null,
-          likedBy: [],
-          repinVia: null,
-          category: null,
-          content: null,
-          sourceUrl: null,
-          gameName: null,
-          publisher: null,
-          description: 'This is pin ' + i,
-          datePosted: null,
-          groupId: null,
-          returnAll: 'y',
-          comments: [],
-          changes:{ likedBy: {add:[], remove:[]},
-                    comments:{add:[], remove:[] }
-                  }
-        }
-      );
-    }
-    //set random category
-    for(var i = s; i < n; i++){
-      (function(i){
-        random.getRandomInt(0, 11, function(err, rand) {
-          pinArray[i].category = categories[rand];
-          if(i === n-1) next2();
-        });
-      })(i);
-    }
-  }
-  //set random posterId
-  function next2(){
-    clock = s;
-    for(var i = s; i < n; i++){
-      (function(i){
-        random.getRandomInt(0, user_keys.length-1, function(err, rand) {
-          pinArray[i].posterId = user_keys[rand];
-          if(i === n-1) next3();
-        });
-      })(i);
-    }
-  }
-  //create new pin.  If one exists with current key, overwrite it.
-  function next3(){
-    clock = s;
-    console.log(pinIds);
-    app.riak.bucket('gamepins').objects.get(pinIds, pin_resolve, function(err, objs){
-      //if nodiak gives us a single object, convert that into an array with 1 element.
-      if(err && Object.prototype.toString.call( err ) !== '[object Array]')
-        err = [err];
-      //loop through all not found keys and create objects for these
-      for(var e = 0; err && e < err.length; e++){
-        if(err[e].status_code === 404){
-          var new_pin = app.riak.bucket('gamepins').objects.new(err[e].data, pinArray[err[e].data - 100]);
-          new_pin.data.datePosted = getDate();
-          new_pin.save(function(err, saved){
-            console.log('new gamepin created');
-            link(saved.data.posterId, saved.key);
-          });
-        }
-      }
-      //if nodiak gives us a single object, convert that into an array with 1 element.
-      if(objs && Object.prototype.toString.call( objs ) !== '[object Array]')
-        objs = [objs];
-      //loop through all found objects and overwrite them
-      for(var o = 0; objs && o < objs.length; o++){
-        clearChanges(objs[o]);
-        var merge_pin = app.riak.bucket('gamepin').objects.new(objs[o].key, pinArray[objs[o].key - 100]);
-        merge_pin.metadata.vclock = objs[o].metadata.vclock;
-        merge_pin.save(function(err, saved){
-          console.log('gamepin updated');
-          link(saved.data.posterId, saved.key);
-        });
-      }
-    });
-  }
-  //fetch owner and add this post to his posts list
-  function userLink(ownerId, postId){
-    var update_user = app.riak.bucket('users').objects.new(ownerId);
-    update_user.fetch(user_resolve, function(err, obj){
-      if(err){
-        console.log("Fetch User: " + err);
-        return;
-      }
-      //clear changes
-      clearChanges(obj);
-      if(obj.siblings) console.log('siblings found and resolved');
-      console.log(obj);
-      update_user.data.posts.push(postId);
-      update_user.data.changes.posts.add.push(postId);
-      update_user.save(function(err, saved){
-        console.log('link');
-      });
-    });
-  }
-}
 
 //adds gamepin to user's posts
 var link = exports.link = function(userId, pinId){
@@ -459,23 +187,6 @@ var link = exports.link = function(userId, pinId){
     obj.save(function(err, saved){
       console.log('after: [' +saved.data.posts + ']');
       console.log('linked '+ pinId + 'to ' + userId);
-    });
-  });
-}
-
-//clear all posts from a user
-var clearLinks = exports.clearLinks = function(userId){
-  usr = app.riak.bucket('users').objects.new(userId);
-  usr.fetch(user_resolve, function(err, obj){
-    if(err){
-      console.log("Fetch User: " + err);
-      return;
-    }
-    //clear changes
-    clearChanges(obj);
-    obj.data.posts = [];
-    obj.save(function(err, saved){
-      console.log('after: [' +saved.data.posts + ']');
     });
   });
 }
@@ -591,6 +302,7 @@ var unlike = exports.unlike = function(userId, pinId){
 }
 
 //Follow sets up 2 way link from user to user.
+//TODO: move follow and unfollow into user.js
 var follow = exports.follow = function(sourceId, targetId){
   var src = app.riak.bucket('users').objects.new(sourceId);
   var targ = app.riak.bucket('users').objects.new(targetId);
@@ -700,104 +412,9 @@ var unfollow = exports.unfollow = function(sourceId, targetId){
   }
 }
 
-//TODO
-var friend = exports.friend = function(sourceId, targetId){
-  
-}
-
-//Create new gamepin or overwrite existing one. 
-var postPin = exports.postPin = function(pinId, pinData){
-  //check if pin exists
-  app.riak.bucket('gamepins').object.exists(pinId, function(err, result){
-    if(err){
-      console.log('Fetch Pin: ' + err);
-      return;
-    }
-    if(result){
-      overwrite();
-      console.log('Pin already exists in db. Overwriting pin #' + pinId);
-    }
-    else{
-      create();
-      console.log('Creating new pin # ' + pinId);
-    }
-  });
-  function create(){
-    new_pin = app.riak.bucket('gamepins').object.new(pinId, pinData);
-    new_pin.data.datePosted = getDate();
-    new_pin.save(function(err, saved){
-      console.log(saved.data.posterId +' posted pin #'+pinId);
-      link(saved.data.posterId, pinId);
-    });
-  }
-  function overwrite(){
-    var old_pin = app.riak.bucket('gamepins').object.new(pinId);
-    var new_pin = app.riak.bucket('gamepins').object.new(pinId, pinData);
-    old_pin.fetch(pin_resolve, function(err, obj){
-      if(err){
-        console.log('Fetch Pin: ' + err);
-        return;
-      }
-      clearChanges(obj);
-      new_pin.metadata.vclock = obj.metadata.vclock;
-      new_pin.save(function(err, saved){
-        console.log('Pin #' + pinId + 'overwritten');
-        link(saved.data.posterId, pinId);
-      });
-    });
-    
-  }
-}
-
-//same as postPin, but given a repinVia param
-var repin = exports.repin = function(pinId, pinData){
-  //check if pin exists
-  app.riak.bucket('gamepins').object.exists(pinId, function(err, result){
-    if(err){
-      console.log('Pin Exists: ' + err);
-      return;
-    }
-    if(!result) next();
-    else console.log('Error: pin ' + pinId + 'already exists in db');
-  });
-  function next(){
-    new_pin = app.riak.bucket('gamepins').object.new(pinId, pinData);
-    new_pin.save(function(err, saved){
-      console.log(saved.data.posterId +' repinned pin #'+pinId+ 'via '+saved.data.repinVia);
-      link(saved.data.posterId, pinId);
-    });
-  }
-}
-
-//TODO
-/*editPin = exports.editPin = function(pinId, pinData){
-  //check if pin exists
-  app.riak.bucket('gamepins').object.exists(pinId, function(err, result){
-    if(err){
-      console.log('Pin Exists: ' + err);
-      return;
-    }
-    if(result) next();
-    else console.log('Error: pin ' + pinId + 'does not exist in db');
-  });
-  function next(){
-    var old_pin = app.riak.bucket('gamepins').object.new(pinId);
-    var new_pin = app.riak.bucket('gamepins').object.new(pinId, pinData);
-    old_pin.fetch(pin_resolve, function(err, obj){
-      if(err){
-        console.log('Fetch Pin: ' + err);
-        return;
-      }
-      clearChanges(obj);
-      new_pin.metadata.vclock = obj.metadata.vclock;
-      new_pin.save(function(err, saved){
-        console.log('Pin #' + pinId + 'overwritten');
-      });
-    });
-  }
-}*/
 
 //Remove poster reference, like references, and then delete the gamepin
+//TODO: move this into user.js
 deletePin = exports.deletePin = function(pinId){
   old_pin = app.riak.bucket('gamepins').object.new(pinId);
   old_pin.fetch(pin_resolve, function(err, pin_obj){
@@ -874,7 +491,7 @@ var deactivateUser = exports.deactivateUser = function(userId){
     for(var p in obj.data.posts){
       (function(p){
         deletePin(obj.data.posts[p].toString());
-        if(clock === obj.data.posts.length-1)next();
+        if(clock === obj.data.posts.length-1) next();
         clock++;
       })(p);
     }
@@ -927,7 +544,7 @@ var deactivateUser = exports.deactivateUser = function(userId){
 }
 
 //Get unique, roughly sequential ID from nodeflake server
-var prev = '';
+var nodeflake_prev = '';
 var generateId = exports.generateId = function(callback){
   var ID_obj;
   //do GET request to nodeflake
@@ -946,55 +563,23 @@ var generateId = exports.generateId = function(callback){
     response.on('end', function() {
       ID_obj = JSON.parse(ID);
       //if we get duplicate, retry
-      if(ID_obj.id === prev){
+      if(ID_obj.id === nodeflake_prev){
         console.log('dupId: ' +ID_obj.id);
         //recursive function
         return generateId(callback);
       }
-      prev = ID_obj.id;
+      nodeflake_prev = ID_obj.id;
       next();
     });
   });
+  R.on('error', function(e){
+    console.log('Nodeflake error: ' + e);
+  });
   R.end();
   function next(){
-    callback(ID_obj.id);
-  }
-}
-
-//Creates new comment obj. 2 way link from comment to gamepin.
-//TODO: Link to user via 'recent activity'
-var addComment = exports.addComment = function(pinId, posterId, text){
-  var commentId;
-  console.log('addComment()');
-  //validations
-  //test if empty
-  if(text === '' || text === null || text === undefined){
-    console.log("Error: text is empty");
-    return;
-  }
-  //swear word filter
-  //comment length limit.
-  generateId(function(id){
-    commentId = id;
-    console.log(id);
-    next();
-  });
-  function next(){
-    var cmt = app.riak.bucket('comments').objects.new(commentId, {pin: pinId, poster: posterId, content: text});
-    cmt.save(function(err, saved_cmt){
-      var pin = app.riak.bucket('gamepins').objects.new(pinId);
-      pin.fetch(pin_resolve, function(err, obj){
-        if(err){
-          console.log("Fetch Pin: " + err);
-          return;
-        }
-        obj.data.comments.push(saved_cmt.key);
-        obj.data.changes.comments.add.push(saved_cmt.key);
-        obj.save(function(err, saved_pin){
-          console.log("Comment #" + saved_cmt.key + " written to pin #" + saved_pin.key);
-        });
-      });
-    });
+    //invert values allowing us to sort from new (low #) to old (high #)
+    var val = "999999999999999999" - ID_obj.id;
+    callback(val);
   }
 }
 
@@ -1032,19 +617,5 @@ var deleteComment = exports.deleteComment = function(commentId){
         console.log("Comment #"+deleted.key+ " deleted!");
       });
     }
-  });
-}
-
-//deletes all data from known buckets, effectively clearing the DB
-var wipeDb = exports.wipeDb = function(){
-  mr.deleteObjects('gamepins');
-  mr.deleteObjects('users');
-  mr.deleteObjects('comments');
-}
-
-//fill DB with users and gamepins. For testing purposes.
-var populateDb = exports.populateDb = function(){
-  generateUsers(0,10, function(){
-    generatePins(0,20);
   });
 }

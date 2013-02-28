@@ -3,7 +3,7 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" >
-        <img src="<%= rootPath %>{{profile.profileImg}}" width="165"/>
+        <img src="{{rootPath}}/images/160x160.gif" width="165"/>
         <p style="position: absolute; top:90px; font-size: 15px;" >Upload a profile image</p>
       </div>
       <div class="profile_xp">
@@ -12,10 +12,10 @@
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
-          {{profile.currXP}}
+          {{profile.currXP || 1}}
         </span>
         <span class="xp_remaining">
-          {{profile.nextXP}}
+          {{profile.nextXP || 99}}
         </span>
       </div>
     </div>

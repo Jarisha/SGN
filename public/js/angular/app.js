@@ -37,7 +37,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/profile', {templateUrl: 'partials/profile', controller: ProfileController})
     .when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
     .when('/about', {templateUrl: 'partials/about', controller: AboutController})
-    .when('/user/:user', {  templateUrl: '../partials/profile',
+    .when('/user/:username', {  templateUrl: '../partials/profile',
                             controller: UserController,
                             resolve: {
                               beforeUser: function($q, $rootScope, $location){
@@ -186,8 +186,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         console.log('Error: ' + status);
       });
   }
-  $rootScope.loginSubmit = function(){
-    console.log($rootScope.login.email + ' ' + $rootScope.login.password);
+  $rootScope.loginsubmit = function(){
     $http({ method: 'POST', url: 'api/login', data:
           {"email": $rootScope.login.email, "password": $rootScope.login.password }})
       .success(function(data, status, headers, config){

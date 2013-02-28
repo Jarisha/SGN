@@ -35,7 +35,7 @@
     </li>
   </ul>
   <img id="notify" src="<%= rootPath %>/images/UI/Nav_Left.png" width="280"/><img
-  id="notify_triangle" src="<%= rootPath %>/images/UI/triangle.png" />
+  id="notify_triangle" src="<%= rootPath %>/images/UI/triangle_green.png" />
 </div>
 <div id="nav_content" class="navbar-inner">
   <a id="main_logo" href="/">Quyay</a>
@@ -44,13 +44,12 @@
       <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
       <form id="search_bar" class="navbar-search" ng-submit="textsearch(searchText)">
         <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
-        <p>{{searchText}}</p>
       </form>
     </li>
   </ul>
   <ul id="nav_right" class="nav">
     <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()">
-      <img id="profile_small" src="<%= rootPath %>/images/UI/POST_noeffects.png" />
+      <img id="profile_small" src="<%= rootPath %>/images/UI/POST_GREEN_effects.png" />
     </a></li>
     <li id="about_tab" class="dropdown">
       <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
@@ -70,8 +69,7 @@
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">
       <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img ng-show="userName == 'carries'" id="profile_small" src="<%= rootPath %>/images/profile/csbiophoto.png" height="22" width="22" />
-        <img ng-show="userName != 'carries'" id="profile_small" src="<%= rootPath %>/images/tony_profile.jpg" height="22" width="22" />{{userName}}<b class="caret"></b>
+        <img id="profile_small" src="<%= rootPath %>/images/tony_profile.jpg" height="22" width="22" />{{userName}}<b class="caret"></b>
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">Followers</a></li>

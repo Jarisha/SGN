@@ -7,7 +7,9 @@ var app = require('../../app');
 //Checks if user is logged in. Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
   //Clear newUser which stores register data
-  if(req.session.newUser) req.session.newUser = null;
+  if(req.session){
+    if(req.session.newUser) req.session.newUser = null;
+  }
 	if(req.session.loggedIn){
 		return res.json({
 			loggedIn: true,
@@ -78,7 +80,7 @@ exports.login = function(req, res){
       //log in
       req.session.loggedIn = obj.data.email;
       req.session.userEmail = obj.data.email;
-      req.session.userName = obj.data.name;
+      req.session.userName = obj.data.username;
       return res.json({
         login: true,
         userId: req.session.loggedIn,
@@ -157,6 +159,7 @@ exports.register = function(req, res){
 };
 //Register step 2: Construct new user from session.newUser & categories selected
 exports.register_2 = function(req, res){
+  console.log('register_2');
   var newEmail = req.session.newUser.email,
       newName = req.session.newUser.name,
       newHash = req.session.newUser.passHash,
@@ -170,55 +173,111 @@ exports.register_2 = function(req, res){
     var newUser = {
                 email: newEmail,
                 passHash: newHash,
-                name: newName,
+                username: newName,
                 fbConnect: newFbConnect,
                 favCat: favCategories,
                 profileImg: '',
                 gender: null,
                 bio:null,
                 dateJoined: dayJoined,
-                currXP:0,
-                nextXP:100,
-                level:1,
                 posts:[],
                 likes:[],
                 followers:[],
                 following:[],
-                friends:[],
-                recentActivity:[],
                 changes:{
                   posts: {add:[], remove:[]},
                   likes: {add:[], remove:[]},
                   followers: {add:[], remove:[]},
                   following: {add:[], remove:[]},
-                  friends: {add:[], remove:[]}
                 }
     };
   //make new user
-  var user = app.riak.bucket('users').objects.new(newUser.email, newUser);
-  //save user
-  user.save(function(err, obj){
-    if(err)
-      return res.json({ register: false, error: 'Error: ' + err });
-    next(obj);
+  
+  //create/overwrite user
+  var new_usr = app.riak.bucket('users').objects.new(newUser.email, newUser);
+  //index username so we can query via username instead of email
+  new_usr.addToIndex('username', newName);
+  app.riak.bucket('users').objects.get(newUser.email, util.user_resolve, function(err, obj) {
+    if(err){
+      //if user doesn't exist, create new user
+      if(err.status_code === 404){
+        new_usr.save(function(err, saved){
+          console.log('User ' + newUser.email + ' created');
+          req.session.loggedIn = saved.data.email;
+          req.session.userName = saved.data.username;
+          req.session.userEmail = saved.data.email;
+          console.log(req.session.userName + 'Registered and logged In');
+          next();
+        });
+      }
+      else{
+        console.log('Get user error: ' + err);
+      }
+    }
+    //if existing user found, fetch that user's vec clock and overwrite with new_usr
+    else if(obj){
+      console.log('Error: user with existing email found');
+      return;
+    }
   });
-	//log in
-	function next(obj){
-		req.session.loggedIn = obj.data.email;
-    req.session.userName = obj.data.name;
-    req.session.userEmail = obj.data.email;
-		console.log(req.session.userName + ' Registered and logged In');
-		return res.json({ register: true });
-	}
+  //create/overwrite user-groups
+  function next(){
+    //create one group per favCat
+    var groups = {};
+    var group_key = newUser.email + '-groups';
+    for(f in new_usr.data.favCat){
+       groups[new_usr.data.favCat[f]] = [];
+    }
+    var usr_groups = app.riak.bucket('users').objects.new(group_key, groups);
+    app.riak.bucket('users').objects.get(group_key, function(err, obj) {
+      if(err && err.status_code === 404){
+        usr_groups.save(function(err, data){
+          console.log('Groups object ' + group_key + ' created');
+          next2();
+        });
+      }
+      else if(obj){
+        usr_groups.metadata.vclock = obj.metadata.vclock;
+        usr_groups.save(function(err, data){
+          console.log('Groups object ' + group_key + ' found and overwritten');
+          next2();
+        });
+      }
+    });
+  }
+  //create/overwrite user-activity
+  function next2(){
+    var activity = {evtIds:[]};
+    var activity_key = newUser.email + '-activity';
+    var usr_activity = app.riak.bucket('users').objects.new(activity_key, activity);
+    app.riak.bucket('users').objects.get(activity_key, function(err, obj) {
+      if(err && err.status_code === 404){
+        usr_activity.save(function(err, saved){
+          console.log('Activity queue ' + activity_key + ' created');
+          console.log('createUser complete!');
+          return res.json({register: true});
+        });
+      }
+      else if(obj){
+        usr_activity.metadata.vclock = obj.metadata.vclock;
+        usr_activity.save(function(err, saved){
+          console.log('Groups object ' + activity_key + ' found and overwritten');
+          console.log('createUser complete!');
+          return res.json({register: true});
+        });
+      }
+    });
+  }
 }
 
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
   app.riak.bucket('users').objects.get(req.session.userEmail, function(err, obj){
     if(err) return res.json({ error: 'User not found: ' + err });
+    console.log(obj.data);
     return res.json({
       email: obj.data.email,
-      name: obj.data.name,
+      username: obj.data.username,
       gender: obj.data.gender,
       bio: obj.data.bio
     });
@@ -233,14 +292,16 @@ exports.editSettings = function(req, res){
       error: 'Email or Username is blank'
     });
   }
+  console.log(req.body);
   //get current user object
-  var user = app.riak.bucket('users').objects.new(req.session.userEmail);
+  var user = app.riak.bucket('users').objects.new(req.body.settings.email);
   //need to refresh navbar if user changes name
   user.fetch(function(err, obj){
+    console.log(obj);
     //update settings & possibly session
     if(req.body.settings.email) obj.data.email = req.body.settings.email;
     if(req.body.settings.username){
-      obj.data.name = req.body.settings.username;
+      obj.data.username = req.body.settings.username;
       req.session.userName = req.body.settings.username;
     }
     obj.data.bio = req.body.settings.bio;
@@ -248,7 +309,7 @@ exports.editSettings = function(req, res){
     //save settings
     obj.save(function(err, obj){
       console.log('Settings saved');
-      return res.json({ success: true, name: obj.data.name })
+      return res.json({ success: true, username: obj.data.username });
     });
   });
 }
@@ -325,16 +386,29 @@ exports.unfollow = function(req, res){
   })
 }
 
-//getProfileData: return all relevant profile view data to front end
+//getProfile - return profile data
 exports.getProfile = function(req, res){
-  var usr = app.riak.bucket('users').objects.new(req.body.userEmail);
-  usr.fetch(util.user_resolve, function(err, obj){
-    if(err){
-      return res.json({error: err});
-    }
-    util.clearChanges(obj);
-    return res.json(obj.data);
-  });
+  //if sent username, fetch corresponding email
+  var key;
+  if(req.body.userName){
+    app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
+      if(err) return res.json({error: "2i Error:" + err});
+      key = keys[0];
+      next();
+    });
+  }
+  else next();
+  function next(){
+    key = key || req.body.userEmail;
+    var usr = app.riak.bucket('users').objects.new(key);
+    usr.fetch(util.user_resolve, function(err, obj){
+      if(err){
+        return res.json({error: "getProfile error: " + err});
+      }
+      util.clearChanges(obj);
+      return res.json(obj.data);
+    });
+  }
 }
 /* The following funcs used to retrieve list of pins that populate front page
  * We depend on riak solr search with presort:'key' in order to get a chronologically
@@ -371,10 +445,10 @@ exports.getPinList = function(req, res){
       pinMap[objs[obj].id] = {  id: objs[obj].id,
                                 category: objs[obj].fields.category,
                                 description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterId,
+                                poster: objs[obj].fields.posterName,
                                 comments: []
                               };
-      //keep track of the comment's index so we dont have to sort later
+      //keep track of the comment's position so we dont have to sort later
       for(c in cmts){
         commentIds.push(cmts[c]);
         commentMap[cmts[c]] = c;
@@ -386,27 +460,51 @@ exports.getPinList = function(req, res){
   });
   //fetch comments and attach them to their respective gamepin obj
   function next(){
+    console.log('next');
+    var posterIds = [];
+    var posterNames = {};
     app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
+      if(cmt_objs.length === 0) next2();
       if(err){
-        return res.json({error: 'get comments failure or no comments'});
+        if(err.status_code = 404){
+          console.log('no comment found');
+        }
+        else{
+          return res.json({error: 'get comments error: ' + err});
+        }
       }
       //if nodiak gives us a single object, convert that into an array with 1 element
       if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
         cmt_objs = [cmt_objs];
+      var clock = 0;
       for(c in cmt_objs){
-        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
-                                                          id: cmt_objs[c].key,
-                                                          pin: cmt_objs[c].data.pin,
-                                                          poster: cmt_objs[c].data.poster,
-                                                          content: cmt_objs[c].data.content };
+        (function(c){
+          //need to get the user obj in order to get his username
+          app.riak.bucket('users').objects.get(cmt_objs[c].data.posterId, util.user_resolve, function(err, obj){
+            if(err){
+              return res.json('err getting comment posters');
+            }
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {};
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].posterName = obj.data.username;
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].id = cmt_objs[c].key
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].pin = cmt_objs[c].data.pin;
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].posterId = cmt_objs[c].data.posterId;
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].content = cmt_objs[c].data.content;
+            if(clock === cmt_objs.length-1) next2();
+            clock++;
+          });
+        })(c);
       }
-      //console.log(pinMap);
-      //for..in loop will iterate in the order that the elements were declared
-      //because riak search gives us an ordered list, we can rely on maintaining the order
-      for(pin in pinMap){
-        returnList.push(pinMap[pin]);
+      function next2(){
+        console.log('next2');
+        //console.log(pinMap);
+        //for..in loop will iterate in the order that the elements were declared on the obj
+        //because riak search gives us an ordered list, we can rely on maintaining the order
+        for(pin in pinMap){
+          returnList.push(pinMap[pin]);
+        }
+        return res.json({ objects: returnList });
       }
-      return res.json({ objects: returnList });
     });
   }
 }
@@ -438,7 +536,7 @@ exports.categorySearch = function(req, res){
       pinMap[objs[obj].id] = {  id: objs[obj].id,
                                 category: objs[obj].fields.category,
                                 description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterId,
+                                poster: objs[obj].fields.posterName,
                                 comments: []
                               };
       //keep track of the comment's index so we dont have to sort later
@@ -497,7 +595,7 @@ exports.textSearch = function(req, res){
       pinMap[objs[obj].id] = {  id: objs[obj].id,
                                 category: objs[obj].fields.category,
                                 description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterId,
+                                poster: objs[obj].fields.posterName,
                                 comments: []
                               };
       for(c in cmts){
