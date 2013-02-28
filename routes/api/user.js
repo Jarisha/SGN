@@ -460,7 +460,6 @@ exports.getPinList = function(req, res){
   });
   //fetch comments and attach them to their respective gamepin obj
   function next(){
-    console.log('next');
     var posterIds = [];
     var posterNames = {};
     app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
@@ -496,7 +495,6 @@ exports.getPinList = function(req, res){
         })(c);
       }
       function next2(){
-        console.log('next2');
         //console.log(pinMap);
         //for..in loop will iterate in the order that the elements were declared on the obj
         //because riak search gives us an ordered list, we can rely on maintaining the order
