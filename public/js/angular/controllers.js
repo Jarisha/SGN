@@ -110,6 +110,26 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //Must do a POST, otherwise response is cached
   $scope.facebookRegister = function(){
+    /* Setup modals */
+    console.log('wtf');
+    $scope.promptLogin = function(){
+      //clear modal
+      $scope.status = null;
+      $scope.login.email = null;
+      $scope.login.password = null;
+      //spawn
+      $('#loginModal').modal();
+    }
+    $scope.promptRegister = function(){
+      //clear modal
+      $scope.status = null;
+      $scope.register.email = null;
+      $scope.register.name = null;
+      $scope.register.password = null;
+      $scope.register.confirm = null;
+      $('#registerModal').modal();
+    }
+    
     //$('#content.masonry').masonry( 'destroy' );
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
@@ -331,8 +351,8 @@ function ProfileController($scope, $rootScope, $http, $location){
         $scope.profile.level = data.level;
         $scope.profile.posts = data.posts;
         $scope.profile.likes = data.likes;
-        $scope.profile.followers = data.followers;
-        $scope.profile.following = data.following;
+        $scope.profile.followers = data.followerNames;
+        $scope.profile.following = data.followingNames;
         $scope.profile.friends = data.friends;
         console.log($scope.profile);
       })
@@ -473,8 +493,6 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, befo
   $scope.getProfile = function(){
     $http({method:'post', url:'/api/getProfile', data:{ userName: $routeParams.username}})
       .success(function(data, status, headers, config){
-        //redirect to my_profile is username matches current user
-        if($rootScope.userName === data.name) $location.path('/profile');
         //TODO: do this via for..in loop
         $scope.profile.name = data.username;
         $scope.profile.email = data.email;
@@ -489,8 +507,8 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, befo
         $scope.profile.level = data.level;
         $scope.profile.posts = data.posts;
         $scope.profile.likes = data.likes;
-        $scope.profile.followers = data.followers;
-        $scope.profile.following = data.following;
+        $scope.profile.followers = data.followerNames;
+        $scope.profile.following = data.followingNames;
         $scope.profile.friends = data.friends;
         console.log($scope.profile);
       })

@@ -20,12 +20,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                         else
                           deferred.reject("Error");
                       });
-                      /*
-                      var dummyList = [];
-                      for(var i = 0; i < 100; i++){
-                        dummyList.push({id:'Z', description:'Z', poster:'Z', category:'Z' });
-                      }
-                      deferred.resolve(dummyList);*/
                       return deferred.promise;
                     }
                   }
@@ -40,20 +34,27 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/user/:username', {  templateUrl: '../partials/profile',
                             controller: UserController,
                             resolve: {
-                              beforeUser: function($q, $rootScope, $location){
+                              beforeUser: function($q, $route, $rootScope, $location){
                                 var deferred = $q.defer();
+                                var username = $route.current.params.username;
+                                console.log($rootScope.userId);
                                 console.log('beforeUser');
                                 console.log($rootScope.loggedIn);
                                 if(!$rootScope.loggedIn){
                                   console.log('not logged in redirect');
                                   $location.path('/');
                                 }
+                                else if($rootScope.userName === username){
+                                  console.log('redirecting to profile');
+                                  $location.path('/profile');
+                                }
                                 else
                                   deferred.resolve();
                                 return deferred.promise;
                               }
                             }
-                          });
+                          })
+    .otherwise({templateUrl: 'partials/not_found'});
     
   
   $locationProvider.html5Mode(true);
@@ -112,7 +113,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#content').masonry('reload');
   }
   
-  
   //Global AJAX calls
   
   //checkLogin checks if we are logged in, and gets our session params and
@@ -126,6 +126,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.loggedIn = true;
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
+          console.log('zippy!');
         }
         //logged out
         else if(!data.loggedIn){

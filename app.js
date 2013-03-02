@@ -88,6 +88,7 @@ app.configure('production', function(){
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
+  console.log('alkdfjsalkdfja');
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -144,6 +145,7 @@ app.get('/allUsers', function(req, res){
   //res.send('TODO: Switch to levedb to index users via username');
 });
 app.get('/user/*', function(req, res){
+  console.log('stars everywhere');
   return res.render('base');
 });
 
@@ -180,6 +182,10 @@ app.post('/', function(req, res){
 
 //All view partials must be served
 app.get('/partials/:name', routes.partials);
+app.get('/user/:user', function(req, res){
+  console.log('boSS HOG');
+  return res.render('base');
+});
 
 /********* JSON API ***********/
 //User

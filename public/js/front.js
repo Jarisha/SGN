@@ -2,9 +2,6 @@
 function test(){
   console.log('test111!!!');
 }
-
-
-
 //frontSetup applies UI related, JQuery, and non angular functionality to our html
 function frontSetup($scope, $rootScope, $http){
   console.log('frontSetup');
@@ -43,7 +40,7 @@ function frontSetup($scope, $rootScope, $http){
     }
   );*/
   
-  /* Setup modals */
+  /* Setup modals 
   $scope.promptLogin = function(){
     //clear modal
     $scope.status = null;
@@ -60,7 +57,7 @@ function frontSetup($scope, $rootScope, $http){
     $scope.register.password = null;
     $scope.register.confirm = null;
     $('#registerModal').modal();
-  }
+  }*/
   $scope.postGamePin = function(){
     //clear modal
     $rootScope.post.name = null;

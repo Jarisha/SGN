@@ -63,7 +63,7 @@
           <li><a href="/about">Team</a></li>
         </ul>
     </li>
-    <li ng-show="!loggedIn"><a ng-click="promptLogin()">
+    <li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
       <img id="login_btn" src="<%= rootPath %>/images/UI/Login_effects.png" />
     </a></li>
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
