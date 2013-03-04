@@ -132,7 +132,7 @@ exports.register = function(req, res){
 		});
 	}
 	//check if another user with this email exists already
-  app.riak.bucket('users').object.exists('req.body.email', function(err, exists){
+  app.riak.bucket('users').object.exists(req.body.email, function(err, exists){
     if(err)
       return res.json({ error: 'Error: ' + err });
     if(exists){
@@ -255,7 +255,7 @@ exports.register_2 = function(req, res){
         usr_activity.save(function(err, saved){
           console.log('Activity queue ' + activity_key + ' created');
           console.log('createUser complete!');
-          return res.json({register: true});
+          next3();
         });
       }
       else if(obj){
@@ -263,9 +263,18 @@ exports.register_2 = function(req, res){
         usr_activity.save(function(err, saved){
           console.log('Groups object ' + activity_key + ' found and overwritten');
           console.log('createUser complete!');
-          return res.json({register: true});
+          next3();
         });
       }
+    });
+  }
+  //store email -> username into table for easy reference
+  function next3(){
+    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, {username: newName});
+    usr_ref.save(function(err, obj){
+      console.log('user Reference saved!');
+      console.log(obj);
+      return res.json({register: true});
     });
   }
 }
@@ -295,22 +304,36 @@ exports.editSettings = function(req, res){
   console.log(req.body);
   //get current user object
   var user = app.riak.bucket('users').objects.new(req.body.settings.email);
+  var oldName;
   //need to refresh navbar if user changes name
   user.fetch(function(err, obj){
     console.log(obj);
     //update settings & possibly session
     if(req.body.settings.email) obj.data.email = req.body.settings.email;
-    if(req.body.settings.username){
-      obj.data.username = req.body.settings.username;
-      req.session.userName = req.body.settings.username;
-    }
     obj.data.bio = req.body.settings.bio;
     if(req.body.settings.gender) obj.data.gender = req.body.settings.gender;
-    //save settings
-    obj.save(function(err, obj){
-      console.log('Settings saved');
-      return res.json({ success: true, username: obj.data.username });
-    });
+    if(req.body.settings.username){
+      oldName = obj.data.username;
+      obj.data.username = req.body.settings.username;
+      req.session.userName = req.body.settings.username;
+      //if username is changed, we need to change the reference table
+      var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email,
+                                                                {username: req.body.settings.username});
+      usr_ref.save(function(err, saved){
+        console.log("userReference table updated: " + saved);
+        next();
+      });
+    }
+    else next();
+    function next(){
+      //save settings and update index
+      obj.clearIndex('username');
+      obj.addToIndex('username', req.body.settings.username);
+      obj.save(function(err, obj){
+        console.log('Settings saved');
+        return res.json({ success: true, username: obj.data.username });
+      });
+    }
   });
 }
 
@@ -399,6 +422,7 @@ exports.getProfile = function(req, res){
   }
   else next();
   function next(){
+    console.log('next1');
     key = key || req.body.userEmail;
     var usr = app.riak.bucket('users').objects.new(key);
     usr.fetch(util.user_resolve, function(err, obj){
@@ -406,7 +430,38 @@ exports.getProfile = function(req, res){
         return res.json({error: "getProfile error: " + err});
       }
       util.clearChanges(obj);
-      return res.json(obj.data);
+      obj.data.followerNames = [];
+      obj.data.followingNames = [];
+      var clock = 0;
+      console.log('beforeFollowers');
+      if(obj.data.followers.length === 0) next2();
+      for(f in obj.data.followers){
+        (function(f){
+          app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, name_obj){
+            obj.data.followerNames.push(name_obj.data.username);
+            console.log(clock);
+            if(clock === obj.data.followers.length-1) next2();
+            clock++;
+          });
+        })(f)
+      }
+      function next2(){
+        clock = 0;
+        console.log('next2');
+        if(obj.data.following.length === 0) next3();
+        for(f in obj.data.following){
+          (function(f){
+            app.riak.bucket('userReference').objects.get(obj.data.following[f], function(err, name_obj){
+              obj.data.followingNames.push(name_obj.data.username);
+              if(clock === obj.data.following.length-1) next3();
+              clock++;
+            });
+          })(f);
+        }
+      }
+      function next3(){
+        return res.json(obj.data);
+      }
     });
   }
 }
@@ -437,25 +492,30 @@ exports.getPinList = function(req, res){
       return res.json({error: err});
     }
     objs = response.response.docs;
-    for(obj in objs){
-      var cmts = [];
-      //convert commments from string to proper array
-      if(objs[obj].fields.comments)
-        cmts = objs[obj].fields.comments.split(" ");
-      pinMap[objs[obj].id] = {  id: objs[obj].id,
-                                category: objs[obj].fields.category,
-                                description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterName,
-                                comments: []
-                              };
-      //keep track of the comment's position so we dont have to sort later
-      for(c in cmts){
-        commentIds.push(cmts[c]);
-        commentMap[cmts[c]] = c;
-      }
-      //if(obj === '10') break;
+    var clock = 0;
+    for(o in objs){
+      (function(o){
+        app.riak.bucket('userReference').objects.get(objs[o].fields.posterId, function(err, obj){
+          var cmts = [];
+          //convert commments from string to proper array
+          if(objs[o].fields.comments)
+            cmts = objs[o].fields.comments.split(" ");
+          pinMap[objs[o].id] = {  id: objs[o].id,
+                                    category: objs[o].fields.category,
+                                    description: objs[o].fields.description,
+                                    poster: obj.data.username,
+                                    comments: []
+                                  };
+          //keep track of the comment's position so we dont have to sort later
+          for(c in cmts){
+            commentIds.push(cmts[c]);
+            commentMap[cmts[c]] = c;
+          }
+          if(clock === objs.length-1) next();
+          clock++;
+        });
+      })(o);
     }
-    next();
     //console.log(response.response.docs);
   });
   //fetch comments and attach them to their respective gamepin obj
@@ -478,8 +538,8 @@ exports.getPinList = function(req, res){
       var clock = 0;
       for(c in cmt_objs){
         (function(c){
-          //need to get the user obj in order to get his username
-          app.riak.bucket('users').objects.get(cmt_objs[c].data.posterId, util.user_resolve, function(err, obj){
+          //fetch current user name from userReference
+          app.riak.bucket('userReference').objects.get(cmt_objs[c].data.posterId, function(err, obj){
             if(err){
               return res.json('err getting comment posters');
             }
