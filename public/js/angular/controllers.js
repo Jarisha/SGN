@@ -17,7 +17,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     imgCount++;
     if(imgCount > 36)
       imgCount = 1;
-    $scope.gamePins[i].imgPath = "http://localhost:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+    $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
   }
   
   var start = 0;
@@ -88,7 +88,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         imgCount++;
         if(imgCount > 36)
           imgCount = 1;
-        $scope.gamePins[i].imgPath = "http://10.0.1.17:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+        $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
       }
       loadFirst();
     });
@@ -102,7 +102,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         imgCount++;
         if(imgCount > 36)
           imgCount = 1;
-        $scope.gamePins[i].imgPath = "http://10.0.1.17:3001/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+        $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
       }
       loadFirst();
     });

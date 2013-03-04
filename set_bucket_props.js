@@ -9,8 +9,10 @@ riak.ping(function(err, response){
   console.log('Connection to riak db: ' + response);
   console.log('Setting Bucket Properties');
   
-  //Setup bucket properties, such as search precommit hooks
-  //note: can't seem to remove search precommit, so need to do that via curl for now
+  // Enable search and conflict resolution for specified buckets
+  // note-1: can't seem to remove search precommit, so need to do that via curl for now
+  // note-2: MUST specify conflict resolution via allow_mult = true and last_write_wins = false
+  // MUST specify search via precommit hook
   var users = riak.bucket('users');
   var gamepins = riak.bucket('gamepins');
   
