@@ -16,6 +16,39 @@
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
 }
 
+.profile #profile_header{
+  box-shadow: 0 5px 10px -5px #333333;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+.profile #footer_container{
+  float: left;
+  width: 100%;
+}
+.profile #profile_footer{
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 0 15px;
+  text-align: center;
+}
+.profile #profile_footer > *{
+  color: white;
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+.profile #profile_footer > *:hover{
+  color: white;
+  padding: 0 10px;
+  background: #6d9100;
+  display: inline-block;
+  cursor: pointer;
+}
 .profile #tab_content{
   margin: 80px auto 20px;
   width: 1340px;
@@ -72,15 +105,15 @@
 
 /* Game Pin object */
 .profile .game_pin{
-  background:#E9DBCC;
-  width:220px;
+  /*background:#E9DBCC;
+  width:220px;*/
   float:left;
   padding:15px 15px 0 15px;
-  margin: 0 0 15px 15px;
-  font-size:12px;
-  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
-  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
-  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+  margin: 0 0 10px 10px;
+  /*font-size:12px;
+  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); 
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); */
 }
 .profile .game_options{
   position:absolute;
@@ -97,7 +130,7 @@
 }
 .profile .game_description, .profile .game_attributes, .profile .posted_by{
   margin-top: 5px;
-  margin-bottom:0px;
+  margin-bottom: 0px;
 }
 .profile .game_description{
 }
@@ -108,7 +141,7 @@
   padding: 10px 15px;
   margin: 1px -15px 0 -15px;
   border-bottom: 1px solid #A5C0C8;
-  background: #CBE6EE;
+  background: #EBEBEB;
 }
 .profile .posted_by img, .profile .posted_by p, .profile .comment img, .profile .comment p{
   display:inline-block;
@@ -138,7 +171,7 @@
 .profile #profile_col{
   width:800px;
   float:left;
-  background:#E9DBCC;
+  background:#FDFDFD;
 }
 .profile .left_container{
   float:left;
@@ -162,9 +195,13 @@
   
 }
 .profile .profile_name{
-  font-size:30px;
-  padding-bottom:25px;
   width:100%;
+  color: #99CC00;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 25px;
+  text-shadow: 2px 2px 2px #333333;
+  width: 100%;
 }
 .profile .bio_container{
   width: 100%;
@@ -200,43 +237,59 @@
   float:right;
 }
 .profile .xp_bar{
-  border: 2px solid black;
+  border: 1px solid #777777;
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  border: solid black #B3B3B3;
   margin-top:10px;
-  background:green;
   width:170px;
-  -moz-border-radius: 5px; /* Firefox */
-  border-radius: 5px; /* CSS3 */
+  -moz-border-radius: 15px; /* Firefox */
+  border-radius: 15px; /* CSS3 */
+  background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 .profile .xp_gained{
   float:left;
-  width: 10px;
-  border-right: 2px solid black;
-  -moz-border-radius-topleft: 5px; /* Firefox */
-  -moz-border-radius-bottomleft: 5px; /* Firefox */
-  border-top-left-radius: 5px; /* CSS3 */
-  border-bottom-left-radius: 5px; /* CSS3 */
-  background:Chartreuse ;
+  width: 50px;
+  height:14px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  background-image:url('http://localhost:3001/images/UI/XP.png');
+  /*background:blue;*/
+  
 }
 .profile .xp_remaining{
   float: right;
-  width: 158px;
-  -moz-border-radius-topright: 5px; /* Firefox */
-  -moz-border-radius-bottomright: 5px; /* Firefox */
-  border-top-right-radius: 5px; /* CSS3 */
-  border-bottom-right-radius: 5px; /* CSS3 */
-  background:Cornsilk;
+  width: 120px;
+  height: 14px;
+  -moz-border-radius-topright: 15px; /* Firefox */
+  -moz-border-radius-bottomright: 15px; /* Firefox */
+  border-top-right-radius: 15px; /* CSS3 */
+  border-bottom-right-radius: 15px; /* CSS3 */
+  /*background:Cornsilk;*/
+  background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 /* comrade area */
 .profile .bot_container{
   float: left;
   width: 770px;
-  margin-top:1px;
   padding: 15px 15px 15px 15px;
   border-top: 1px solid #A5C0C8;
 }
 .profile .bot_container > *{
   padding-left: 5px;
   display:inline-block;
+}
+.profile #people_container{
+  float:left;
+}
+.profile #people_header{
+  box-shadow: 0 5px 10px -5px #333333;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+.profile #people_header .view_all{
+  float:right;
 }
 .profile .comrade_tabs{
   /* width: 180px; perfectly aligned */
@@ -270,7 +323,27 @@
   width:238px;
   margin:0 15px 15px 15px;
   float:left;
-  background: #E9DBCC;
+  background: #FDFDFD;
+}
+.profile #badge_header{
+  box-shadow: 0 5px 10px -5px #333333;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+.profile #badge_header .view_all{
+  float:right;
+}
+.profile #following_header{
+  box-shadow: 0 5px 10px -5px #333333;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+.profile #following_header .view_all{
+  float:right;
 }
 .profile .badge_chest{
   text-align:center;
@@ -290,11 +363,12 @@
   float:right;
 }
 
-.profile #follower_col{
+.profile #following_col{
+  height: 266px;
   width:238px;
   margin:0 15px;
   float:left;
-  background: #E9DBCC;
+  background: #FDFDFD;
 }
 
 /* friends followers */
@@ -313,4 +387,18 @@
   -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
+}
+
+/* profile data area */
+
+.profile #profile_data{
+  box-shadow: none;
+  margin-top:15px;
+  height: 200px;
+  width:100%;
+  float: left;
+}
+
+.profile #profile_data_inner{
+  margin-right: 21px;
 }

@@ -1,11 +1,20 @@
 /* 
-  Profile page JS for My Profile and View Other User'ss Profile
+  Profile page JS for My Profile and View Other User's Profile
 */
 
 function profileSetup($scope){
   console.log('profileSetup');
   /* Setup modals */
-  $scope.postGamePin = function(){
-    $('#pinModal_1').modal();
+  
+  // "Scroll to Top" button
+  $(window).scroll(function(){
+      if ($(this).scrollTop() > 200) {
+          $('#scrollup').fadeIn();
+      } else {
+          $('#scrollup').fadeOut();
+      }
+  });
+  $scope.scrollup = function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
   }
 }

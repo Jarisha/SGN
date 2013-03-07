@@ -109,6 +109,13 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
     });
   }
+  $rootScope.profileMason = function(){
+    $('#profile_data_inner').imagesLoaded(function(){
+      $('#profile_data_inner').masonry({
+        itemSelector : '.game_pin',
+      });
+    });
+  }
   $rootScope.remason = function(){
     $('#content').masonry('reload');
   }

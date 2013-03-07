@@ -322,8 +322,19 @@ function ProfileController($scope, $rootScope, $http, $location){
                       following: [],
                       friends: []
   };
+  $scope.samplePins = [{img: $rootScope.rootPath + '/images/game_images/images%20%281%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%282%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%283%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%284%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%285%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%286%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%287%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%288%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%289%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%2810%29.jpg'}];
   
   $scope.setup = function(){
+    console.log('PROFILESETUP');
     profileSetup($scope);
   }
   
@@ -360,6 +371,19 @@ function ProfileController($scope, $rootScope, $http, $location){
         console.log('Error: ' + status);
       });
   }
+  
+  // load full list of data into generic modal window in order to view all of it (scroll bar if list is long)
+  // We can search for specific friends via Angularjs, withour relying on Riak
+  $scope.listBadges = function(){
+    $('#genericModal').modal();
+  };
+  $scope.listFollowing = function(){
+    $('#genericModal').modal();
+  };
+  $scope.listFollowers = function(){
+    $('#genericModal').modal();
+  };
+  
   $scope.getProfile();
 }
 function AboutController($scope, $rootScope, $http, $location){

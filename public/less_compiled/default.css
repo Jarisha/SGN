@@ -165,13 +165,21 @@ label {
 .modal-body {
   max-height: none;
 }
+/* generic modal used for various tasks */
+#genericModal .modal-body{
+  max-height: 300px;
+}
+#genericModal .modal-header{
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+}
+
 .dropdown-toggle {
   background: none !important;
 }
 /****************** Top Nav Bar ************************/
 #nav {
   /*background: yellow;*/
-
+  min-width: 1180px;
   background: none;
   margin: 0;
   position: relative;

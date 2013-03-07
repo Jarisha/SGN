@@ -1,19 +1,18 @@
 <div id="profile_col">
+  <div id="profile_header">PROFILE</div>
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" >
         <img src="{{rootPath}}/images/160x160.gif" width="165"/>
       </div>
       <div class="profile_xp">
-        <span class="curr_level">Level {{profile.level}}</span>
-        <span class="to_level">{{profile.nextXP}}XP to level</span>
+        <span class="curr_level">Level {{profile.level || 1}}</span>
+        <span class="to_level">{{profile.nextXP || 99}}XP to level</span>
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
-          {{profile.currXP || 1}}
         </span>
         <span class="xp_remaining">
-          {{profile.nextXP || 99}}
         </span>
       </div>
     </div>
@@ -32,40 +31,52 @@
       </div>
     </div>
   </div>
-  <div class="bot_container">
-    <div class="comrade_tabs">
-        <img src="<%= rootPath %>/images/friend_add.png" width="40"/>
-        <p>{{profile.friends.length}} Friends</p>
-    </div>
-    <a ng-repeat="friend in profile.friends" href="{{friend}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
-  </div>
-  <div class="bot_container">
-    <div class="comrade_tabs">
+  <div id="people_container">
+    <div id="people_header"> {{profile.followers.length}} FOLLOWERS<span class="view_all"><a ng-click="listFollowers()" href="#">View All</a></span></div>
+    <div class="bot_container">
+      <div class="comrade_tabs">
         <img src="<%= rootPath %>/images/friend_tag.png" width="40"/>
-        <p>{{profile.followers.length}} Followers</p>
+      </div>
+      <a ng-repeat="follower in profile.followers" href="{{follower}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
     </div>
-    <a ng-repeat="follower in profile.followers" href="{{follower}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
+  </div>
+  <div id="footer_container">
+    <div id="profile_footer"><div>Groups</div><div>My Posts</div><div>Liked Posts</div><div>Activity</div></div>
   </div>
 </div>
-<!-- <div id="button_col">
-  <button> Follow </button>
-  <button> Add Friend </button>
-</div> -->
 <div id="badge_col">
+  <div id="badge_header">BADGES<span class="view_all"><a ng-click="listBadges()" href="#">View All</a></span></div>
   <div class="badge_chest">
-    <div class="badge_head clearfix">
-      <b class="badge_title">Badges</b>
-      <span class="view_all"><a href="#">View All</a></span>
-    </div>
     <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
   </div>
 </div>
-<div id="follower_col">
+<div id="following_col">
+  <div id="following_header">{{profile.following.length}} FOLLOWING<span class="view_all"><a ng-click="listFollowing()" href="#">View All</a></span></div>
   <div class="badge_chest">
-    <div class="badge_head clearfix">
-      <b class="badge_title">Following {{profile.following.length}} Qusers</b>
-      <span class="view_all"><a href="#">View All</a></span>
-    </div>
     <a ng-repeat="following in profile.following" href="/user/{{following}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
+  </div>
+</div>
+<div id="profile_data">
+  <div id="profile_data_inner" class="clearfix">
+    <div ng-repeat="pin in samplePins" class="game_pin" sample-done>
+      <div class="game_options hidden">
+        <a class="like_btn">Like</a>
+        <a class="pin_btn">Repin</a>
+        <a class="comment_btn" href="#c1">Comment</a>
+      </div>
+      <a class="view_trigger" ng-click="viewGamePin()">
+        <img class="game_img" src="{{pin.img}}" width="220"/>
+      </a>
+      <a name="c1"></a>
+      <p class="game_description">This is a description</p>
+      <p class="game_attributes">
+        <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>0 comments</span>
+      </p>
+      <div class="posted_by">
+        <img src="<%= rootPath %>/images/30x30.gif" class="profile_img" /><p
+        class="post_text"><a ng-show="loggedIn" href="/user/user1"><b>Tony</b></a> onto Shooters</p>
+      </div>
+    </div>
+    <p>Test</p>
   </div>
 </div>
