@@ -42,14 +42,8 @@ angular.module('myApp.directives', [])
         //Whenever we extend our pinList array, we trigger a new $last event
         if(scope.$last){
           console.log('sampleDone');
-          if(flag){
-            scope.setup();
-            scope.profileMason();
-            flag = false;
-          }
-          else{
-            scope.profileMason();
-          }
+          scope.setup();
+          scope.profileMason();
         }
       }
     };

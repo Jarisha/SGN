@@ -109,9 +109,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   
   //Must do a POST, otherwise response is cached
-  $scope.facebookRegister = function(){
+  $scope.setupModals = function(){
     /* Setup modals */
-    console.log('wtf');
+    console.log('setupModals()');
     $scope.promptLogin = function(){
       //clear modal
       $scope.status = null;
@@ -130,7 +130,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       $('#registerModal').modal();
     }
     
-    //$('#content.masonry').masonry( 'destroy' );
+    // If user returns from facebook authentication, prompt a register modal prefilled with facebook data
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
         if(data.fb){
@@ -146,6 +146,15 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       .error(function(data, status, headers, config) {
         $scope.message = 'Server Error: ' + status;
       });
+      
+    //Run code that needs to be run
+    if(sessionStorage.registerAlert){
+      console.log(sessionStorage.registerAlert);
+      $rootScope.notify.message = sessionStorage.registerAlert;
+      $rootScope.popNotify();
+      sessionStorage.removeItem('registerAlert');
+      console.log(sessionStorage.registerAlert);
+    }
   }
   $scope.addComment = function(text, index){
     //add the comment in the view
@@ -322,6 +331,20 @@ function ProfileController($scope, $rootScope, $http, $location){
                       following: [],
                       friends: []
   };
+  $scope.dummyFollowers = [{img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'}];
+  
+  $scope.dummyFollowing = [{img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'}];
+  
   $scope.samplePins = [{img: $rootScope.rootPath + '/images/game_images/images%20%281%29.jpg'},
                        {img: $rootScope.rootPath + '/images/game_images/images%20%282%29.jpg'},
                        {img: $rootScope.rootPath + '/images/game_images/images%20%283%29.jpg'},
@@ -344,6 +367,9 @@ function ProfileController($scope, $rootScope, $http, $location){
       if(res.message) $scope.status = res.message;
     });
   }
+  /* dummy profile for front end completion */
+  
+  
   
   $scope.getProfile = function(){
     $http({method:'post', url:'/api/getProfile', data:{ userEmail: $rootScope.userId }})

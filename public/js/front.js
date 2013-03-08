@@ -1,108 +1,11 @@
-
-function test(){
-  console.log('test111!!!');
-}
 //frontSetup applies UI related, JQuery, and non angular functionality to our html
 function frontSetup($scope, $rootScope, $http){
   console.log('frontSetup');
   
-  /*$scope.initMasonry = function(){
-    var $container = $('#content');
-    $container.imagesLoaded(function(){
-      $container.masonry({
-        itemSelector : '.game_pin, .store_pin',
-        isAnimated: true
-      });
-    });
-  }*/
-  
-  
-  //InfiniteScroll
-  /*var $container = $('#content');
-  $container.infinitescroll({
-    navSelector  : '#pag_nav',    // selector for the paged navigation
-    nextSelector : '#pag_nav a',  // selector for the NEXT link (to page 2)
-    itemSelector : '.game_pin, .store_pin',   // selector for all items you'll retrieve
-    loading: {
-        finishedMsg: 'No more pages to load.'
-      }
-    },
-    // trigger Masonry as a callback
-    function( newElements ) {
-      // hide new items while they are loading
-      var $newElems = $( newElements ).css({ opacity: 0 });
-      // ensure that images load before adding to masonry layout
-      $newElems.imagesLoaded(function(){
-        // show elems now they're ready
-        $newElems.animate({ opacity: 1 });
-        $container.masonry( 'appended', $newElems, true );
-      });
-    }
-  );*/
-  
-  /* Setup modals 
-  $scope.promptLogin = function(){
-    //clear modal
-    $scope.status = null;
-    $scope.login.email = null;
-    $scope.login.password = null;
-    //spawn
-    $('#loginModal').modal();
-  }
-  $scope.promptRegister = function(){
-    //clear modal
-    $scope.status = null;
-    $scope.register.email = null;
-    $scope.register.name = null;
-    $scope.register.password = null;
-    $scope.register.confirm = null;
-    $('#registerModal').modal();
-  }*/
-  $scope.postGamePin = function(){
-    //clear modal
-    $rootScope.post.name = null;
-    $rootScope.post.publisher = null;
-    $rootScope.post.category = null;
-    $rootScope.post.description = null;
-    $rootScope.post.url = null;
-    $rootScope.post.content = null;
-    $('.post_content').empty();
-    
-    $('#pinModal_1 button.active').removeClass('active');
-    $('#pinModal_1').modal({dynamic: true});
-    //$('#pinYoutube').modal({dynamic: true});
-  }
   $scope.viewGamePin = function(){
     $('#gamePinModal').modal({dynamic: true});
   }
-  //Load correct Post step 2 modal based on type of media selected
-  $('.post_media').click(function(e){
-    
-    var media = $(this).val();
-    var $modal_header = $('#pinYoutube .modal-header');
-    switch(media){
-      case 'upload':
-        //TODO: do back end functionality
-        $modal_header.html('<p>Upload image from Computer</p><br />'+
-          '<form method="post" enctype="multipart/form-data">' +
-          '<p>Image: <input type="file" name="image" /></p>' +
-          '<p><input type="submit" value="Upload" /></p></form>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-      case 'youtube':
-        //Hack. Resolve by spawning this modal once the hide animation completes for the previous modal.
-        $modal_header.html('<p>Post video via youtube URL</p>' +
-          '<input ng-model="post.url" class="load_input" placeholder="" type="text">' +
-          '</input><button class="btn load_vid">Load</button>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-      //via image URL (direct link to image or call web scraper to return all valid images on page url)
-      case 'url':
-        $modal_header.html('<p>Upload from the web</p><br /><input type="text"></input>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-    }
-  });
+  
   //Post youtube video functionality
   var url;
   var embed;
@@ -176,15 +79,6 @@ function frontSetup($scope, $rootScope, $http){
   
   // Post comment (insert HTML string)
   var comment = '<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text"></p></div>';
-  /*$(document).on('click', '.respond_btn', function(e){
-    var response = $.trim($(this).prevAll('.respond_txtarea').val());
-    $(this).prevAll('.respond_txtarea').val('');
-    $(this).parent().prev('.comment').after('<div class="comment"><img class="profile_img" src="{{rootPath}}/images/30x30.gif"><p class="post_text">' + 
-                                            '<b>User</b>&nbsp;' + response + '</p></div>');
-    $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
-    });
-  });*/
   
   /* View Pin */ 
   // Load image into enlarged pin upon click

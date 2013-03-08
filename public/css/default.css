@@ -65,7 +65,6 @@ label{
 
 .dropdown-menu a{
   padding-left:20px;
-  
 }
 
 /* clearfix */
@@ -78,7 +77,7 @@ label{
     clear: both;
 }
 .hidden{
-  display: none !important;
+  display: none;
 }
 
 /* Elements */
@@ -95,7 +94,6 @@ label{
 .dropdown-toggle{
   background:none !important;
 }
-
 
 /****************** Top Nav Bar ************************/
 #nav{

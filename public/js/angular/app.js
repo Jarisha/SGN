@@ -63,6 +63,13 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 // Entry Point
 app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   console.log('app.run()');
+  /* Detect if HTML5 localstorage is enabled */
+  if(typeof(Storage)!=="undefined"){
+  }
+  else{
+    console.log('HTML5 localstorage not enabled, redirect to fail page');
+  }
+  
   //Global variables - session data
   $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
@@ -73,6 +80,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.something = 'blah';
   $rootScope.login = {email: null, password: null};
   $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
+  $rootScope.notify = { status: 'Success', message: 'Action Succesfull!' };
   
   //post modal fields. Stored in object
   $rootScope.post = {url:null, content: null, name: null, publisher: null,
@@ -160,6 +168,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.userName = null;
           $location.path('/');
           console.log("logout remason");
+          $rootScope.notify.message = 'You are now logged out.';
+          $rootScope.popNotify();
           $timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.logout && data.error){
@@ -206,6 +216,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.userName = data.userName;
           $rootScope.userId = data.userId;
           $('#loginModal').modal('hide');
+          $rootScope.notify.message = 'You are now logged in.';
+          $rootScope.popNotify();
+          //rootScope.popNotify({status: 'success' || 'error', message: 'Login successful!'});
+          
           
           /* If cached, reload and cache partials effected by login */
           if($templateCache.get($rootScope.rootPath +'/partials/front_subnav')){
@@ -231,7 +245,72 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         $rootScope.login.password = null;
         console.log('Server Error: ' + status);
       });
+  } 
+  $rootScope.postGamePin = function(){
+    //clear post data lying around
+    $rootScope.post.name = null;
+    $rootScope.post.publisher = null;
+    $rootScope.post.category = null;
+    $rootScope.post.description = null;
+    $rootScope.post.url = null;
+    $rootScope.post.content = null;
+    
+    $('#genericModal').modal();
   }
+  $rootScope.viewSettings = function(){
+    $('#genericModal').modal();
+  }
+  
+  var hide = null;
+  
+  $rootScope.popNotify = function(){
+    $('#alertContainer').show();
+    console.log('popNotify');
+    hide = $timeout(function() {
+      $('#alertContainer').fadeOut(500, function(){
+        $rootScope.notify.status = 'Success';
+        $rootScope.notify.message = 'Action Successful';
+      });
+    }, 5000);
+  }
+  $rootScope.hideNotify = function(){
+    $timeout.cancel(hide);
+    $('#alertContainer').fadeOut(250, function(){
+      $rootScope.notify.status = 'Success';
+      $rootScope.notify.message = 'Action Successful';
+    });
+    
+    console.log('hideNotify');
+  }
+  
+  //Load correct Post step 2 modal based on type of media selected
+  /*$('.post_media').click(function(e){
+    console.log('post media selected');
+    var media = $(this).val();
+    var $modal_header = $('#pinYoutube .modal-header');
+    switch(media){
+      case 'upload':
+        //TODO: do back end functionality
+        $modal_header.html('<p>Upload image from Computer</p><br />'+
+          '<form method="post" enctype="multipart/form-data">' +
+          '<p>Image: <input type="file" name="image" /></p>' +
+          '<p><input type="submit" value="Upload" /></p></form>');
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
+        break;
+      case 'youtube':
+        //Hack. Resolve by spawning this modal once the hide animation completes for the previous modal.
+        $modal_header.html('<p>Post video via youtube URL</p>' +
+          '<input ng-model="post.url" class="load_input" placeholder="" type="text">' +
+          '</input><button class="btn load_vid">Load</button>');
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
+        break;
+      //via image URL (direct link to image or call web scraper to return all valid images on page url)
+      case 'url':
+        $modal_header.html('<p>Upload from the web</p><br /><input type="text"></input>');
+        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
+        break;
+    }
+  });*/
   
   //Always check if user is logged in
   $rootScope.checkLogin();

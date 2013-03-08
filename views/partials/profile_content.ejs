@@ -32,12 +32,12 @@
     </div>
   </div>
   <div id="people_container">
-    <div id="people_header"> {{profile.followers.length}} FOLLOWERS<span class="view_all"><a ng-click="listFollowers()" href="#">View All</a></span></div>
+    <div id="people_header"> {{dummyFollowers.length}} FOLLOWERS<span class="view_all"><a ng-click="listFollowers()" href="#">View All</a></span></div>
     <div class="bot_container">
       <div class="comrade_tabs">
-        <img src="<%= rootPath %>/images/friend_tag.png" width="40"/>
+        <img src="<%= rootPath %>/images/UI/Following1_effects.png" width="40"/>
       </div>
-      <a ng-repeat="follower in profile.followers" href="{{follower}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
+      <a ng-repeat="follower in dummyFollowers" href="/user/{{follower.name}}"><img src="{{follower.img}}"/></a>
     </div>
   </div>
   <div id="footer_container">
@@ -51,9 +51,9 @@
   </div>
 </div>
 <div id="following_col">
-  <div id="following_header">{{profile.following.length}} FOLLOWING<span class="view_all"><a ng-click="listFollowing()" href="#">View All</a></span></div>
+  <div id="following_header">{{dummyFollowing.length}} FOLLOWING<span class="view_all"><a ng-click="listFollowing()" href="#">View All</a></span></div>
   <div class="badge_chest">
-    <a ng-repeat="following in profile.following" href="/user/{{following}}"><img src="<%= rootPath %>/images/60x60.gif"/></a>
+    <a ng-repeat="following in dummyFollowing" href="/user/{{following.name}}"><img src="{{following.img}}"/></a>
   </div>
 </div>
 <div id="profile_data">

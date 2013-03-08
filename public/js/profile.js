@@ -15,6 +15,7 @@ function profileSetup($scope){
       }
   });
   $scope.scrollup = function(){
+    console.log('scrollup');
     $("html, body").animate({ scrollTop: 0 }, 600);
   }
 }

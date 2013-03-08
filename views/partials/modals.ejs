@@ -1,20 +1,5 @@
-<!-- Post Pin Modal (Step 1) -->
-<div class="modal hide fade" id="pinModal_1">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
-    <h3 class="control-label" for="inputUsername">Q your game video or screenshot!</h3>
-  </div>
-  <div class="modal-body">
-    <div class="btn-group" data-toggle="buttons-radio" style="text-align: center">
-      <button type="button" data-dismiss="modal" class="btn post_media" value="youtube">Youtube Video <img src="<%= rootPath %>/images/video.png" /> </button>
-      <button type="button" data-dismiss="modal" class="btn post_media" value="upload">Image Upload <img src="<%= rootPath %>/images/upload.png" /> </button>
-      <button type="button" data-dismiss="modal" class="btn post_media" value="url">Image Url <img src="<%= rootPath %>/images/url.png" /> </button>
-    </div>
-  </div>
-</div>
-
 <!-- Youtube Video -->
-<div class="modal hide fade" id="pinYoutube">
+<!--<div class="modal hide fade" id="pinYoutube">
   <div class="modal-header">
     <p>Q video via youtube URL</p>
     <input ng-model="post.url" class="load_input" placeholder="" type="text">
@@ -54,7 +39,7 @@
     <p>{{post.name}}:{{post.publisher}}:{{post.description}}:{{post.category}}:{{post.content}}</p>
     <button class="post_vid" type="button">Q it!</button>
   </div>
-</div>
+</div>-->
 
 <!-- Front Pin Modal -->
 <div class="modal hide fade" id="gamePinModal">
@@ -186,6 +171,7 @@
     <form class="form-horizontal">
       <p style="color:red;">{{status}}</p>
       <br>
+      <p>Error: Somewhat set us up the bomb!</p>
       <div class="control-group">
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
@@ -341,5 +327,13 @@
     <p>Spam</p>
     <p>Spam</p>
     <p>Spam</p>
+  </div>
+</div>
+
+
+<div id="alertContainer" style="display: none">
+  <div id="masterAlert" class="alert" >
+    <button type="button" class="close" ng-click="hideNotify()">&times;</button>
+    <strong>{{notify.status}}</strong> {{notify.message}}
   </div>
 </div>

@@ -279,22 +279,24 @@ label {
 }
 #search_bar {
   float: left;
+  margin-top: 10px;
 }
 .search_glass {
   height: 20px;
   position: absolute;
   right: 70px;
-  top: 9px;
+  top: 14px;
   z-index: 2;
 }
 #search_bar input {
   width: 210px;
   background: #F0F8F1;
   border-color: #CFCACA;
-  color: #CFCACA;
+  color: grey;
+  font-size: 16px;
 }
 #search_bar input:focus {
-  color: grey;
+  color: black;
 }
 .new_followers,
 .new_tags,
@@ -584,4 +586,24 @@ label {
 #scrollup img {
   opacity: 1.0;
   margin-top: 13px;
+}
+
+/* Alerts */
+
+.alert{
+  background-color: transparent;
+  color: black;
+  font-size: 16px;
+  border: none;
+  margin: 10px 0;
+}
+
+#alertContainer{
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  z-index: 200;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  border-radius: 10px;
+  border: solid 2px black;
 }

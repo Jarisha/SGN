@@ -8,6 +8,7 @@ $(document).ready(function(){
       if(data.register){
         console.log(data.register);
         console.log(postData);
+        sessionStorage.registerAlert = "Registration Successful!";
         window.location = '/';
       }
       else if(error)
