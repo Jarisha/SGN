@@ -1,29 +1,9 @@
 /***** Main Layout *****/
 .front #content{
-  width: 1340px;
+  width: 100%
 }
 .front #nav_content{
-  /*width: 1340px;*/
   width: 100%;
-}
-/* media queries to resize masonry content to fit screen */
-@media only screen and (max-width : 1339px),
-only screen and (max-device-width : 1339px){
-	.front #content{
-		width: 1075px;
-	}
-}
-@media only screen and (max-width : 1074px),
-only screen and (max-device-width : 1074px){
-	.front #content{
-		width: 810px;
-	}
-}
-@media only screen and (max-width : 809px),
-only screen and (max-device-width : 890px){
-  .front #main_logo:link, .front #main_logo:visited, .front #main_logo:active, .front #main_logo:hover{
-    left: 405px;
-  }
 }
 
 /*************************** FRONT CONTENT ******************************/

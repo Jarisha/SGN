@@ -15,7 +15,8 @@ function storeSetup($scope){
   var $container = $('#content');
   $container.imagesLoaded(function(){
     $container.masonry({
-      itemSelector : '.game_pin, .store_pin'
+      itemSelector : '.game_pin, .store_pin',
+      isFitWidth: true
     });
   });
   $container.infinitescroll({

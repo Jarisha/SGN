@@ -73,7 +73,8 @@ function frontSetup($scope, $rootScope, $http){
     $(this).nextAll('.respond_btn').removeClass('hidden');
     //Remason layout to account for button appearing
     $('#content').masonry({
-      itemSelector : '.game_pin, .store_pin'
+      itemSelector : '.game_pin, .store_pin',
+      isFitWidth: true
     });
   });
   

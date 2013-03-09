@@ -154,28 +154,73 @@ label {
 .hidden {
   display: none !important;
 }
+.modal-header h3 {
+  text-align: center;
+}
 /* Elements */
 #content {
   margin: 20px auto 20px;
 }
 /* Override bootstrap defaults */
+form{
+  margin: 0;
+  padding: 0;
+}
 .modal {
-  width: 650px;
+  /*width: 650px;*/
 }
 .modal-body {
-  max-height: none;
+  max-height: 450px;
+  padding:0;
+  border: 2px solid #6D9100;
+  border-top: none;
 }
+.form-horizontal .control-group {
+    background: -moz-linear-gradient(center bottom , #DDDDDD, #FFFFFF);
+    border-bottom: 2px solid #6D9100;
+    border-top: 1px solid #99CC00;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.control-label {
+    font-size: 16px;
+    font-weight: bold;
+    width: 100px;
+}
+
+.form-horizontal .controls {
+  margin-left: 120px;
+}
+
 /* generic modal used for various tasks */
-#genericModal .modal-body{
-  max-height: 300px;
+/*#genericModal*/ .modal-body{
+  /*max-height: 300px;*/
 }
-#genericModal .modal-header{
+/*#genericModal*/ .modal-header{
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+}
+
+
+.form-horizontal .controls{
+  margin-left: 120px;
+}
+
+.form-horizontal .control-label{
+  font-size: 16px;
+  font-weight: bold;
+  width: 100px;
 }
 
 .dropdown-toggle {
   background: none !important;
 }
+/****************** Modal Windows **********************/
+
+#settingsModal{
+}
+
+
 /****************** Top Nav Bar ************************/
 #nav {
   /*background: yellow;*/
@@ -193,7 +238,7 @@ label {
 #nav_left {
   background: -moz-linear-gradient(left, #6d9100, #99cc00);
   height: 50px;
-  width: 300px;
+  width: 240px;
   padding-left: 20px;
 }
 #nav_right {
@@ -232,6 +277,16 @@ label {
   z-index: 2;
   box-shadow: 0 5px 10px -5px #333333;
 }
+#notify_div{
+  background: -moz-linear-gradient(left, #6D9100, #99CC00);
+  display:inline-block;
+  vertical-align:top;
+  width: 270px;
+  height: 40px;
+  z-index: 2;
+  box-shadow: 0 5px 10px -5px #333333;
+}
+
 #notify_triangle {
   left: 268px;
   /*position: absolute;
@@ -261,12 +316,13 @@ label {
   left: 56%;
   white-space: nowrap;
   margin-left: -150px;
-  top: 14px;
+  top: 3px;
   max-width: 200px;
   text-decoration: none;
   z-index: 100;
   font-size: 40px;
   font-weight: bold;
+  width: 120px;
 }
 #main-logo img{
   height:100px;
@@ -284,7 +340,7 @@ label {
 .search_glass {
   height: 20px;
   position: absolute;
-  right: 70px;
+  right: 10px;
   top: 14px;
   z-index: 2;
 }

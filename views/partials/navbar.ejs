@@ -34,11 +34,12 @@
       </ul>
     </li>
   </ul>
-  <img id="notify" src="<%= rootPath %>/images/UI/Nav_Left.png" width="280"/><img
+  <div id="notify_div"></div><img
   id="notify_triangle" src="<%= rootPath %>/images/UI/triangle_green.png" />
 </div>
 <div id="nav_content" class="navbar-inner">
-  <a id="main_logo" href="/">Quyay</a>
+  <!--<a id="main_logo" href="/">Quyay</a>-->
+  <a id="main_logo" href="/"><img src="<%= rootPath %>/images/UI/Logo.png" /></a>
   <ul id="nav_left" class="nav">
     <li>
       <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
@@ -73,7 +74,7 @@
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">Followers</a></li>
-        <!--<li><a href="/settings">My Settings</a></li>-->
+        <li><a href="/settings">My Settings</a></li>
         <li><a ng-click="viewSettings()">Settings</a></li>
         <li><a href="#">Invite Friends</a></li>
         <li><a href="#">Find Friends</a></li>

@@ -109,27 +109,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   
   //Must do a POST, otherwise response is cached
+  
+  //Called after our modals have loaded, do anything that needs to be done
   $scope.setupModals = function(){
-    /* Setup modals */
-    console.log('setupModals()');
-    $scope.promptLogin = function(){
-      //clear modal
-      $scope.status = null;
-      $scope.login.email = null;
-      $scope.login.password = null;
-      //spawn
-      $('#loginModal').modal();
-    }
-    $scope.promptRegister = function(){
-      //clear modal
-      $scope.status = null;
-      $scope.register.email = null;
-      $scope.register.name = null;
-      $scope.register.password = null;
-      $scope.register.confirm = null;
-      $('#registerModal').modal();
-    }
-    
     // If user returns from facebook authentication, prompt a register modal prefilled with facebook data
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
@@ -147,7 +129,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         $scope.message = 'Server Error: ' + status;
       });
       
-    //Run code that needs to be run
+    //Pop notification if we just registered a new account successfully
     if(sessionStorage.registerAlert){
       console.log(sessionStorage.registerAlert);
       $rootScope.notify.message = sessionStorage.registerAlert;

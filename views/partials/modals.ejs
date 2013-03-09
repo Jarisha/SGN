@@ -164,7 +164,7 @@
 <!-- Log In Modal -->
 <div class="modal hide" id="loginModal" >
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 id="myModalLabel">Log in to Quyay</h3>
   </div>
   <div class="modal-body">
@@ -209,7 +209,7 @@
 <!-- Register Modal -->
 <div class="modal hide" id="registerModal" >
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 id="myModalLabel">Register with Quyay</h3>
   </div>
   <div class="modal-body">
@@ -261,7 +261,7 @@
 <!-- Facebook Register Modal -->
 <div class="modal hide" id="fbRegisterModal" >
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">close</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 id="myModalLabel">Register with Quyay via facebook</h3>
   </div>
   <div class="modal-body">
@@ -331,6 +331,60 @@
 </div>
 
 
+
+<!-- Edit Settings Modal -->
+<div class="modal hide" id="settingsModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Edit Settings</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <p style="color:red; display:none;">{{status}}</p>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input ng-model="settings.email" type="email" id="inputEmail" placeholder="Email">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+          <button class="btn" type="button" ng-click="log('reset password')">Reset Password</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Username</label>
+        <div class="controls">
+          <input ng-model="settings.name" type="text" id="inputUsername" placeholder="Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">Gender</label>
+        <div class="controls">
+          <li class="param clearfix">
+          <input id="1" type="radio" name="group2" ng-model="settings.gender" value="male"><label class="gender_option" for="1">Male</label>
+          <input id="2" type="radio" name="group2" ng-model="settings.gender" value="female"><label class="gender_option"for="2">Female</label>
+          <input id="3" type="radio" name="group2" ng-model="settings.gender" value="decline" checked><label class="gender_option" for="3">Decline to State</label>
+        </li>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn" ng-click="registerSubmit()">Deactivate Account</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn" type="button" ng-click="editSettings()">Save Changes</button>
+          <button class="btn" >Cancel Changes</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Alert Container Template -->
 <div id="alertContainer" style="display: none">
   <div id="masterAlert" class="alert" >
     <button type="button" class="close" ng-click="hideNotify()">&times;</button>

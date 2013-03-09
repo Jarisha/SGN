@@ -78,9 +78,13 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.userId = null;
   $rootScope.rootPath = '';
   $rootScope.something = 'blah';
+  $rootScope.notify = { status: 'Success', message: 'Action Succesfull!' };
   $rootScope.login = {email: null, password: null};
   $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
-  $rootScope.notify = { status: 'Success', message: 'Action Succesfull!' };
+  $rootScope.rootSettings = {email: null, username: null, gender: null, bio: null};
+  
+  $rootScope.genericModal = { header:null , body:null , data: {}};
+  
   
   //post modal fields. Stored in object
   $rootScope.post = {url:null, content: null, name: null, publisher: null,
@@ -114,6 +118,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#content').imagesLoaded(function(){
       $('#content').masonry({
         itemSelector : '.game_pin, .store_pin',
+        isFitWidth: true
       });
     });
   }
@@ -121,6 +126,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#profile_data_inner').imagesLoaded(function(){
       $('#profile_data_inner').masonry({
         itemSelector : '.game_pin',
+        isFitWidth: true
       });
     });
   }
@@ -257,8 +263,25 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     
     $('#genericModal').modal();
   }
+  $rootScope.getRootSettings = function(){
+    $http.get('api/getSettings')
+      .success(function(data, status, headers, config){
+        if(data.email) $rootScope.rootSettings.email = data.email;
+        if(data.username){
+          $rootScope.rootSettings.username = data.username;
+          $rootScope.userName = data.username;
+        }
+        if(data.gender) $rootScope.rootSettings.gender = data.gender;
+        if(data.bio) $rootScope.rootSettings.bio = data.bio;
+      })
+      .error(function(data, status, headers, config) {
+        result.message = 'Error: ' + status;
+      });
+  }
   $rootScope.viewSettings = function(){
-    $('#genericModal').modal();
+    $rootScope.getRootSettings();
+    
+    $('#settingsModal').modal();
   }
   
   var hide = null;
@@ -336,4 +359,27 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   //example of what $templateCache can do
   //$templateCache.put('test.html', '<b> I emphasize testing</b>');
   
+  $rootScope.login = {email: null, password: null};
+  $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
+  
+  //setup modals accessible through more than one page
+  //$rootScope.setupGlobalModals = function(){
+  //  console.log('setupGlobalModals()');
+  $rootScope.promptLogin = function(){
+    //clear modal
+    $rootScope.login.email = null;
+    $rootScope.login.password = null;
+    //spawn
+    $('#loginModal').modal();
+  }
+  $rootScope.promptRegister = function(){
+    //clear modal
+    $rootScope.register.email = null;
+    $rootScope.register.name = null;
+    $rootScope.register.password = null;
+    $rootScope.register.confirm = null;
+    $rootScope.register.fbConnect = false;
+    $('#registerModal').modal();
+  }
+  //}
 });

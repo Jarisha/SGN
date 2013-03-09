@@ -20,19 +20,6 @@
   border:none;
   box-shadow:none;
 }
-/* media queries to resize masonry content to fit screen */
-@media only screen and (max-width : 1339px),
-only screen and (max-device-width : 1339px){
-	#content, #nav_content {
-		width: 1075px;
-	}
-}
-@media only screen and (max-width : 1074px),
-only screen and (max-device-width : 1074px){
-	#content, #nav_content {
-		width: 810px;
-	}
-}
 #main_logo:link, #main_logo:visited, #main_logo:active, #main_logo:hover{
   font-size: 20px;
   color: #34D0BA;
