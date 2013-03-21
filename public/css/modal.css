@@ -1,0 +1,333 @@
+/****************** Modal Windows **********************/
+/* Modal Header - Modal Body */
+.modal{
+  border: 10px solid rgba(153, 204, 0, 0.5);
+}
+.modal-body {
+  max-height: 450px;
+  padding:0;
+  /* border: 2px solid #6D9100;*/
+  border-top: none;
+}
+.modal-header{
+  border-bottom:0;
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+}
+.modal-header h3 {
+  text-align: center;
+  color:white;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Default Modal Elements */
+.modal input{
+  border-radius: 10px;
+  -moz-box-sizing: border-box;
+  font-size: 20px;
+  height: 40px;
+  padding: 4px 6px;
+  margin: 0 0 0 10px;
+}
+.modal textarea{
+  -moz-box-sizing: border-box;
+  font-size: 20px;
+  height: 60px;
+  padding: 4px 6px;
+  margin-bottom:10px;
+}
+.modal button{
+  height: 40px;
+  font-size: 20px;
+}
+.modal button.close{
+  height: 20px;
+}
+
+/* Modal Div Containers
+ * STACK - Div with width 100%, stack vertically from top to bottom
+ * SLICE - div with % width, stack horizontally from left to right */
+.modal_stack, .modal_slice{
+  -moz-box-sizing: border-box;
+  float:left;
+  text-align:center;
+}
+.modal_stack{
+  background: -moz-linear-gradient(left center , #EBEBEB, #B8B8B8);
+  border-bottom: 1px solid #B8B8B8;
+  width: 100%;
+  padding: 20px 0;
+}
+.modal_stack:hover{
+}
+.modal_slice{
+  background: -moz-linear-gradient(center top , #EBEBEB, #B8B8B8);
+  padding: 20px 0;
+  border-right: 1px solid #B8B8B8;
+  text-align: center;
+}
+.modal_slice:hover{
+}
+.modal_slice.post_option{
+  width: 33%;
+}
+.modal_slice.post_option:hover{
+  background: #B8B8B8;
+  cursor: pointer;
+}
+.modal_slice.post_option_end{
+  width: 34%;
+  border:none;
+}
+.modal_slice.post_option_end:hover{
+  background: #B8B8B8;
+  cursor: pointer;
+}
+
+/* Error Notification - fallback for HTML5 validations */
+.error{
+  text-align: center;
+  background: #F39494;
+  /* margin-bottom: 20px; */
+}
+
+/* File Upload Modal */
+#fileUploadModal{
+    width: 700px;
+}
+#uploadForm{
+  padding: 0;
+}
+#profileUpload{
+  width:100%;
+}
+
+.fileupload{
+  width: 40%;
+  height: 300px;
+  padding: 20px 10px;
+  margin:0;
+}
+.uploadMeta{
+  width: 60%;
+  height: 300px;
+  padding: 20px 10px;
+}
+.uploadMeta input, .uploadMeta textarea{
+  width: 100%;
+  margin: 0 0 10px 0;
+}
+.fileSubmit{
+  width: 100%;
+}
+
+/* Image URL Modal */
+#imageUrlModal{
+  width: 700px;
+}
+
+
+/* Post Video via Youtube */
+#youtubeModal{
+  width: 700px;
+}
+
+.urlInput{
+  width: 70%;
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+.cat_select{
+  width: 100%;
+  height: 15%;
+  font-size: 20px;
+  margin-bottom: 9px;
+  text-align: left;
+}
+.cat_select > * {
+  display: inline;
+}
+
+.cat_select p{
+  width: 50%;
+}
+
+.cat_select select{
+  padding: 0;
+  margin:0;
+  font-size: 20px;
+  width: 50%;
+}
+.fileupload .btn{
+  margin: 5px;
+  vertical-align: none;
+}
+
+.fileupload .thumbnail{
+  margin-bottom: 5px;
+  overflow: hidden;
+  border: none;
+  width:200px;
+  height:200px;
+  border:2px dashed black;
+  background: white;
+}
+    
+.fileupload .thumbnail > img {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+/* Edit Settings */
+#editSettings{
+}
+#editSettings .edit_field{
+  padding: 10px;
+}
+#editSettings label, #editSettings input{
+  float: left;
+  -moz-box-sizing: border-box;
+  margin: 0;
+}
+#editSettings label{
+  font-size: 20px;
+  height: 40px;
+  width: 30%;
+  padding: 10px 0 0 0;
+  text-align: left;
+}
+#editSettings input{
+  width: 70%;
+}
+#editSettings .gender_label, #editSettings .gender_radio{
+  display: inline;
+  width: auto;
+  font-size: 15px;
+  padding: 10px 0 0;
+  margin:0;
+}
+#editSettings .gender_radio{
+  margin:0 20px 0 10px;
+}
+#editSettings .gender_container{
+  padding-bottom: 10px;
+}
+#editSettings .save_settings{
+  border:none;
+  padding: 0;
+}
+#editSettings .save_settings button{
+  width: 100%;
+  padding: 0;
+}
+#editSettings .reset_password, #editSettings .deactivate_account{
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+/* Login */
+#loginModal{
+  left: 55%;
+  width: 400px;
+  max-height: none;
+}
+#loginModal label, #loginModal input{
+  float: left;
+  -moz-box-sizing: border-box;
+  margin:0;
+}
+#loginModal label{
+  font-size: 20px;
+  height: 40px;
+  width: 30%;
+  padding: 10px 0 0 0;
+  text-align: left;
+}
+#loginModal input{
+  width: 70%;
+}
+#loginModal .edit_field{
+  padding: 10px;
+}
+
+#loginModal .login_option{
+  padding: 10px;
+}
+#loginModal .fb_login_btn{
+  width: 100%;
+}
+#loginModal .q_login_btn{
+  width: 100%;
+}
+
+/* Register */
+#registerModal{
+  left: 55%;
+  width: 400px;
+  max-height: none;
+}
+#registerModal label, #loginModal input{
+  float: left;
+  -moz-box-sizing: border-box;
+  margin:0;
+}
+#registerModal label{
+  font-size: 20px;
+  height: 40px;
+  width: 30%;
+  padding: 10px 0 0 0;
+  text-align: left;
+}
+#registerModal input{
+  width: 70%;
+  margin: 0;
+}
+#registerModal .edit_field{
+  padding: 10px;
+}
+
+#registerModal .login_option{
+  padding: 10px;
+}
+#registerModal .fb_login_btn{
+  width: 100%;
+}
+#registerModal .q_login_btn{
+  width: 100%;
+}
+#registerModal .fb_register{
+  width: 100%;
+  font-size: 20px;
+}
+#registerModal .q_register_btn{
+  width: 100%;
+}
+/* registerModal step 2 - Avatar Img Upload */
+#registerModal_2{
+  width: 300px;
+  left: 59%;
+}
+
+#registerModal_2 .profileImg_skip, #registerModal_2 .profileImg_submit{
+  padding:10px;
+  width: 50%;
+}
+
+#registerModal_2 .profileImg_skip button, #registerModal_2 .profileImg_submit button{
+  width: 100%;
+}
+
+/* Change avatar Img modal */
+#changeAvatar{
+  width: 300px;
+  left: 59%;
+}
+#changeAvatar .profileImg_submit{
+  padding:10px;
+  width: 100%;
+}
+
+/* List modal */
+#viewList_2 .modal_slice{
+  width:25%;
+}

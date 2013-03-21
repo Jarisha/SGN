@@ -1,5 +1,7 @@
 var app = require('./app');
 var util = require('./utility');
+var http = require('http');
+var config = require('./config');
 
 exports.init = function(){
   app.riak.ping(function(err, response){

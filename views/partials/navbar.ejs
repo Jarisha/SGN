@@ -39,7 +39,7 @@
 </div>
 <div id="nav_content" class="navbar-inner">
   <!--<a id="main_logo" href="/">Quyay</a>-->
-  <a id="main_logo" href="/"><img src="<%= rootPath %>/images/UI/Logo.png" /></a>
+  <a id="main_logo" ng-click="getfront();" href="/"><img src="<%= rootPath %>/images/UI/Logo_alt3.png" /></a>
   <ul id="nav_left" class="nav">
     <li>
       <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
@@ -70,11 +70,10 @@
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">
       <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img id="profile_small" src="<%= rootPath %>/images/tony_profile.jpg" height="22" width="22" />{{userName}}<b class="caret"></b>
+        <img id="profile_small" src="{{avatarUrl}}" height="22" width="22" />{{rootSettings.username}}<b class="caret"></b>
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">Followers</a></li>
-        <li><a href="/settings">My Settings</a></li>
         <li><a ng-click="viewSettings()">Settings</a></li>
         <li><a href="#">Invite Friends</a></li>
         <li><a href="#">Find Friends</a></li>

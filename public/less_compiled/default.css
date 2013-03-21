@@ -154,9 +154,6 @@ label {
 .hidden {
   display: none !important;
 }
-.modal-header h3 {
-  text-align: center;
-}
 /* Elements */
 #content {
   margin: 20px auto 20px;
@@ -166,23 +163,11 @@ form{
   margin: 0;
   padding: 0;
 }
-.modal {
-  /*width: 650px;*/
-}
-.modal-body {
-  max-height: 450px;
-  padding:0;
-  border: 2px solid #6D9100;
-  border-top: none;
-}
-.form-horizontal .control-group {
-    background: -moz-linear-gradient(center bottom , #DDDDDD, #FFFFFF);
-    border-bottom: 2px solid #6D9100;
-    border-top: 1px solid #99CC00;
-    margin: 0;
-    padding: 15px 0;
-}
 
+.form-horizontal .control-group {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 .control-label {
     font-size: 16px;
     font-weight: bold;
@@ -192,32 +177,18 @@ form{
 .form-horizontal .controls {
   margin-left: 120px;
 }
-
-/* generic modal used for various tasks */
-/*#genericModal*/ .modal-body{
-  /*max-height: 300px;*/
-}
-/*#genericModal*/ .modal-header{
-  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
-}
-
-
 .form-horizontal .controls{
-  margin-left: 120px;
+  margin-left: 160px;
 }
 
 .form-horizontal .control-label{
   font-size: 16px;
   font-weight: bold;
-  width: 100px;
+  width: 120px;
 }
 
 .dropdown-toggle {
   background: none !important;
-}
-/****************** Modal Windows **********************/
-
-#settingsModal{
 }
 
 
@@ -326,6 +297,7 @@ form{
 }
 #main-logo img{
   height:100px;
+  box-shadow: 0 5px 10px -5px #333333;
 }
 .affix {
   top: 0px;
@@ -538,8 +510,9 @@ form{
   background: #DCDCDC;
   min-width: 290px;
   top: 32px;
-  border: 2px solid #99cc00;
+  border: 2px solid black;
   border-radius: 6px 6px 6px 6px;
+  width: 330px;
 }
 .two_col_dropdown:before {
   content: ' ';
@@ -549,7 +522,7 @@ form{
   left: 35px;
   top: -22px;
   border: 10px solid transparent;
-  border-bottom-color: #99cc00;
+  border-bottom-color: black;
 }
 .one_col_dropdown {
   margin: 0;
@@ -560,7 +533,7 @@ form{
 }
 .two_col_dropdown .col1,
 .two_col_dropdown .col2 {
-  width: 145px;
+  width: 165px;
   float: left;
 }
 .one_col_dropdown .col1 {
@@ -623,7 +596,6 @@ form{
   box-shadow: 10px 10px 5px -2px #777777;
 }
 .game_img {
-  box-shadow: inset 3px 3px 5px -2px #555555;
 }
 /* Scroll up button */
 #scrollup {
@@ -656,8 +628,8 @@ form{
 
 #alertContainer{
   position:fixed;
-  bottom:10px;
-  left:10px;
+  bottom:25px;
+  left:25px;
   z-index: 200;
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   border-radius: 10px;

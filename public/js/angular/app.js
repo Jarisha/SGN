@@ -8,55 +8,32 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   $routeProvider
     .when('/',  { templateUrl: 'partials/front',
                   controller: FrontController,
-                  //this function delays loading the route until content is loaded
-                  resolve: {
-                    //loadContentloadPins
-                    beforeFront:function($q, $rootScope, gamepinService){
-                      var deferred = $q.defer();
-                      gamepinService.getPinList(function(data){
-                        if(data.objects){
-                          deferred.resolve(data.objects);
-                        }
-                        else
-                          deferred.reject("Error");
-                      });
-                      return deferred.promise;
-                    }
-                  }
+                  resolve: FrontController.resolve
                 })
+    /* These pages for pagination of search results
     .when('/page/:page', {templateUrl: '../partials/front', controller: FrontController})
     .when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController})
-    .when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController})
-    .when('/store', {templateUrl: 'partials/store', controller: StoreController})
-    .when('/profile', {templateUrl: 'partials/profile', controller: ProfileController})
-    .when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
-    .when('/about', {templateUrl: 'partials/about', controller: AboutController})
+    .when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController}) */
+    .when('/store', { templateUrl: 'partials/store',
+                      controller: StoreController,
+                      resolve: StoreController.resolve
+                    })
+    .when('/profile', { templateUrl: 'partials/profile',
+                      controller: ProfileController,
+                      resolve: ProfileController.resolve
+                    })
+    //.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
+    .when('/about', { templateUrl: 'partials/about',
+                      controller: AboutController,
+                      resolve: AboutController.resolve
+                    })
     .when('/user/:username', {  templateUrl: '../partials/profile',
-                            controller: UserController,
-                            resolve: {
-                              beforeUser: function($q, $route, $rootScope, $location){
-                                var deferred = $q.defer();
-                                var username = $route.current.params.username;
-                                console.log($rootScope.userId);
-                                console.log('beforeUser');
-                                console.log($rootScope.loggedIn);
-                                if(!$rootScope.loggedIn){
-                                  console.log('not logged in redirect');
-                                  $location.path('/');
-                                }
-                                else if($rootScope.userName === username){
-                                  console.log('redirecting to profile');
-                                  $location.path('/profile');
-                                }
-                                else
-                                  deferred.resolve();
-                                return deferred.promise;
-                              }
-                            }
-                          })
+                      controller: UserController,
+                      resolve: UserController.resolve
+                    })
+    .when('/notfound', {templateUrl: 'partials/not_found'})
     .otherwise({templateUrl: 'partials/not_found'});
     
-  
   $locationProvider.html5Mode(true);
 }]);
 
@@ -74,17 +51,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.section = '';
   $rootScope.globalMess = 'Global Message';
   $rootScope.loggedIn = null;
-  $rootScope.userName = null;
   $rootScope.userId = null;
+  $rootScope.avatarUrl = '<%= rootPath %>/images/30x30.gif';
   $rootScope.rootPath = '';
   $rootScope.something = 'blah';
-  $rootScope.notify = { status: 'Success', message: 'Action Succesfull!' };
   $rootScope.login = {email: null, password: null};
   $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
   $rootScope.rootSettings = {email: null, username: null, gender: null, bio: null};
   
-  $rootScope.genericModal = { header:null , body:null , data: {}};
-  
+  $rootScope.popModal = function(){
+    $('#changeAvatar').modal();
+  }
   
   //post modal fields. Stored in object
   $rootScope.post = {url:null, content: null, name: null, publisher: null,
@@ -92,7 +69,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
-    console.log('Route Change Started!');
+    console.log('Route Change Started!  ... retreiving session data from server');
   });
   $rootScope.$on("$routeChangeSuccess", function(event, next, current){
     console.log('Route Change Success!');
@@ -136,33 +113,41 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //Global AJAX calls
   
-  //checkLogin checks if we are logged in, and gets our session params and
-  //stores them in $rootScope for easy access
-  $rootScope.checkLogin = function(){
+  //checkLogin fetches session data from the server, returning login data if user is logged in
+  //it also sets $rootScope global variables which keep track of data of the currently logged in user
+  //returns true if loggedin, false if not
+  $rootScope.checkLogin = function(callback){
     var result = {};
     $http.get('/api/checkLogin')
       .success(function(data, status, headers, config){
         //logged in
+        console.log(callback);
         if(data.loggedIn){
           $rootScope.loggedIn = true;
-          $rootScope.userName = data.userName;
+          $rootScope.rootSettings.username = data.userName;
           $rootScope.userId = data.userId;
+          $rootScope.avatarUrl = data.avatarImg || '/images/30x30.gif';
           console.log('zippy!');
+          return callback(null, true);
         }
         //logged out
         else if(!data.loggedIn){
           $rootScope.loggedIn = false;
-          $rootScope.userName = null;
+          $rootScope.rootSettings.username = null;
           $rootScope.userId = null;
+          $rootScope.avatarUrl = null;
+          return callback(null, false);
         }
         else{
           result.status = "AJAX error";
+          next("AJAX error", true);
+          return callback("AJAX error", null);
         }
       })
       .error(function(data, status, headers, config) {
         result.message = 'Error: ' + status;
-      }
-    );
+        return callback(status, null);
+      });
   }
   $rootScope.logoutSubmit = function(){
     console.log('rootScope.logout()');
@@ -171,11 +156,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       .success(function(data, status, headers, config){
         if(data.logout){
           $rootScope.loggedIn = false;
-          $rootScope.userName = null;
+          $rootScope.rootSettings.username = null;
           $location.path('/');
           console.log("logout remason");
-          $rootScope.notify.message = 'You are now logged out.';
-          $rootScope.popNotify();
+          $rootScope.popNotify('You are now logged out.');
           $timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.logout && data.error){
@@ -189,15 +173,19 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         result.message = 'Error: ' + status;
       });
   }
-  $rootScope.registerSubmit = function(){
+  
+  //register without selecting avatar
+  $rootScope.registerSubmit = function(avatarPath){
     $http({ method: 'POST', url: 'api/register', data:
           {"email": $rootScope.register.email ,"name": $rootScope.register.name,
           "password": $rootScope.register.password, "confirm": $rootScope.register.confirm,
-          "fbConnect": $rootScope.register.fbConnect }})
+          "fbConnect": $rootScope.register.fbConnect, "avatarUrl": avatarPath }})
       .success(function(data, status, headers, config){
         //on success go to register step 2
         if(data.register){
-          window.location = '/register';
+          $('#registerModal').modal('hide');
+          $('#registerModal_2').modal();
+          //window.location = '/register';
         }
         else if(!data.register && data.error){
           console.log(data.error);
@@ -219,11 +207,11 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         if(data.login){
           $rootScope.loggedIn = true;
           $rootScope.userEmail = data.userEmail;
-          $rootScope.userName = data.userName;
+          $rootScope.rootSettings.username = data.userName;
           $rootScope.userId = data.userId;
+          $rootScope.avatarUrl = data.avatarUrl;
           $('#loginModal').modal('hide');
-          $rootScope.notify.message = 'You are now logged in.';
-          $rootScope.popNotify();
+          $rootScope.popNotify('You are now logged in.');
           //rootScope.popNotify({status: 'success' || 'error', message: 'Login successful!'});
           
           
@@ -253,6 +241,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
   } 
   $rootScope.postGamePin = function(){
+    console.log('postGamePin');
     //clear post data lying around
     $rootScope.post.name = null;
     $rootScope.post.publisher = null;
@@ -260,18 +249,45 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $rootScope.post.description = null;
     $rootScope.post.url = null;
     $rootScope.post.content = null;
-    
-    $('#genericModal').modal();
+    /*$rootScope.genericModal.header = "Post Content to Quyay!";
+    $rootScope.genericModal.body = "Body";
+    $rootScope.genericModal.data = "Data";*/
+    clearModalFields();
+    $('#postModal').modal();
   }
+  //clear all fields and images...this is what I get for mixing JQuery and Angularjs
+  function clearModalFields(){
+    $('#imageUrlModal form').resetForm();
+    $('#imageUrlModal .urlInput').val('');
+    $('#imageUrlModal .thumbnail').empty();
+    $('#fileUploadModal form').resetForm();
+    $('#fileUploadModal .thumbnail').empty();
+    $('#youtubeModal form').resetForm();
+    $('#youtubeModal .urlInput').val('');
+    $('#youtubeModal .fileupload').empty();
+  }
+  $rootScope.imageUrl = function(){
+    $('#postModal').modal('hide');
+    $('#imageUrlModal').modal();
+  }
+  $rootScope.fileUpload = function(){
+    $('#postModal').modal('hide');
+    $('#fileUploadModal').modal();
+  }
+  $rootScope.youtubeUrl = function(){
+    $('#postModal').modal('hide');
+    $('#youtubeModal').modal();
+  }
+  
   $rootScope.getRootSettings = function(){
     $http.get('api/getSettings')
       .success(function(data, status, headers, config){
         if(data.email) $rootScope.rootSettings.email = data.email;
         if(data.username){
           $rootScope.rootSettings.username = data.username;
-          $rootScope.userName = data.username;
         }
         if(data.gender) $rootScope.rootSettings.gender = data.gender;
+        console.log($rootScope.rootSettings.gender);
         if(data.bio) $rootScope.rootSettings.bio = data.bio;
       })
       .error(function(data, status, headers, config) {
@@ -283,60 +299,47 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     
     $('#settingsModal').modal();
   }
+  $rootScope.editSettings = function(){
+    console.log('editSettings');
+    console.log($rootScope.rootSettings);
+    $http({ method: 'POST', url: 'api/editSettings', data:
+          { id: $rootScope.userId, settings: $rootScope.rootSettings }})
+      .success(function(data, status, headers, config){
+        if(data.error) console.log('error ' + data.error);
+        if(data.success){
+          if(data.username){
+            $rootScope.rootSettings.username = data.username;
+            $rootScope.popNotify('Settings Saved!');
+          }
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log('Error' + status);
+      });
+  }
   
   var hide = null;
   
-  $rootScope.popNotify = function(){
+  $rootScope.popNotify = function(message){
+    $('#notify_message').text(message);
     $('#alertContainer').show();
     console.log('popNotify');
     hide = $timeout(function() {
       $('#alertContainer').fadeOut(500, function(){
-        $rootScope.notify.status = 'Success';
-        $rootScope.notify.message = 'Action Successful';
+        $('#notify_message').text('');
       });
     }, 5000);
   }
   $rootScope.hideNotify = function(){
     $timeout.cancel(hide);
     $('#alertContainer').fadeOut(250, function(){
-      $rootScope.notify.status = 'Success';
-      $rootScope.notify.message = 'Action Successful';
+      $('#notify_message').text('');
     });
-    
     console.log('hideNotify');
   }
   
-  //Load correct Post step 2 modal based on type of media selected
-  /*$('.post_media').click(function(e){
-    console.log('post media selected');
-    var media = $(this).val();
-    var $modal_header = $('#pinYoutube .modal-header');
-    switch(media){
-      case 'upload':
-        //TODO: do back end functionality
-        $modal_header.html('<p>Upload image from Computer</p><br />'+
-          '<form method="post" enctype="multipart/form-data">' +
-          '<p>Image: <input type="file" name="image" /></p>' +
-          '<p><input type="submit" value="Upload" /></p></form>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-      case 'youtube':
-        //Hack. Resolve by spawning this modal once the hide animation completes for the previous modal.
-        $modal_header.html('<p>Post video via youtube URL</p>' +
-          '<input ng-model="post.url" class="load_input" placeholder="" type="text">' +
-          '</input><button class="btn load_vid">Load</button>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-      //via image URL (direct link to image or call web scraper to return all valid images on page url)
-      case 'url':
-        $modal_header.html('<p>Upload from the web</p><br /><input type="text"></input>');
-        setTimeout(function(){$('#pinYoutube').modal({dynamic: true});}, 500);
-        break;
-    }
-  });*/
-  
   //Always check if user is logged in
-  $rootScope.checkLogin();
+  //$rootScope.checkLogin();
   
   //Get full path to simplify urls for loading images/html
   $http.get('/api/getPath')
@@ -359,9 +362,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   //example of what $templateCache can do
   //$templateCache.put('test.html', '<b> I emphasize testing</b>');
   
-  $rootScope.login = {email: null, password: null};
-  $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
-  
   //setup modals accessible through more than one page
   //$rootScope.setupGlobalModals = function(){
   //  console.log('setupGlobalModals()');
@@ -381,5 +381,202 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $rootScope.register.fbConnect = false;
     $('#registerModal').modal();
   }
-  //}
+  
+  //setup JQuery needed to deal with post content
+  $rootScope.setupPostContent = function(){
+    console.log('setupPostContent');
+    $('.btn-file input').click(function(e){
+      $('#uploadForm .fileSubmit').removeAttr('disabled');
+    });
+    $("#uploadForm a[data-dismiss='fileupload']").click(function(e){
+      $('#uploadForm .fileSubmit').attr('disabled', 'disabled');
+    });
+    
+    //Post via File Upload
+    $('#uploadForm').submit(function(){
+      $(this).ajaxSubmit({
+        beforeSubmit: function(formData, jqForm, options){
+          console.log($.param(formData));
+          percent = 0;
+        },
+        uploadProgress: function(event, position, total, percentComplete){
+          var percent = percentComplete;
+          console.log(percentComplete);
+        },
+        success: function(responseText, statusText, xhr, $form){
+          if(responseText.error){
+            console.log('Error: ' + responseText.error);
+            return;
+          }
+          console.log(responseText.gamepin);
+          $('#fileUploadModal').modal('hide');
+          $rootScope.popNotify('Post Image Success!');
+        },
+        error: function(responseText, statusText, xhr, $form){
+          console.log(responseText);
+        },
+        dataType: 'json'
+      });
+      return false;
+    });
+    
+    //Post via Image Url
+    var $getUrl = $('.get_image');
+    var $imgContainer = $('#imageUrlForm').find('.thumbnail');
+    var url;
+    var content_type;
+    $getUrl.click(function(e){
+      url = $getUrl.next('.urlInput').val();
+      urlExists(url, function(valid, contentType){
+        if(!valid){
+          console.log("Invalid Url");
+          return;
+        }
+        content_type = contentType;
+        $('#imageUrlForm .fileSubmit').removeAttr('disabled');
+        $imgContainer.empty();
+        $imgContainer.append('<img src="'+ url +'"/>');
+      });
+    });
+    $('#imageUrlForm').submit(function(e){
+      $.ajax({
+        type: 'post',
+        url: '/api/gamepin/postImageUrl',
+        data: $(this).serialize()+ '&url='+ url + '&type=' + content_type,
+        success: function(data){
+          if(data.error){
+            console.log(data.error);
+            return;
+          }
+          $('#imageUrlModal').modal('hide');
+          $rootScope.popNotify('Post Image Success!');
+        },
+        error: function(err){
+          console.log('error: ' + err);
+        }
+      });
+      return false;
+    });
+    
+    function urlExists(url, callback){
+      $.ajax({
+        type: 'post',
+        url: '/api/util/validImg',
+        data: 'url='+ url,
+        success: function(data){
+          if(data.valid){
+            callback(true, data.contentType);
+          }
+          else{
+            callback(false, null);
+          }
+        },
+        error: function(data) {
+          callback(false, null);
+        }
+      });
+    }
+    
+    //post via Youtube Video
+    var $get_video = $('.get_video');
+    var vid_url;
+    var vid_img;
+    var vid_embed;
+    $get_video.click(function(){
+      vid_url = $get_video.next('.urlInput').val();
+      validVideo(vid_url, function(valid, data){
+        if(!valid){
+          console.log('invalid video');
+          return;
+        }
+        vid_img = data.url;
+        vid_embed = data.embed;
+        $('#youtubeModal .fileupload-new').append(data.embed);
+        $('#youtubeModal .fileSubmit').removeAttr('disabled');
+      });
+    });
+    
+    $('#youtubeUrlForm').submit(function(e){
+      console.log('youtubeSubmit');
+      $.ajax({
+        type: 'post',
+        url: '/api/gamepin/postYoutubeUrl',
+        data: $(this).serialize() + '&imgUrl=' + vid_img + '&embedHtml='+ vid_embed,
+        success: function(data){
+          if(data.error){
+            console.log(error);
+            return;
+          }
+          console.log(data.gamepin);
+          $('#youtubeModal').modal('hide');
+          $rootScope.popNotify('Post Video Success!');
+        },
+        error: function(){
+          
+        }
+      });
+      return false;
+    });
+    
+    function validVideo(url, callback){
+      $.ajax({
+        type: 'post',
+        url: '/api/util/validVideo',
+        data: 'url='+ vid_url,
+        success: function(data){
+          if(data.valid){
+            callback(true, data);
+          }
+          else{
+            callback(false, null);
+          }
+        },
+        error: function(data) {
+          callback(false, null);
+        }
+      });
+    }
+    //register after selecting avatar img
+    $('#uploadAvatar').submit(function(){
+      console.log('uploadAvatar submit');
+      $(this).ajaxSubmit({
+        success: function(responseText, statusText, xhr, $form){
+          if(responseText.error){
+            console.log('Error: ' + responseText.error);
+            return;
+          }
+          console.log(responseText.success);
+          window.location = '/register';
+        },
+        error: function(responseText, statusText, xhr, $form){
+          console.log(responseText);
+        },
+        dataType: 'json'
+      });
+      return false;
+    });
+    
+    $rootScope.changeAvatar = function(){
+      $('#changeAvatar').modal();
+      //Post via File Upload
+      $('#changeAvatarForm').submit(function(){
+        $(this).ajaxSubmit({
+          success: function(responseText, statusText, xhr, $form){
+            if(responseText.error){
+              console.log('Error: ' + responseText.error);
+              return;
+            }
+            console.log(responseText.success);
+            $('#changeAvatar').modal('hide');
+            $rootScope.popNotify(responseText.success);
+          },
+          error: function(responseText, statusText, xhr, $form){
+            console.log(responseText);
+          },
+          dataType: 'json'
+        });
+        return false;
+      });
+    }
+  }
 });

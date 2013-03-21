@@ -1,46 +1,3 @@
-<!-- Youtube Video -->
-<!--<div class="modal hide fade" id="pinYoutube">
-  <div class="modal-header">
-    <p>Q video via youtube URL</p>
-    <input ng-model="post.url" class="load_input" placeholder="" type="text">
-    </input><button class="btn load_vid">Load</button>
-  </div>
-  <div class="modal-body" style="width: 600px;">
-    <div class="post_content">Video/Image/Slideshow goes here</div>
-    <br />
-    <p style="color:red;">{{status}}</p>
-    <label for="game_name">Game Name</label>
-    <input ng-model="post.name" id="game_name" type="text"></input>
-    <br />
-    <label for="game_pub">Game Publisher</label>
-    <input ng-model="post.publisher" id="game_pub" type="text"></input>
-    <br />
-    <label for="game_desc">Game Description</label>
-    <input ng-model="post.description" id="game_desc" type="text"></input>
-    <br />
-    <div>
-      <p>Select a Primary Category</p>
-      <select ng-model="post.category" class="category_select">
-        <option selected="selected" value="casino">Casino</option>
-        <option value="casual">Casual</option>
-        <option value="shooter">Shooter</option>
-        <option value="rpg">RPG</option>
-        <option value="action">Action</option>
-        <option value="simulation">Simulation</option>
-        <option value="racing">Racing</option>
-        <option value="puzzle">Puzzle</option>
-        <option value="fighting">Fighting</option>
-        <option value="social">Social</option>
-        <option value="space">Space</option>
-        <option value="horror">Horror</option>
-        <option value="strategy">Strategy</option>
-      </select>
-    </div>
-    <p>{{post.name}}:{{post.publisher}}:{{post.description}}:{{post.category}}:{{post.content}}</p>
-    <button class="post_vid" type="button">Q it!</button>
-  </div>
-</div>-->
-
 <!-- Front Pin Modal -->
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
@@ -168,39 +125,21 @@
     <h3 id="myModalLabel">Log in to Quyay</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
-      <p style="color:red;">{{status}}</p>
-      <br>
-      <p>Error: Somewhat set us up the bomb!</p>
-      <div class="control-group">
-        <label class="control-label" for="inputEmail">Email</label>
-        <div class="controls">
-          <input ng-model="login.email" type="email" id="inputEmail" placeholder="Email">
-        </div>
+    <form id="loginForm">
+      <!--<p class="error" >Error: Somewhat set us up the bomb!</p>-->
+      <div class="modal_stack login_option">
+        <a target="_self" href="/auth/facebook"><button type="button" class="fb_login_btn" >Log in with Facebook</button></a>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-          <input ng-model="login.password" type="password" id="inputPassword" required placeholder="Password">
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="login_email" >Email</label>
+        <input id="login_email" ng-model="login.email" type="email" ></input>
       </div>
-      <p>{{login.email}} : {{login.password}}</p>
-      <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
-        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
-        <label class="control-label" for="inputPassword">Login with</label>
-        <div class="controls">
-          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="login_password">Password</label>
+        <input id="login_password" ng-model="login.password" type="password" ></input>
       </div>
-      <div class="control-group">
-        <div class="controls">
-          <label class="checkbox">
-            <input type="checkbox"> Remember me
-          </label>
-          <br>
-          <button class="btn" ng-click="loginsubmit(); log('fuck');">Sign in</button>&nbsp;&nbsp;&nbsp;<a href="#">Forgot Password?</a>
-        </div>
+      <div class="modal_stack login_option">
+        <button class="q_login_btn" ng-click="loginsubmit(); log('fuck');">Sign in</button>
       </div>
     </form>
   </div>
@@ -213,48 +152,87 @@
     <h3 id="myModalLabel">Register with Quyay</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form>
       <p style="color:red;">{{status}}</p>
-      <br>
-      <div class="control-group">
-        <label class="control-label" for="inputEmail">Email</label>
-        <div class="controls">
-          <input ng-model="register.email" type="email" id="inputEmail" placeholder="Email">
-        </div>
+      <div class="modal_stack edit_field">
+        <a target="_self" href="/auth/facebook"><button type="button" class="fb_register">Register via Facebook</button></a>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="inputUsername">Username</label>
-        <div class="controls">
-          <input ng-model="register.name" type="text" id="inputUsername" placeholder="Username">
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="register_email" >Email</label>
+        <input id="register_email" ng-model="register.email" type="email" ></input>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-          <input ng-model="register.password" type="password" id="inputPassword" placeholder="Password">
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="register_username" >Username</label>
+        <input id="register_username" ng-model="register.name" type="text" ></input>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="confirm">Confirm</label>
-        <div class="controls">
-          <input ng-model="register.confirm" type="password" id="confirm" placeholder="Confirm Password">
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="register_password" >Password</label>
+        <input id="register_password" ng-model="register.password" type="password" ></input>
       </div>
-      <p> {{register.email}} : {{register.name}} : {{register.password}} : {{register.confirm}}</p>
-      <div class="control-group">
-        <!--<a href="#">Login with</a><span><img src="<%= rootPath %>/images/facebook_small.png" /></span>
-        <span> <img src="<%= rootPath %>/images/twitter_small.jpg"/></span><span><img src="<%= rootPath %>/images/G_plus_small.jpg"/></span> -->
-        <label class="control-label" for="inputPassword">Register with</label>
-        <div class="controls">
-          <a target="_self" href="/auth/facebook"><img src="<%= rootPath %>/images/facebook_small.png"/></a>
-        </div>
+      <div class="modal_stack edit_field">
+        <label for="register_confirm" >Confirm</label>
+        <input id="register_confirm" ng-model="register.confirm" type="password" ></input>
       </div>
-      <div class="control-group">
-        <div class="controls">
-          <button class="btn" ng-click="registerSubmit()">Register</button>
-        </div>
+      <div class="modal_stack edit_field">
+        <button class="q_register_btn" ng-click="registerSubmit()">Register</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Register Step 2: Upload Photo -->
+<div class="modal hide" id="registerModal_2" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Upload Avatar Image</h3>
+  </div>
+  <div class="modal-body">
+      <p style="color:red;">{{status}}</p>
+      <form id="uploadAvatar" class="clearfix" action="/api/uploadAvatar" method="post" enctype="multipart/form-data">
+        <div id="profileUpload" class="modal_stack fileupload fileupload-new" data-provides="fileupload">
+          <div class="fileupload-preview thumbnail"></div>
+          <span class="btn btn-file">
+            <span class="fileupload-new">Select image</span>
+            <span class="fileupload-exists">Change</span>
+            <input name="image" type="file" />
+          </span>
+          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+        <!-- Triggers an Angular AJAX call -->
+        <div class="modal_slice profileImg_skip">
+          <a href="/register" target="_self"><button type="button">Skip</button></a>
+        </div>
+        <!-- JQuery intercepts submit, due to complexity of file upload -->
+        <div class="modal_slice profileImg_submit">
+          <button>Submit</button>
+        </div>
+      </form>
+  </div>
+</div>
+
+<!-- change avatar image via profile page -->
+<div class="modal hide" id="changeAvatar" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Upload Avatar Image</h3>
+  </div>
+  <div class="modal-body">
+      <p style="color:red;">{{status}}</p>
+      <form id="changeAvatarForm" class="clearfix" action="/api/changeAvatar" method="post" enctype="multipart/form-data">
+        <div id="profileUpload" class="modal_stack fileupload fileupload-new" data-provides="fileupload">
+          <div class="fileupload-preview thumbnail"></div>
+          <span class="btn btn-file">
+            <span class="fileupload-new">Select image</span>
+            <span class="fileupload-exists">Change</span>
+            <input name="image" type="file" />
+          </span>
+          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+        <!-- JQuery intercepts submit, due to complexity of file upload -->
+        <div class="modal_slice profileImg_submit">
+          <button>Submit</button>
+        </div>
+      </form>
   </div>
 </div>
 
@@ -290,47 +268,172 @@
   </div>
 </div>
 
-<!-- Generic Modal (To be used for 'View All') -->
+<!-- Generic Modal -->
 <div class="modal hide" id="genericModal" >
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h3 id="myModalLabel">Generic Modal</h3>
+    <h3 id="myModalLabel">Generic Header</h3>
   </div>
   <div class="modal-body">
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
-    <p>Spam</p>
+    <div class="modal_stack">Generic Body</div>
+  </div>
+</div>
+
+<!-- Post GamePin Modal -->
+<div class="modal hide" id="postModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Post to Quyay</h3>
+  </div>
+  <div class="modal-body">
+    <div ng-click="imageUrl()" class="modal_slice post_option">
+      <img src="<%= rootPath %>/images/image.png" />
+      <p>Image via URL<p>
+    </div>
+    <div ng-click="fileUpload()" class="modal_slice post_option">
+      <img src="<%= rootPath %>/images/image.png" />
+      <p>File Upload</p>
+    </div>
+    <div ng-click="youtubeUrl()" class="modal_slice post_option_end">
+      <img src="<%= rootPath %>/images/image.png" />
+      <p>Youtube URL</p>
+    </div>
+  </div>
+</div>
+<!-- imageUrl Modal -->
+<div class="modal hide" id="imageUrlModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Post Image via URL</h3>
+  </div>
+  <div class="modal-body">
+    <div class="modal_stack">
+      <button class="get_image btn">Get Image</button>
+      <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png"></input>
+    </div>
+    <form id="imageUrlForm">
+      <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
+        <div class="fileupload-preview thumbnail"></div>
+      </div>
+      <div class="modal_slice uploadMeta">
+        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="publisher" placeholder="Publisher">
+        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <div class="cat_select">
+          <p>Category:</p>
+          <select name="category">
+            <option value="Action & Adventure" >Action & Adventure</option>
+            <option value="Arcade" >Arcade</option>
+            <option value="Board & Card" >Board & Card</option>
+            <option value="Arcade" >Casino & Gambling</option>
+            <option value="Educational" >Educational</option>
+            <option value="Family & Kids" >Family & Kids</option>
+            <option value="Music & Rhythm" >Music & Rhythm</option>
+            <option value="Puzzle" >Puzzle</option>
+            <option value="Racing" >Racing</option>
+            <option value="Role Playing" >Role Playing</option>
+            <option value="Simulation" >Simulation</option>
+            <option value="Sports" >Sports</option>
+            <option value="Strategy" >Strategy</option>
+            <option value="Trivia & Word">Trivia & Word</option>
+          </select>
+        </div>
+        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- fileUpload  -->
+<div class="modal hide" id="fileUploadModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Upload Image from Device</h3>
+  </div>
+  <div class="modal-body">
+    <form id="uploadForm" class="clearfix" action="/api/gamepin/postImageUpload" method="post" enctype="multipart/form-data">
+      <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
+        <div class="fileupload-preview thumbnail"></div>
+        <span class="btn btn-file">
+          <span class="fileupload-new">Select image</span>
+          <span class="fileupload-exists">Change</span>
+          <input name="image" type="file" />
+        </span>
+        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+      </div>
+      <div class="modal_slice uploadMeta">
+        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="publisher" placeholder="Publisher">
+        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <div class="cat_select">
+          <p>Category:</p>
+          <select name="category">
+            <option value="Action & Adventure" >Action & Adventure</option>
+            <option value="Arcade" >Arcade</option>
+            <option value="Board & Card" >Board & Card</option>
+            <option value="Arcade" >Casino & Gambling</option>
+            <option value="Educational" >Educational</option>
+            <option value="Family & Kids" >Family & Kids</option>
+            <option value="Music & Rhythm" >Music & Rhythm</option>
+            <option value="Puzzle" >Puzzle</option>
+            <option value="Racing" >Racing</option>
+            <option value="Role Playing" >Role Playing</option>
+            <option value="Simulation" >Simulation</option>
+            <option value="Sports" >Sports</option>
+            <option value="Strategy" >Strategy</option>
+            <option value="Trivia & Word">Trivia & Word</option>
+          </select>
+        </div>
+        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+        <!--<a id="cdnUrl" >View Image on Rackspace</a>-->
+      </div>
+    </form>
   </div>
 </div>
 
 
+<!-- youTube Modal -->
+<div class="modal hide" id="youtubeModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Post Video via Youtube</h3>
+  </div>
+  <div class="modal-body">
+    <div class="modal_stack">
+      <button class="btn get_video">Get Video</button>
+      <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png"></input>
+    </div>
+    <form id="youtubeUrlForm">
+      <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
+      </div>
+      <div class="modal_slice uploadMeta">
+        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="publisher" placeholder="Publisher">
+        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <div class="cat_select">
+          <p>Category:</p>
+          <select name="category">
+            <option value="Action & Adventure" >Action & Adventure</option>
+            <option value="Arcade" >Arcade</option>
+            <option value="Board & Card" >Board & Card</option>
+            <option value="Arcade" >Casino & Gambling</option>
+            <option value="Educational" >Educational</option>
+            <option value="Family & Kids" >Family & Kids</option>
+            <option value="Music & Rhythm" >Music & Rhythm</option>
+            <option value="Puzzle" >Puzzle</option>
+            <option value="Racing" >Racing</option>
+            <option value="Role Playing" >Role Playing</option>
+            <option value="Simulation" >Simulation</option>
+            <option value="Sports" >Sports</option>
+            <option value="Strategy" >Strategy</option>
+            <option value="Trivia & Word">Trivia & Word</option>
+          </select>
+        </div>
+        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- Edit Settings Modal -->
 <div class="modal hide" id="settingsModal" >
@@ -339,45 +442,33 @@
     <h3 id="myModalLabel">Edit Settings</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
-      <p style="color:red; display:none;">{{status}}</p>
-      <div class="control-group">
-        <label class="control-label" for="inputEmail">Email</label>
-        <div class="controls">
-          <input ng-model="settings.email" type="email" id="inputEmail" placeholder="Email">
+    <form id="editSettings">
+      <p class="error hidden" >Error: Somewhat set us up the bomb!</p>
+       <div class="modal_stack edit_field">
+        <div class="modal_slice reset_password">
+          <button type="button" disabled>Reset Password</button>
+        </div>
+        <div class="modal_slice deactivate_account">
+          <button type="button" disabled>Deactivate Account</button>
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-          <button class="btn" type="button" ng-click="log('reset password')">Reset Password</button>
+      <div class="modal_stack edit_field">
+        <label>Email</label><input type="text" placeholder="Email" ng-model="rootSettings.email" disabled></input>
+      </div>
+      <div class="modal_stack edit_field">
+        <label>Username</label><input type="text" placeholder="Email" ng-model="rootSettings.username"></input>
+      </div>
+      <div class="modal_stack edit_field">
+        <label>Gender</label>
+        <div class="gender_container clearfix">
+          <label class="gender_label" for="1">Male</label><input id="1" class="gender_radio" type="radio" value="male" ng-model="rootSettings.gender">
+          <label class="gender_label" for="2">Female</label><input id="2" class="gender_radio" type="radio" value="female" ng-model="rootSettings.gender">
+          <label class="gender_label" for="3">Decline to State</label><input id="3" class="gender_radio" type="radio" value="decline" ng-model="rootSettings.gender">
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="inputUsername">Username</label>
-        <div class="controls">
-          <input ng-model="settings.name" type="text" id="inputUsername" placeholder="Username">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputUsername">Gender</label>
-        <div class="controls">
-          <li class="param clearfix">
-          <input id="1" type="radio" name="group2" ng-model="settings.gender" value="male"><label class="gender_option" for="1">Male</label>
-          <input id="2" type="radio" name="group2" ng-model="settings.gender" value="female"><label class="gender_option"for="2">Female</label>
-          <input id="3" type="radio" name="group2" ng-model="settings.gender" value="decline" checked><label class="gender_option" for="3">Decline to State</label>
-        </li>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="controls">
-          <button class="btn" ng-click="registerSubmit()">Deactivate Account</button>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="controls">
-          <button class="btn" type="button" ng-click="editSettings()">Save Changes</button>
-          <button class="btn" >Cancel Changes</button>
+      <div class="modal_stack edit_field">
+        <div class="modal_stack save_settings">
+          <button type="button" ng-click="editSettings()" data-dismiss="modal">Save Changes</button>
         </div>
       </div>
     </form>
@@ -387,7 +478,84 @@
 <!-- Alert Container Template -->
 <div id="alertContainer" style="display: none">
   <div id="masterAlert" class="alert" >
-    <button type="button" class="close" ng-click="hideNotify()">&times;</button>
-    <strong>{{notify.status}}</strong> {{notify.message}}
+    <button type="button" class="close" ng-click="hideNotify(); log(notify.message);">&times;</button>
+    <strong id="notify_status" >Success</strong><p id="notify_message"></p>
+  </div>
+</div>
+
+<!-- View List of Elements - 1 -->
+<div class="modal hide" id="viewList" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">View List</h3>
+  </div>
+  <div class="modal-body">
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+    <div class="modal_stack">Modal List Element</div>
+  </div>
+</div>
+
+<!-- View List of Elements - 2 -->
+<div class="modal hide" id="viewList_2" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">View List</h3>
+  </div>
+  <div class="modal-body">
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
+    <div class="modal_slice">Modal List Element</div>
   </div>
 </div>

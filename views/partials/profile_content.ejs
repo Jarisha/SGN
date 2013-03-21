@@ -3,7 +3,8 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" >
-        <img src="{{rootPath}}/images/160x160.gif" width="165"/>
+        <button ng-click="changeAvatar()" class="change_avatar hidden" type="button" >Change Avatar</button>
+        <img src="{{profile.profileImg}}" width="165" height="165"/>
       </div>
       <div class="profile_xp">
         <span class="curr_level">Level {{profile.level || 1}}</span>
@@ -77,6 +78,5 @@
         class="post_text"><a ng-show="loggedIn" href="/user/user1"><b>Tony</b></a> onto Shooters</p>
       </div>
     </div>
-    <p>Test</p>
   </div>
 </div>

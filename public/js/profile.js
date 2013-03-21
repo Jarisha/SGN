@@ -14,6 +14,13 @@ function profileSetup($scope){
           $('#scrollup').fadeOut();
       }
   });
+  $changeAvatar = $('.change_avatar');
+  $('.profile_pic').mouseenter(function(e){
+    $changeAvatar.removeClass('hidden');
+  }).mouseleave(function(e){
+    $changeAvatar.addClass('hidden');
+  });
+  
   $scope.scrollup = function(){
     console.log('scrollup');
     $("html, body").animate({ scrollTop: 0 }, 600);

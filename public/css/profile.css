@@ -1,7 +1,5 @@
 /* Override defaults */
 .profile textarea{
-  margin:0;
-  padding:0;
 }
 
 /* General Layout */
@@ -183,7 +181,7 @@
 .profile .right_container{
   float:left;
   width: 600px;
-  height: 250px;
+  height: 253px;
 }
 .profile .right_padding{
   padding:15px;
@@ -192,7 +190,17 @@
   float:left;
 }
 .profile .profile_pic {
-  
+  height:165px;
+  width: 165px;
+  background: white;
+}
+.profile .profile_pic .change_avatar{
+  left: 40px;
+  position: absolute;
+  top: 150px;
+}
+.profile .profile_pic img{
+  vertical-align: middle;
 }
 .profile .profile_name{
   width:100%;

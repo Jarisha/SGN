@@ -3,28 +3,17 @@
  * Angular controllers contain 2 way data-binded variables that are shared in the view.
  * The Angular router will detect url changes and route us to the correct controller + template.
  * The template will be used to fill ng-view, which represents all the content inside the <body></body>
+ * Resolve functions are executed before routing to a specific controller.
  */
  
-function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, beforeFront,
+function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, resolveFront,
                          gamepinService, $window){
   console.log('frontController');
   $scope.showPins = [];
-  $scope.gamePins = beforeFront;
+  $scope.gamePins = resolveFront;
+  //console.log($scope.gamePins);
   var imgCount = 0;
   
-  
-  for(var i = 0; i < $scope.gamePins.length; i++){
-    imgCount++;
-    if(imgCount > 36)
-      imgCount = 1;
-    $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
-  }
-  
-  var start = 0;
-  var interval = 20;
-  var stop;
-  
-  loadFirst();
   //console.log(beforeFront);
   /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
@@ -33,7 +22,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  //$scope.showPins = [];
   $scope.loadIndex = 0;
   $scope.pages = [];
   $scope.newComment = { text: null };
@@ -45,16 +33,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.flag = true;
   $scope.pinIndex = 0;
   $scope.pinInterval = 20;
+  var pinIndex = 0;
+  var pinLimit = 10;
+  var pinStop = 0;
+  
+  loadFirst();
   
   $scope.fbModal = function(){
     $('#fbRegisterModal').modal();
   }
   $scope.changeState = function(){
     $scope.masonInit = false;
-  }
-  
-  $scope.lol = function(){
-    console.log('lol');
   }
   
   //load more pins when user scrolls down to a certain point
@@ -77,11 +66,24 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   
   /* AJAX FUNCTIONS */
+  $scope.getfront = function(){
+    $scope.showPins = [];
+    gamepinService.getPinList(function(data){
+      $scope.gamePins = data.objects;
+      pinIndex = 0;
+      pinLimit = 10;
+      pinStop = 0;
+      loadFirst();
+    });
+  }
+  //getPinList
   //If doing facebook register, spawn modal with fb data prefilled
   $scope.catSearch = function(cat){
     gamepinService.categorySearch(cat ,function(data){
       $scope.showPins = [];
-      start = 0, interval = 20, stop = 0;
+      pinIndex = 0;
+      pinLimit = 10;
+      pinStop = 0;
       $scope.gamePins = data.objects;
       //temporary code
       for(var i = 0; i < $scope.gamePins.length; i++){
@@ -96,7 +98,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.textsearch = function(txt){
     gamepinService.textSearch(txt ,function(data){
       $scope.showPins = [];
-      start = 0, interval = 20, stop = 0;
+      pinIndex = 0;
+      pinLimit = 10;
+      pinStop = 0;
       $scope.gamePins = data.objects;
       for(var i = 0; i < $scope.gamePins.length; i++){
         imgCount++;
@@ -112,6 +116,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //Called after our modals have loaded, do anything that needs to be done
   $scope.setupModals = function(){
+    $rootScope.setupPostContent();
     // If user returns from facebook authentication, prompt a register modal prefilled with facebook data
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
@@ -131,16 +136,13 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       
     //Pop notification if we just registered a new account successfully
     if(sessionStorage.registerAlert){
-      console.log(sessionStorage.registerAlert);
-      $rootScope.notify.message = sessionStorage.registerAlert;
-      $rootScope.popNotify();
+      $rootScope.popNotify(sessionStorage.registerAlert);
       sessionStorage.removeItem('registerAlert');
-      console.log(sessionStorage.registerAlert);
     }
   }
   $scope.addComment = function(text, index){
     //add the comment in the view
-    $scope.showPins[index].comments.push({posterName: $rootScope.userName, content: text});
+    $scope.showPins[index].comments.push({posterName: $rootScope.rootSettings.username, content: text, posterImg: $rootScope.avatarUrl});
     
     $http({ method:'post', url:'/api/gamepin/addComment',
       data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userId, posterName: $rootScope.userName, content: text} })
@@ -158,15 +160,25 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadFirst to load initial gamepins into view
   function loadFirst(){
-    for(stop = start + interval ;start < stop && start < $scope.gamePins.length; start++){
-      $scope.showPins.push($scope.gamePins[start]);
+    console.log('loadFirst');
+    for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
+      if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
+      else break;
     }
+    for(var i = 0; i < $scope.gamePins.length; i++){
+      imgCount++;
+      if(imgCount > 36)
+        imgCount = 1;
+      $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
+    }
+    $rootScope.remason();
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
-    for(stop = start + interval ;start < stop && start < $scope.gamePins.length; start++){
-      $scope.showPins.push($scope.gamePins[start]);
+    for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
+      if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
     }
+    //force delay so that we don't load too much too fast
     $timeout( function(){ $scope.flag = true }, 100 );
   }
   //test usage only
@@ -186,8 +198,24 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //affix subnav
 }
-
-function StoreController($scope, $rootScope, $http, $location, $templateCache){
+FrontController.resolve = {
+  resolveFront: function($q, $rootScope, gamepinService){
+    var deferred = $q.defer();
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      gamepinService.getPinList(function(data){
+        console.log(data);
+        if(data.objects){
+          deferred.resolve(data.objects);
+        }
+        else
+          deferred.reject("Error");
+      });
+    });
+    return deferred.promise;
+  }
+}
+function StoreController($scope, $rootScope, $http, $location, $templateCache, resolveStore){
   /* $scope wide variables, binded to view */
   $rootScope.css = 'store';
   $rootScope.title = 'front';
@@ -281,8 +309,18 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache){
     });
   }
 }
-
-function ProfileController($scope, $rootScope, $http, $location){
+StoreController.resolve = {
+  resolveStore: function($q, $rootScope, $location){
+    var deferred = $q.defer();
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      else if(!login) $location.path('/');
+      else deferred.resolve();
+    });
+    return deferred.promise;
+  }
+}
+function ProfileController($scope, $rootScope, $http, $location, resolveProfile){
   console.log('did we make it?');
   //redirect if not logged in
   //if(!$rootScope.loggedIn)
@@ -300,7 +338,7 @@ function ProfileController($scope, $rootScope, $http, $location){
                       email: null,
                       fbConnect: null,
                       favCat: null,
-                      profileImg: null,
+                      profileImg: "",
                       gender: null,
                       bio: null,
                       dateJoined: null,
@@ -361,7 +399,7 @@ function ProfileController($scope, $rootScope, $http, $location){
         $scope.profile.email = data.email;
         $scope.profile.fbConnect = data.fbConnect;
         $scope.profile.favCat = data.favCat;
-        $scope.profile.profileImg = data.profileImg || '/images/profile/csbiophoto.png';
+        $scope.profile.profileImg = data.profileImg || '/images/160x160.gif';
         $scope.profile.gender = data.gender;
         $scope.profile.bio = data.bio;
         $scope.profile.dateJoined = data.dateJoined;
@@ -383,18 +421,29 @@ function ProfileController($scope, $rootScope, $http, $location){
   // load full list of data into generic modal window in order to view all of it (scroll bar if list is long)
   // We can search for specific friends via Angularjs, withour relying on Riak
   $scope.listBadges = function(){
-    $('#genericModal').modal();
+    $('#viewList').modal();
   };
   $scope.listFollowing = function(){
-    $('#genericModal').modal();
+    $('#viewList_2').modal();
   };
   $scope.listFollowers = function(){
-    $('#genericModal').modal();
+    $('#viewList').modal();
   };
   
   $scope.getProfile();
 }
-function AboutController($scope, $rootScope, $http, $location){
+ProfileController.resolve = {
+  resolveProfile: function($q, $rootScope, $location){
+    var deferred = $q.defer();
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      else if(!login) $location.path('/');
+      else deferred.resolve();
+    });
+    return deferred.promise;
+  }
+}
+function AboutController($scope, $rootScope, $http, $location, resolveAbout){
   $rootScope.css = 'about';
   $rootScope.title = 'about';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -413,7 +462,18 @@ function AboutController($scope, $rootScope, $http, $location){
     });
   }
 }
-function SettingsController($scope, $rootScope, $http, $location, $templateCache){
+AboutController.resolve = {
+  resolveAbout: function($q, $rootScope, $location){
+    var deferred = $q.defer();
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      else if(!login) $location.path('/');
+      else deferred.resolve();
+    });
+    return deferred.promise;
+  }
+}
+function SettingsController($scope, $rootScope, $http, $location, $templateCache, resolveSettings){
   //redirect if not logged in
   if(!$rootScope.loggedIn)
     $location.path('/');
@@ -453,8 +513,9 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
       });
   }
   $scope.editSettings = function(){
+    console.log('editSettings');
     $http({ method: 'POST', url: 'api/editSettings', data:
-          { id: $rootScope.userId, settings: $scope.settings }})
+          { id: $rootScope.userId, settings: $rootScope.rootSettings }})
       .success(function(data, status, headers, config){
         if(data.error) console.log('error ' + data.error);
         if(data.success){
@@ -474,8 +535,19 @@ function SettingsController($scope, $rootScope, $http, $location, $templateCache
   }
   $scope.getSettings();
 }
+SettingsController.resolve = {
+  resolveSettings: function($q, $rootScope, $location){
+    var deferred = $q.defer();
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      else if(!login) $location.path('/');
+      else deferred.resolve();
+    });
+    return deferred.promise;
+  }
+}
 //Looking at another user's page
-function UserController($scope, $rootScope, $http, $location, $routeParams, beforeUser){
+function UserController($scope, $rootScope, $http, $location, $routeParams, resolveUser){
   $rootScope.css = 'profile';
   $rootScope.title = 'user';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -555,6 +627,60 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, befo
     });
   }
   $scope.getProfile();
+}
+UserController.resolve = {
+  resolveUser: function($q, $route, $rootScope, $location, $http){
+    var deferred = $q.defer();
+    var username = $route.current.params.username;
+    $rootScope.checkLogin(function(err, login){
+      if(err) deferred.reject(err);
+      //if user is not logged in, go home!
+      else if(!login) $location.path('/');
+      //if user is current user, redirect to profile page
+      else if($rootScope.rootSettings.username === username){
+          console.log('redirecting to profile');
+          $location.path('/profile');
+      }
+      else if(login){
+        //check to see if this user exists
+        $http({ method: 'POST', url: '/api/getUser',
+          data:{name: username}
+        })
+        .success(function(data, status, headers, config){
+          if(!data.exists) $location.path('/notfound');
+          else if(data.exists) deferred.resolve();
+        })
+        .error(function(data, status, headers, config){
+          console.log('AJAX error');
+          console.log(data);
+          $location.path('/notfound');
+        });
+      }
+      //deferred.resolve();
+    });
+    
+    /*if($rootScope.rootSettings.username === username){
+      console.log('redirecting to profile');
+      $location.path('/profile');
+    }
+    else{
+      $http({ method: 'POST', url: '/api/getUser',
+        data:{name: username}}
+      )
+      .success(function(data, status, headers, config){
+        deferred.resolve();
+      })
+      .error(function(data, status, headers, config){
+        console.log('User not found');
+        console.log(data);
+        $location.path('/notfound');
+      });
+      console.log('check if user reference exists');
+    }
+    //else
+    //  deferred.resolve();*/
+    return deferred.promise;
+  }
 }
 
 function TempController($scope, $rootScope, $http, $location, $routeParams){

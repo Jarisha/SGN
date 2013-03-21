@@ -3,19 +3,35 @@ var routes = require('./routes');
 var config = require('./config');
 var userApi = require('./routes/api/user');
 var gamepinApi = require('./routes/api/gamepin');
-var storepinApi = require('./routes/api/storepin');
+var utilApi = require('./routes/api/util');
 var passConfig = require('./pass_config');
 var riakConfig = require('./riak_config');
 var bcrypt = require('bcrypt-nodejs');
 var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
 var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
+var rackit = exports.rackit = require('rackit');
 
 //testing purposes only
 var util = require('./utility');
 
 //create app
 var app = exports.server = express();
+
+//create rackspace image, define name of container we will push images to
+rackit.init({
+  user: 'happyspace',
+  key: '1b5a100b899c44633dbda1aa93ea6237',
+  prefix: 'gamepin',
+  tempURLKey : null, // A secret for generating temporary URLs
+  useSNET : false,
+  useCDN : true,
+  useSSL : true, // Specifies whether to use SSL (https) for CDN links
+  verbose : false, // If set to true, log messages will be generated
+  logger : console.log // Function to receive log messages
+}, function(err){
+  if(err) console.log('error:' + err);
+});
 
 //configure riak
 //riakConfig.init();
@@ -55,6 +71,7 @@ app.configure(function(){
 app.configure('development', function(){
   riakConfig.init();
   app.locals.port = config.dev_port;
+  
   app.locals.rootPath = "http://" + config.dev_host + ':' + config.dev_port;
   //initialize passport
   passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
@@ -88,7 +105,6 @@ app.configure('production', function(){
 
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
-  console.log('alkdfjsalkdfja');
   res.render('base');
 });
 app.get('/store', function(req, res){
@@ -196,6 +212,7 @@ app.get('/api/logout', userApi.logout);
 app.post('/api/register', userApi.register);
 app.post('/api/register_2', userApi.register_2);
 app.get('/api/checkLogin', userApi.checkLogin);
+//app.post('/api/checkLogin', userApi.checkLogin);
 app.get('/api/getSettings', userApi.getSettings);
 app.post('/api/editSettings', userApi.editSettings);
 app.get('/api/deactivate', userApi.deactivate);
@@ -206,9 +223,16 @@ app.post('/api/getProfile', userApi.getProfile);
 app.post('/api/getPinList', userApi.getPinList);
 app.post('/api/categorySearch', userApi.categorySearch);
 app.post('/api/textSearch', userApi.textSearch);
+app.post('/api/getUser', userApi.getUser);
+app.post('/api/uploadAvatar', userApi.uploadAvatar);
+app.post('/api/changeAvatar', userApi.changeAvatar);
+
 
 //Gamepin
-app.post('/api/gamepin/post', gamepinApi.post);
+//app.post('/api/gamepin/postGamePin', gamepinApi.postGamePin);
+app.post('/api/gamepin/postImageUpload', gamepinApi.postImageUpload);
+app.post('/api/gamepin/postImageUrl', gamepinApi.postImageUrl);
+app.post('/api/gamepin/postYoutubeUrl', gamepinApi.postYoutubeUrl);
 app.post('/api/gamepin/edit', gamepinApi.edit);
 app.post('/api/gamepin/remove', gamepinApi.remove);
 app.post('/api/gamepin/getComments', gamepinApi.getComments);
@@ -218,6 +242,11 @@ app.post('/api/gamepin/like', gamepinApi.like);
 app.post('/api/gamepin/share', gamepinApi.share);
 app.post('/api/gamepin/search', gamepinApi.search);
 
+//misc
+app.post('/api/util/validImg', utilApi.validImg);
+app.post('/api/util/validVideo', utilApi.validVideo);
+         
+         
 //Route to 404 Page if not served
 app.get('*', function(req, res){
   return res.send('Page Not Found');

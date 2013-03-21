@@ -4,8 +4,9 @@ var config = require('../../config');
 var util = require('../../utility');
 var app = require('../../app');
 
-//Checks if user is logged in. Called on every angularjs infused page.
+//Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
+  if(!req.session) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
   if(req.session){
     if(req.session.newUser) req.session.newUser = null;
@@ -14,12 +15,8 @@ exports.checkLogin = function(req, res){
 		return res.json({
 			loggedIn: true,
       userId: req.session.loggedIn,
-      userName: req.session.userName
-		});
-	}
-	else{
-		return res.json({
-			loggedIn: false,
+      userName: req.session.userName,
+      avatarImg: req.session.avatarUrl
 		});
 	}
 }
@@ -44,7 +41,7 @@ exports.facebookRegister = function(req, res){
   }
 }
 
-// Login: Set session given correct params 
+// Login: Set session given correct params
 exports.login = function(req, res){
   // Prompt error if we are already logged in (client should prevent this from happening)
   if(req.session.loggedIn){
@@ -78,14 +75,17 @@ exports.login = function(req, res){
 				return res.json({ login: false, error: 'Wrong password.' })
 			}
       //log in
+      console.log(obj.data);
       req.session.loggedIn = obj.data.email;
       req.session.userEmail = obj.data.email;
       req.session.userName = obj.data.username;
+      req.session.avatarUrl = obj.data.profileImg;
       return res.json({
         login: true,
         userId: req.session.loggedIn,
         userEmail: req.session.userEmail,
-        userName: req.session.userName
+        userName: req.session.userName,
+        avatarUrl:  req.session.avatarUrl
       });
     });
 	}
@@ -150,7 +150,8 @@ exports.register = function(req, res){
       email: req.body.email,
       name: req.body.name,
       fbConnect: req.body.fbConnect,
-      passHash: hash
+      passHash: hash,
+      avatarImg: null
     };
 		return res.json({
 			register: true
@@ -164,6 +165,7 @@ exports.register_2 = function(req, res){
       newName = req.session.newUser.name,
       newHash = req.session.newUser.passHash,
       newFbConnect = req.session.newUser.fbConnect,
+      newAvatarUrl = req.session.newUser.avatarImg,
 			favCategories = [],
       dayJoined = util.getDate();
     //set fav_categories
@@ -176,7 +178,7 @@ exports.register_2 = function(req, res){
                 username: newName,
                 fbConnect: newFbConnect,
                 favCat: favCategories,
-                profileImg: '',
+                profileImg: newAvatarUrl,
                 gender: null,
                 bio:null,
                 dateJoined: dayJoined,
@@ -206,6 +208,7 @@ exports.register_2 = function(req, res){
           req.session.loggedIn = saved.data.email;
           req.session.userName = saved.data.username;
           req.session.userEmail = saved.data.email;
+          req.session.avatarUrl = saved.data.profileImg;
           console.log(req.session.userName + 'Registered and logged In');
           next();
         });
@@ -268,13 +271,13 @@ exports.register_2 = function(req, res){
       }
     });
   }
-  //store email -> username into table for easy reference
+  //store email -> {username, profileImg} into bucket for easy reference
   function next3(){
-    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, {username: newName});
+    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, {username: newName, imgUrl: newUser.profileImg});
     usr_ref.save(function(err, obj){
       console.log('user Reference saved!');
       console.log(obj);
-      return res.json({register: true});
+      return res.json({register: true, userData: newUser});
     });
   }
 }
@@ -283,7 +286,6 @@ exports.register_2 = function(req, res){
 exports.getSettings = function(req, res){
   app.riak.bucket('users').objects.get(req.session.userEmail, function(err, obj){
     if(err) return res.json({ error: 'User not found: ' + err });
-    console.log(obj.data);
     return res.json({
       email: obj.data.email,
       username: obj.data.username,
@@ -301,13 +303,13 @@ exports.editSettings = function(req, res){
       error: 'Email or Username is blank'
     });
   }
+  console.log('EDITSETTINGS');
   console.log(req.body);
   //get current user object
   var user = app.riak.bucket('users').objects.new(req.body.settings.email);
   var oldName;
   //need to refresh navbar if user changes name
   user.fetch(function(err, obj){
-    console.log(obj);
     //update settings & possibly session
     if(req.body.settings.email) obj.data.email = req.body.settings.email;
     obj.data.bio = req.body.settings.bio;
@@ -318,7 +320,8 @@ exports.editSettings = function(req, res){
       req.session.userName = req.body.settings.username;
       //if username is changed, we need to change the reference table
       var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email,
-                                                                {username: req.body.settings.username});
+                                                                {username: req.body.settings.username,
+                                                                 imgUrl: req.session.avatarUrl});
       usr_ref.save(function(err, saved){
         console.log("userReference table updated: " + saved);
         next();
@@ -487,9 +490,15 @@ exports.getPinList = function(req, res){
   };
   //get list of pins in sorted order
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    console.log("Error:");
+    console.log(err);
+    console.log("Response:");
     if(err){
       console.log(err);
       return res.json({error: err});
+    }
+    if(response.response.numFound === 0){
+      return res.json({ objects: returnList });
     }
     objs = response.response.docs;
     var clock = 0;
@@ -497,13 +506,16 @@ exports.getPinList = function(req, res){
       (function(o){
         app.riak.bucket('userReference').objects.get(objs[o].fields.posterId, function(err, obj){
           var cmts = [];
+          //console.log(obj.data);
           //convert commments from string to proper array
           if(objs[o].fields.comments)
             cmts = objs[o].fields.comments.split(" ");
           pinMap[objs[o].id] = {  id: objs[o].id,
                                     category: objs[o].fields.category,
                                     description: objs[o].fields.description,
+                                    imageUrl: objs[o].fields.sourceUrl,
                                     poster: obj.data.username,
+                                    posterImg: obj.data.imgUrl,
                                     comments: []
                                   };
           //keep track of the comment's position so we dont have to sort later
@@ -545,7 +557,8 @@ exports.getPinList = function(req, res){
             }
             pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {};
             pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].posterName = obj.data.username;
-            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].id = cmt_objs[c].key
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].posterImg = obj.data.imgUrl;
+            pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].id = cmt_objs[c].key;
             pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].pin = cmt_objs[c].data.pin;
             pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].posterId = cmt_objs[c].data.posterId;
             pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]].content = cmt_objs[c].data.content;
@@ -556,7 +569,7 @@ exports.getPinList = function(req, res){
       }
       function next2(){
         //console.log(pinMap);
-        //for..in loop will iterate in the order that the elements were declared on the obj
+        //for..in loop will iterate in the order that the gamepins were declared on the obj
         //because riak search gives us an ordered list, we can rely on maintaining the order
         for(pin in pinMap){
           returnList.push(pinMap[pin]);
@@ -685,37 +698,69 @@ exports.textSearch = function(req, res){
   }
 }
 
-/*exports.getPinList = function(req, res){
+exports.getUser = function(req, res){
   console.log(req.body);
-  var interval = 20;
-  var page = req.body.page || 0;
-  console.log("page: " + page);
-  s = 0;
-  
-  var query = {
-    q: 'returnAll:y',
-    start: 0,
-    rows: 1000,
-    presort: 'key'
-  };
-  
-  //can search via category dropdown OR search input
-  if(req.body.searchTerm){
-    console.log('search');
-    query.q = 'description:'+req.body.searchTerm;
-  }
-  else if(req.body.category){
-    console.log('search');
-    query.q = 'category:'+req.body.category;
-  }
-  //should have resolve function for any read including search
-  app.riak.bucket('gamepins').search.solr(query, function(err, response){
-    if(err){
-      console.log(err);
-      return res.json({error: err});
-    }
-    console.log(response.response.docs.length);
-    //console.log(response);
-    return res.json({ objects: response.response.docs, interval: interval });
+  app.riak.bucket('users').search.twoi(req.body.name, 'username', function(err, keys){
+    if(err) return res.json({error: "2i Error:" + err});
+    //key = keys[0];
+    console.log(err);
+    console.log(keys);
+    if(keys.length > 0) return res.json({ exists: true });
+    else return res.json({exists: false});
   });
-}*/
+}
+
+//change avatar image, outside of registration process.
+//we will change the session var, the user object, and user quick reference
+exports.changeAvatar = function(req, res){
+  if(!req.files.image){
+    return res.json({error: 'No image recieved by server'});
+  }
+  var url;
+  app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
+    if(err) return res.json({error: err});
+    url = app.rackit.getURI(cloudpath);
+    req.session.avatarUrl = url;
+    next();
+  });
+  //update the user
+  function next(){
+    app.riak.bucket('users').objects.get(req.session.loggedIn, util.user_resolve, function(err, obj){
+      if(err) return res.json({error: err});
+      util.clearChanges(obj);
+      obj.data.profileImg = url;
+      obj.save(function(err, saved){
+        if(err) return res.json({error: err});
+        next2();
+      });
+    });
+  }
+  //update the user quickreference
+  function next2(){
+    app.riak.bucket('userReference').objects.get(req.session.loggedIn, function(err, obj){
+      if(err) return res.json({error: err});
+      obj.data.imgUrl = url;
+      obj.save(function(err, saved){
+        if(err) return res.json({error: err});
+        return res.json({success: "Avatar changed successfully!"});
+      });
+    });
+  }
+}
+
+//upload avatar image, used for registration only
+exports.uploadAvatar = function(req, res){
+  if(!req.files.image){
+    return res.json({error: 'No image recieved by server'});
+  }
+  console.log(req.body);
+  console.log(req.files.image);
+  //Push content onto rackspace CDN, retreieve URL, set session.newUser.avatarImg
+  app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
+    if(err) return res.json({error: err});
+    var url = app.rackit.getURI(cloudpath);
+    //req.session.avatarImgUrl = app.rackit.getURI(cloudpath);
+    req.session.newUser.avatarImg = url;
+    return res.json({ success: true });
+  });
+}

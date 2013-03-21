@@ -9,6 +9,7 @@ $(document).ready(function(){
         console.log(data.register);
         console.log(postData);
         sessionStorage.registerAlert = "Registration Successful!";
+        console.log(data.userData);
         window.location = '/';
       }
       else if(error)
