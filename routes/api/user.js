@@ -6,7 +6,7 @@ var app = require('../../app');
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
-  if(!req.session) return res.json({ loggedIn: false });
+  if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
   if(req.session){
     if(req.session.newUser) req.session.newUser = null;
@@ -143,6 +143,7 @@ exports.register = function(req, res){
     }
     next();
   });
+  //check if another user with this name exists
 	function next(){
 		var hash = bcrypt.hashSync(req.body.password);
 		//save data into session so step 2 can use it to complete the registration
@@ -494,7 +495,7 @@ exports.getPinList = function(req, res){
     console.log(err);
     console.log("Response:");
     if(err){
-      console.log(err);
+      console.log("search.solr" + err);
       return res.json({error: err});
     }
     if(response.response.numFound === 0){
@@ -763,4 +764,92 @@ exports.uploadAvatar = function(req, res){
     req.session.newUser.avatarImg = url;
     return res.json({ success: true });
   });
+}
+
+//creates pending account
+exports.createPending = function(req, res){
+  console.log('createPending');
+  console.log(req.body);
+  
+  //validation
+  if(!req.body.email || !req.body.userName) return res.json({ error: "Missing fields" });
+  
+  var pending_data = {
+    email: req.body.email,
+    userName: req.body.userName
+  }
+  //create pending user
+  pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);
+  pend_usr.addToIndex('username', pending_data.userName);
+  pend_usr.save(function(err, saved){
+    if(err) return res.json({ error: "Save Pending User Error: " + err });
+    console.log('Pending user '+ saved.key +' saved');
+    return res.json({ success: "Submit Successful!" });
+  });
+}
+//accept pending account, create real account, email user tmp password
+exports.acceptPending = function(req, res){
+  console.log('acceptPending');
+  console.log(req.body);
+  return res.json({ success: true });
+}
+
+exports.rejectPending = function(req, res){
+  console.log('rejectPending');
+  console.log(req.body);
+  return res.json({ success: true });
+}
+
+//set real password, disabling temp password
+exports.setPassword = function(req, res){
+  console.log('setPassword');
+  console.log(req.body);
+  return res.json({ success: true });
+}
+
+//ensure that user name has not been taken
+exports.checkUniqueName = function(req, res){
+  console.log('checkUniqueName');
+  //validation
+  if(!req.body.userName) return res.json({error: "No Username Entered"});
+  
+  //check pending accounts to see if username exists
+  app.riak.bucket('pendingUsers').search.twoi(req.body.userName, 'username', function(err, keys){
+    if(err) return res.json({error: err});
+    if(keys){
+      if(keys.length !== 0) return res.json({error: "Username already exists"});
+      return next();
+    }
+  });
+  function next(){
+    //check registered accounts to see if username exists
+    app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
+      if(err) return res.json({error: err});
+      if(keys){
+        if(keys.length !== 0) return res.json({error: "Username already exists"});
+        return res.json({ success: true });
+      }
+    });
+  }
+}
+
+//ensure that user email has not been taken
+exports.checkUniqueEmail = function(req, res){
+  console.log('checkUniqueEmail');
+  if(!req.body.email) return res.json({error: "No Email Entered"});
+  console.log(req.body);
+  //check pending accounts to see if email exists
+  app.riak.bucket('pendingUsers').object.exists(req.body.email, function(err, result){
+    if(err) return res.json({ error: "Pending Email Exists Error: " + err });
+    if(result) return res.json({ error: "Pending Email already exists" });
+    if(!result) next();
+  });
+  function next(){
+    //check registered accounts to see if email exists
+    app.riak.bucket('users').object.exists(req.body.email, function(err, result){
+      if(err) return res.json({ error: "Registered Email Exists Error: " + err });
+      if(result) return res.json({ error: "Registerd Email already exists" });
+      if(!result) return res.json({ success: true });
+    });
+  }
 }

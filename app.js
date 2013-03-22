@@ -17,6 +17,8 @@ var util = require('./utility');
 
 //create app
 var app = exports.server = express();
+//global variable (copout!)
+var blocker = true;
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -106,6 +108,9 @@ app.configure('production', function(){
 //Routes will be handled client side, all routes are built from base
 app.get('/', function(req, res){
   res.render('base');
+});
+app.get('/banner', function(req, res){
+  res.render('banner');
 });
 app.get('/store', function(req, res){
   res.render('base');
@@ -227,6 +232,12 @@ app.post('/api/getUser', userApi.getUser);
 app.post('/api/uploadAvatar', userApi.uploadAvatar);
 app.post('/api/changeAvatar', userApi.changeAvatar);
 
+//alpha registration based api calls
+app.post('/api/pendingAccount', userApi.createPending);
+app.post('/api/acceptAccount', userApi.acceptPending);
+app.post('/api/setPassword', userApi.setPassword);
+app.post('/api/checkUniqueName', userApi.checkUniqueName);
+app.post('/api/checkUniqueEmail', userApi.checkUniqueEmail);
 
 //Gamepin
 //app.post('/api/gamepin/postGamePin', gamepinApi.postGamePin);
@@ -245,8 +256,7 @@ app.post('/api/gamepin/search', gamepinApi.search);
 //misc
 app.post('/api/util/validImg', utilApi.validImg);
 app.post('/api/util/validVideo', utilApi.validVideo);
-         
-         
+
 //Route to 404 Page if not served
 app.get('*', function(req, res){
   return res.send('Page Not Found');
