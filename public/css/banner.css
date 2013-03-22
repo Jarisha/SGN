@@ -2,6 +2,12 @@ html{
   background-image: url("../images/UI/Q_gradient.png");
   background-size: 100%;
   min-width: 1200px;
+  font-family: 'Open Sans', sans-serif;
+  color: black;
+}
+p{
+  margin: 0;
+  padding: 0;
 }
 body{
   margin: 0;
@@ -9,23 +15,161 @@ body{
 }
 #center_container{
   width: 1000px;
-  background-color: rgba(0, 0, 255, 0.2);
+  /*background-color: rgba(0, 0, 255, 0.2);*/
+  /*border: 1px solid black;*/
   margin: auto;
   text-align: center;
-  /*background-image: url("../images/UI/Q_gradient.png")*/
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
+.Q_container{
+  border-bottom: 3px solid rgba(100, 100, 100 , .2);
+  -moz-background-clip: border;     /* Firefox 3.6 */
+	-webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
 .Q_Gateway_1{
-  margin-bottom:10px;
+  padding: 20px 0;
+  border-bottom: 3px solid rgba(100, 100, 100 , .2);
+  -moz-background-clip: border;     /* Firefox 3.6 */
+	-webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+  /*border-bottom: 3px solid black;*/
 }
 .Q_Gateway_2{
-  margin-bottom:10px;
+  padding: 20px 0;
+  border-bottom: 3px solid rgba(100, 100, 100 , .2);
+  -moz-background-clip: border;     /* Firefox 3.6 */
+	-webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 }
 .Q_Gateway_3{
-  margin-bottom:10px;
+  padding: 20px 0;
+  padding-right: 33px;
+  border-right: 3px solid rgba(100, 100, 100 , .2);
+  -moz-background-clip: border;     /* Firefox 3.6 */
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+  display: inline-block;
 }
 .Q_Gateway_4{
-  margin-bottom:10px;
+  padding: 20px 0;
+  padding-left: 30px;
+  display: inline-block;
 }
-.Q_Gateway_5{
-  margin-bottom:10px;
+.user_form_container{
+  height: 286px;
+  padding: 20px 33px 20px 0;
+  width:360px;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 3px solid rgba(100, 100, 100 , .2);
+  -moz-background-clip: border;     /* Firefox 3.6 */
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+.company_form_container{
+  padding: 20px 0 20px 30px;
+  width:360px;
+  display: inline-block;
+  vertical-align: top;
+}
+.company_form_container img, .user_form_container img{
+  margin-bottom: 10px;
+}
+#user_form, #company_form{
+}
+#user_form label, #company_form label, #login_form label{
+  font-weight: bold;
+  color: #8FC10F;
+}
+.form_group_email{
+  padding:5px;
+  text-align: left;
+  margin-bottom: 15px;
+}
+.form_group_username{
+  padding:5px;
+  text-align: left;
+  margin-bottom: 15px;
+  height: 20px;
+}
+.form_group_password{
+  padding:5px;
+  text-align: left;
+  margin-bottom: 15px;
+}
+label{
+  margin-right:5px;
+}
+input{
+  height: 20px;
+  padding:2px;
+}
+
+input#user_email, input#company_email, input#login_email{
+  width: 195px;
+}
+input#login_password{
+  width: 162px;
+}
+input#user_name{
+  width: 160px;
+}
+input#company_name{
+  width: 165px;
+  display: inline-block;
+  vertical-align: top;
+}
+label#company_label{
+  display: inline-block;
+  width: 80px;
+  line-height: 14px;
+}
+#user_form  > *{
+  /*display: inline-block; */
+}
+#login_form{
+  width:360px;
+  margin: auto;
+}
+.user_text, .company_text{
+  width: 300px;
+  height: 60px;
+  margin: auto;
+  font-size:12px;
+  color: #777777;
+  font-weight: bold;
+  text-align: center;
+}
+.login_text{
+  width: 400px;
+  height: 60px;
+  margin: auto;
+  font-size:12px;
+  color: #777777;
+  font-weight: bold;
+  text-align: center;
+}
+
+#user_submit{
+  background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
+  width: 162px;
+  height:30px;
+}
+#company_submit{
+  background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
+  width: 162px;
+  height:30px;
+}
+#login_submit{
+  background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
+  width: 162px;
+  height:30px;
+}
+.login_form_container{
+}
+.sign_in{
+  margin: 20px 0;
 }

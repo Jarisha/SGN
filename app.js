@@ -74,7 +74,7 @@ app.configure('development', function(){
   riakConfig.init();
   app.locals.port = config.dev_port;
   
-  app.locals.rootPath = "http://" + config.dev_host + ':' + config.dev_port;
+  app.locals.rootPath = "https://" + config.dev_host /*+ ':' + config.dev_port */;
   //initialize passport
   passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -88,20 +88,30 @@ app.configure('development', function(){
 app.configure('tony', function(){
   riakConfig.init();
   app.locals.port = config.tony_port;
-  app.locals.rootPath =  "http://" + config.tony_host + ':' + config.tony_port;
+  app.locals.rootPath =  "http://" + config.tony_host /* + ':' + config.tony_port */;
   console.log(app.locals.rootPath);
   //initialize passport
   passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   
   // Start server
-  app.listen(config.tony_port, function(){
+  app.listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
 });
 
 app.configure('production', function(){
   riakConfig.init();
+  app.locals.rootPath =  "http://" + config.production_host;
+  console.log(app.locals.rootPath);
+  //initialize passport
+  //passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  
+  // Start server
+  app.listen(80, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
   app.use(express.errorHandler());
 });
 
