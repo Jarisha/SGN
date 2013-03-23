@@ -53,13 +53,6 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "tazazaz",
-                          store : new RedisStore({ 
-                            host : config.redis_host,
-                          }),
-                          cookie: { maxAge: 86400000
-                                    }
-                          }));
   app.use(passConfig.passport.initialize());
   //app.use(passConfig.passport.session());
   //logging middleware
@@ -71,6 +64,13 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.use(express.session({ secret: "tazazaz",
+                          store : new RedisStore({ 
+                            host : config.redis_host,
+                          }),
+                          cookie: { maxAge: 86400000
+                                    }
+                          }));
   riakConfig.init();
   app.locals.port = config.dev_port;
   
@@ -86,6 +86,14 @@ app.configure('development', function(){
 });
 
 app.configure('tony', function(){
+  app.use(express.session({ secret: "tazazaz",
+                          store : new RedisStore({ 
+                            host : config.redis_host,
+                          }),
+                          cookie: { maxAge: 86400000
+                                    }
+                          }));
+  
   riakConfig.init();
   app.locals.port = config.tony_port;
   app.locals.rootPath =  "http://" + config.tony_host /* + ':' + config.tony_port */;
@@ -101,6 +109,13 @@ app.configure('tony', function(){
 });
 
 app.configure('production', function(){
+  app.use(express.session({ secret: "tazazaz",
+                          store : new RedisStore({ 
+                            host : config.production_redis_host,
+                          }),
+                          cookie: { maxAge: 86400000
+                                    }
+                          }));
   riakConfig.init();
   app.locals.rootPath =  "http://" + config.production_host;
   console.log(app.locals.rootPath);
