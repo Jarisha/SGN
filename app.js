@@ -9,7 +9,6 @@ var riakConfig = require('./riak_config');
 var bcrypt = require('bcrypt-nodejs');
 var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
-var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
 var rackit = exports.rackit = require('rackit');
 
 //testing purposes only
@@ -66,6 +65,7 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
   var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
@@ -89,6 +89,7 @@ app.configure('development', function(){
 });
 
 app.configure('tony', function(){
+  var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
   var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
@@ -113,6 +114,7 @@ app.configure('tony', function(){
 });
 
 app.configure('production', function(){
+  var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
   var nodeflake_host = exports.nodeflake_host = '127.0.0.1';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
