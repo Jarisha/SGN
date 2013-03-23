@@ -20,6 +20,8 @@ var app = exports.server = express();
 //global variable (copout!)
 var blocker = true;
 
+var nodeflake_host;
+
 //create rackspace image, define name of container we will push images to
 rackit.init({
   user: 'happyspace',
@@ -64,6 +66,7 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.redis_host,
@@ -86,6 +89,7 @@ app.configure('development', function(){
 });
 
 app.configure('tony', function(){
+  var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.redis_host,
@@ -109,6 +113,7 @@ app.configure('tony', function(){
 });
 
 app.configure('production', function(){
+  var nodeflake_host = exports.nodeflake_host = '127.0.0.1';
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.production_redis_host,

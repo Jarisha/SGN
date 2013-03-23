@@ -549,7 +549,7 @@ var generateId = exports.generateId = function(callback){
   var ID_obj;
   //do GET request to nodeflake
   var options = {
-    host: config.nodeflake_host,
+    host: app.nodeflake_host,
     port: 1337,
     path: '/',
     method: 'GET',
