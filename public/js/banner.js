@@ -15,16 +15,43 @@ $(document).ready(function(){
     $('body').css('cursor', 'auto');
   });
   
+  $('#open').click(function(e){
+    $('#loginModal').modal('show');
+  });
+  $('#close').click(function(e){
+    $('#loginModal').modal('hide');
+  });
+  
+  $('#send_email').click(function(e){
+    console.log('yea');
+    
+    /*$.ajax({
+      type: 'post',
+      url: '/api/sendEmail',
+      data: 'email=' + 'dtonys@gmail.com',
+      success: function(data){
+        
+      },
+      error:  function(data){
+        console.log("AJAX error: " + data);
+      }
+    });*/
+  });
+  
   /** Intercept form submits and submit via AJAX, to avoid page reload **/
   $('#user_form').submit(function(e){
     console.log('user form submit');
     if(!validUserName || !validUserEmail) return false;
     $.ajax({
       type: 'post',
-      url: '/api/pendingAccount',
+      url: '/api/createPending',
       data: $(this).serialize(),
       success: function(data){
         console.log(data);
+        $('.user_alert').removeClass('hidden');
+        setTimeout(function(){
+          $('.user_alert').fadeOut('slow', function() {});
+        }, 5000);
       },
       error: function(data){
         consoe.log("AJAX error:" + data);
@@ -37,10 +64,14 @@ $(document).ready(function(){
     if(!validCompanyName || !validCompanyEmail) return false;
     $.ajax({
       type: 'post',
-      url: '/api/pendingAccount',
-      data: $(this).serialize(),
+      url: '/api/createPending',
+      data: $(this).serialize() + '&company=true',
       success: function(data){
         console.log(data);
+        $('.company_alert').removeClass('hidden');
+        setTimeout(function(){
+          $('.company_alert').fadeOut('slow', function() {});
+        }, 5000);
       },
       error: function(data){
         console.log("AJAX error:" + data);
@@ -56,9 +87,10 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: function(data){
         console.log(data);
+        window.location = '/';
       },
       error: function(data){
-        consoe.log("AJAX error:" + data);
+        console.log("AJAX error:" + data);
       }
     });
     return false;
@@ -72,8 +104,15 @@ $(document).ready(function(){
       return true;
     }
     checkUniqueName($(this).val(), function(err, data){
-      if(err) validCompanyName = false;
-      if(data) validCompanyName = true;
+      if(err){
+        validCompanyName = false;
+        $('#company_name').next().text("Taken");
+      }
+      if(data){
+        validCompanyName = true;
+        $('#company_name').next().text("Available");
+        $()
+      }
     });
   });
   $('#company_email').blur(function(e){
@@ -84,8 +123,14 @@ $(document).ready(function(){
       return true;
     }
     checkUniqueEmail($(this).val(), function(err, data){
-      if(err) validCompanyEmail = false;
-      if(data) validCompanyEmail = true;
+      if(err){
+        $('#company_email').next().text("Taken");
+        validCompanyEmail = false;
+      }
+      if(data){
+        $('#company_email').next().text("Available");
+        validCompanyEmail = true;
+      }
     });
   });
   $('#user_name').blur(function(e){
@@ -96,8 +141,14 @@ $(document).ready(function(){
       return true;
     }
     checkUniqueName($(this).val(), function(err, data){
-      if(err) validUserName = false;
-      if(data) validUserName = true;
+      if(err){
+        $('#user_name').next().text("Taken");
+        validUserName = false;
+      }
+      if(data){
+        $('#user_name').next().text("Available");
+        validUserName = true;
+      }
     });
   });
   $('#user_email').blur(function(e){
@@ -108,8 +159,14 @@ $(document).ready(function(){
       return true;
     }
     checkUniqueEmail($(this).val(), function(err, data){
-      if(err) validUserEmail = false;
-      if(data) validUserEmail = true;
+      if(err){
+        $('#user_email').next().text("Taken");
+        validUserEmail = false;
+      }
+      if(data){
+        $('#user_email').next().text("Available");
+        validUserEmail = true;
+      }
     });
   });
   

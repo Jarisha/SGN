@@ -158,9 +158,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.loggedIn = false;
           $rootScope.rootSettings.username = null;
           $location.path('/');
-          console.log("logout remason");
-          $rootScope.popNotify('You are now logged out.');
-          $timeout( function(){ $rootScope.remason(); }, 100 );
+          window.location = '/';
+          //console.log("logout remason");
+          //$rootScope.popNotify('You are now logged out.');
+          //$timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.logout && data.error){
           console.log(data.error);

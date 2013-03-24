@@ -9,9 +9,37 @@ p{
   margin: 0;
   padding: 0;
 }
+.hidden{
+  display: none;
+}
+
 body{
   margin: 0;
   padding: 0;
+}
+#company_form .form_group_username .alert{
+  position: relative;
+  bottom: 7px;
+}
+.alert{
+  padding-left: 5px;
+}
+
+.user_alert{
+  margin-left: 10px;
+  color: #8FC10F;
+  font-weight: bold;
+  position: absolute;
+  top: 283px;
+  left: 260px;
+}
+.company_alert{
+  margin-left: 10px;
+  color: #8FC10F;
+  font-weight: bold;
+  position: absolute;
+  top: 283px;
+  left: 290px;
 }
 #center_container{
   width: 1000px;
@@ -68,12 +96,14 @@ body{
   -moz-background-clip: border;     /* Firefox 3.6 */
   -webkit-background-clip: padding-box; /* for Safari */
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+  position: relative;
 }
 .company_form_container{
   padding: 20px 0 20px 30px;
   width:360px;
   display: inline-block;
   vertical-align: top;
+  position: relative;
 }
 .company_form_container img, .user_form_container img{
   margin-bottom: 10px;
@@ -157,16 +187,19 @@ label#company_label{
   background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
   width: 162px;
   height:30px;
+  cursor: pointer;
 }
 #company_submit{
   background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
   width: 162px;
   height:30px;
+  cursor: pointer;
 }
 #login_submit{
   background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
   width: 162px;
   height:30px;
+  cursor: pointer;
 }
 .login_form_container{
 }

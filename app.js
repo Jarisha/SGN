@@ -10,6 +10,7 @@ var bcrypt = require('bcrypt-nodejs');
 var winston = require('winston');
 var RedisStore = require('connect-redis')(express);
 var rackit = exports.rackit = require('rackit');
+var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 
 //testing purposes only
 var util = require('./utility');
@@ -138,11 +139,20 @@ app.configure('production', function(){
 });
 
 //Routes will be handled client side, all routes are built from base
-app.get('/', function(req, res){
-  res.render('base');
-});
 app.get('/banner', function(req, res){
   res.render('banner');
+});
+
+//If user is not logged in, redirect to banner page
+app.get('*', function(req, res, next){
+  if(!req.session.loggedIn){
+    return res.redirect('/banner');
+  }
+  console.log('passing through');
+  next();
+});
+app.get('/', function(req, res){
+  res.render('base');
 });
 app.get('/store', function(req, res){
   res.render('base');
@@ -245,6 +255,9 @@ app.get('/user/:user', function(req, res){
 app.get('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/login', userApi.login);
+//
+app.post('/api/gatewayLogin', userApi.gatewayLogin);
+//
 app.get('/api/logout', userApi.logout);
 app.post('/api/register', userApi.register);
 app.post('/api/register_2', userApi.register_2);
@@ -264,8 +277,10 @@ app.post('/api/getUser', userApi.getUser);
 app.post('/api/uploadAvatar', userApi.uploadAvatar);
 app.post('/api/changeAvatar', userApi.changeAvatar);
 
+app.post('/api/sendEmail', userApi.sendEmail);
+
 //alpha registration based api calls
-app.post('/api/pendingAccount', userApi.createPending);
+app.post('/api/createPending', userApi.createPending);
 app.post('/api/acceptAccount', userApi.acceptPending);
 app.post('/api/setPassword', userApi.setPassword);
 app.post('/api/checkUniqueName', userApi.checkUniqueName);

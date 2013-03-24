@@ -40,6 +40,57 @@ exports.facebookRegister = function(req, res){
     });
   }
 }
+//Login via gateway, identical to login except for body params
+exports.gatewayLogin = function(req, res){
+  console.log(req.body);
+  // Prompt error if we are already logged in (client should prevent this from happening)
+  if(req.session.loggedIn){
+    return res.json({
+      login: false,
+      error: 'Login Failed: User already logged in'
+    });
+  }
+  
+  //validation.  TODO: more rigorous validations
+  if(!req.body.email) return res.json({login: false, error: 'Invalid email entered'});
+  if(!req.body.password) return res.json({login: false, error: 'Invalid password entered'});
+	//check if email exists in db
+  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
+    if(err) return res.json({login: false, error: 'Error: ' +  err});
+    if(!exists){
+      console.log('Does not exist!');
+      return res.json({login: false, error: 'Email not found in db'});
+    }
+    return next();
+  });
+	function next(){
+    //get user
+    var user = app.riak.bucket('users').objects.new(req.body.email);
+    user.fetch(util.user_resolve, function(err, obj){
+      console.log(err);
+      util.clearChanges(obj);
+      
+      //check password
+      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
+				return res.json({ login: false, error: 'Wrong password.' })
+			}
+      //log in
+      console.log(obj.data);
+      req.session.loggedIn = obj.data.email;
+      req.session.userEmail = obj.data.email;
+      req.session.userName = obj.data.username;
+      req.session.avatarUrl = obj.data.profileImg;
+      return res.json({
+        login: true,
+        userId: req.session.loggedIn,
+        userEmail: req.session.userEmail,
+        userName: req.session.userName,
+        avatarUrl:  req.session.avatarUrl
+      });
+    });
+	}
+}
+
 
 // Login: Set session given correct params
 exports.login = function(req, res){
@@ -776,8 +827,12 @@ exports.createPending = function(req, res){
   
   var pending_data = {
     email: req.body.email,
-    userName: req.body.userName
+    userName: req.body.userName,
+    company: req.body.company || false
   }
+  
+  console.log(pending_data);
+  
   //create pending user
   pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);
   pend_usr.addToIndex('username', pending_data.userName);
@@ -852,4 +907,31 @@ exports.checkUniqueEmail = function(req, res){
       if(!result) return res.json({ success: true });
     });
   }
+}
+
+exports.sendEmail = function(req, res){
+  console.log('sendEmail');
+  var uid;
+  /*util.generateId(function(id){
+    uid = id;
+    next();
+  });*/
+  /*function next(){
+    app.mandrill('messages/send', {
+      message: {
+        to: [{email: 'eddiew@slimstown.com '}, {email: 'dtonys@gmail.com'}],
+        from_email: 'info@quyay.com',
+        subject: "Email Sent from Mandrill",
+        text: "Hi Eddie.\n" +
+        "Adding node-mandrill to our package.json:\n" +
+        "https://github.com/jimrubenstein/node-mandrill \n" +
+        "Here have a nodeflake: " + uid + ". \n" +
+        "Using nodeflake to generate tmp passwords by the way. \n" +
+        "-Tony"
+      }
+    }, function(err, response){
+      if(err) console.log(JSON.stringify(err));
+      else console.log(response);
+    });
+  }*/
 }
