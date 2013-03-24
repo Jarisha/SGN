@@ -144,37 +144,52 @@ app.get('/banner', function(req, res){
 });
 
 //If user is not logged in, redirect to banner page
-app.get('*', function(req, res, next){
+/*app.get('*', function(req, res, next){
   if(!req.session.loggedIn){
     return res.redirect('/banner');
   }
   console.log('passing through');
   next();
-});
+});*/
 app.get('/', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   res.render('base');
 });
 app.get('/store', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   res.render('base');
 });
 app.get('/profile', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   res.render('base');
 });
 app.get('/settings', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   res.render('base');
 });
 app.get('/about', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   res.render('base');
 });
 app.get('/fbfail', function(req, res){
   res.send('facebook login failure');
 });
 //Page for Register Step 2: Choose categories you like.
-app.get('/register', function(req, res){
+/*app.get('/register', function(req, res){
   if(!req.session.newUser){ console.log('Registration Step 1 incomplete: Go home!'); return res.redirect('/');}
   res.render('register');
-});
-app.get('/logout', function(req, res){
+});*/
+/*app.get('/logout', function(req, res){
   console.log('destroying session');
   req.logout();
   req.session.destroy();  //actually log us out
@@ -215,16 +230,16 @@ app.get('/user/*', function(req, res){
 //TODO put regex to filter appropriately
 app.get('/page/*', function(req, res){
   return res.render('base');
-});
+});*/
 
-app.get('/category/*/*', function(req, res){
-  return res.render('base');
-});
+//app.get('/category/*/*', function(req, res){
+//  return res.render('base');
+//});
 
-app.get('/text/*/*', function(req, res){
-  return res.render('base');
-});
-
+//app.get('/text/*/*', function(req, res){
+//  return res.render('base');
+//});
+/*
 app.get('/settings', function(req, res){
   return res.render('base');
 });
@@ -241,12 +256,14 @@ app.post('/', function(req, res){
   console.log(req.body);
   console.log(req.form);
   console.log(req.files);
-});
+});*/
 
 //All view partials must be served
 app.get('/partials/:name', routes.partials);
 app.get('/user/:user', function(req, res){
-  console.log('boSS HOG');
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
   return res.render('base');
 });
 
