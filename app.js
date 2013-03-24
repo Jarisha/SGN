@@ -124,9 +124,9 @@ app.configure('tony', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   
   // Start server
-  http.createServer(app).listen(80, function(){
+  /*http.createServer(app).listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
+  });*/
   https.createServer(options, app).listen(443 ,function(){
     console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
@@ -153,9 +153,9 @@ app.configure('production', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   
   // Start server
-  http.createServer(app).listen(80, function(){
+  /*http.createServer(app).listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
+  });*/
   https.createServer(options, app).listen(443 ,function(){
     console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
