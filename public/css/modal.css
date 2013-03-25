@@ -198,6 +198,12 @@
 #editSettings input{
   width: 70%;
 }
+#editSettings label.pswd{
+  width: 40%;
+}
+#editSettings input.pswd{
+  width: 60%;
+}
 #editSettings .gender_label, #editSettings .gender_radio{
   display: inline;
   width: auto;

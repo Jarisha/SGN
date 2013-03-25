@@ -87,7 +87,11 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: function(data){
         console.log(data);
-        window.location = '/';
+        if(!data.login){
+          console.log('fail');
+          $('.login_alert').text(data.error);
+        }
+        else window.location = '/';
       },
       error: function(data){
         console.log("AJAX error:" + data);

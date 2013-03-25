@@ -9,6 +9,18 @@
   <script src="<%=rootPath%>/js/banner.js"></script>
 </head>
 <body>
+  <noscript>
+    <style>
+      #center_container { display: none; }
+    </style>
+    <p >Javascript is required to view Quyay, please enable javascript to view this page.</p>
+  </noscript>
+  <!--[if IE]>
+    <style>
+      #center_container { display: none; }
+    </style>
+    <p id="IE_alert"> We are currently working on support for Internet Explorer.  Please use Chrome or Firefox in the meantime.<p />
+  <![endif]-->
   <div id="center_container">
     <div class="Q_Gateway_1">
       <img src="<%=rootPath%>/images/UI/Q-Gateway-1.png" />
@@ -83,7 +95,7 @@
           If you did not recieve this email, please check your spam or junk mail folder. You
           may change it once you sign in</p>
         </div>
-        <input id="login_submit" type="submit" value="">
+        <input id="login_submit" type="submit" value=""><span class="login_alert"><span>
       </form>
     </div>
   </div>

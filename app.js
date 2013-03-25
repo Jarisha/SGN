@@ -165,6 +165,11 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+//Redirect HTTP to HTTPS
+app.get('http://www.quyay.com/:path', function(req, res){
+  res.redirect('https://www.quyay.com/' + req.params.path);
+});
+
 //Routes will be handled client side, all routes are built from base
 app.get('/banner', function(req, res){
   res.render('banner');

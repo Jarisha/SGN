@@ -12,7 +12,10 @@ p{
 .hidden{
   display: none;
 }
-
+noscript, #IE_alert{
+  margin: 10px;
+  text-align: center;
+}
 body{
   margin: 0;
   padding: 0;
@@ -40,6 +43,11 @@ body{
   position: absolute;
   top: 283px;
   left: 290px;
+}
+.login_alert{
+  left: 590px;
+  position: absolute;
+  top: 238px;
 }
 #center_container{
   width: 1000px;
@@ -202,6 +210,7 @@ label#company_label{
   cursor: pointer;
 }
 .login_form_container{
+  position: relative;
 }
 .sign_in{
   margin: 20px 0;

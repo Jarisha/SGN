@@ -108,6 +108,10 @@ hr {
   border: 1px solid #BBBBBB;
   margin: 0;
 }
+noscript{
+  margin: 10px;
+  text-align: center;
+}
 ul,
 li {
   list-style-type: none;
@@ -115,6 +119,10 @@ li {
 a,
 a:hover {
   text-decoration: none;
+}
+noscript, #IE_alert{
+  margin: 10px;
+  text-align: center;
 }
 p {
   padding: 0;
@@ -413,6 +421,7 @@ form{
 #profile_small {
   padding-right: 10px;
   width: 40px;
+  max-height: 165px;
 }
 #login_btn {
   width: 100px;
@@ -634,4 +643,9 @@ form{
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   border-radius: 10px;
   border: solid 2px black;
+}
+
+/* Enlarged Gamepin */
+.profile_img{
+  height: 30px;
 }

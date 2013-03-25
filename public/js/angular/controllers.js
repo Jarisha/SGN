@@ -17,7 +17,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   //console.log(beforeFront);
   /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
-  $rootScope.title = 'front';
+  //$rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
@@ -572,6 +572,31 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
                       friends: []
   };
   
+  $scope.dummyFollowers = [{img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'}];
+  
+  $scope.dummyFollowing = [{img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'},
+                           {img: $rootScope.rootPath + '/images/40x40.gif', name: 'dummy'}];
+  
+  $scope.samplePins = [{img: $rootScope.rootPath + '/images/game_images/images%20%281%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%282%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%283%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%284%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%285%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%286%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%287%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%288%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%289%29.jpg'},
+                       {img: $rootScope.rootPath + '/images/game_images/images%20%2810%29.jpg'}];
+  
   $scope.setup = function(){
     profileSetup($scope);
   }
@@ -627,6 +652,15 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
     });
   }
   $scope.getProfile();
+  $scope.listBadges = function(){
+    $('#viewList').modal();
+  };
+  $scope.listFollowing = function(){
+    $('#viewList_2').modal();
+  };
+  $scope.listFollowers = function(){
+    $('#viewList').modal();
+  };
 }
 UserController.resolve = {
   resolveUser: function($q, $route, $rootScope, $location, $http){

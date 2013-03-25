@@ -59,7 +59,7 @@ exports.gatewayLogin = function(req, res){
     if(err) return res.json({login: false, error: 'Error: ' +  err});
     if(!exists){
       console.log('Does not exist!');
-      return res.json({login: false, error: 'Email not found in db'});
+      return res.json({login: false, error: 'Email not registered'});
     }
     return next();
   });
@@ -110,7 +110,7 @@ exports.login = function(req, res){
     if(err) return res.json({login: false, error: 'Error: ' +  err});
     if(!exists){
       console.log('Does not exist!');
-      return res.json({login: false, error: 'Email not found in db'});
+      return res.json({login: false, error: 'Email not registered'});
     }
     return next();
   });
@@ -347,7 +347,7 @@ exports.getSettings = function(req, res){
   });
 }
 
-// editSettings 
+// editSettings
 exports.editSettings = function(req, res){
   //validate user input
   if(!(req.body.settings.email && req.body.settings.username)){
@@ -355,6 +355,15 @@ exports.editSettings = function(req, res){
       error: 'Email or Username is blank'
     });
   }
+  var changePass = false;
+  if((req.body.settings.changePass && req.body.settings.changeConfirm) &&
+     (req.body.settings.changePass === req.body.settings.changeConfirm) ){
+    changePass = true;
+  }
+  else if(req.body.settings.changePass !== req.body.settings.changeConfirm){
+    return res.json({error: 'Confirm does not match Passowrd'});
+  }
+  
   console.log('EDITSETTINGS');
   console.log(req.body);
   //get current user object
@@ -362,7 +371,11 @@ exports.editSettings = function(req, res){
   var oldName;
   //need to refresh navbar if user changes name
   user.fetch(function(err, obj){
-    //update settings & possibly session
+    //update password if change password conditions are correct
+    if(changePass){
+      obj.data.passHash = bcrypt.hashSync(req.body.settings.changePass);
+    }
+    //update settings & session data
     if(req.body.settings.email) obj.data.email = req.body.settings.email;
     obj.data.bio = req.body.settings.bio;
     if(req.body.settings.gender) obj.data.gender = req.body.settings.gender;
@@ -386,7 +399,10 @@ exports.editSettings = function(req, res){
       obj.addToIndex('username', req.body.settings.username);
       obj.save(function(err, obj){
         console.log('Settings saved');
-        return res.json({ success: true, username: obj.data.username });
+        if(changePass){
+          return res.json({ success: true, username: obj.data.username, notify: "Settings Saved and Password updated!" });
+        }
+        return res.json({ success: true, username: obj.data.username, notify: "Settings Saved!" });
       });
     }
   });

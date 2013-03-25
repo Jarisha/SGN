@@ -444,13 +444,19 @@
   <div class="modal-body">
     <form id="editSettings">
       <p class="error hidden" >Error: Somewhat set us up the bomb!</p>
-       <div class="modal_stack edit_field">
+       <!--<div class="modal_stack edit_field">
         <div class="modal_slice reset_password">
           <button type="button" disabled>Reset Password</button>
         </div>
         <div class="modal_slice deactivate_account">
           <button type="button" disabled>Deactivate Account</button>
         </div>
+      </div>-->
+      <div class="modal_stack edit_field">
+        <label class="pswd">Change Password</label><input class="pswd" type="password" ng-model="rootSettings.changePass"></input>
+      </div>
+      <div class="modal_stack edit_field">
+        <label class="pswd">Confirm Change</label><input class="pswd" type="password" ng-model="rootSettings.changeConfirm"></input>
       </div>
       <div class="modal_stack edit_field">
         <label>Email</label><input type="text" placeholder="Email" ng-model="rootSettings.email" disabled></input>

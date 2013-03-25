@@ -57,7 +57,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.something = 'blah';
   $rootScope.login = {email: null, password: null};
   $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
-  $rootScope.rootSettings = {email: null, username: null, gender: null, bio: null};
+  $rootScope.rootSettings = {email: null, username: null, gender: null, bio: null, changePass: null, changeConfirm: null };
   
   $rootScope.popModal = function(){
     $('#changeAvatar').modal();
@@ -310,7 +310,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         if(data.success){
           if(data.username){
             $rootScope.rootSettings.username = data.username;
-            $rootScope.popNotify('Settings Saved!');
+            $rootScope.popNotify(data.notify);
+            //$rootScope.popNotify('Settings Saved!');
           }
         }
       })
