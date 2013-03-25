@@ -118,15 +118,21 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   //trigger enlarged Gamepin
   $scope.viewBigPin = function(index){
     console.log($scope.showPins[index]);
+    $('.view_vid').empty();
     gamepinService.getPinData($scope.showPins[index].id, function(data){
-      console.log(data);
+      //console.log(data);
       $scope.bigPin.index = index;
       $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
-      console.log($scope.bigPin);
+      if($scope.bigPin.videoEmbed){
+        var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
+        videoIframe[0].width = "560";
+        videoIframe[0].height = "341";
+        $('.view_vid').append(videoIframe);
+      }
       $('#gamePinModal').modal({ dynamic: true });
       //then spawn modal $('#gamePinModal').modal({dynamic: true});
     });
@@ -394,6 +400,10 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
   //redirect if not logged in
   //if(!$rootScope.loggedIn)
   //  $location.path('/');
+  console.log(resolveProfile);
+  $scope.activityPins = resolveProfile.activity;
+  $scope.groupPins = resolveProfile.groups;
+  $scope.showPins = $scope.activityPins;
   
   $rootScope.css = 'profile';
   $rootScope.title = 'profile';
@@ -401,7 +411,8 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/profile_content';
-  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null}
+  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
+  $scope.groupToggle = false;
   
   $scope.profile = {  name: null,
                       email: null,
@@ -499,16 +510,63 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
     $('#viewList').modal();
   };
   
+  $scope.toggleCategories = function(){
+    console.log('showCategories');
+    if(!$scope.groupToggle){
+      console.log('show');
+      $('#view_groups .dropdown-menu').css('display', 'block');
+      $scope.groupToggle = true;
+    }
+    else{
+      console.log('hide');
+      $('#view_groups .dropdown-menu').css('display', 'none');
+      $scope.groupToggle = false;
+    }
+  }
+  $scope.showGroup = function(group){
+    console.log('fire the showGroup');
+    console.log(group);
+    $scope.showPins =  $scope.groupPins.groups[group];
+  }
+  
   $scope.getProfile();
 }
 ProfileController.resolve = {
-  resolveProfile: function($q, $rootScope, $location){
+  resolveProfile: function($q, $rootScope, $location, $http){
     var deferred = $q.defer();
+    var resultData = {};
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
-      else deferred.resolve();
+      else{
+        next();
+        //deferred.resolve();
+      }
     });
+    //get user Activity gamepin Data
+    function next(){
+      $http({ method: 'get', url:'/api/getActivity/' + $rootScope.rootSettings.username})
+      .success(function(data, status, headers, config){
+        if(data.error) deferred.reject(error);
+        resultData.activity = data.activity;
+        next2();
+      })
+      .error(function(data, status, headers, config){
+        deffered.reject(data);
+      });
+    }
+    //get user Group gamepin Data
+    function next2(){
+      $http({ method: 'get', url:'/api/getGroups/' + $rootScope.rootSettings.username})
+      .success(function(data, status, headers, config){
+        if(data.error) deferred.reject(error);
+        resultData.groups = data.groups;
+        deferred.resolve(resultData);
+      })
+      .error(function(data, status, headers, config){
+        deffered.reject(data);
+      });
+    }
     return deferred.promise;
   }
 }

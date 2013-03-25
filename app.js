@@ -317,8 +317,11 @@ app.post('/api/textSearch', userApi.textSearch);
 app.post('/api/getUser', userApi.getUser);
 app.post('/api/uploadAvatar', userApi.uploadAvatar);
 app.post('/api/changeAvatar', userApi.changeAvatar);
-
 app.post('/api/sendEmail', userApi.sendEmail);
+
+//Fetch Profile data
+app.get('/api/getActivity/:userName', userApi.getActivity);
+app.get('/api/getGroups/:userName', userApi.getGroups);
 
 //alpha registration based api calls
 app.post('/api/createPending', userApi.createPending);

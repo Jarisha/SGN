@@ -517,7 +517,6 @@ form{
   margin: 0;
   padding: 0;
   background: #DCDCDC;
-  min-width: 290px;
   top: 32px;
   border: 2px solid black;
   border-radius: 6px 6px 6px 6px;
@@ -544,6 +543,7 @@ form{
 .two_col_dropdown .col2 {
   width: 165px;
   float: left;
+  text-align: left;
 }
 .one_col_dropdown .col1 {
   width: 145px;

@@ -926,29 +926,99 @@ exports.checkUniqueEmail = function(req, res){
   }
 }
 
-exports.sendEmail = function(req, res){
-  console.log('sendEmail');
-  var uid;
-  /*util.generateId(function(id){
-    uid = id;
+//Get user activity, and then fetch those pins
+exports.getActivity = function(req, res){
+  console.log(req.params.userName);
+  var user_id;
+  var activityIds = [];
+  var activityMap = {};
+  //0: fetch userId via 2i
+  app.riak.bucket('users').search.twoi(req.params.userName, 'username', function(err, keys){
+    if(err) return res.json({error: "2i Error:" + err});
+    user_id = keys[0];
     next();
-  });*/
-  /*function next(){
-    app.mandrill('messages/send', {
-      message: {
-        to: [{email: 'eddiew@slimstown.com '}, {email: 'dtonys@gmail.com'}],
-        from_email: 'info@quyay.com',
-        subject: "Email Sent from Mandrill",
-        text: "Hi Eddie.\n" +
-        "Adding node-mandrill to our package.json:\n" +
-        "https://github.com/jimrubenstein/node-mandrill \n" +
-        "Here have a nodeflake: " + uid + ". \n" +
-        "Using nodeflake to generate tmp passwords by the way. \n" +
-        "-Tony"
-      }
-    }, function(err, response){
-      if(err) console.log(JSON.stringify(err));
-      else console.log(response);
+  });
+  //1: Get list of Ids
+  function next(){
+    app.riak.bucket('users').objects.get(user_id + '-activity', function(err, obj){
+      if(err) return res.json({error: "Fetch Activity Error: " + err});
+      activityIds = obj.data.evtIds;
+      //console.log(activityIds);
+      next2();
     });
-  }*/
+  }
+  //create Map and declare it in order of evIdList,
+  //we need to do this in order to establish the correct order
+  function next2(){
+    for(id in activityIds){
+      activityMap[activityIds[id]] = null;
+    }
+    //fetch gamepins + fill map
+    app.riak.bucket('gamepins').objects.get(activityIds, function(errs, objs){
+      if(errs) return res.json({error: "One or More activity objects not found"});
+      //if nodiak gives us a single object, convert that into an array with 1 element
+      if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
+        objs = [objs];
+      for(var o in objs){
+        activityMap[objs[o].key] = objs[o].data;
+      }
+      console.log(activityMap);
+      return res.json({activity: activityMap});
+    });
+  }
+}
+
+//get groups which contain gamepin IDs, then fetch those gamepins and return them
+//replace object containing IDs the actual object itself
+exports.getGroups = function(req, res){
+  console.log(req.params.userName);
+  var user_id;
+  var gamepinIds = [];
+  var groupIdMap = {};
+  var groupDataMap = {};
+  //0: fetch userId via 2i
+  app.riak.bucket('users').search.twoi(req.params.userName, 'username', function(err, keys){
+    if(err) return res.json({error: "2i Error:" + err});
+    user_id = keys[0];
+    next();
+  });
+  //get groups object, store all Ids into one big array, gamepinIds
+  function next(){
+    app.riak.bucket('users').objects.get(user_id + '-groups', function(err, obj){
+      if(err) return res.json({ error: "Fetch Group error:" +  err });
+      groupIdMap = obj.data;
+      console.log(groupIdMap);
+      //if object is empty return it right away with no additional fuss
+      if(!Object.keys(groupIdMap).length) return res.json({groups: {}});
+      //put all of the ids into one big list
+      for(cat in groupIdMap){
+        gamepinIds = gamepinIds.concat(groupIdMap[cat]);
+      }
+      //convert this data from map of arrays to map of maps (fun...:p)
+      //iterating through object
+      for(cat in groupIdMap){
+        var catArray = groupIdMap[cat];
+        groupDataMap[cat] = {};
+        //iterating through array, using for loop for clarity
+        for(var i = 0; i < catArray.length; i++){
+          groupDataMap[cat][catArray[i]] = null;
+        }
+      }
+      next2();
+    });
+  }
+  //Fetch the gamepins from the gamepinIds array, match their category with the group
+  function next2(){
+    app.riak.bucket('gamepins').objects.get(gamepinIds, function(errs, objs){
+      if(errs) return res.json({ error: "One or more group gamepins not found" });
+      //if nodiak gives us a single object, convert that into an array with 1 element
+      if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
+        objs = [objs];
+      //put the object into its proper place
+      for(var o in objs){
+        groupDataMap[objs[o].data.category][objs[o].key] = objs[o].data;
+      }
+      return res.json({groups: groupDataMap});
+    });
+  }
 }

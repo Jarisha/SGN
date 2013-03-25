@@ -34,7 +34,6 @@ angular.module('myApp.directives', [])
     };
   })
   .directive('sampleDone', function(version) {
-    var flag = true;
     return {
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.

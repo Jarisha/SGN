@@ -139,6 +139,9 @@
   text-align: center;
   background: grey;
 }
+.front .view_vid{
+  height: 341px;
+}
 .front .view_comment{
   padding: 10px 15px 0;
   margin: 0 -15px;

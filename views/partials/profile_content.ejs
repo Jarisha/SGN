@@ -42,7 +42,20 @@
     </div>
   </div>
   <div id="footer_container">
-    <div id="profile_footer"><div>Groups</div><div>My Posts</div><div>Liked Posts</div><div>Activity</div></div>
+    <div id="profile_footer">
+      <div id="view_groups" ng-click="toggleCategories()">Groups<b class="caret"></b>
+        <ul class="dropdown-menu two_col_dropdown">
+          <div class="col1">
+            <li ng-repeat="(key,val) in groupPins" ng-click="showGroup(key)">
+              <a href="#">{{ key }}</a>
+            </li>
+          </div>
+        </ul>
+      </div>
+      <div>My Posts</div>
+      <div>Liked Posts</div>
+      <div>Activity</div>
+    </div>
   </div>
 </div>
 <div id="badge_col">
@@ -57,7 +70,7 @@
     <a ng-repeat="following in dummyFollowing" href="/user/{{following.name}}"><img src="{{following.img}}"/></a>
   </div>
 </div>
-<div id="profile_data">
+<!--<div id="profile_data">
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in samplePins" class="game_pin" sample-done>
       <div class="game_options hidden">
@@ -77,6 +90,21 @@
         <img src="<%= rootPath %>/images/30x30.gif" class="profile_img" /><p
         class="post_text"><a ng-show="loggedIn" href="/user/user1"><b>Tony</b></a> onto Shooters</p>
       </div>
+    </div>
+  </div>
+</div>-->
+<div id="profile_data">
+  <div id="profile_data_inner" class="clearfix">
+    <div ng-repeat="pin in showPins" class="game_pin" sample-done>
+      <a class="view_trigger" ng-click="viewGamePin()">
+        <img class="game_img" src="{{pin.sourceUrl}}" width="220"/>
+      </a>
+      <div class="pin_footer">
+        <p class="game_description">{{pin.description}}</p>
+        <p class="game_attributes">
+          <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
+        </p>
+      <div>
     </div>
   </div>
 </div>

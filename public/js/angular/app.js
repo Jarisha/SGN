@@ -4,7 +4,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   console.log('app.config()');
   
-  //Router provides templateUrl that fills <body>, controller, and pre-routing logic 
+  //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/',  { templateUrl: 'partials/front',
                   controller: FrontController,

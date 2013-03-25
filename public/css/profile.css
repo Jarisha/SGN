@@ -40,6 +40,15 @@
   line-height: 30px;
   padding: 0 10px;
 }
+.profile .caret{
+  margin-top: 13px !important;
+}
+.profile #view_groups{
+  position: relative;
+}
+.profile .two_col_dropdown{
+  width: auto;
+}
 .profile #profile_footer > *:hover{
   color: white;
   padding: 0 10px;
@@ -112,6 +121,12 @@
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); 
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); */
+}
+
+.profile .pin_footer{
+  background: #EBEBEB;
+  margin: 0 -15px;
+  padding: 5px;
 }
 .profile .game_options{
   position:absolute;

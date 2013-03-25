@@ -74,7 +74,11 @@ exports.postImageUpload = function(req, res){
   
   //Push content onto rackspace CDN, retreieve URL
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
-    if(err) return res.json({error: err});
+    if(err){
+      console.log('rackspace erorr:');
+      console.log(err);
+      return res.json({error: err});
+    }
     var viewUrl = app.rackit.getURI(cloudpath);
     post_data.sourceUrl = viewUrl;
     post_data.cloudPath = cloudpath;
@@ -131,6 +135,8 @@ exports.postImageUrl = function(req, res){
   
   //generate some name for the file we will download
   util.generateId(function(id){
+    console.log('nodeflake ID:');
+    console.log(id);
     next(id);
   });
   
@@ -142,7 +148,9 @@ exports.postImageUrl = function(req, res){
                 app.temp_path + id + file_extension,
       function (error, result) {
         if (error) {
-          console.error('Error: ' + error);
+          console.error(' Download image from url Error: ' + error);
+          console.log(' Download image from url Error: ' + error);
+          console.log('error');
           return res.json({ error: error });
         } else {
           console.log('File downloaded at: ' + result.file);
@@ -155,11 +163,15 @@ exports.postImageUrl = function(req, res){
   //read the file into rackspace
   function next2(){
     app.rackit.add(imgPath, {type: content_type}, function(err, cloudpath){
-      if(err) return res.json({error: err});
+      if(err){
+        console.log("rackit.add error: ");
+        return res.json({error: err});
+      }
       var viewUrl = app.rackit.getURI(cloudpath);
       post_data.sourceUrl = viewUrl;
       post_data.cloudPath = cloudpath;
       postGamePin(post_data, function(err, data){
+        console.log("postGamePin error");
         if(err) return res.json({error: err});
         return res.json(data);
       });
