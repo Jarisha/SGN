@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 var https = require('https');
+var url = require('url');
 var fs = require('fs');
 var routes = require('./routes');
 var config = require('./config');
@@ -20,6 +21,7 @@ var util = require('./utility');
 
 //create app
 var app = exports.server = express();
+var httpApp = express();
 //global variable (copout!)
 var blocker = true;
 
@@ -87,7 +89,7 @@ app.configure('development', function(){
   riakConfig.init();
   app.locals.port = config.dev_port;
   
-  app.locals.rootPath = "https://" + config.dev_host /*+ ':' + config.dev_port */;
+  app.locals.rootPath = "http://" + config.dev_host /*+ ':' + config.dev_port */;
   //initialize passport
   passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -95,9 +97,9 @@ app.configure('development', function(){
   http.createServer(app).listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
-  https.createServer(options, app).listen(443 ,function(){
+  /*https.createServer(options, app).listen(443 ,function(){
     console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
+  });*/
   // Start server
   /*app.listen(config.dev_port, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
@@ -107,6 +109,7 @@ app.configure('development', function(){
 app.configure('tony', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
   var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
+  var temp_path = exports.temp_path = "C:/Users/Tony/AppData/Local/Temp/";
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.redis_host,
@@ -117,27 +120,27 @@ app.configure('tony', function(){
   
   riakConfig.init();
   app.locals.port = config.tony_port;
-  app.locals.rootPath =  "https://" + config.tony_host /* + ':' + config.tony_port */;
+  app.locals.rootPath =  "http://" + config.tony_host /* + ':' + config.tony_port */;
   console.log(app.locals.rootPath);
   //initialize passport
   passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  
-  // Start server
+
+  /*https.createServer(options, app).listen(443 ,function(){
+    console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });*/
   /*http.createServer(app).listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });*/
-  https.createServer(options, app).listen(443 ,function(){
-    console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
-  /*app.listen(80, function(){
+  app.listen(config.dev_port, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
+  });
 });
 
 app.configure('production', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
   var nodeflake_host = exports.nodeflake_host = '127.0.0.1';
+  var temp_path = exports.temp_path = "/tmp/";
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.production_redis_host,
@@ -146,28 +149,25 @@ app.configure('production', function(){
                                     }
                           }));
   riakConfig.init();
-  app.locals.rootPath =  "https://" + config.production_host;
+  app.locals.rootPath =  "http://" + config.production_host;
   console.log(app.locals.rootPath);
   //initialize passport
   //passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   
-  // Start server
-  /*http.createServer(app).listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
-  https.createServer(options, app).listen(443 ,function(){
+  /*https.createServer(options, app).listen(443 ,function(){
     console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
-  /*app.listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });*/
+  
+  http.createServer(app).listen(80, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
+  
   app.use(express.errorHandler());
 });
 
-//Redirect HTTP to HTTPS
-app.get('http://www.quyay.com/:path', function(req, res){
-  res.redirect('https://www.quyay.com/' + req.params.path);
+app.get('http://localhost', function(req, res){
+  console.log('hi');
 });
 
 //Routes will be handled client side, all routes are built from base
@@ -175,14 +175,6 @@ app.get('/banner', function(req, res){
   res.render('banner');
 });
 
-//If user is not logged in, redirect to banner page
-/*app.get('*', function(req, res, next){
-  if(!req.session.loggedIn){
-    return res.redirect('/banner');
-  }
-  console.log('passing through');
-  next();
-});*/
 app.get('/', function(req, res){
   if(!req.session.loggedIn){
     return res.render('banner');
@@ -348,6 +340,7 @@ app.post('/api/gamepin/editComment', gamepinApi.editComment);
 app.post('/api/gamepin/like', gamepinApi.like);
 app.post('/api/gamepin/share', gamepinApi.share);
 app.post('/api/gamepin/search', gamepinApi.search);
+app.post('/api/gamepin/getPinData', gamepinApi.getPinData);
 
 //misc
 app.post('/api/util/validImg', utilApi.validImg);

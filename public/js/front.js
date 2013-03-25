@@ -83,23 +83,23 @@ function frontSetup($scope, $rootScope, $http){
   
   /* View Pin */ 
   // Load image into enlarged pin upon click
-  $('.view_trigger').click(function(e){
+  /*$('.view_trigger').click(function(e){
     console.log($(this).children('.game_img').attr('src'));
     var img_src = $(this).children('.game_img').attr('src');
     $('#viewPinModal').find('.view_img').attr('src', img_src);
-  });
+  });*/
   
   // Show "Comment" button when textarea focused
   $('.view_respond_txtarea').focus(function(e){
     $(this).nextAll('.view_respond_btn').removeClass('hidden');
   });
   // Post comment
-  $('.view_respond_btn').click(function(e){
+  /*$('.view_respond_btn').click(function(e){
     var response = $.trim($(this).prevAll('.view_respond_txtarea').val());
     $(this).prevAll('.view_respond_txtarea').val('');
     $(this).parent().prev('.view_comment').after('<div class="view_comment"><img class="profile_img" src="<%= rootPath %>/images/50x50.gif"><p class="view_post_text">' + 
                                             '<b>User</b><br/>' + response + '</p></div>');
-  });
+  });*/
   $(document).on('mouseleave','#myCarousel', function(){
     $(this).carousel('pause');
   });

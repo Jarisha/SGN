@@ -137,9 +137,9 @@ exports.postImageUrl = function(req, res){
   function next(id){
     //download image from url, save to local /tmp folder
     console.log(id);
-    console.log(config.temp_path + id + '.jpg');
+    console.log(app.temp_path + id + '.jpg');
     httpGet.get(req.body.url,
-                config.temp_path + id + file_extension,
+                app.temp_path + id + file_extension,
       function (error, result) {
         if (error) {
           console.error('Error: ' + error);
@@ -152,7 +152,7 @@ exports.postImageUrl = function(req, res){
       }
     );
   }
-  
+  //read the file into rackspace
   function next2(){
     app.rackit.add(imgPath, {type: content_type}, function(err, cloudpath){
       if(err) return res.json({error: err});
@@ -352,6 +352,16 @@ exports.addComment = function(req, res){
       });
     });
   }
+}
+
+//Retrieve all data for a single gamepin
+exports.getPinData = function(req, res){
+  //req.pinId
+  app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){
+    if(err) return res.json({error: err});
+    util.clearChanges(obj);
+    return res.json({ gamepin: obj.data });
+  });
 }
 
 //editComment

@@ -766,6 +766,7 @@ exports.textSearch = function(req, res){
   }
 }
 
+//given username, see if user exists and return email if so
 exports.getUser = function(req, res){
   console.log(req.body);
   app.riak.bucket('users').search.twoi(req.body.name, 'username', function(err, keys){
@@ -773,7 +774,7 @@ exports.getUser = function(req, res){
     //key = keys[0];
     console.log(err);
     console.log(keys);
-    if(keys.length > 0) return res.json({ exists: true });
+    if(keys.length > 0) return res.json({ exists: true, email: keys[0] });
     else return res.json({exists: false});
   });
 }

@@ -62,6 +62,21 @@ angular.module('myApp.services', []).
             console.log('AJAX error');
           });
       },
+      getPinData: function(id, callback){
+        $http({ method: 'POST', url: $rootScope.rootPath +'/api/gamepin/getPinData', data:{pinId: id} })
+          .success(function(data, status, headers, config){
+            if(data.gamepin){
+              callback(data.gamepin);
+            }
+            else{
+              console.log("getPinList Error");
+              callback('error');
+            }
+          })
+          .error(function(data, status, headers, config){
+            console.log('AJAX error');
+          });
+      },
       categorySearch: function(cat, callback){
         $http({ method: 'POST', url: $rootScope.rootPath +'/api/categorySearch',
                 data: {category: cat} })

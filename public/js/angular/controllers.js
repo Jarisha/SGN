@@ -33,6 +33,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.flag = true;
   $scope.pinIndex = 0;
   $scope.pinInterval = 20;
+  
+  $scope.bigPin = {};
+                    
   var pinIndex = 0;
   var pinLimit = 10;
   var pinStop = 0;
@@ -112,6 +115,53 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     });
   }
   
+  //trigger enlarged Gamepin
+  $scope.viewBigPin = function(index){
+    console.log($scope.showPins[index]);
+    gamepinService.getPinData($scope.showPins[index].id, function(data){
+      console.log(data);
+      $scope.bigPin.index = index;
+      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      $scope.bigPin.gameName = data.gameName;
+      $scope.bigPin.publisher = data.publisher;
+      $scope.bigPin.datePosted = data.datePosted;
+      $scope.bigPin.videoEmbed = data.videoEmbed;
+      console.log($scope.bigPin);
+      $('#gamePinModal').modal({ dynamic: true });
+      //then spawn modal $('#gamePinModal').modal({dynamic: true});
+    });
+  }
+  
+  //follow user while looking at big Pin.  Need to fetch user id, then pass that to /api/follow
+  $scope.follow = function(targetName){
+    console.log('bigPin follow');
+    $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
+      .success(function(data, status, headers, config){
+        if(!data.exists) return;
+        console.log(data.email);
+        next(data.email);
+      })
+      .error(function(data, status, headers, config){
+        console.log("AJAX Error: " + data);
+        return;
+      });
+    function next(targetId){
+      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: targetId} })
+        .success(function(data, status, headers, config){
+          if(data.success){
+            console.log('Now following' + target);
+          }
+          if(data.error){
+            console.log(error);
+          }
+        })
+        .error(function(data, status, headers, config){
+          console.log('Error: ' + status);
+        }); 
+    }
+  }
+  
+  
   //Must do a POST, otherwise response is cached
   
   //Called after our modals have loaded, do anything that needs to be done
@@ -140,6 +190,24 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       sessionStorage.removeItem('registerAlert');
     }
   }
+  //add comment via the big Pin
+  $scope.addBigComment = function(text, index){
+    console.log($rootScope.avatarUrl);
+    $scope.bigPin.comments.push({ posterName: $rootScope.rootSettings.username, content: text, posterImg: $rootScope.avatarUrl });
+    $http({ method:'post', url:'/api/gamepin/addComment',
+      data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userId, posterName: $rootScope.userName, content: text} })
+      .success(function(data, status, headers, config){
+        console.log('post big comment success!');
+        $('textarea.view_respond_txtarea').val('');
+        //$scope.big_text = null;
+        $rootScope.remason();
+      })
+      .error(function(data, status, headers, config){
+        console.log('error');
+      });
+  }
+  
+  //add comment via the front page
   $scope.addComment = function(text, index){
     //add the comment in the view
     $scope.showPins[index].comments.push({posterName: $rootScope.rootSettings.username, content: text, posterImg: $rootScope.avatarUrl});
@@ -172,6 +240,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
     }
     $rootScope.remason();
+    console.log($scope.showPins[3]);
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){

@@ -86,6 +86,18 @@
 }
 .front .modal-header .profile_img{
   float:left;
+  height: 50px;
+  width: 50px;
+}
+.front .modal-body .profile_img{
+  float:left;
+  height: 40px;
+  width: 40px;
+}
+.front .modal-header .profile_img_top{
+  float:left;
+  height: 50px;
+  width: 50px;
 }
 .front .view_metadata, .front .view_tags{
   display: inline-block;
@@ -95,10 +107,11 @@
   padding-top:5px;
   background:grey;
   height:50px;
-  width:50%;
+  width:100%;
+  text-align: center;
 }
 .front .view_metadata > *{
-  margin-left:10px;
+  /*margin-left:70px;*/
 }
 .front .game_title{
   font-size:20px;
@@ -120,7 +133,7 @@
   font-size:18px;
 }
 .front .view_comment_container{
-  padding: 10px 15px;
+  padding: 0 15px 10px;
 }
 .front .view_img_container{
   text-align: center;
@@ -130,6 +143,13 @@
   padding: 10px 15px 0;
   margin: 0 -15px;
   border-top: 1px solid #FCFAFA;
+}
+.front .pin_description{
+  margin: 0 -15px;
+  background: #EBEBEB;
+  border-top: 1px solid #FCFAFA;
+  padding: 5px;
+  text-align: center;
 }
 .front .view_comment *{
   display:inline-block;
