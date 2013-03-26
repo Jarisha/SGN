@@ -54,6 +54,15 @@
     <script src="<%=rootPath%>/js/about.js"></script>
     <script src="<%=rootPath%>/js/settings.js"></script>
     <script src="<%=rootPath%>/js/profile.js"></script>
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-39585074-1', 'quyay.com');
+      ga('send', 'pageview');
+    </script>
     
 	</head>
   <body ng-view class="css">

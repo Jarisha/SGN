@@ -205,6 +205,12 @@ app.get('/about', function(req, res){
   }
   res.render('base');
 });
+app.get('/about/:about', function(req, res){
+  if(!req.session.loggedIn){
+    return res.render('banner');
+  }
+  res.render('base');
+});
 app.get('/fbfail', function(req, res){
   res.send('facebook login failure');
 });

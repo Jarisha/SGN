@@ -27,10 +27,14 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                       controller: AboutController,
                       resolve: AboutController.resolve
                     })
+    .when('/about/:area', {templateUrl: '../partials/about',
+                      controller: AboutController,
+                      resolve: AboutController.resolve})
     .when('/user/:username', {  templateUrl: '../partials/profile',
                       controller: UserController,
                       resolve: UserController.resolve
                     })
+
     .when('/notfound', {templateUrl: 'partials/not_found'})
     .otherwise({templateUrl: 'partials/not_found'});
     

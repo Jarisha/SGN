@@ -50,18 +50,17 @@
   </ul>
   <ul id="nav_right" class="nav">
     <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()">
-      <img id="profile_small" src="<%= rootPath %>/images/UI/POST_GREEN_effects.png" />
+      <img id="profile_post" src="<%= rootPath %>/images/UI/post.png" />
     </a></li>
     <li id="about_tab" class="dropdown">
       <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img id="profile_small" src="<%= rootPath %>/images/UI/Q_effects.png" /><b class="caret"></b>
+        <img id="profile_small" src="<%= rootPath %>/images/UI/about.png" />
       </a>
         <ul class="dropdown-menu active">
-          <li><a href="/about">Help</a></li>
-          <li><a href="/about">Contact</a></li>
-          <li><a href="/about">Terms of Service</a></li>
-          <li><a href="/about">Privacy Policy</a></li>
-          <li><a href="/about">Team</a></li>
+          <li><a href="/about/faq">FAQ</a></li>
+          <li><a href="/about/tos">Terms of Service</a></li>
+          <li><a href="/about/privacy">Privacy Policy</a></li>
+          <li><a href="/about/acceptable">Acceptable Use</a></li>
         </ul>
     </li>
     <!--<li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">

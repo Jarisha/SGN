@@ -5,6 +5,67 @@
 }
 /* General Layout */
 .about #content{
+  width: 1000px;
+  background: blue;
+  border:solid #99CC00 4px;
+  border-radius: 5px;
+}
+
+.about_slice{
+  width: 25%;
+  background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  height: 80px;
+  padding: 30px 15px;
+}
+.about_slice:hover{
+  cursor: pointer;
+}
+
+.faq_slice, .ToS_slice, .privacy_slice, .view_slice{
+  width: 25%;
+  background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  height: 80px;
+  padding: 30px 15px;
+}
+.faq_slice:hover, .ToS_slice:hover, .privacy_slice:hover, .view_slice:hover{
+  cursor: pointer;
+}
+
+.faq_slice{
+  background: #FDFDFD;
+  width: 100%;
+}
+.faq_Q, .faq_A{
+  background: #EBEBEB;
+  width: 100%;
+  text-align: left;
+}
+.faq_Q{
+  font-size:20px;
+  padding: 20px 20px 10px 20px;
+}
+.faq_A{
+  padding: 10px 10px 10px 20px;
+  background: #FDFDFD;
+}
+.for_users, .for_developers{
+  background: #EBEBEB;
+  border-bottom: none;
+  color: #99CC00;
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #333333;
+}
+.about_selected{
+  background: -moz-linear-gradient(center bottom , #EBEBEB, #B8B8B8);
+  color: black;
+  text-shadow: 2px 2px 2px white;
 }
 
 .about body{

@@ -657,11 +657,26 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout){
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/about_content';
+  $scope.section = $rootScope.rootPath + '/partials/faq';
   
   $scope.setup = function(){
     aboutSetup($scope);
   }
-  
+  $scope.viewFAQ = function(obj, $event){
+    console.log(obj);
+    obj.removeClass('about_selected');
+    //$('.about_selected').removeClass('about_selected');
+    $scope.section = $rootScope.rootPath + '/partials/faq';
+  }
+  $scope.viewToS = function(){
+    $scope.section = $rootScope.rootPath + '/partials/tos';
+  }
+  $scope.viewPrivacy = function(){
+    $scope.section = $rootScope.rootPath + '/partials/privacy';
+  }
+  $scope.viewAcceptable = function(){
+    $scope.section = $rootScope.rootPath + '/partials/acceptable';
+  }
   /* AJAX FUNCTIONS */
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){

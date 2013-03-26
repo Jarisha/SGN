@@ -357,7 +357,8 @@ form{
   height: 100%;
 }
 #about_toggle img {
-  width: 40px;
+  margin-top:5px;
+  width: 120px;
 }
 #about_dropdown {
   min-width: 100px;
@@ -428,7 +429,7 @@ form{
   right: 0;
   top:5px;
   border: 2px solid black;
-  top: 55px;
+  top: 50px;
 
   border-radius: 5px;
 }
@@ -437,7 +438,7 @@ form{
   height: 0;
   position: absolute;
   width: 0;
-  left: 5px;
+  left: 90px;
   top: -20px;
   border: 10px solid transparent;
   border-bottom-color: black;
@@ -459,6 +460,12 @@ form{
   padding-right: 10px;
   width: 40px;
   max-height: 165px;
+}
+#profile_post {
+  width: 120px;
+  padding-top:5px;
+  position: relative;
+  left:10px;
 }
 #login_btn {
   width: 100px;
