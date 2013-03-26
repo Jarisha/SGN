@@ -35,7 +35,7 @@ rackit.init({
   tempURLKey : null, // A secret for generating temporary URLs
   useSNET : false,
   useCDN : true,
-  useSSL : true, // Specifies whether to use SSL (https) for CDN links
+  useSSL : false, // Specifies whether to use SSL (https) for CDN links
   verbose : false, // If set to true, log messages will be generated
   logger : console.log // Function to receive log messages
 }, function(err){

@@ -650,7 +650,7 @@ UserController.resolve = {
   }
 }
 
-function AboutController($scope, $rootScope, $http, $location, resolveAbout){
+function AboutController($scope, $rootScope, $http, $location, resolveAbout, $routeParams){
   $rootScope.css = 'about';
   $rootScope.title = 'about';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -659,24 +659,59 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout){
   $scope.content = $rootScope.rootPath + '/partials/about_content';
   $scope.section = $rootScope.rootPath + '/partials/faq';
   
+  console.log($routeParams);
+  
   $scope.setup = function(){
     aboutSetup($scope);
   }
-  $scope.viewFAQ = function(obj, $event){
-    console.log(obj);
-    obj.removeClass('about_selected');
-    //$('.about_selected').removeClass('about_selected');
+  $scope.viewFAQ = function(){
+    $('.about_selected').removeClass('about_selected');
+    $('.faq_slice').addClass('about_selected');
     $scope.section = $rootScope.rootPath + '/partials/faq';
   }
   $scope.viewToS = function(){
+    $('.about_selected').removeClass('about_selected');
+    $('.tos_slice').addClass('about_selected');
     $scope.section = $rootScope.rootPath + '/partials/tos';
   }
   $scope.viewPrivacy = function(){
+    $('.about_selected').removeClass('about_selected');
+    $('.privacy_slice').addClass('about_selected');
     $scope.section = $rootScope.rootPath + '/partials/privacy';
   }
   $scope.viewAcceptable = function(){
+    $('.about_selected').removeClass('about_selected');
+    $('.view_slice').addClass('about_selected');
     $scope.section = $rootScope.rootPath + '/partials/acceptable';
   }
+  
+  switch($routeParams.area){
+    case 'faq':
+      $('.about_selected').removeClass('about_selected');
+      $('.faq_slice').addClass('about_selected');
+      $scope.section = $rootScope.rootPath + '/partials/faq';
+      $scope.viewFAQ();
+      break;
+    case 'tos':
+      $('.about_selected').removeClass('about_selected');
+      $('.tos_slice').addClass('about_selected');
+      $scope.section = $rootScope.rootPath + '/partials/tos';
+      $scope.viewToS();
+      break;
+    case 'privacy':
+      $('.about_selected').removeClass('about_selected');
+      $('.privacy_slice').addClass('about_selected');
+      $scope.section = $rootScope.rootPath + '/partials/privacy';
+      $scope.viewPrivacy();
+      break;
+    case 'acceptable':
+      $('.about_selected').removeClass('about_selected');
+      $('.view_slice').addClass('about_selected');
+      $scope.section = $rootScope.rootPath + '/partials/acceptable';
+      $scope.viewAcceptable();
+      break;
+  }
+  
   /* AJAX FUNCTIONS */
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){

@@ -23,8 +23,8 @@
 .about_slice:hover{
   cursor: pointer;
 }
-
-.faq_slice, .ToS_slice, .privacy_slice, .view_slice{
+/* FAQ area */
+.faq_slice, .tos_slice, .privacy_slice, .view_slice{
   width: 25%;
   background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
   color: white;
@@ -33,20 +33,17 @@
   height: 80px;
   padding: 30px 15px;
 }
-.faq_slice:hover, .ToS_slice:hover, .privacy_slice:hover, .view_slice:hover{
+.faq_slice:hover, .tos_slice:hover, .privacy_slice:hover, .view_slice:hover{
   cursor: pointer;
 }
 
-.faq_slice{
-  background: #FDFDFD;
-  width: 100%;
-}
 .faq_Q, .faq_A{
   background: #EBEBEB;
   width: 100%;
   text-align: left;
 }
 .faq_Q{
+  line-height: 25px;
   font-size:20px;
   padding: 20px 20px 10px 20px;
 }
@@ -62,6 +59,37 @@
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
 }
+
+/* TOS Area */
+.tos_stack{
+  background: #EBEBEB;
+  padding: 20px 10px;
+}
+.tos_stack b{
+    font-size:18px;
+}
+.tos_element{
+  width: 50%;
+  padding: 20px 10px;
+  text-align: left;
+  height: 400px;
+  overflow: auto;
+  border-bottom: 1px solid #B8B8B8;
+}
+.tos_left{
+  background: #EBEBEB;
+}
+.tos_right{
+  background: #FDFDFD;
+}
+.tos_left b{
+  font-size: 20px;
+}
+.tos_right p{
+  font-size: 20px;
+  line-height: 30px;
+}
+
 .about_selected{
   background: -moz-linear-gradient(center bottom , #EBEBEB, #B8B8B8);
   color: black;
