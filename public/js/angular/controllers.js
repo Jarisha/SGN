@@ -559,7 +559,7 @@ ProfileController.resolve = {
     function next2(){
       $http({ method: 'get', url:'/api/getGroups/' + $rootScope.rootSettings.username})
       .success(function(data, status, headers, config){
-        if(data.error) deferred.reject(error);
+        if(data.error) deferred.reject(data.error);
         resultData.groups = data.groups;
         deferred.resolve(resultData);
       })

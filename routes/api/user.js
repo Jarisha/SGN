@@ -1010,7 +1010,10 @@ exports.getGroups = function(req, res){
   //Fetch the gamepins from the gamepinIds array, match their category with the group
   function next2(){
     app.riak.bucket('gamepins').objects.get(gamepinIds, function(errs, objs){
-      if(errs) return res.json({ error: "One or more group gamepins not found" });
+      if(errs){
+        //return res.json({ error: "One or more group gamepins not found: "});
+        console.log(errs);
+      }
       //if nodiak gives us a single object, convert that into an array with 1 element
       if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
         objs = [objs];
