@@ -69,16 +69,16 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
-    console.log('Route Change Started!  ... retreiving session data from server');
+    //console.log('Route Change Started!  ... retreiving session data from server');
   });
   $rootScope.$on("$routeChangeSuccess", function(event, next, current){
-    console.log('Route Change Success!');
+    //console.log('Route Change Success!');
   });
   $rootScope.$on("$routeChangeError", function(event, next, current, rejection){
-    console.log('Route Change Error: ' + rejection); 
+    //console.log('Route Change Error: ' + rejection); 
   });
   $rootScope.$on("$viewContentLoaded", function(event, next, current, rejection){
-    console.log('ng view loaded');
+    //console.log('ng view loaded');
   });
   
   //Debugging Tools
@@ -107,6 +107,9 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
     });
   }
+  $rootScope.profileRemason = function(){
+    $('#profile_data_inner').masonry('reload');
+  }
   $rootScope.remason = function(){
     $('#content').masonry('reload');
   }
@@ -121,13 +124,11 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $http.get('/api/checkLogin')
       .success(function(data, status, headers, config){
         //logged in
-        console.log(callback);
         if(data.loggedIn){
           $rootScope.loggedIn = true;
           $rootScope.rootSettings.username = data.userName;
           $rootScope.userId = data.userId;
           $rootScope.avatarUrl = data.avatarImg || '/images/30x30.gif';
-          console.log('zippy!');
           return callback(null, true);
         }
         //logged out
@@ -386,7 +387,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //setup JQuery needed to deal with post content
   $rootScope.setupPostContent = function(){
-    console.log('setupPostContent');
     $('.btn-file input').click(function(e){
       $('#uploadForm .fileSubmit').removeAttr('disabled');
     });

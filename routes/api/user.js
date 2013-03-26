@@ -501,29 +501,39 @@ exports.getProfile = function(req, res){
         return res.json({error: "getProfile error: " + err});
       }
       util.clearChanges(obj);
-      obj.data.followerNames = [];
-      obj.data.followingNames = [];
+      obj.data.followerUnit = [];
+      obj.data.followingUnit = [];
       var clock = 0;
       console.log('beforeFollowers');
       if(obj.data.followers.length === 0) next2();
+      //add followers
       for(f in obj.data.followers){
         (function(f){
-          app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, name_obj){
-            obj.data.followerNames.push(name_obj.data.username);
-            console.log(clock);
+          app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, ref_obj){
+            var user_name = ref_obj.data.username;
+            var user_image = ref_obj.data.imgUrl;
+            obj.data.followerUnit.push({ name: user_name, image: user_image });
             if(clock === obj.data.followers.length-1) next2();
             clock++;
           });
         })(f)
       }
       function next2(){
-        clock = 0;
+        var clock = 0;
         console.log('next2');
         if(obj.data.following.length === 0) next3();
+        //add following
+        console.log(obj.data.following);
+        console.log(obj.data.following.length);
         for(f in obj.data.following){
           (function(f){
-            app.riak.bucket('userReference').objects.get(obj.data.following[f], function(err, name_obj){
-              obj.data.followingNames.push(name_obj.data.username);
+            app.riak.bucket('userReference').objects.get(obj.data.following[f], function(err, ref_obj){
+              if(err) console.log('Error: ' + err);
+              console.log(clock);
+              console.log(obj.data.following.length-1);
+              var user_name = ref_obj.data.username;
+              var user_image = ref_obj.data.imgUrl;
+              obj.data.followingUnit.push({name: user_name, image: user_image});
               if(clock === obj.data.following.length-1) next3();
               clock++;
             });
@@ -531,6 +541,7 @@ exports.getProfile = function(req, res){
         }
       }
       function next3(){
+        console.log('next3');
         return res.json(obj.data);
       }
     });
@@ -553,7 +564,7 @@ exports.getPinList = function(req, res){
   var query = {
     q: 'returnAll:y',
     start: 0,
-    rows: 1000,
+    rows: 200,
     presort: 'key'
   };
   //get list of pins in sorted order
@@ -654,13 +665,18 @@ exports.categorySearch = function(req, res){
   var commentMap = {};
   var pinMap = {};
   var commentIds = [];
+  var category = req.body.category;
+  
+  console.log(req.body.category);
+  if(req.body.category === 'Action & Adventure') category = 'Action \& Adventure';
   
   var query = {
-    q: 'category:'+req.body.category,
+    q: 'category:'+category,
     start: 0,
     rows: 1000,
     presort: 'key'
   };
+  console.log(query);
   //get list of pins in sorted order
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
@@ -668,6 +684,7 @@ exports.categorySearch = function(req, res){
       return res.json({error: err});
     }
     objs = response.response.docs;
+    console.log(objs);
     for(obj in objs){
       var cmts = [];
       if(objs[obj].fields.comments)
@@ -699,7 +716,8 @@ exports.categorySearch = function(req, res){
                                                           id: cmt_objs[c].key,
                                                           pin: cmt_objs[c].data.pin,
                                                           poster: cmt_objs[c].data.poster,
-                                                          content: cmt_objs[c].data.content };
+                                                          content: cmt_objs[c].data.content,
+                                                          posterImg: cmt_objs[c].data.imgUrl};
       }
       for(pin in pinMap){
         returnList.push(pinMap[pin]);
@@ -727,16 +745,25 @@ exports.textSearch = function(req, res){
       return res.json({error: err});
     }
     objs = response.response.docs;
+    console.log(objs);
     for(obj in objs){
       var cmts = [];
       if(objs[obj].fields.comments)
         cmts = objs[obj].fields.comments.split(" ");
-      pinMap[objs[obj].id] = {  id: objs[obj].id,
+      /*pinMap[objs[obj].id] = {  id: objs[obj].id,
                                 category: objs[obj].fields.category,
                                 description: objs[obj].fields.description,
                                 poster: objs[obj].fields.posterName,
+                                datePosted: objs[obj].fields.datePosted,
+                                gameName: objs[obj].fields.gameName,
+                                posterId: objs[obj].fields.posterId,
+                                posterName: objs[obj].fields.posterName,
+                                publisher: objs[obj].fields.publisher,
                                 comments: []
-                              };
+                              };*/
+      pinMap[objs[obj].id] = objs[obj].fields;
+      pinMap[objs[obj].id]['id'] = objs[obj].id;
+      pinMap[objs[obj].id]['comments'] = [];
       for(c in cmts){
         commentIds.push(cmts[c]);
         commentMap[cmts[c]] = c;
@@ -756,7 +783,8 @@ exports.textSearch = function(req, res){
                                                           id: cmt_objs[c].key,
                                                           pin: cmt_objs[c].data.pin,
                                                           poster: cmt_objs[c].data.poster,
-                                                          content: cmt_objs[c].data.content };
+                                                          content: cmt_objs[c].data.content,
+                                                          posterImg: cmt_objs[c].data.imgUrl};
       }
       for(pin in pinMap){
         returnList.push(pinMap[pin]);

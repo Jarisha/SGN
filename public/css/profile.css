@@ -41,6 +41,7 @@
   padding: 0 10px;
 }
 .profile .caret{
+  margin-left: 5px;
   margin-top: 13px !important;
 }
 .profile #view_groups{
@@ -294,6 +295,8 @@
 }
 /* comrade area */
 .profile .bot_container{
+  overflow: hidden;
+  height: 40px;
   float: left;
   width: 770px;
   padding: 15px 15px 15px 15px;
@@ -302,6 +305,7 @@
 .profile .bot_container > *{
   padding-left: 5px;
   display:inline-block;
+  margin-bottom: 20px;
 }
 .profile #people_container{
   float:left;
@@ -394,6 +398,7 @@
   margin:0 15px;
   float:left;
   background: #FDFDFD;
+  overflow: hidden;
 }
 
 /* friends followers */

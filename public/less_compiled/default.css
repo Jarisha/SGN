@@ -94,7 +94,9 @@ video {
   color: black;
 }
 html {
-  background-image: url('../images/UI/dark_dimple.png');
+  background-image: url("../images/UI/Q_gradient.png");
+  background-size: 100% auto;
+  padding-bottom: 100px;
 }
 body {
   background: none;
@@ -120,6 +122,15 @@ a,
 a:hover {
   text-decoration: none;
 }
+.col1 li a:hover, .col2 li a:hover{
+  background: #14A9E3;
+}
+#profile_dropdown li a:hover{
+  background: #14A9E3;
+}
+.dropdown-menu li a:hover{
+  background: #14A9E3;
+}
 noscript, #IE_alert{
   margin: 10px;
   text-align: center;
@@ -132,17 +143,6 @@ label {
   display: inline;
 }
 /* Bootstrap overrides */
-.caret {
-  margin: 8px 2px 0 2px !important;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 4px solid white;
-  content: "";
-  display: inline-block;
-  height: 0;
-  vertical-align: top;
-  width: 0;
-}
 .dropdown-menu a {
   padding-left: 20px;
 }
@@ -310,8 +310,8 @@ form{
 .affix {
   top: 0px;
 }
-.nav .caret {
-  margin-top: 8px;
+.caret {
+  margin-top: 7px;
 }
 #search_bar {
   float: left;
@@ -367,6 +367,7 @@ form{
 #message_toggle {
   padding: 0;
   margin: 0;
+  cursor: default;
 }
 #follower_dropdown,
 #tag_dropdown,
@@ -404,19 +405,55 @@ form{
   color: black;
   height: 100%;
 }
-#profile_dropdown {
+#profile_toggle .caret{
+  top:10px;
+}
+#profile_tab{
+  position: relative;
+}
+#nav_right .dropdown-menu.active#profile_dropdown, .dropdown-menu {
   min-width: 0;
   position: absolute;
   right: 0;
-  -moz-border-radius: 0;
-  /* Firefox */
+  top:5px;
+  border: 2px solid black;
+  top: 55px;
 
-  -webkit-border-radius: 0;
-  /* Safari, Chrome */
-
-  border-radius: 0;
+  border-radius: 5px;
   /* CSS3 */
+}
+#nav_right #about_tab .dropdown-menu{
+  width: 140px;
+  position: absolute;
+  right: 0;
+  top:5px;
+  border: 2px solid black;
+  top: 55px;
 
+  border-radius: 5px;
+}
+#nav_right #about_tab .dropdown-menu:before{
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 5px;
+  top: -20px;
+  border: 10px solid transparent;
+  border-bottom-color: black;
+}
+#nav_right .dropdown-menu.active#profile_dropdown:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 5px;
+  top: -20px;
+  border: 10px solid transparent;
+  border-bottom-color: black;
+}
+#nav_right .dropdown-menu.active#profile_dropdown:before li{
+  height:50px;
 }
 #profile_small {
   padding-right: 10px;
@@ -488,6 +525,7 @@ form{
 }
 #subnav_content > * {
   color: white;
+  cursor: default;
   text-shadow: 1px 1px 1px #000;
   margin: 0 10px;
   padding: 3px 10px 0;
@@ -498,6 +536,11 @@ form{
 }
 #subnav_content .dropdown_tab .dropdown-toggle {
   color: white;
+}
+.navbar-inverse .nav li.dropdown > .dropdown-toggle .caret{
+  margin-top:15px;
+  border-bottom-color: black;
+  border-top-color: black;
 }
 #subnav_content .dropdown_tab .dropdown-menu {
   text-align: left;
@@ -648,4 +691,7 @@ form{
 /* Enlarged Gamepin */
 .profile_img{
   height: 30px;
+}
+.view_trigger:hover{
+  /*cursor: url("../images/UI/qicon.png");*/
 }

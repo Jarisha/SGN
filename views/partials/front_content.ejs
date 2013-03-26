@@ -6,7 +6,7 @@
     <a class="comment_btn" href="#c1">Comment</a>
   </div>
   <a class="view_trigger" ng-click="viewBigPin($index)">
-    <img class="game_img" src="{{pin.imageUrl}}" width="220"/>
+    <img class="game_img" src="{{pin.imageUrl || pin.sourceUrl}}" width="220"/>
   </a>
   <a name="c1"></a>
   <p class="game_description">{{pin.description}}</p>
@@ -15,17 +15,17 @@
   </p>
   <div class="posted_by">
     <img src="{{pin.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
-    class="post_text"><a ng-show="loggedIn" href="/user/{{pin.poster}}"><b>{{pin.poster}}</b></a> 
-                      <b ng-show="!loggedIn">{{pin.poster}}</b> onto {{pin.category}}
+    class="post_text"><a href="/user/{{pin.poster || pin.posterName}}"><b>{{pin.poster || pin.posterName}}</b></a> 
+                      <!--<b ng-show="!loggedIn">{{pin.poster || pin.posterName}}</b>--> onto {{pin.category}}
     </p>
   </div>
   <div ng-repeat="cmt in pin.comments" class="comment">
     <img src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p 
-    class="post_text"><a ng-show="loggedIn" href="/user/{{cmt.posterName}}">{{cmt.posterName}}</a>
-                      <span ng-show="!loggedIn">{{cmt.posterName}}</span> {{cmt.content}}
+    class="post_text"><a href="/user/{{cmt.posterName}}">{{cmt.posterName}}</a>
+                      <!--<span ng-show="!loggedIn">{{cmt.posterName}}</span>--> {{cmt.content}}
     </p>
   </div>
-  <div ng-show="loggedIn" class="respond clearfix" tabindex="">
+  <div class="respond clearfix" tabindex="">
       <img src="{{avatarUrl || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
       class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
       <button class="respond_btn hidden" type="submit" ng-click="addComment(text, $index); text=null;">Comment</button>

@@ -16,22 +16,22 @@
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
       </a>
-      <ul id="tag_dropdown" class="dropdown-menu">
+      <!--<ul id="tag_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
         <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
         <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
         <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
-      </ul>
+      </ul>-->
     </li>
     <li ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu">
+      <!--<ul id="message_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bob Smith messaged you</a></li>
         <li><a tabindex="-1" href="#">Jill Hagey messaged you</a></li>
         <li><a tabindex="-1" href="#">Nobody messaged you</a></li>
-      </ul>
+      </ul>-->
     </li>
   </ul>
   <div id="notify_div"></div><img
@@ -64,20 +64,17 @@
           <li><a href="/about">Team</a></li>
         </ul>
     </li>
-    <li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
+    <!--<li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
       <img id="login_btn" src="<%= rootPath %>/images/UI/Login_effects.png" />
-    </a></li>
+    </a></li>-->
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">
       <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img id="profile_small" src="{{avatarUrl}}" height="22" width="22" />{{rootSettings.username}}<b class="caret"></b>
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
-        <li><a href="/profile">Followers</a></li>
+        <li><a href="/profile">My Profile</a></li>
         <li><a ng-click="viewSettings()">Settings</a></li>
-        <li><a href="#">Invite Friends</a></li>
-        <li><a href="#">Find Friends</a></li>
-        <li><a href="/profile">My Posts</a></li>
         <li><a ng-click="logoutSubmit()" href="#">Log Out</a></li>
       </ul>
     </li>
