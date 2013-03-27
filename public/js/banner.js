@@ -15,11 +15,9 @@ $(document).ready(function(){
     $('body').css('cursor', 'auto');
   });
   
-  $('#open').click(function(e){
-    $('#loginModal').modal('show');
-  });
-  $('#close').click(function(e){
-    $('#loginModal').modal('hide');
+  $('#previewTrigger').click(function(e){
+    console.log('wtf');
+    $('div.modal').omniWindow().trigger('show');
   });
   
   $('#send_email').click(function(e){

@@ -25,8 +25,48 @@ body{
   position: relative;
   bottom: 7px;
 }
+#modal{
+  position: static;
+}
 .alert{
   padding-left: 5px;
+}
+
+/* Default class for an overlay */
+.ow-overlay {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #424242;
+  opacity: 0.8;
+}
+
+/* Default class for both hidden overlay and modal window */
+.ow-closed {
+  display: none;
+  z-index: 1000;
+}
+
+/* Default class for modal window */
+.modal {
+  left: 27%;
+  top: 50px;
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  z-index: 100;
+}
+
+#previewTrigger{
+  position: absolute;
+  left: 387px;
+  width: 224px;
+  height: 42px;
+  bottom: 24px;
+  background: url("../images/UI/Preview.png") no-repeat scroll 0 0 transparent;
 }
 
 .user_alert{
@@ -76,6 +116,7 @@ body{
 }
 .Q_Gateway_2{
   padding: 20px 0;
+  position: relative;
   border-bottom: 3px solid rgba(100, 100, 100 , .2);
   -moz-background-clip: border;     /* Firefox 3.6 */
 	-webkit-background-clip: padding-box; /* for Safari */
