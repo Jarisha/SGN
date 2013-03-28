@@ -1,10 +1,10 @@
 <!-- loop through all gamepins on screen -->
 <div ng-repeat="pin in showPins" class="game_pin" repeat-done>
-  <div class="game_options hidden">
+  <!--<div class="game_options hidden">
     <a class="like_btn">Like</a>
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
-  </div>
+  </div>-->
   <a class="view_trigger" ng-click="viewBigPin($index)">
     <img class="game_img" src="{{pin.imageUrl || pin.sourceUrl}}" width="220"/>
   </a>

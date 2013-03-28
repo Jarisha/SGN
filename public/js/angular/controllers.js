@@ -37,7 +37,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.bigPin = {};
                     
   var pinIndex = 0;
-  var pinLimit = 10;
+  var pinLimit = 20;
   var pinStop = 0;
   
   loadFirst();
@@ -74,7 +74,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     gamepinService.getPinList(function(data){
       $scope.gamePins = data.objects;
       pinIndex = 0;
-      pinLimit = 10;
+      pinLimit = 20;
       pinStop = 0;
       loadFirst();
     });
@@ -86,14 +86,13 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     gamepinService.getPinList(function(data){
       $scope.gamePins = data.objects;
       next();
-      //loadFirst();
     });
     function next(){
       for(var pin in $scope.gamePins){
         if($scope.gamePins[pin].category === cat) categoryList.push($scope.gamePins[pin]);
       }
       pinIndex = 0;
-      pinLimit = 10;
+      pinLimit = 20;
       pinStop = 0;
       $scope.showPins = [];
       $scope.gamePins = categoryList;
@@ -111,7 +110,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         if($scope.gamePins[pin].description.indexOf(txt) !== -1) textList.push($scope.gamePins[pin]);
       }
       pinIndex = 0;
-      pinLimit = 10;
+      pinLimit = 20;
       pinStop = 0;
       $scope.showPins = [];
       $scope.gamePins = textList;
@@ -722,6 +721,7 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
 AboutController.resolve = {
   resolveAbout: function($q, $rootScope, $location){
     var deferred = $q.defer();
+    console.log('AboutController');
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');

@@ -884,7 +884,26 @@ exports.createPending = function(req, res){
   pend_usr.save(function(err, saved){
     if(err) return res.json({ error: "Save Pending User Error: " + err });
     console.log('Pending user '+ saved.key +' saved');
-    return res.json({ success: "Submit Successful!" });
+    app.mandrill('messages/send', {
+        message: {
+          to: [{email: req.body.email}],
+          from_email: 'info@quyay.com',
+          subject: "Quyay Alpha Registration",
+          text: "Thank you for signing up for Quyay Alpha!\n\n" +
+          "We have created a pending account for you with this email address and the username you submitted.\n\n" +
+          "If your application is approved, we'll email you with more info, including how to log in. \n\n" +
+          "-Team Quyay"
+        }
+      }, function(err, response){
+        if(err){
+          console.log(JSON.stringify(err));
+          return res.json({error: err});
+        }
+        else{
+          console.log(response);
+          return res.json({ success: "Submit Successful!" });
+        }
+      });
   });
 }
 //accept pending account, create real account, email user tmp password
