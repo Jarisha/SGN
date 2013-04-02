@@ -1,14 +1,14 @@
 /* Configuration for services running on dev machine, should not change */
 //Riak
-exports.db_host = 'dev.quyay.com';
+exports.db_host = '10.0.1.5';
 exports.db_port = 8100;
 
 //Rackspace CDN Url
 exports.CDN = 'http://1d0cd4fe9d04a622c153-67a9c5f20077a0cbea40c22fb907467d.r89.cf1.rackcdn.com';
 //Redis
-exports.redis_host = 'dev.quyay.com'
+exports.redis_host = '10.0.1.5'
 //Nodeflake
-exports.nodeflake_host = 'dev.quyay.com';
+exports.nodeflake_host = '10.0.1.5';
 
 /* Configuration for running Quyay web server, use localhost for development on
  *  personal computer.

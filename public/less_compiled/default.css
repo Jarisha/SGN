@@ -215,12 +215,14 @@ form{
   position: absolute;
 }
 #nav_left {
+  background: -webkit-gradient(linear, left top, right top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(left, #6d9100, #99cc00);
   height: 50px;
   width: 240px;
   padding-left: 20px;
 }
 #nav_right {
+  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(right, #6d9100, #99cc00);
   height: 50px;
   float: right;
@@ -257,6 +259,7 @@ form{
   box-shadow: 0 5px 10px -5px #333333;
 }
 #notify_div{
+  background: -webkit-gradient(linear, left top, right top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(left, #6D9100, #99CC00);
   display:inline-block;
   vertical-align:top;
@@ -377,7 +380,10 @@ form{
   min-width: 130px;
   top: 42px;
   background: #DCDCDC;
+  
+  -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
+  
   border: 2px solid #333333;
 }
 #follower_dropdown:after,
@@ -399,12 +405,12 @@ form{
 }
 /* Drop down going left */
 #profile_toggle {
+  height: 45px;
   position: relative;
   min-width: 130px;
   margin: 5px 0 0 0;
   padding: 0;
   color: black;
-  height: 100%;
 }
 #profile_toggle .caret{
   top:10px;
@@ -419,7 +425,8 @@ form{
   top:5px;
   border: 2px solid black;
   top: 55px;
-
+  
+  -webkit-border-radius: 5px;
   border-radius: 5px;
   /* CSS3 */
 }
@@ -430,7 +437,8 @@ form{
   top:5px;
   border: 2px solid black;
   top: 50px;
-
+  
+  -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 #nav_right #about_tab .dropdown-menu:before{
@@ -484,14 +492,6 @@ form{
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-  -moz-border-radius: 0;
-  /* Firefox */
-
-  -webkit-border-radius: 0;
-  /* Safari, Chrome */
-
-  border-radius: 0;
-  /* CSS3 */
 
 }
 #nav_right .dropdown-menu.active:after {
@@ -553,12 +553,8 @@ form{
   text-align: left;
   /*border: 2px solid #F9C705;*/
 
-  -moz-border-radius: 0;
-  /* Firefox */
-
-  -webkit-border-radius: 0;
+  -webkit-border-radius: 5px;
   /* Safari, Chrome */
-
   border-radius: 2px solid #F9C705;
   /* CSS3 */
 
@@ -569,6 +565,7 @@ form{
   background: #DCDCDC;
   top: 32px;
   border: 2px solid black;
+  -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
   width: 330px;
 }
@@ -690,7 +687,9 @@ form{
   bottom:25px;
   left:25px;
   z-index: 200;
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  -webkit-border-radius: 10px;
   border-radius: 10px;
   border: solid 2px black;
 }

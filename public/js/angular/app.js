@@ -6,7 +6,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
-    .when('/',  { templateUrl: 'partials/front',
+    .when('/',  { templateUrl: '/partials/front',
                   controller: FrontController,
                   resolve: FrontController.resolve
                 })
@@ -14,29 +14,29 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/page/:page', {templateUrl: '../partials/front', controller: FrontController})
     .when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController})
     .when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController}) */
-    .when('/store', { templateUrl: 'partials/store',
+    .when('/store', { templateUrl: '/partials/store',
                       controller: StoreController,
                       resolve: StoreController.resolve
                     })
-    .when('/profile', { templateUrl: 'partials/profile',
+    .when('/profile', { templateUrl: '/partials/profile',
                       controller: ProfileController,
                       resolve: ProfileController.resolve
                     })
     //.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
-    .when('/about', { templateUrl: 'partials/about',
+    .when('/about', { templateUrl: '/partials/about',
                       controller: AboutController,
                       resolve: AboutController.resolve
                     })
-    .when('/about/:area', {templateUrl: '../partials/about',
+    .when('/about/:area', {templateUrl: '/partials/about',
                       controller: AboutController,
                       resolve: AboutController.resolve})
-    .when('/user/:username', {  templateUrl: '../partials/profile',
+    .when('/user/:username', {  templateUrl: '/partials/profile',
                       controller: UserController,
                       resolve: UserController.resolve
                     })
 
-    .when('/notfound', {templateUrl: 'partials/not_found'})
-    .otherwise({templateUrl: 'partials/not_found'});
+    .when('/notfound', {templateUrl: '/partials/not_found'})
+    .otherwise({templateUrl: '/partials/not_found'});
     
   $locationProvider.html5Mode(true);
 }]);
@@ -182,7 +182,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //register without selecting avatar
   $rootScope.registerSubmit = function(avatarPath){
-    $http({ method: 'POST', url: 'api/register', data:
+    $http({ method: 'POST', url: '/api/register', data:
           {"email": $rootScope.register.email ,"name": $rootScope.register.name,
           "password": $rootScope.register.password, "confirm": $rootScope.register.confirm,
           "fbConnect": $rootScope.register.fbConnect, "avatarUrl": avatarPath }})
@@ -205,7 +205,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
   }
   $rootScope.loginsubmit = function(){
-    $http({ method: 'POST', url: 'api/login', data:
+    $http({ method: 'POST', url: '/api/login', data:
           {"email": $rootScope.login.email, "password": $rootScope.login.password }})
       .success(function(data, status, headers, config){
         //clear password from memory
@@ -217,7 +217,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.userId = data.userId;
           $rootScope.avatarUrl = data.avatarUrl;
           $('#loginModal').modal('hide');
-          $rootScope.popNotify('You are now logged in.');
+          $rootScope.popNotify('Success', 'You are now logged in.');
           //rootScope.popNotify({status: 'success' || 'error', message: 'Login successful!'});
           
           
@@ -261,7 +261,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     clearModalFields();
     $('#postModal').modal();
   }
-  //clear all fields and images...this is what I get for mixing JQuery and Angularjs
+  //clear all fields and images, disable all forms
   function clearModalFields(){
     $('#imageUrlModal form').resetForm();
     $('#imageUrlModal .urlInput').val('');
@@ -271,6 +271,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#youtubeModal form').resetForm();
     $('#youtubeModal .urlInput').val('');
     $('#youtubeModal .fileupload').empty();
+    /*$('#imageUrlForm input[type="submit"], \
+                  #uploadForm input[type="submit"], \
+                  #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');*/
+    
   }
   $rootScope.imageUrl = function(){
     $('#postModal').modal('hide');
@@ -308,14 +312,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.editSettings = function(){
     console.log('editSettings');
     console.log($rootScope.rootSettings);
-    $http({ method: 'POST', url: 'api/editSettings', data:
+    $http({ method: 'POST', url: '/api/editSettings', data:
           { id: $rootScope.userId, settings: $rootScope.rootSettings }})
       .success(function(data, status, headers, config){
-        if(data.error) console.log('error ' + data.error);
+        if(data.error){
+          console.log('error ' + data.error);
+          $rootScope.popNotify('Error', data.error);
+        }
         if(data.success){
           if(data.username){
             $rootScope.rootSettings.username = data.username;
-            $rootScope.popNotify(data.notify);
+            $rootScope.popNotify('Success', data.notify);
             //$rootScope.popNotify('Settings Saved!');
           }
         }
@@ -327,7 +334,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   var hide = null;
   
-  $rootScope.popNotify = function(message){
+  $rootScope.popNotify = function(status, message){
+    $('#notify_status').text(status);
     $('#notify_message').text(message);
     $('#alertContainer').show();
     console.log('popNotify');
@@ -354,7 +362,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       $rootScope.rootPath = data.path;
       //next();
     })
-    .error(function(data, status, headers, config) {
+    .error(function(data, status, headers, config){
       result.message = 'Error: ' + status;
     });
   //Load front page html partials into cache
@@ -391,34 +399,45 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //setup JQuery needed to deal with post content
   $rootScope.setupPostContent = function(){
+    //disable all form submits
+    
+    
     $('.btn-file input').click(function(e){
       $('#uploadForm .fileSubmit').removeAttr('disabled');
     });
     $("#uploadForm a[data-dismiss='fileupload']").click(function(e){
       $('#uploadForm .fileSubmit').attr('disabled', 'disabled');
     });
-    
     //Post via File Upload
     $('#uploadForm').submit(function(){
+      $('#' + $(this)[0].id + ' input[type="submit"]').attr('disabled', 'disabled');
+      $('#fileUploadModal *').css('cursor', 'wait');
+      
       $(this).ajaxSubmit({
         beforeSubmit: function(formData, jqForm, options){
           console.log($.param(formData));
           percent = 0;
+          setTimeout(function(){}, 5000);
         },
         uploadProgress: function(event, position, total, percentComplete){
           var percent = percentComplete;
           console.log(percentComplete);
         },
         success: function(responseText, statusText, xhr, $form){
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#fileUploadModal *').css('cursor', 'auto');
           if(responseText.error){
             console.log('Error: ' + responseText.error);
             return;
           }
           console.log(responseText.gamepin);
           $('#fileUploadModal').modal('hide');
-          $rootScope.popNotify('Post Image Success!');
+          $rootScope.popNotify('Success' ,'Post Image Success!');
         },
         error: function(responseText, statusText, xhr, $form){
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#fileUploadModal *').css('cursor', 'auto');
+          $form.css('cursor', 'auto');
           console.log(responseText);
         },
         dataType: 'json'
@@ -444,12 +463,18 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         $imgContainer.append('<img src="'+ url +'"/>');
       });
     });
+    
     $('#imageUrlForm').submit(function(e){
+      $('#' + $(this)[0].id + ' input[type="submit"]').attr('disabled', 'disabled');
+      $('#imageUrlModal *').css('cursor', 'wait');
+      
       $.ajax({
         type: 'post',
         url: '/api/gamepin/postImageUrl',
         data: $(this).serialize()+ '&url='+ url + '&type=' + content_type,
         success: function(data){
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#imageUrlModal *').css('cursor', 'auto');
           if(data.error){
             console.log(data.error);
             return;
@@ -458,6 +483,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.popNotify('Post Image Success!');
         },
         error: function(err){
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#imageUrlModal *').css('cursor', 'auto');
           console.log('error: ' + err);
         }
       });
@@ -504,11 +531,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     
     $('#youtubeUrlForm').submit(function(e){
       console.log('youtubeSubmit');
+      //disable submit input while AJAX request is processing
+      $('#' + $(this)[0].id + ' input[type="submit"]').attr('disabled', 'disabled');
+      $('#youtubeUrlForm *').css('cursor', 'wait');
       $.ajax({
         type: 'post',
         url: '/api/gamepin/postYoutubeUrl',
         data: $(this).serialize() + '&imgUrl=' + vid_img + '&embedHtml='+ vid_embed,
         success: function(data){
+          //re-enable
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#youtubeUrlForm *').css('cursor', 'auto');
           if(data.error){
             console.log(error);
             return;
@@ -518,7 +551,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.popNotify('Post Video Success!');
         },
         error: function(){
-          
+          //re-enable
+          $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
+          $('#youtubeUrlForm *').css('cursor', 'auto');
+          console.log('error: ' + err);
         }
       });
       return false;
@@ -562,12 +598,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       return false;
     });
     
+    //Change avatar via profile page
     $rootScope.changeAvatar = function(){
       $('#changeAvatar').modal();
-      //Post via File Upload
       $('#changeAvatarForm').submit(function(){
+        $('#changeAvatar :submit').attr('disabled', 'disabled');
+        $('#changeAvatar *').css('cursor', 'wait');
         $(this).ajaxSubmit({
           success: function(responseText, statusText, xhr, $form){
+            $('#changeAvatar :submit').removeAttr('disabled');
+            $('#changeAvatar *').css('cursor', 'auto');
+            window.location = '/profile';
             if(responseText.error){
               console.log('Error: ' + responseText.error);
               return;
@@ -577,6 +618,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
             $rootScope.popNotify(responseText.success);
           },
           error: function(responseText, statusText, xhr, $form){
+            $('#changeAvatar :submit').removeAttr('disabled');
+            $('#changeAvatar *').css('cursor', 'auto');
             console.log(responseText);
           },
           dataType: 'json'

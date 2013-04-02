@@ -108,11 +108,11 @@ app.configure('development', function(){
 
 app.configure('tony', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
-  var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
+  var nodeflake_host = exports.nodeflake_host = '10.0.1.5';
   var temp_path = exports.temp_path = "C:/Users/Tony/AppData/Local/Temp/";
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
-                            host : config.redis_host,
+                            host : '10.0.1.5',
                           }),
                           cookie: { maxAge: 86400000
                                     }
@@ -176,6 +176,7 @@ app.get('/banner', function(req, res){
 });
 
 app.get('/', function(req, res){
+  console.log(req.session);
   if(!req.session.loggedIn){
     return res.render('banner');
   }
@@ -355,7 +356,7 @@ app.post('/api/gamepin/getPinData', gamepinApi.getPinData);
 app.post('/api/util/validImg', utilApi.validImg);
 app.post('/api/util/validVideo', utilApi.validVideo);
 
-//Route to 404 Page if not served
+//Angular will take care of the 404 page
 app.get('*', function(req, res){
-  return res.send('Page Not Found');
+  return res.render('base');
 });

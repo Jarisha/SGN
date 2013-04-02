@@ -302,26 +302,26 @@
 </div>
 <!-- imageUrl Modal -->
 <div class="modal hide" id="imageUrlModal" >
-  <div class="modal-header">
+  <div class="modal-header"> 
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 id="myModalLabel">Post Image via URL</h3>
   </div>
   <div class="modal-body">
-    <div class="modal_stack">
-      <button class="get_image btn">Get Image</button>
-      <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png"></input>
-    </div>
     <form id="imageUrlForm">
+      <div class="modal_stack">
+        <button class="get_image btn" type="button">Get Image</button>
+        <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png" required></input>
+      </div>
       <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
         <div class="fileupload-preview thumbnail"></div>
       </div>
       <div class="modal_slice uploadMeta">
-        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="name" placeholder="Game Name" required>
         <input type="text" name="publisher" placeholder="Publisher">
-        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
           <p>Category:</p>
-          <select name="category">
+          <select name="category" required>
             <option value="Action & Adventure" >Action & Adventure</option>
             <option value="Arcade" >Arcade</option>
             <option value="Board & Card" >Board & Card</option>
@@ -338,10 +338,10 @@
             <option value="Trivia & Word">Trivia & Word</option>
           </select>
         </div>
-        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+        <input class="fileSubmit" value="Post It!" type="submit">
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <!-- fileUpload  -->
@@ -357,17 +357,17 @@
         <span class="btn btn-file">
           <span class="fileupload-new">Select image</span>
           <span class="fileupload-exists">Change</span>
-          <input name="image" type="file" />
+          <input name="image" type="file" required/>
         </span>
         <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
       </div>
       <div class="modal_slice uploadMeta">
-        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="name" placeholder="Game Name" required>
         <input type="text" name="publisher" placeholder="Publisher">
-        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
           <p>Category:</p>
-          <select name="category">
+          <select name="category" required>
             <option value="Action & Adventure" >Action & Adventure</option>
             <option value="Arcade" >Arcade</option>
             <option value="Board & Card" >Board & Card</option>
@@ -384,7 +384,7 @@
             <option value="Trivia & Word">Trivia & Word</option>
           </select>
         </div>
-        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+        <input class="fileSubmit" value="Post It!" type="submit">
         <!--<a id="cdnUrl" >View Image on Rackspace</a>-->
       </div>
     </form>
@@ -399,20 +399,20 @@
     <h3 id="myModalLabel">Post Video via Youtube</h3>
   </div>
   <div class="modal-body">
-    <div class="modal_stack">
-      <button class="btn get_video">Get Video</button>
-      <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png"></input>
-    </div>
     <form id="youtubeUrlForm">
+      <div class="modal_stack">
+        <button class="btn get_video" type="button">Get Video</button>
+        <input class="urlInput" type="text" placeholder="https://www.google.com/images/srpr/logo4w.png" required>
+      </div>
       <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
       </div>
       <div class="modal_slice uploadMeta">
-        <input type="text" name="name" placeholder="Game Name">
+        <input type="text" name="name" placeholder="Game Name" required>
         <input type="text" name="publisher" placeholder="Publisher">
-        <textarea type="text" name="description" placeholder="Description"></textarea>
+        <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
           <p>Category:</p>
-          <select name="category">
+          <select name="category" required>
             <option value="Action & Adventure" >Action & Adventure</option>
             <option value="Arcade" >Arcade</option>
             <option value="Board & Card" >Board & Card</option>
@@ -429,7 +429,7 @@
             <option value="Trivia & Word">Trivia & Word</option>
           </select>
         </div>
-        <input class="fileSubmit" value="Post It!" type="submit" disabled>
+        <input class="fileSubmit" value="Post It!" type="submit">
       </div>
     </form>
   </div>

@@ -35,9 +35,6 @@
   <div id="people_container">
     <div id="people_header"> {{profile.followerUnit.length}} FOLLOWERS<!--<span class="view_all"><a ng-click="listFollowers()" href="#">View All</a></span>--></div>
     <div class="bot_container">
-      <div class="comrade_tabs">
-        <img src="<%= rootPath %>/images/UI/Following1_effects.png" width="40"/>
-      </div>
       <a ng-repeat="follower in profile.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" width="40px" height="40px" src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
@@ -48,7 +45,7 @@
         <ul class="dropdown-menu two_col_dropdown">
           <div class="col1">
             <li ng-repeat="(key,val) in groupPins" ng-click="showGroup(key)">
-              <a href="#">{{ key }}</a>
+             <a href="#">{{ key }}</a>
             </li>
           </div>
         </ul>

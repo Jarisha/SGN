@@ -2,7 +2,7 @@
 /* Controllers
  * Angular controllers contain 2 way data-binded variables that are shared in the view.
  * The Angular router will detect url changes and route us to the correct controller + template.
- * The template will be used to fill ng-view, which represents all the content inside the <body></body>
+ * The template will be used to fill ng-view, which represents all the html inside the <body></body>
  * Resolve functions are executed before routing to a specific controller.
  */
  
@@ -51,8 +51,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //load more pins when user scrolls down to a certain point
   $window.onscroll = function(e){
-    var a = $window.scrollMaxY;
+    //var a = $window.scrollMaxY;
+    var a = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var b = $window.pageYOffset;
+    
     if($scope.flag && (a-b) <= 300){
       $scope.$apply($scope.loadMore());
       $scope.flag = false;
@@ -158,10 +160,14 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: targetId} })
         .success(function(data, status, headers, config){
           if(data.success){
-            console.log('Now following' + target);
+            console.log('Now following' + targetId);
+            $rootScope.popNotify('Now Following ' + targetName);
+            $('#follow_user').attr('disabled', 'disabled');
           }
           if(data.error){
-            console.log(error);
+            $('#gamePinModal').modal('hide');
+            $rootScope.popNotify('Error', data.error);
+            console.log(data.error);
           }
         })
         .error(function(data, status, headers, config){
@@ -253,8 +259,12 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
+    console.log('loadMore');
+    var event = false;
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
-      if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
+      if($scope.gamePins[pinIndex]){
+        $scope.showPins.push($scope.gamePins[pinIndex]);
+      }
     }
     //force delay so that we don't load too much too fast
     $timeout( function(){ $scope.flag = true }, 100 );
@@ -319,7 +329,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   /* AJAX FUNCTIONS */
   $scope.ajaxLogin = function(){
     console.log('rootScope.login()');
-    $http({ method: 'POST', url: 'api/login', data:
+    $http({ method: 'POST', url: '/api/login', data:
           {"email": $scope.login.email, "password": $scope.login.password }})
       .success(function(data, status, headers, config){
         if(data.login){
@@ -355,7 +365,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       });
   }
   $scope.ajaxRegister = function(){
-    $http({ method: 'POST', url: 'api/register', data:
+    $http({ method: 'POST', url: '/api/register', data:
           {"email": $scope.register.email ,"name": $scope.register.name,
           "password": $scope.register.password, "confirm": $scope.register.confirm }})
       .success(function(data, status, headers, config){
@@ -470,6 +480,7 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
       $scope.groupToggle = false;
     }
   }
+  
   $scope.showGroup = function(group){
     console.log('fire the showGroup');
     console.log(group);
@@ -540,27 +551,42 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/user_content';
-  $scope.profile = {};
+  //$scope.profile = {};
+  $scope.user = {};
+  $scope.isFollowing = false;
   
   $scope.setup = function(){
     profileSetup($scope);
   }
   
-  $scope.follow = function(target){
-    $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: target} })
+  $scope.follow = function(targetName){
+    console.log('userContoller follow');
+    $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
       .success(function(data, status, headers, config){
-        if(data.success){
-          console.log('Now following' + target);
-          
-        }
-        if(data.error){
-          console.log(error);
-        }
-        //TODO: update user's follower list in REAL TIME!
+        if(!data.exists) return;
+        console.log(data.email);
+        next(data.email);
       })
       .error(function(data, status, headers, config){
-        console.log('Error: ' + status);
+        console.log("AJAX Error: " + data);
+        return;
       });
+    function next(targetId){
+      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: targetId} })
+        .success(function(data, status, headers, config){
+          if(data.success){
+            console.log('Now following' + targetId);
+            $rootScope.popNotify('Now Following ' + targetName);
+            $('#follow_user').attr('disabled', 'disabled');
+          }
+          if(data.error){
+            console.log(error);
+          }
+        })
+        .error(function(data, status, headers, config){
+          console.log('Error: ' + status);
+        }); 
+    }
   }
   
   //get profile data for this user
@@ -571,7 +597,13 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
           console.log(error);
           return;
         }
-        $scope.profile = data;
+        for(var f in data.followers){
+          console.log(data.followers[f]);
+          if($rootScope.userId === data.followers[f]){
+            $scope.isFollowing = true;
+          }
+        }
+        $scope.user = data;
       })
       .error(function(data, status, headers, config){
         console.log('Error: ' + status);
@@ -625,7 +657,10 @@ UserController.resolve = {
     function next(){
       $http({ method: 'get', url:'/api/getActivity/' + user})
       .success(function(data, status, headers, config){
-        if(data.error) deferred.reject(error);
+        if(data.error){
+          //deferred.reject(error);
+          $window.location = '/notfound';
+        }
         resultData.activity = data.activity;
         next2();
       })

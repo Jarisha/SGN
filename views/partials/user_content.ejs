@@ -5,11 +5,11 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic">
-        <img src="{{profile.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
+        <img src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
       <div class="profile_xp">
-        <span class="curr_level">Level {{profile.level || 1}}</span>
-        <span class="to_level">{{profile.nextXP || 99}}XP to level</span>
+        <span class="curr_level">Level {{user.level || 1}}</span>
+        <span class="to_level">{{user.nextXP || 99}}XP to level</span>
       </div>
       <div class="xp_bar clearfix">
         <span class="xp_gained">
@@ -21,25 +21,27 @@
   </div>
   <div class="right_container">
     <div class="right_padding">
-      <p class="profile_name">{{profile.username}}</p>
-      <p class="bio_text">{{profile.bio}}</p>
+      <p class="profile_name">{{user.username}}</p>
+      <p class="bio_text">{{user.bio}}</p>
       <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
       <div class="bio_opts_container hidden">
         <p class="bio_opts">400 remaining</p>
       </div>
       <div class="social_media">
-        <a href="" ng-show="profile.fbConnect">Facebook Page</a>
+        <a href="" ng-show="user.fbConnect">Facebook Page</a>
       </div>
     </div>
   </div>
   <div id="people_container">
-    <div id="people_header"> {{profile.followerUnit.length}} FOLLOWERS</div>
+    <div id="people_header"> {{user.followerUnit.length}} FOLLOWERS</div>
     <div class="bot_container">
       <div class="comrade_tabs">
-        <img src="<%= rootPath %>/images/UI/Following1_effects.png" width="40"/>
+        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.username)">Follow</button>
+        <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
+        <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
       </div>
-      <a ng-repeat="follower in profile.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
+      <a ng-repeat="follower in user.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
@@ -67,9 +69,9 @@
   </div>
 </div>
 <div id="following_col">
-  <div id="following_header">{{profile.followingUnit.length}} FOLLOWING</div>
+  <div id="following_header">{{user.followingUnit.length}} FOLLOWING</div>
   <div class="badge_chest">
-    <a ng-repeat="following in profile.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"  width="40px" height="40px"/></a>
+    <a ng-repeat="following in user.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"  width="40px" height="40px"/></a>
     <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
   </div>
 </div>

@@ -11,6 +11,7 @@
 }
 .modal-header{
   border-bottom:0;
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
 }
 .modal-header h3 {
@@ -22,6 +23,7 @@
 /* Default Modal Elements */
 .modal input{
   border-radius: 10px;
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   font-size: 20px;
   height: 40px;
@@ -29,6 +31,7 @@
   margin: 0 0 0 10px;
 }
 .modal textarea{
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   font-size: 20px;
   height: 60px;
@@ -47,11 +50,13 @@
  * STACK - Div with width 100%, stack vertically from top to bottom
  * SLICE - div with % width, stack horizontally from left to right */
 .modal_stack, .modal_slice{
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   float:left;
   text-align:center;
 }
 .modal_stack{
+  background: -webkit-gradient(linear, left top, right top, from(#EBEBEB), to(#B8B8B8));
   background: -moz-linear-gradient(left center , #EBEBEB, #B8B8B8);
   border-bottom: 1px solid #B8B8B8;
   width: 100%;
@@ -60,6 +65,7 @@
 .modal_stack:hover{
 }
 .modal_slice{
+  background: -webkit-gradient(linear, left top, left bottom, from(#EBEBEB), to(#B8B8B8));
   background: -moz-linear-gradient(center top , #EBEBEB, #B8B8B8);
   padding: 20px 0;
   border-right: 1px solid #B8B8B8;
@@ -189,6 +195,7 @@
 }
 #editSettings label, #editSettings input{
   float: left;
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin: 0;
 }
@@ -243,6 +250,7 @@
 }
 #loginModal label, #loginModal input{
   float: left;
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin:0;
 }
@@ -278,6 +286,7 @@
 }
 #registerModal label, #loginModal input{
   float: left;
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin:0;
 }

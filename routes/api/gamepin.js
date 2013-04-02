@@ -59,7 +59,7 @@ exports.postImageUpload = function(req, res){
     videoEmbed: null,
     cloudPath: null,
     gameName: req.body.name,
-    publisher: req.body.publisher,
+    publisher: req.body.publisher || null,
     description: req.body.description,
     datePosted: util.getDate(),
     //used for riak search
@@ -106,7 +106,7 @@ exports.postImageUrl = function(req, res){
     videoEmbed: null,
     cloudPath: null,
     gameName: req.body.name,
-    publisher: req.body.publisher,
+    publisher: req.body.publisher || null,
     description: req.body.description,
     datePosted: util.getDate(),
     //used for riak search
@@ -171,8 +171,10 @@ exports.postImageUrl = function(req, res){
       post_data.sourceUrl = viewUrl;
       post_data.cloudPath = cloudpath;
       postGamePin(post_data, function(err, data){
-        console.log("postGamePin error");
-        if(err) return res.json({error: err});
+        if(err){
+          console.log("postGamePin error");
+          return res.json({error: err});
+        }
         return res.json(data);
       });
     });
@@ -196,7 +198,7 @@ exports.postYoutubeUrl = function(req, res){
     videoEmbed: req.body.embedHtml,
     cloudPath: null,
     gameName: req.body.name,
-    publisher: req.body.publisher,
+    publisher: req.body.publisher || null,
     description: req.body.description,
     datePosted: util.getDate(),
     //used for riak search

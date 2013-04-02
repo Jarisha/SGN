@@ -2,6 +2,12 @@
 .profile textarea{
 }
 
+#follow_user{
+  font-size: 20px;
+  height: 40px;
+  width: 100%;
+}
+
 /* General Layout */
 .profile #content{
   width: 1075px;
@@ -16,6 +22,7 @@
 
 .profile #profile_header{
   box-shadow: 0 5px 10px -5px #333333;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
@@ -26,6 +33,7 @@
   width: 100%;
 }
 .profile #profile_footer{
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
@@ -48,7 +56,7 @@
   position: relative;
 }
 .profile .two_col_dropdown{
-  width: auto;
+  width: 165px;
 }
 .profile #profile_footer > *:hover{
   color: white;
@@ -69,14 +77,6 @@
 
 /* Nav Bar */
 .profile .navbar-inner{
-  /*background:red;
-  border:none;
-  background: #E3F1E4;
-  width: 346px;
-  margin:auto;
-  -moz-border-radius: 0; 
-  -webkit-border-radius: 0; 
-  border-radius: 0;  CSS3 */
 }
 
 
@@ -270,12 +270,14 @@
   width:170px;
   -moz-border-radius: 15px; /* Firefox */
   border-radius: 15px; /* CSS3 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 .profile .xp_gained{
   float:left;
   width: 50px;
   height:14px;
+  -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
   background-image:url('http://localhost:3001/images/UI/XP.png');
@@ -291,6 +293,7 @@
   border-top-right-radius: 15px; /* CSS3 */
   border-bottom-right-radius: 15px; /* CSS3 */
   /*background:Cornsilk;*/
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 /* comrade area */
@@ -306,12 +309,17 @@
   padding-left: 5px;
   display:inline-block;
   margin-bottom: 20px;
+  
+}
+.profile .bot_container .comrade tabs{
+  padding:5px;
 }
 .profile #people_container{
   float:left;
 }
 .profile #people_header{
   box-shadow: 0 5px 10px -5px #333333;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
@@ -321,7 +329,7 @@
   float:right;
 }
 .profile .comrade_tabs{
-  /* width: 180px; perfectly aligned */
+  margin-right: 20px;
   width: 170px;
 }
 .profile .comrade_tabs > *{
@@ -356,6 +364,7 @@
 }
 .profile #badge_header{
   box-shadow: 0 5px 10px -5px #333333;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
@@ -366,6 +375,7 @@
 }
 .profile #following_header{
   box-shadow: 0 5px 10px -5px #333333;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;

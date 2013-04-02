@@ -506,7 +506,8 @@ exports.getProfile = function(req, res){
       var clock = 0;
       console.log('beforeFollowers');
       if(obj.data.followers.length === 0) next2();
-      //add followers
+      console.log('afterFollowers');
+      //add followers, need to get their usernames via userReference
       for(f in obj.data.followers){
         (function(f){
           app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, ref_obj){
@@ -518,19 +519,22 @@ exports.getProfile = function(req, res){
           });
         })(f)
       }
+      //add following
       function next2(){
-        var clock = 0;
         console.log('next2');
+        var clock = 0;
         if(obj.data.following.length === 0) next3();
         //add following
         console.log(obj.data.following);
-        console.log(obj.data.following.length);
         for(f in obj.data.following){
+          console.log('!');
+          console.log(f);
+          console.log('!');
+          console.log(obj.data.following[f]);
           (function(f){
             app.riak.bucket('userReference').objects.get(obj.data.following[f], function(err, ref_obj){
               if(err) console.log('Error: ' + err);
-              console.log(clock);
-              console.log(obj.data.following.length-1);
+              console.log(ref_obj.data);
               var user_name = ref_obj.data.username;
               var user_image = ref_obj.data.imgUrl;
               obj.data.followingUnit.push({name: user_name, image: user_image});
@@ -891,7 +895,7 @@ exports.createPending = function(req, res){
           subject: "Quyay Alpha Registration",
           text: "Thank you for signing up for Quyay Alpha!\n\n" +
           "We have created a pending account for you with this email address and the username you submitted.\n\n" +
-          "If your application is approved, we'll email you with more info, including how to log in. \n\n" +
+          "If you're accepted into this early access phase, we'll email you with more info, including how to log in. \n\n" +
           "-Team Quyay"
         }
       }, function(err, response){
@@ -1009,7 +1013,6 @@ exports.getActivity = function(req, res){
       for(var o in objs){
         activityMap[objs[o].key] = objs[o].data;
       }
-      console.log(activityMap);
       return res.json({activity: activityMap});
     });
   }
@@ -1034,7 +1037,6 @@ exports.getGroups = function(req, res){
     app.riak.bucket('users').objects.get(user_id + '-groups', function(err, obj){
       if(err) return res.json({ error: "Fetch Group error:" +  err });
       groupIdMap = obj.data;
-      console.log(groupIdMap);
       //if object is empty return it right away with no additional fuss
       if(!Object.keys(groupIdMap).length) return res.json({groups: {}});
       //put all of the ids into one big list

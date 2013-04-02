@@ -92,6 +92,7 @@ $(document).ready(function(){
         else window.location = '/';
       },
       error: function(data){
+        $('.login_alert').text(data.error);
         console.log("AJAX error:" + data);
       }
     });

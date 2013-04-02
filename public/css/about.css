@@ -6,11 +6,13 @@
   width: 1000px;
   background: blue;
   border:solid #99CC00 4px;
+  -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 
 .about_slice{
   width: 25%;
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
   color: white;
   font-weight: bold;
@@ -24,6 +26,7 @@
 /* FAQ area */
 .faq_slice, .tos_slice, .privacy_slice, .view_slice{
   width: 25%;
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
   color: white;
   font-weight: bold;
@@ -89,6 +92,7 @@
 }
 
 .about_selected{
+  background: -webkit-gradient(linear, left bottom, left top, from(#EBEBEB), to(#B8B8B8));
   background: -moz-linear-gradient(center bottom , #EBEBEB, #B8B8B8);
   color: black;
   text-shadow: 2px 2px 2px white;
@@ -120,14 +124,6 @@ only screen and (max-device-width : 1074px){
 
 /* Nav Bar */
 .about  .navbar-inner{
-  /*background:red;
-  border:none;
-  background: #E3F1E4;
-  width: 346px;
-  margin:auto;
-  -moz-border-radius: 0; 
-  -webkit-border-radius: 0; 
-  border-radius: 0;  CSS3 */
 }
 
 
