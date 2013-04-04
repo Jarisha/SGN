@@ -53,3 +53,16 @@ exports.validVideo = function(req, res){
             }
           );
 }
+
+/***** get all entries and convert them to new schema *****/
+exports.reindexGamepins = function(req, res){
+  console.log("reindex Gamepins");
+  
+}
+exports.reindexUsers = function(req, res){
+  console.log("reindex Gamepins");
+}
+
+exports.reindexComments = function(req, res){
+  console.log("reindex Gamepins");
+}

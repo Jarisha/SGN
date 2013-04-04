@@ -589,6 +589,10 @@ exports.getPinList = function(req, res){
       (function(o){
         app.riak.bucket('userReference').objects.get(objs[o].fields.posterId, function(err, obj){
           var cmts = [];
+          if(err){
+            console.log('error:' + err);
+            return res.json({error: err});
+          }
           //console.log(obj.data);
           //convert commments from string to proper array
           if(objs[o].fields.comments)
@@ -888,7 +892,8 @@ exports.createPending = function(req, res){
   pend_usr.save(function(err, saved){
     if(err) return res.json({ error: "Save Pending User Error: " + err });
     console.log('Pending user '+ saved.key +' saved');
-    app.mandrill('messages/send', {
+    return res.json({ success: true });
+    /*app.mandrill('messages/send', {
         message: {
           to: [{email: req.body.email}],
           from_email: 'info@quyay.com',
@@ -907,7 +912,7 @@ exports.createPending = function(req, res){
           console.log(response);
           return res.json({ success: "Submit Successful!" });
         }
-      });
+      });*/
   });
 }
 //accept pending account, create real account, email user tmp password

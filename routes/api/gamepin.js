@@ -5,41 +5,6 @@ var http = require('http');
 var httpGet = require('http-get');
 var app = require('../../app');
 
-//post gamepin.  Create the gamepin object and store in db
-exports.post = function(req, res){
-  console.log('post');
-  
-  //validate data
-  if(!req.body.data.name || !req.body.data.category || !req.body.data.description || !req.body.data.content){
-    return res.json({
-      success: false,
-      error: 'Must fill in all required fields'
-    });
-  }
-  //create gamepin and save it into db
-  var gamePin = new dbConfig.GamePin({content: req.body.data.content, gameName: req.body.data.name,
-  description: req.body.data.description, category: req.body.data.category});
-  if(!gamePin){
-    return res.json({
-      register: false,
-      error: 'post gamePin failed'
-    });
-  }
-  if(req.body.data.publisher) gamePin.publisher = req.body.data.publisher;
-  gamePin.save(function(err){
-    if(err){
-      return res.json({
-        register: false,
-				error: 'save gamePin to DB failed'
-			});
-    }
-    return res.json({
-      success: true,
-      message: 'Post game_pin successfull!'
-    });
-  });
-}
-
 //Create gamepin and "post" to relevant areas
 //exports.postGamePin = function(req, res){
 exports.postImageUpload = function(req, res){
@@ -164,8 +129,11 @@ exports.postImageUrl = function(req, res){
   function next2(){
     app.rackit.add(imgPath, {type: content_type}, function(err, cloudpath){
       if(err){
+        console.log(imgPath);
+        console.log(cloudpath);
         console.log("rackit.add error: ");
-        return res.json({error: err});
+        console.log(err);
+        return res.json({ error: err });
       }
       var viewUrl = app.rackit.getURI(cloudpath);
       post_data.sourceUrl = viewUrl;

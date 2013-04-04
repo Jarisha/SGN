@@ -108,11 +108,11 @@ app.configure('development', function(){
 
 app.configure('tony', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
-  var nodeflake_host = exports.nodeflake_host = '10.0.1.5';
+  var nodeflake_host = exports.nodeflake_host = config.nodeflake_host;
   var temp_path = exports.temp_path = "C:/Users/Tony/AppData/Local/Temp/";
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
-                            host : '10.0.1.5',
+                            host : config.redis_host,
                           }),
                           cookie: { maxAge: 86400000
                                     }
@@ -355,6 +355,9 @@ app.post('/api/gamepin/getPinData', gamepinApi.getPinData);
 //misc
 app.post('/api/util/validImg', utilApi.validImg);
 app.post('/api/util/validVideo', utilApi.validVideo);
+app.post('/api/util/reindexGamepins', utilApi.reindexGamepins);
+app.post('/api/util/reindexUsers', utilApi.reindexUsers);
+app.post('/api/util/reindexComments', utilApi.reindexComments);
 
 //Angular will take care of the 404 page
 app.get('*', function(req, res){
