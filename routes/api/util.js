@@ -60,9 +60,9 @@ exports.reindexGamepins = function(req, res){
   
 }
 exports.reindexUsers = function(req, res){
-  console.log("reindex Gamepins");
+  console.log("reindex Users");
 }
 
 exports.reindexComments = function(req, res){
-  console.log("reindex Gamepins");
+  console.log("reindex Comments");
 }

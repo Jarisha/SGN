@@ -16,6 +16,12 @@ var RedisStore = require('connect-redis')(express);
 var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 
+/*var api = require('quyay-api');
+var userApi = api.userApi;
+var gamepinApi = api.gamepinApi;
+var utilApi = api.utilApi;
+var util = api.util;*/
+
 //testing purposes only
 var util = require('./utility');
 
@@ -298,7 +304,7 @@ app.get('/user/:user', function(req, res){
   return res.render('base');
 });
 
-/********* JSON API ***********/
+/********* JSON REST API ***********/
 //User
 app.get('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/facebookRegister', userApi.facebookRegister);

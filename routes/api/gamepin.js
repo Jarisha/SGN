@@ -1,6 +1,5 @@
 /*************************************** Gamepin ***************************************/
 var util = require('../../utility');
-var config = require('../../config');
 var http = require('http');
 var httpGet = require('http-get');
 var app = require('../../app');

@@ -1,4 +1,6 @@
-/* contains riak utility functions: conflict resolution, id generation, etc */
+/* utility.js contains conflict resolution, nodeflake ID generation, and other useful
+ * functions used here and there.
+ */
 var app = require('./app');
 var http = require('http');
 var random = require('secure_random');
