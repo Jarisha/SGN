@@ -16,13 +16,13 @@
   <div class="posted_by">
     <img src="{{pin.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
     class="post_text"><a href="/user/{{pin.poster || pin.posterName}}"><b>{{pin.poster || pin.posterName}}</b></a> 
-                      <!--<b ng-show="!loggedIn">{{pin.poster || pin.posterName}}</b>--> onto {{pin.category}}
+                       onto {{pin.category}}
     </p>
   </div>
   <div ng-repeat="cmt in pin.comments" class="comment">
     <img src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p 
-    class="post_text"><a href="/user/{{cmt.posterName}}">{{cmt.posterName}}</a>
-                      <!--<span ng-show="!loggedIn">{{cmt.posterName}}</span>--> {{cmt.content}}
+    class="post_text"><a href="/user/{{cmt.posterName}}"><b>{{cmt.posterName}}</b></a>
+                       {{cmt.content}}
     </p>
   </div>
   <div class="respond clearfix" tabindex="">

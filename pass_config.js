@@ -45,19 +45,6 @@ exports.init = function(Fb_ID, Fb_secret, rootPath){
           return done(null, user);
         }
       });
-      /*app.db.get('users', profile.emails[0].value, function(err, user){
-        //If not found, we are registering.
-        if(err) return register();
-        //Else, log in
-        user.registerMe = false;
-        //set facebook flag if not set for this user
-        if(!user.fbConnect){
-          user.fbConnect = true;
-          app.db.save('users', profile.emails[0].value, user);
-          return done(null, user);
-        }
-        return done(null, user);
-      });*/
       //If not found, we are registering.  Use facebook profile data to start a new account.
       function next(){
         newUser = {

@@ -1,36 +1,35 @@
-var express = require('express');
+//nodejs Core Modules
 var http = require('http');
 var https = require('https');
 var url = require('url');
 var fs = require('fs');
-var routes = require('./routes');
-var config = require('./config');
-var userApi = require('./routes/api/user');
-var gamepinApi = require('./routes/api/gamepin');
-var utilApi = require('./routes/api/util');
-var passConfig = require('./pass_config');
-var riakConfig = require('./riak_config');
-var bcrypt = require('bcrypt-nodejs');
-var winston = require('winston');
+
+//External modules, read from node_modules. All modules needed for project declared here.
+var express = require('express');
 var RedisStore = require('connect-redis')(express);
+var toobusy = require('toobusy');
+var httpGet = exports.httpGet =  require('http-get');
+var request = exports.request = require('request');
+var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
+var winston = exports.winston = require('winston');
 var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 
-/*var api = require('quyay-api');
-var userApi = api.userApi;
-var gamepinApi = api.gamepinApi;
-var utilApi = api.utilApi;
-var util = api.util;*/
-
-//testing purposes only
+//Quyay_API
+var userApi = require('./routes/api/user');
+var gamepinApi = require('./routes/api/gamepin');
+var utilApi = require('./routes/api/util');
 var util = require('./utility');
+
+//Local files
+var routes = require('./routes');
+var config = require('./config');
+var passConfig = require('./pass_config');
+var riakConfig = require('./riak_config');
+var setup = require('./setup');
 
 //create app
 var app = exports.server = express();
-var httpApp = express();
-//global variable (copout!)
-var blocker = true;
-
 var nodeflake_host;
 
 //create rackspace image, define name of container we will push images to
@@ -55,8 +54,6 @@ rackit.init({
 winston.add(winston.transports.File, { filename: 'web.log'});
 winston.remove(winston.transports.Console);
 
-//initialize riak buckets
-
 //SSL options
 var options = {
   key: fs.readFileSync(__dirname + '/quyay.com.key'),
@@ -66,15 +63,18 @@ var options = {
 //configure settings & middleware
 app.configure(function(){
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');  //hope to use HTML + Angular only
+  app.set('view engine', 'ejs');
+  //If the server is 'toobusy', return 503 service unavailable.
+  /*app.use(function(req, res, next){
+    if(toobusy()) res.send(503, "Server is too busy right now, sorry");
+    else next();
+  });*/
   app.use(express.methodOverride());
   app.use(express.bodyParser());
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
   app.use(passConfig.passport.initialize());
-  //app.use(passConfig.passport.session());
-  //logging middleware
   app.use(function(req, res, next){
     winston.info(req.method);
     winston.info(req.url);
@@ -82,34 +82,12 @@ app.configure(function(){
   });
 });
 
-app.configure('development', function(){
-  var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
-  var nodeflake_host = exports.nodeflake_host = '10.0.1.11';
-  app.use(express.session({ secret: "tazazaz",
-                          store : new RedisStore({ 
-                            host : config.redis_host,
-                          }),
-                          cookie: { maxAge: 86400000
-                                    }
-                          }));
-  riakConfig.init();
-  app.locals.port = config.dev_port;
-  
-  app.locals.rootPath = "http://" + config.dev_host /*+ ':' + config.dev_port */;
-  //initialize passport
-  passConfig.init(config.dev_Fb_ID, config.dev_Fb_Secret, app.locals.rootPath);
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  
-  http.createServer(app).listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
-  /*https.createServer(options, app).listen(443 ,function(){
-    console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
-  // Start server
-  /*app.listen(config.dev_port, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
+//Make sure toobusy closes properly
+process.on('SIGINT', function() {
+  server.close();
+  // calling .shutdown allows your process to exit normally
+  toobusy.shutdown();
+  process.exit();
 });
 
 app.configure('tony', function(){
@@ -117,27 +95,17 @@ app.configure('tony', function(){
   var nodeflake_host = exports.nodeflake_host = config.nodeflake_host;
   var temp_path = exports.temp_path = "C:/Users/Tony/AppData/Local/Temp/";
   app.use(express.session({ secret: "tazazaz",
-                          store : new RedisStore({ 
+                          store : new RedisStore({
                             host : config.redis_host,
                           }),
                           cookie: { maxAge: 86400000
                                     }
                           }));
-  
   riakConfig.init();
-  app.locals.port = config.tony_port;
-  app.locals.rootPath =  "http://" + config.tony_host /* + ':' + config.tony_port */;
-  console.log(app.locals.rootPath);
+  app.locals.rootPath =  "http://" + config.tony_host;
   //initialize passport
   passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-
-  /*https.createServer(options, app).listen(443 ,function(){
-    console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
-  /*http.createServer(app).listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
   app.listen(config.dev_port, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
@@ -156,29 +124,17 @@ app.configure('production', function(){
                           }));
   riakConfig.init();
   app.locals.rootPath =  "http://" + config.production_host;
-  console.log(app.locals.rootPath);
-  //initialize passport
-  //passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  
-  /*https.createServer(options, app).listen(443 ,function(){
-    console.log("HTTPS Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
-  
-  http.createServer(app).listen(80, function(){
+  app.listen(80, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
-  
-  app.use(express.errorHandler());
-});
-
-app.get('http://localhost', function(req, res){
-  console.log('hi');
+  /*http.createServer(app).listen(80, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });*/
 });
 
 //Routes will be handled client side, all routes are built from base
 app.get('/banner', function(req, res){
-  res.render('banner');
 });
 
 app.get('/', function(req, res){
@@ -221,17 +177,7 @@ app.get('/about/:about', function(req, res){
 app.get('/fbfail', function(req, res){
   res.send('facebook login failure');
 });
-//Page for Register Step 2: Choose categories you like.
-/*app.get('/register', function(req, res){
-  if(!req.session.newUser){ console.log('Registration Step 1 incomplete: Go home!'); return res.redirect('/');}
-  res.render('register');
-});*/
-/*app.get('/logout', function(req, res){
-  console.log('destroying session');
-  req.logout();
-  req.session.destroy();  //actually log us out
-  res.redirect('/');
-});
+/*
 app.get('/auth/facebook',
   passConfig.passport.authenticate('facebook', { scope: ['email'] })
 );
@@ -241,13 +187,11 @@ app.get('/auth/facebook/callback',
     //if we need to register this facebook user, store user params into req.session.fbUser
     if(req.user.registerMe){
       req.session.fbUser = req.user;
-      console.log("set req.session.fbUser");
       res.redirect('/');
     }
     //if logging in, set fb flag and log in
     else{
       console.log('Login via facebook success!');
-      console.log(req.user);
       req.session.loggedIn = req.user.data.email;
       req.session.userEmail = req.user.data.email;
       req.session.userName = req.user.data.name;
@@ -255,45 +199,7 @@ app.get('/auth/facebook/callback',
     }
   }
 );
-app.get('/allUsers', function(req, res){
-  var html = '<ul>';
-  //res.send('TODO: Switch to levedb to index users via username');
-});
-app.get('/user/*', function(req, res){
-  console.log('stars everywhere');
-  return res.render('base');
-});
-
-//TODO put regex to filter appropriately
-app.get('/page/*', function(req, res){
-  return res.render('base');
-});*/
-
-//app.get('/category/*/*', function(req, res){
-//  return res.render('base');
-//});
-
-//app.get('/text/*/*', function(req, res){
-//  return res.render('base');
-//});
-/*
-app.get('/settings', function(req, res){
-  return res.render('base');
-});
-//used for testing purposes only
-app.get('/test', function(req, res){
-  bcrypt.genSalt(11, function(err, salt){
-    res.send(salt);
-  });
-});
-
-//file upload
-app.post('/', function(req, res){
-  //req. form is nulL
-  console.log(req.body);
-  console.log(req.form);
-  console.log(req.files);
-});*/
+*/
 
 //All view partials must be served
 app.get('/partials/:name', routes.partials);
@@ -304,7 +210,7 @@ app.get('/user/:user', function(req, res){
   return res.render('base');
 });
 
-/********* JSON REST API ***********/
+/********* Quyay API ***********/
 //User
 app.get('/api/facebookRegister', userApi.facebookRegister);
 app.post('/api/facebookRegister', userApi.facebookRegister);
