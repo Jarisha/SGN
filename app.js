@@ -8,6 +8,7 @@ var fs = require('fs');
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
 var toobusy = require('toobusy');
+var socket = require('socket.io');
 var httpGet = exports.httpGet =  require('http-get');
 var request = exports.request = require('request');
 var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
