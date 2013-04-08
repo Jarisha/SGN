@@ -7,7 +7,7 @@ var fs = require('fs');
 //External modules, read from node_modules. All modules needed for project declared here.
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
-//var toobusy = require('toobusy');
+var toobusy = require('toobusy');
 var httpGet = exports.httpGet =  require('http-get');
 var request = exports.request = require('request');
 var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
