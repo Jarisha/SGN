@@ -123,7 +123,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   //returns true if loggedin, false if not
   $rootScope.checkLogin = function(callback){
     var result = {};
-    $http.get('/api/checkLogin')
+    $http({ method: 'POST', url: '/api/checkLogin' })
       .success(function(data, status, headers, config){
         //logged in
         if(data.loggedIn){
@@ -155,12 +155,12 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.logoutSubmit = function(){
     console.log('rootScope.logout()');
     var result = {};
-    $http({ method: 'GET', url:'/api/logout'})
+    $http({ method: 'POST', url:'/api/logout'})
       .success(function(data, status, headers, config){
         if(data.logout){
           $rootScope.loggedIn = false;
           $rootScope.rootSettings.username = null;
-          $location.path('/');
+          //$location.path('/');
           window.location = '/';
           //console.log("logout remason");
           //$rootScope.popNotify('You are now logged out.');

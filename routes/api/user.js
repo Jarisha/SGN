@@ -43,6 +43,8 @@ exports.facebookRegister = function(req, res){
 //Login via gateway, identical to login except for body params
 exports.gatewayLogin = function(req, res){
   console.log(req.body);
+  var IE = false;
+  if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
   // Prompt error if we are already logged in (client should prevent this from happening)
   if(req.session.loggedIn){
     return res.json({
@@ -80,6 +82,10 @@ exports.gatewayLogin = function(req, res){
       req.session.userEmail = obj.data.email;
       req.session.userName = obj.data.username;
       req.session.avatarUrl = obj.data.profileImg;
+      if(IE){
+        res.contentType('text/plain');
+        return res.send(JSON.stringify(data));
+      }
       return res.json({
         login: true,
         userId: req.session.loggedIn,

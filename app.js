@@ -220,11 +220,11 @@ app.post('/api/login', userApi.login);
 //
 app.post('/api/gatewayLogin', userApi.gatewayLogin);
 //
-app.get('/api/logout', userApi.logout);
+app.post('/api/logout', userApi.logout);
 app.post('/api/register', userApi.register);
 app.post('/api/register_2', userApi.register_2);
-app.get('/api/checkLogin', userApi.checkLogin);
-//app.post('/api/checkLogin', userApi.checkLogin);
+//app.get('/api/checkLogin', userApi.checkLogin);
+app.post('/api/checkLogin', userApi.checkLogin);
 app.get('/api/getSettings', userApi.getSettings);
 app.post('/api/editSettings', userApi.editSettings);
 app.get('/api/deactivate', userApi.deactivate);
