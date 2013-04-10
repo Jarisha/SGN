@@ -4,6 +4,7 @@
   border: 10px solid rgba(153, 204, 0, 0.5);
 }
 .modal-body {
+  overflow-y: hidden;
   max-height: 450px;
   padding:0;
   /* border: 2px solid #6D9100;*/
@@ -11,6 +12,7 @@
 }
 .modal-header{
   border-bottom:0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
 }
@@ -23,6 +25,7 @@
 /* Default Modal Elements */
 .modal input{
   border-radius: 10px;
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   font-size: 20px;
@@ -31,6 +34,7 @@
   margin: 0 0 0 10px;
 }
 .modal textarea{
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   font-size: 20px;
@@ -50,12 +54,14 @@
  * STACK - Div with width 100%, stack vertically from top to bottom
  * SLICE - div with % width, stack horizontally from left to right */
 .modal_stack, .modal_slice{
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   float:left;
   text-align:center;
 }
 .modal_stack{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#B8B8B8', GradientType=0);
   background: -webkit-gradient(linear, left top, right top, from(#EBEBEB), to(#B8B8B8));
   background: -moz-linear-gradient(left center , #EBEBEB, #B8B8B8);
   border-bottom: 1px solid #B8B8B8;
@@ -65,6 +71,7 @@
 .modal_stack:hover{
 }
 .modal_slice{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#B8B8B8', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#EBEBEB), to(#B8B8B8));
   background: -moz-linear-gradient(center top , #EBEBEB, #B8B8B8);
   padding: 20px 0;
@@ -196,6 +203,7 @@
 }
 #editSettings label, #editSettings input{
   float: left;
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin: 0;
@@ -251,6 +259,7 @@
 }
 #loginModal label, #loginModal input{
   float: left;
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin:0;
@@ -287,6 +296,7 @@
 }
 #registerModal label, #loginModal input{
   float: left;
+  box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin:0;

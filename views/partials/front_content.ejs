@@ -5,7 +5,7 @@
     <a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>
   </div>-->
-  <a class="view_trigger" ng-click="viewBigPin($index)">
+  <a class="view_trigger" ng-click="viewBigPin($index)" data-toggle="dropdown">
     <img class="game_img" src="{{pin.imageUrl || pin.sourceUrl}}" width="220"/>
   </a>
   <a name="c1"></a>
@@ -31,3 +31,4 @@
       <button class="respond_btn hidden" type="submit" ng-click="addComment(text, $index); text=null;">Comment</button>
   </div>
 </div>
+<img class="rackspace_logo" style="display: none" src="/images/rackspace_logo.png" />

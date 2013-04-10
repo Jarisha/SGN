@@ -22,6 +22,7 @@
 
 .profile #profile_header{
   box-shadow: 0 5px 10px -5px #333333;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
@@ -33,6 +34,7 @@
   width: 100%;
 }
 .profile #profile_footer{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
@@ -270,7 +272,8 @@
   width:170px;
   -moz-border-radius: 15px; /* Firefox */
   border-radius: 15px; /* CSS3 */
-  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B3B3B3', endColorstr='#747474', GradientType=0);
+  background: -webkit-gradient(linear, left top, left bottom, from(#B3B3B3), to(#747474));
   background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 .profile .xp_gained{
@@ -293,7 +296,8 @@
   border-top-right-radius: 15px; /* CSS3 */
   border-bottom-right-radius: 15px; /* CSS3 */
   /*background:Cornsilk;*/
-  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B3B3B3', endColorstr='#747474', GradientType=0);
+  background: -webkit-gradient(linear, left top, left bottom, from(#B3B3B3), to(#747474));
   background: -moz-linear-gradient(bottom, #B3B3B3, #747474);
 }
 /* comrade area */
@@ -319,6 +323,7 @@
 }
 .profile #people_header{
   box-shadow: 0 5px 10px -5px #333333;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
@@ -364,6 +369,7 @@
 }
 .profile #badge_header{
   box-shadow: 0 5px 10px -5px #333333;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
@@ -375,6 +381,7 @@
 }
 .profile #following_header{
   box-shadow: 0 5px 10px -5px #333333;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;

@@ -3,7 +3,7 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" >
-        <button ng-click="changeAvatar()" class="change_avatar hidden" type="button" >Change Avatar</button>
+        <button ng-click="changeavatar(); log('test');" class="change_avatar hidden" type="button" >Change Avatar</button>
         <img src="{{profile.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
       <div class="profile_xp">

@@ -61,6 +61,7 @@ body{
 }
 
 #previewTrigger{
+  cursor: pointer;
   position: absolute;
   left: 387px;
   width: 224px;
@@ -251,6 +252,12 @@ label#company_label{
   height:30px;
   cursor: pointer;
 }
+.rackspace_logo{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .login_form_container{
   position: relative;
 }

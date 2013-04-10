@@ -38,8 +38,7 @@
   id="notify_triangle" src="<%= rootPath %>/images/UI/triangle_green.png" />
 </div>
 <div id="nav_content" class="navbar-inner">
-  <!--<a id="main_logo" href="/">Quyay</a>-->
-  <a id="main_logo" ng-click="getfront();" href="/"><img src="<%= rootPath %>/images/UI/QUYAY-LOGO-FINAL.png" /></a>
+  <a id="main_logo" href="/" ng-click="getfront()"><img src="<%= rootPath %>/images/UI/QUYAY-LOGO-FINAL.png" /></a>
   <ul id="nav_left" class="nav">
     <li>
       <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
@@ -49,19 +48,19 @@
     </li>
   </ul>
   <ul id="nav_right" class="nav">
-    <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()">
+    <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()" data-toggle="dropdown">
       <img id="profile_post" src="<%= rootPath %>/images/UI/post.png" />
     </a></li>
     <li id="about_tab" class="dropdown">
       <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img id="profile_small" src="<%= rootPath %>/images/UI/about.png" />
       </a>
-        <ul class="dropdown-menu active">
-          <li><a href="/about/faq">FAQ</a></li>
-          <li><a href="/about/tos">Terms of Service</a></li>
-          <li><a href="/about/privacy">Privacy Policy</a></li>
-          <li><a href="/about/acceptable">Acceptable Use</a></li>
-        </ul>
+      <ul class="dropdown-menu active">
+        <li><a href="/about/faq">FAQ</a></li>
+        <li><a href="/about/tos">Terms of Service</a></li>
+        <li><a href="/about/privacy">Privacy Policy</a></li>
+        <li><a href="/about/acceptable">Acceptable Use</a></li>
+      </ul>
     </li>
     <!--<li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
       <img id="login_btn" src="<%= rootPath %>/images/UI/Login_effects.png" />
@@ -73,11 +72,10 @@
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">My Profile</a></li>
-        <li><a ng-click="viewSettings()">Settings</a></li>
-        <li><a ng-click="logoutSubmit()" href="#">Log Out</a></li>
+        <li><a ng-click="viewSettings()" data-toggle="dropdown" >Settings</a></li>
+        <li><a ng-click="logoutSubmit()" data-toggle="dropdown" >Log Out</a></li>
       </ul>
     </li>
   </ul>
 </div>
-
 <div ng-include="subnav" id="subnav" onload="affix()" <!--data-spy="affix" data-offset-top="42" --> </div>

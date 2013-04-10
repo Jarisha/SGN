@@ -10,10 +10,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                   controller: FrontController,
                   resolve: FrontController.resolve
                 })
-    /* These pages for pagination of search results
-    .when('/page/:page', {templateUrl: '../partials/front', controller: FrontController})
-    .when('/category/:cat/:page', {templateUrl: '../../partials/front', controller: FrontController})
-    .when('/text/:tex/:page', {templateUrl: '../../partials/front', controller: FrontController}) */
     .when('/store', { templateUrl: '/partials/store',
                       controller: StoreController,
                       resolve: StoreController.resolve
@@ -22,7 +18,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                       controller: ProfileController,
                       resolve: ProfileController.resolve
                     })
-    //.when('/settings', {templateUrl: 'partials/settings', controller: SettingsController})
     .when('/about', { templateUrl: '/partials/about',
                       controller: AboutController,
                       resolve: AboutController.resolve
@@ -38,18 +33,21 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});
     
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 
 // Entry Point
 app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   console.log('app.run()');
-  /* Detect if HTML5 localstorage is enabled */
-  if(typeof(Storage)!=="undefined"){
-  }
-  else{
-    console.log('HTML5 localstorage not enabled, redirect to fail page');
-  }
+  /* Detect if HTML5 features: placeholder, localstorage, inputs 
+  if( !Modernizr.input.placeholder ||
+      !Modernizr.input.required ||
+      !Modernizr.input.min ||
+      !Modernizr.input.max ||
+      !Modernizr.input.pattern){
+  }*/
+  $rootScope.badInput = false;
+  if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
   //Global variables - session data
   $rootScope.section = '';
@@ -220,7 +218,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.popNotify('Success', 'You are now logged in.');
           //rootScope.popNotify({status: 'success' || 'error', message: 'Login successful!'});
           
-          
           /* If cached, reload and cache partials effected by login */
           if($templateCache.get($rootScope.rootPath +'/partials/front_subnav')){
             $templateCache.remove($rootScope.rootPath +'/partials/front_subnav');
@@ -255,23 +252,32 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $rootScope.post.description = null;
     $rootScope.post.url = null;
     $rootScope.post.content = null;
-    /*$rootScope.genericModal.header = "Post Content to Quyay!";
-    $rootScope.genericModal.body = "Body";
-    $rootScope.genericModal.data = "Data";*/
     clearModalFields();
     $('#postModal').modal();
   }
   //clear all fields and images, disable all forms
   function clearModalFields(){
-    $('#imageUrlModal form').resetForm();
-    $('#imageUrlModal .urlInput').val('');
-    $('#imageUrlModal .thumbnail').empty();
-    $('#fileUploadModal form').resetForm();
-    $('#fileUploadModal .thumbnail').empty();
-    $('#youtubeModal form').resetForm();
-    $('#youtubeModal .urlInput').val('');
-    $('#youtubeModal .fileupload').empty();
-    /*$('#imageUrlForm input[type="submit"], \
+    /* if($rootScope.badInput){
+      $('#imageUrlModal form').resetForm();
+      $('#imageUrlModal .urlInput').val('');
+      $('#imageUrlModal .thumbnail').empty();
+      $('#fileUploadModal form').resetForm();
+      $('#fileUploadModal .thumbnail').empty();
+      $('#youtubeModal form').resetForm();
+      $('#youtubeModal .urlInput').val('');
+      $('#youtubeModal .fileupload').empty();
+    }
+    else{
+      $('#imageUrlModal form').resetForm();
+      $('#imageUrlModal .urlInput').val('');
+      $('#imageUrlModal .thumbnail').empty();
+      $('#fileUploadModal form').resetForm();
+      $('#fileUploadModal .thumbnail').empty();
+      $('#youtubeModal form').resetForm();
+      $('#youtubeModal .urlInput').val('');
+      $('#youtubeModal .fileupload').empty();
+    }
+    $('#imageUrlForm input[type="submit"], \
                   #uploadForm input[type="submit"], \
                   #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');*/
     
@@ -399,15 +405,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //setup JQuery needed to deal with post content
   $rootScope.setupPostContent = function(){
-    //disable all form submits
+    //setup form polyfill
+    $('input, textarea').placeholder();
     
-    
+    //disable all form submits    
     $('.btn-file input').click(function(e){
       $('#uploadForm .fileSubmit').removeAttr('disabled');
     });
     $("#uploadForm a[data-dismiss='fileupload']").click(function(e){
       $('#uploadForm .fileSubmit').attr('disabled', 'disabled');
     });
+    
     //Post via File Upload
     $('#uploadForm').submit(function(){
       $('#' + $(this)[0].id + ' input[type="submit"]').attr('disabled', 'disabled');
@@ -599,12 +607,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     });
     
     //Change avatar via profile page
-    $rootScope.changeAvatar = function(){
+    $rootScope.changeavatar = function(){
+      console.log('changeAvatar');
       $('#changeAvatar').modal();
       $('#changeAvatarForm').submit(function(){
         $('#changeAvatar :submit').attr('disabled', 'disabled');
         $('#changeAvatar *').css('cursor', 'wait');
         $(this).ajaxSubmit({
+          dataType: 'text',
           success: function(responseText, statusText, xhr, $form){
             $('#changeAvatar :submit').removeAttr('disabled');
             $('#changeAvatar *').css('cursor', 'auto');
@@ -621,8 +631,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
             $('#changeAvatar :submit').removeAttr('disabled');
             $('#changeAvatar *').css('cursor', 'auto');
             console.log(responseText);
-          },
-          dataType: 'json'
+          }
         });
         return false;
       });

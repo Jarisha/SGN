@@ -84,12 +84,12 @@ app.configure(function(){
 });
 
 //Make sure toobusy closes properly
-process.on('SIGINT', function() {
+/*process.on('SIGINT', function() {
   server.close();
   // calling .shutdown allows your process to exit normally
   //toobusy.shutdown();
   process.exit();
-});
+});*/
 
 app.configure('tony', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
@@ -139,10 +139,11 @@ app.get('/banner', function(req, res){
 });
 
 app.get('/', function(req, res){
-  console.log(req.session);
+  //console.log(req.session);
   if(!req.session.loggedIn){
     return res.render('banner');
   }
+  console.log('this is IE');
   res.render('base');
 });
 app.get('/store', function(req, res){

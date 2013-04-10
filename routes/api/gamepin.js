@@ -12,6 +12,10 @@ exports.postImageUpload = function(req, res){
     console.log("Error: Required fields missing or left blank");
     return res.json({ error: "Required fields missing or left blank" });
   }
+  
+  var IE = false;
+  if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
+  
   //create data to be saved
   var post_data = {
     posterId: req.session.loggedIn,
@@ -34,21 +38,35 @@ exports.postImageUpload = function(req, res){
             }
   };
   
-  console.log(req.files.image.path);
-  
   //Push content onto rackspace CDN, retreieve URL
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
     if(err){
       console.log('rackspace erorr:');
       console.log(err);
+      if(IE){
+        res.contentType('text/plain'); 
+        return res.send(JSON.stringify({error: "CDN error"}));
+      }
       return res.json({error: err});
     }
     var viewUrl = app.rackit.getURI(cloudpath);
     post_data.sourceUrl = viewUrl;
     post_data.cloudPath = cloudpath;
     postGamePin(post_data, function(err, data){
-      if(err) return res.json({error: err});
-      return res.json(data);
+      if(err){
+        if(IE){
+          res.contentType('text/plain');
+          return res.send(JSON.stringify({ error: "Fetch user error" }));
+        }
+        return res.json({error: err});
+      }
+      else{
+        if(IE){
+         res.contentType('text/plain');
+         return res.send(JSON.stringify(data));
+        }
+        return res.json(data);
+      }
     });
   });
 }

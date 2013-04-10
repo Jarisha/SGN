@@ -91,7 +91,6 @@ exports.gatewayLogin = function(req, res){
 	}
 }
 
-
 // Login: Set session given correct params
 exports.login = function(req, res){
   // Prompt error if we are already logged in (client should prevent this from happening)
@@ -818,12 +817,20 @@ exports.getUser = function(req, res){
 //change avatar image, outside of registration process.
 //we will change the session var, the user object, and user quick reference
 exports.changeAvatar = function(req, res){
+  var IE = false;
+  if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
   if(!req.files.image){
     return res.json({error: 'No image recieved by server'});
   }
   var url;
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
-    if(err) return res.json({error: err});
+    if(err){
+      if(IE){
+        res.contentType('text/plain'); 
+        return res.send(JSON.stringify({error: "File upload error"}));
+      }
+      return res.json({error: err});
+    }
     url = app.rackit.getURI(cloudpath);
     req.session.avatarUrl = url;
     next();
@@ -835,7 +842,13 @@ exports.changeAvatar = function(req, res){
       util.clearChanges(obj);
       obj.data.profileImg = url;
       obj.save(function(err, saved){
-        if(err) return res.json({error: err});
+        if(err){
+          if(IE){
+            res.contentType('text/plain'); 
+            return res.send(JSON.stringify({error: "Fetch user error"}));
+          }
+          return res.json({error: err});
+        }
         next2();
       });
     });
@@ -846,8 +859,21 @@ exports.changeAvatar = function(req, res){
       if(err) return res.json({error: err});
       obj.data.imgUrl = url;
       obj.save(function(err, saved){
-        if(err) return res.json({error: err});
-        return res.json({success: "Avatar changed successfully!"});
+        if(err){
+          if(IE){
+            res.contentType('text/plain'); 
+            return res.send(JSON.stringify({error: "Save error"}));
+          }
+          return res.json({error: err});
+        }
+        if(IE){
+          //res.contentType('text/plain');
+          //return res.send(JSON.stringify(data));
+          
+          res.contentType('text/plain');
+          return res.end();
+        }
+        return res.json({success: "Avatar changed successfully1111"});
       });
     });
   }
@@ -864,7 +890,6 @@ exports.uploadAvatar = function(req, res){
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
     if(err) return res.json({error: err});
     var url = app.rackit.getURI(cloudpath);
-    //req.session.avatarImgUrl = app.rackit.getURI(cloudpath);
     req.session.newUser.avatarImg = url;
     return res.json({ success: true });
   });

@@ -11,12 +11,13 @@
   </div>
 </noscript>
 <!-- Debug Area -->
-<!--<div style="position:absolute; top:100px; left: 100px; z-index:1000; background:white; border: solid 1px black;">
-  </>
+<!--<div style="position:fixed; top:100px; left: 100px; z-index:1000; background:white; border: solid 1px black;">
+  <a href="/profile">Link to Profile</a>
+  <p>WHAT IS THIS??????</p>
 </div>-->
 <div id="content" class="container" ng-include="content" onload="log('content-loaded')">
 </div>
-<a href="#" ng-click="scrollup()" id="scrollup">
+<a data-toggle="dropdown" ng-click="scrollup()" id="scrollup">
   <img src="<%= rootPath %>/images/UI/scrollup.png">
 </a>
 <div id="pag_nav">

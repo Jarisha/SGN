@@ -20,20 +20,15 @@ $(document).ready(function(){
     $('div.modal').omniWindow().trigger('show');
   });
   
-  $('#send_email').click(function(e){
-    console.log('yea');
-    
-    /*$.ajax({
-      type: 'post',
-      url: '/api/sendEmail',
-      data: 'email=' + 'dtonys@gmail.com',
-      success: function(data){
-        
-      },
-      error:  function(data){
-        console.log("AJAX error: " + data);
-      }
-    });*/
+  /** Do not allow spacebar, remove copy + pasted text with whitespace **/
+  $("input").on({
+    keydown: function(e) {
+      if (e.which === 32)
+        return false;
+    },
+    change: function() {
+      this.value = this.value.replace(/\s/g, "");
+    }
   });
   
   /** Intercept form submits and submit via AJAX, to avoid page reload **/
@@ -191,6 +186,7 @@ $(document).ready(function(){
       }
     });
   }
+  
   function checkUniqueEmail(email, callback){
     $.ajax({
       type: 'post',

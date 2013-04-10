@@ -55,11 +55,20 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     var a = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var b = $window.pageYOffset;
     
+    
     if($scope.flag && (a-b) <= 300){
+      if((a-b) <= 100){
+        $('.rackspace_logo').fadeIn();
+      }
+      //else $('.rackspace_logo').fadeOut();
       $scope.$apply($scope.loadMore());
       $scope.flag = false;
     }
+    if(a - b >= 400){
+     $('.rackspace_logo').fadeOut();
+    }
   }
+
   
   /* temp variables - used only in this controller */
   var commentList = [];
@@ -72,7 +81,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   /* AJAX FUNCTIONS */
   $scope.getfront = function(){
-    $scope.showPins = [];;
+    $scope.showPins = [];
     gamepinService.getPinList(function(data){
       $scope.gamePins = data.objects;
       pinIndex = 0;
@@ -176,7 +185,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     }
   }
   
-  
   //Must do a POST, otherwise response is cached
   
   //Called after our modals have loaded, do anything that needs to be done
@@ -238,8 +246,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         console.log('error');
       });
     //API call to add comment to DB
-    
-    //$scope.pinList[index]
   }
   //loadFirst to load initial gamepins into view
   function loadFirst(){
