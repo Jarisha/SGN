@@ -1,5 +1,13 @@
+/* Note: IE does crazy shit (downloads a file, opens new tab) when you send it JSON
+ * It also has inconsistent behavior depending on both the browser cache, and also whether developer tools are open or not.
+ * To satisfy this irrational beast, we will recieve JSON in a text string, and parse it into a data object.
+ */
+//alert('OUTER BANNER.JS');
+
 $(document).ready(function(){
   console.log('Document is ready!');
+  
+  //alert('INNER BANNER.JS');
   
   //Uniqueness flags
   var validUserName = false;
@@ -26,7 +34,7 @@ $(document).ready(function(){
       if (e.which === 32)
         return false;
     },
-    change: function() {
+    change: function(e) {
       this.value = this.value.replace(/\s/g, "");
     }
   });
@@ -39,14 +47,17 @@ $(document).ready(function(){
       type: 'post',
       url: '/api/createPending',
       data: $(this).serialize(),
-      success: function(data){
+      dataType: 'text',
+      success: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log(data);
         $('.user_alert').removeClass('hidden');
         setTimeout(function(){
           $('.user_alert').fadeOut('slow', function() {});
         }, 5000);
       },
-      error: function(data){
+      error: function(jsonString){
+        var data = $.parseJSON(jsonString);
         consoe.log("AJAX error:" + data);
       }
     });
@@ -59,14 +70,17 @@ $(document).ready(function(){
       type: 'post',
       url: '/api/createPending',
       data: $(this).serialize() + '&company=true',
-      success: function(data){
+      dataType: 'text',
+      success: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log(data);
         $('.company_alert').removeClass('hidden');
         setTimeout(function(){
           $('.company_alert').fadeOut('slow', function() {});
         }, 5000);
       },
-      error: function(data){
+      error: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log("AJAX error:" + data);
       }
     });
@@ -76,17 +90,17 @@ $(document).ready(function(){
     console.log('login form submit');
     $.ajax({
       type: 'post',
-      url: '/api/login',
+      url: '/api/gatewayLogin',
+      dataType: 'text',
+      //dataType: ($.browser.msie) ? 'text' : 'json',
       data: $(this).serialize(),
-      success: function(data){
-        console.log(data);
-        if(!data.login){
-          console.log('fail');
-          $('.login_alert').text(data.error);
-        }
+      success: function(jsonString){
+        var data = $.parseJSON(jsonString);
+        if(!data.login) $('.login_alert').text(data.error);
         else window.location = '/';
       },
-      error: function(data){
+      error: function(jsonString){
+        var data = $.parseJSON(jsonString);
         $('.login_alert').text(data.error);
         console.log("AJAX error:" + data);
       }
@@ -174,13 +188,15 @@ $(document).ready(function(){
       type: 'post',
       url: '/api/checkUniqueName',
       data: 'userName='+ userName,
-      success: function(data){
+      success: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log(data);
         if(data.error) return callback(data.error, null);
         if(data.success) return callback(null, data.success);
         return callback("No data returned from AJAX", null);
       },
-      error: function(data){
+      error: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log("AJAX error:" + data);
         return callback(data, null);
       }
@@ -192,7 +208,8 @@ $(document).ready(function(){
       type: 'post',
       url: '/api/checkUniqueEmail',
       data: 'email=' + email,
-      success: function(data){
+      success: function(jsonString){
+        var data = $.parseJSON(jsonString);
         console.log(data);
         if(data.error) return callback(data.error, null);
         if(data.success) return callback(null, data.success);

@@ -43,14 +43,11 @@ exports.facebookRegister = function(req, res){
 //Login via gateway, identical to login except for body params
 exports.gatewayLogin = function(req, res){
   console.log(req.body);
+  console.log('GATEWAY LOGIN')
   var IE = false;
-  if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
-  // Prompt error if we are already logged in (client should prevent this from happening)
-  if(req.session.loggedIn){
-    return res.json({
-      login: false,
-      error: 'Login Failed: User already logged in'
-    });
+  if(req.get('X-Requested-With') != 'XMLHttpRequest'){
+    console.log('IE MODE');
+    IE = true;
   }
   
   //validation.  TODO: more rigorous validations
@@ -61,7 +58,10 @@ exports.gatewayLogin = function(req, res){
     if(err) return res.json({login: false, error: 'Error: ' +  err});
     if(!exists){
       console.log('Does not exist!');
-      return res.json({login: false, error: 'Email not registered'});
+      /*if(IE){ return res.send('Error, Email not registered');}
+      else return res.json({login: false, error: 'Email not registered'});*/
+      return res.send(JSON.stringify({login: false, error: 'Email not registered'}));
+      //return res.send('bad email');
     }
     return next();
   });
@@ -74,7 +74,9 @@ exports.gatewayLogin = function(req, res){
       
       //check password
       if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
-				return res.json({ login: false, error: 'Wrong password.' })
+				//return res.json({ login: false, error: 'Wrong password.' })
+        return res.send(JSON.stringify({ login: false, error: 'Wrong password.' }));
+        //return res.send('wrong password');
 			}
       //log in
       console.log(obj.data);
@@ -82,17 +84,21 @@ exports.gatewayLogin = function(req, res){
       req.session.userEmail = obj.data.email;
       req.session.userName = obj.data.username;
       req.session.avatarUrl = obj.data.profileImg;
-      if(IE){
+      console.log('WE MADE IT THIS FAR');
+      console.log(req.url);
+      /*if(IE){
+        console.log('IE login success');
         res.contentType('text/plain');
-        return res.send(JSON.stringify(data));
-      }
-      return res.json({
+        return res.send(200);
+      }*/
+      return res.send(JSON.stringify({
         login: true,
         userId: req.session.loggedIn,
         userEmail: req.session.userEmail,
         userName: req.session.userName,
         avatarUrl:  req.session.avatarUrl
-      });
+      }));
+      //return res.send('success');
     });
 	}
 }
@@ -907,7 +913,9 @@ exports.createPending = function(req, res){
   console.log(req.body);
   
   //validation
-  if(!req.body.email || !req.body.userName) return res.json({ error: "Missing fields" });
+  if(!req.body.email || !req.body.userName)
+    //return res.json({ error: "Missing fields" });
+    return res.send('');
   
   var pending_data = {
     email: req.body.email,
@@ -969,23 +977,23 @@ exports.setPassword = function(req, res){
 exports.checkUniqueName = function(req, res){
   console.log('checkUniqueName');
   //validation
-  if(!req.body.userName) return res.json({error: "No Username Entered"});
+  if(!req.body.userName) return res.send(JSON.stringify({error: "No Username Entered"}));
   
   //check pending accounts to see if username exists
   app.riak.bucket('pendingUsers').search.twoi(req.body.userName, 'username', function(err, keys){
     if(err) return res.json({error: err});
     if(keys){
-      if(keys.length !== 0) return res.json({error: "Username already exists"});
+      if(keys.length !== 0) return res.send(JSON.stringify({error: "Username already exists"}));
       return next();
     }
   });
   function next(){
     //check registered accounts to see if username exists
     app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
-      if(err) return res.json({error: err});
+      if(err) return res.send(JSON.stringify({error: err}));
       if(keys){
-        if(keys.length !== 0) return res.json({error: "Username already exists"});
-        return res.json({ success: true });
+        if(keys.length !== 0) return res.send(JSON.stringify({error: "Username already exists"}));
+        return res.send(JSON.stringify({ success: true }));
       }
     });
   }
@@ -994,20 +1002,20 @@ exports.checkUniqueName = function(req, res){
 //ensure that user email has not been taken
 exports.checkUniqueEmail = function(req, res){
   console.log('checkUniqueEmail');
-  if(!req.body.email) return res.json({error: "No Email Entered"});
+  if(!req.body.email) return res.send(JSON.stringify({error: "No Email Entered"}));
   console.log(req.body);
   //check pending accounts to see if email exists
   app.riak.bucket('pendingUsers').object.exists(req.body.email, function(err, result){
-    if(err) return res.json({ error: "Pending Email Exists Error: " + err });
-    if(result) return res.json({ error: "Pending Email already exists" });
+    if(err) return res.send(JSON.stringify({ error: "Pending Email Exists Error: " + err }));
+    if(result) return res.send(JSON.stringify({ error: "Pending Email already exists" }));
     if(!result) next();
   });
   function next(){
     //check registered accounts to see if email exists
     app.riak.bucket('users').object.exists(req.body.email, function(err, result){
-      if(err) return res.json({ error: "Registered Email Exists Error: " + err });
-      if(result) return res.json({ error: "Registerd Email already exists" });
-      if(!result) return res.json({ success: true });
+      if(err) return res.send(JSON.stringify({ error: "Registered Email Exists Error: " + err }));
+      if(result) return res.json(JSON.stringify({ error: "Registerd Email already exists" }));
+      if(!result) return res.json(JSON.stringify({ success: true }));
     });
   }
 }
