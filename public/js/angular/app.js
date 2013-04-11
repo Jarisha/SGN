@@ -3,7 +3,6 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   console.log('app.config()');
-  
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/',  { templateUrl: '/partials/front',
@@ -85,12 +84,12 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //Debugging Tools
   //Allows you to execute debug functions from the view
-  $rootScope.log = function(variable) {
+  /*$rootScope.log = function(variable) {
     console.log(variable);
   };
   $rootScope.alert = function(text) {
     alert(text);
-  };
+  };*/
   
   //Masonry calls
   $rootScope.masonry = function(){

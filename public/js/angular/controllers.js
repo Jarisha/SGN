@@ -41,7 +41,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   var pinStop = 0;
   
   loadFirst();
-  
   $scope.fbModal = function(){
     $('#fbRegisterModal').modal();
   }
@@ -249,7 +248,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadFirst to load initial gamepins into view
   function loadFirst(){
-    console.log('loadFirst');
+    //console.log('loadFirst');
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
       if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
       else break;
@@ -260,7 +259,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         imgCount = 1;
       $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
     }
-    $rootScope.remason();
+    //$rootScope.remason();
     console.log($scope.showPins[3]);
   }
   //loadMore invoked to show more gamepins when the user scrolls down
@@ -286,7 +285,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
     $timeout( function(){ $scope.flag = true }, 100 );
   }
-
   /* code run in front controller */
   //$scope.facebookRegister();
   
