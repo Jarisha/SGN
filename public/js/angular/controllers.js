@@ -412,7 +412,8 @@ StoreController.resolve = {
     return deferred.promise;
   }
 }
-function ProfileController($scope, $rootScope, $http, $location, resolveProfile){
+function ProfileController($scope, $rootScope, $http, $location, $timeout , resolveProfile){
+  console.log('ProfileController');
   $scope.activityPins = resolveProfile.activity;
   $scope.groupPins = resolveProfile.groups;
   $scope.showPins = $scope.activityPins;
@@ -444,8 +445,31 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
                       friends: []
   };
   
+  //Tossing out this rubbish
   $scope.setup = function(){
-    profileSetup($scope);
+    console.log('setup setup setup');
+    //"Scroll to Top" button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 200) {
+            $('#scrollup').fadeIn();
+        } else {
+            $('#scrollup').fadeOut();
+        }
+    });
+    
+    var $changeAvatar = $('.change_avatar');
+    $timeout(function(){ console.log($('.profile_pic')); }, 1000);
+    console.log($('.profile_pic'));
+    $('.profile_pic').mouseenter(function(e){
+      $changeAvatar.removeClass('hidden');
+    }).mouseleave(function(e){
+      $changeAvatar.addClass('hidden');
+    });
+    
+    $scope.scrollup = function(){
+      console.log('scrollup');
+      $("html, body").animate({ scrollTop: 0 }, 600);
+    }
   }
   
   /* AJAX FUNCTIONS */
@@ -464,6 +488,8 @@ function ProfileController($scope, $rootScope, $http, $location, resolveProfile)
           return;
         }
         $scope.profile = data;
+        //deal with logic in controller, not view
+        $scope.profile.profileImg = $scope.profile.profileImg || $rootScope.rootPath + '/images/160x160.gif';
         console.log($scope.profile);
       })
       .error(function(data, status, headers, config){

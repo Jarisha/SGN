@@ -4,7 +4,7 @@ var https = require('https');
 var url = require('url');
 var fs = require('fs');
 
-//External modules, read from node_modules. All modules needed for project declared here.
+//External modules, read in from node_modules.
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
 //var toobusy = require('toobusy');
@@ -12,7 +12,7 @@ var socket = require('socket.io');
 var httpGet = exports.httpGet =  require('http-get');
 var request = exports.request = require('request');
 var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
-var winston = exports.winston = require('winston');
+/*var winston = exports.winston = require('winston');*/
 var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 
@@ -27,7 +27,7 @@ var routes = require('./routes');
 var config = require('./config');
 var passConfig = require('./pass_config');
 var riakConfig = require('./riak_config');
-var setup = require('./setup');
+//var setup = require('./setup');
 
 //create app
 var app = exports.server = express();
@@ -45,15 +45,15 @@ rackit.init({
   verbose : false, // If set to true, log messages will be generated
   logger : console.log // Function to receive log messages
 }, function(err){
-  if(err) console.log('error:' + err);
+  if(err) console.error('error:' + err);
 });
 
 //configure riak
 //riakConfig.init();
 
 //configifure log
-winston.add(winston.transports.File, { filename: 'web.log'});
-winston.remove(winston.transports.Console);
+//winston.add(winston.transports.File, { filename: 'web.log'});
+//winston.remove(winston.transports.Console);
 
 //SSL options
 var options = {
@@ -76,11 +76,11 @@ app.configure(function(){
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
   app.use(passConfig.passport.initialize());
-  app.use(function(req, res, next){
+  /*app.use(function(req, res, next){
     winston.info(req.method);
     winston.info(req.url);
     next();
-  });
+  });*/
 });
 
 //Make sure toobusy closes properly

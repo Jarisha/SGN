@@ -7,8 +7,6 @@
 $(document).ready(function(){
   console.log('Document is ready!');
   
-  //alert('INNER BANNER.JS');
-  
   //Uniqueness flags
   var validUserName = false;
   var validCompanyName = false;
