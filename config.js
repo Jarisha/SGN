@@ -26,7 +26,7 @@ exports.production_db_host = '127.0.0.1';
 exports.production_db_port = 8098;
 exports.produection_ssl_path = '/var/lib/quyay/';
 
-exports.production_temp_path = "/tmp/";
+exports.production_temp_path = '/tmp';
 exports.production_host = "www.quyay.com";
 exports.production_redis_host = 'redis1.quyay.com';
 exports.production_nodeflake_host = '127.0.0.1';

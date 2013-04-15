@@ -94,7 +94,7 @@ app.configure('tony', function(){
 app.configure('production', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
   var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
-  var temp_path = exports.temp_path = production_temp_path;
+  var temp_path = exports.temp_path = config.production_temp_path;
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.production_redis_host,
