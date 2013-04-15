@@ -87,7 +87,9 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //Masonry calls
   $rootScope.masonry = function(){
-    $('#content').imagesLoaded(function(){
+    $('img').imagesLoaded(function(){
+      //alert('masonry');
+      console.log('masonry');
       $('#content').masonry({
         itemSelector : '.game_pin, .store_pin',
         isFitWidth: true
@@ -95,24 +97,12 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     });
   }
   $rootScope.remason = function(){
-    $('#content').imagesLoaded(function(){
+    $('img').imagesLoaded(function(){
+      //alert('remason');
       console.log('reload masonry');
       $('#content').masonry('reload');
     });
   }
-  /*$rootScope.profileMason = function(){
-    $('#profile_data_inner').imagesLoaded(function(){
-      $('#profile_data_inner').masonry({
-        itemSelector : '.game_pin',
-        isFitWidth: true
-      });
-    });
-  }
-  $rootScope.profileRemason = function(){
-    $('#profile_data_inner').masonry('reload');
-  }*/
-
-  
   //Global AJAX calls
   
   //checkLogin fetches session data from the server, returning login data if user is logged in

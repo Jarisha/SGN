@@ -7,6 +7,22 @@
 $(document).ready(function(){
   console.log('Document is ready!');
   
+  var path;
+  
+  //get path
+  $.ajax({
+    type: 'get',
+    url: '/api/getPath',
+    success: function(data){
+      console.log(data.path);
+      path = data.path;
+    },
+    error: function(data){
+      console.log(data);
+    }
+  });
+  
+  
   //Uniqueness flags
   var validUserName = false;
   var validCompanyName = false;
@@ -95,7 +111,7 @@ $(document).ready(function(){
       success: function(jsonString){
         var data = $.parseJSON(jsonString);
         if(!data.login) $('.login_alert').text(data.error);
-        else window.location = '/';
+        else window.location = 'http://localhost';
       },
       error: function(jsonString){
         var data = $.parseJSON(jsonString);
@@ -121,7 +137,6 @@ $(document).ready(function(){
       if(data){
         validCompanyName = true;
         $('#company_name').next().text("Available");
-        $()
       }
     });
   });

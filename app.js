@@ -7,12 +7,10 @@ var fs = require('fs');
 //External modules, read in from node_modules.
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
-//var toobusy = require('toobusy');
 var socket = require('socket.io');
 var httpGet = exports.httpGet =  require('http-get');
 var request = exports.request = require('request');
 var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
-/*var winston = exports.winston = require('winston');*/
 var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 
@@ -27,10 +25,10 @@ var routes = require('./routes');
 var config = require('./config');
 var passConfig = require('./pass_config');
 var riakConfig = require('./riak_config');
-//var setup = require('./setup');
 
-//create app
+//Create server
 var app = exports.server = express();
+
 var nodeflake_host;
 
 //create rackspace image, define name of container we will push images to
@@ -48,74 +46,55 @@ rackit.init({
   if(err) console.error('error:' + err);
 });
 
-//configure riak
-//riakConfig.init();
 
-//configifure log
-//winston.add(winston.transports.File, { filename: 'web.log'});
-//winston.remove(winston.transports.Console);
-
-//SSL options
-var options = {
-  key: fs.readFileSync(__dirname + '/quyay.com.key'),
-  cert: fs.readFileSync(__dirname + '/quyay.com.crt')
-};
 
 //configure settings & middleware
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  //If the server is 'toobusy', return 503 service unavailable.
-  /*app.use(function(req, res, next){
-    if(toobusy()) res.send(503, "Server is too busy right now, sorry");
-    else next();
-  });*/
   app.use(express.methodOverride());
   app.use(express.bodyParser());
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon(__dirname + '/public'));
   app.use(express.cookieParser());
   app.use(passConfig.passport.initialize());
-  /*app.use(function(req, res, next){
-    winston.info(req.method);
-    winston.info(req.url);
-    next();
-  });*/
 });
 
-//Make sure toobusy closes properly
-/*process.on('SIGINT', function() {
-  server.close();
-  // calling .shutdown allows your process to exit normally
-  //toobusy.shutdown();
-  process.exit();
-});*/
-
 app.configure('tony', function(){
-  var riak = exports.riak = require('nodiak').getClient('http', config.db_host, config.db_port);
-  var nodeflake_host = exports.nodeflake_host = config.nodeflake_host;
-  var temp_path = exports.temp_path = "C:/Users/Tony/AppData/Local/Temp/";
+  var riak = exports.riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
+  var nodeflake_host = exports.nodeflake_host = config.dev_nodeflake_host;
+  var temp_path = exports.temp_path = config.dev_temp_path;
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({
-                            host : config.redis_host,
+                            host : config.dev_redis_host,
                           }),
                           cookie: { maxAge: 86400000
                                     }
                           }));
   riakConfig.init();
-  app.locals.rootPath =  "http://" + config.tony_host;
-  //initialize passport
-  passConfig.init(config.tony_Fb_ID, config.tony_Fb_Secret, app.locals.rootPath);
+  app.locals.host = config.dev_host;
+  app.locals.rootPath =  "http://" + config.dev_host;
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.listen(config.dev_port, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  
+  //SSL options
+  var options = {
+    key: fs.readFileSync(config.dev_ssl_path + 'quyay.com.key'),
+    cert: fs.readFileSync(config.dev_ssl_path + 'quyay.com.crt'),
+    ca: [fs.readFileSync(config.dev_ssl_path + 'gd_bundle.crt')]
+  }
+  
+  http.createServer(app).listen(80, function(){
+    console.log('HTTP Express server listening on port 80');
+  });
+  https.createServer(options, app).listen(443, function(){
+    console.log('HTTPS Express server listening on port 443');
   });
 });
 
 app.configure('production', function(){
   var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
-  var nodeflake_host = exports.nodeflake_host = '127.0.0.1';
-  var temp_path = exports.temp_path = "/tmp/";
+  var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
+  var temp_path = exports.temp_path = production_temp_path;
   app.use(express.session({ secret: "tazazaz",
                           store : new RedisStore({ 
                             host : config.production_redis_host,
@@ -124,55 +103,72 @@ app.configure('production', function(){
                                     }
                           }));
   riakConfig.init();
+  app.locals.host = config.production_host;
   app.locals.rootPath =  "http://" + config.production_host;
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  
+  //SSL options
+  var options = {
+    key: fs.readFileSync(config.production_ssl_path + 'quyay.com.key'),
+    cert: fs.readFileSync(config.production_ssl_path + 'quyay.com.crt'),
+    ca: [fs.readFileSync(config.production_ssl_path + 'gd_bundle.crt')]
+  }
+  
+  http.createServer(app).listen(80, function(){
+    console.log('HTTP Express server listening on port 80');
   });
-  /*http.createServer(app).listen(80, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });*/
+  https.createServer(options, app).listen(443, function(){
+    console.log('HTTPS Express server listening on port 443');
+  });
 });
 
+
 //Routes will be handled client side, all routes are built from base
-app.get('/banner', function(req, res){
+
+app.get('*', function(req, res, next){
+  //if https and logged in, redirect to http version of page
+  if(req.connection.encrypted && req.session.loggedIn){
+    return res.redirect('http://' + app.locals.host + req.url);
+  }
+  next();
 });
 
 app.get('/', function(req, res){
+  //redirect us to https page
+  if(!req.connection.encrypted && !req.session.loggedIn) return res.redirect('https://' + app.locals.host + '/');
   //console.log(req.session);
   if(!req.session.loggedIn){
     return res.render('banner');
   }
-  console.log('this is IE');
   res.render('base');
 });
 app.get('/store', function(req, res){
   if(!req.session.loggedIn){
-    return res.render('banner');
+    return res.redirect('https://' + app.locals.host + '/');
   }
   res.render('base');
 });
 app.get('/profile', function(req, res){
   if(!req.session.loggedIn){
-    return res.render('banner');
+    return res.redirect('https://' + app.locals.host + '/');
   }
   res.render('base');
 });
 app.get('/settings', function(req, res){
   if(!req.session.loggedIn){
-    return res.render('banner');
+    return res.redirect('https://' + app.locals.host + '/');
   }
   res.render('base');
 });
 app.get('/about', function(req, res){
   if(!req.session.loggedIn){
-    return res.render('banner');
+    return res.redirect('https://' + app.locals.host + '/');
   }
   res.render('base');
 });
 app.get('/about/:about', function(req, res){
   if(!req.session.loggedIn){
-    return res.render('banner');
+    return res.redirect('https://' + app.locals.host + '/');
   }
   res.render('base');
 });

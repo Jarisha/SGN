@@ -15,7 +15,7 @@ angular.module('myApp.directives', [])
     return {
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.
-      link: function(scope, element, attrs){
+      link: function(scope, element, attrs, $timeout){
         //Whenever we extend our pinList array, we trigger a new $last event
         if(scope.$last){
           console.log('last');
@@ -26,7 +26,7 @@ angular.module('myApp.directives', [])
             scope.masonry();
           }
           else{
-            scope.remason();
+            setTimeout(function(){ scope.remason() }, 0);
           }
         }
       }
