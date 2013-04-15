@@ -111,7 +111,7 @@ $(document).ready(function(){
       success: function(jsonString){
         var data = $.parseJSON(jsonString);
         if(!data.login) $('.login_alert').text(data.error);
-        else window.location = 'http://localhost';
+        else window.location = path;
       },
       error: function(jsonString){
         var data = $.parseJSON(jsonString);
