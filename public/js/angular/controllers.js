@@ -591,7 +591,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.isFollowing = false;
   
   $scope.setup = function(){
-    profileSetup($scope);
+    //profileSetup($scope);
   }
   
   $scope.follow = function(targetName){

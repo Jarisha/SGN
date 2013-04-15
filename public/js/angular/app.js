@@ -103,6 +103,24 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       $('#content').masonry('reload');
     });
   }
+  $rootScope.profileMason = function(){
+    $('img').imagesLoaded(function(){
+      //alert('masonry');
+      console.log('profile masonry');
+      $('#profile_data_inner').masonry({
+        itemSelector : '.game_pin, .store_pin',
+        isFitWidth: true
+      });
+    });
+  }
+  $rootScope.profileRemason = function(){
+    $('img').imagesLoaded(function(){
+      //alert('remason');
+      console.log('reload profile masonry');
+      $('#profile_data_inner').masonry('reload');
+    });
+  }
+  
   //Global AJAX calls
   
   //checkLogin fetches session data from the server, returning login data if user is logged in
