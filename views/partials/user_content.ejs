@@ -5,7 +5,7 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic">
-        <img src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
+        <img ng-src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
       <div class="profile_xp">
         <span class="curr_level">Level {{user.level || 1}}</span>
@@ -41,7 +41,7 @@
         <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
       </div>
-      <a ng-repeat="follower in user.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
+      <a ng-repeat="follower in user.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" ng-src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
@@ -71,7 +71,7 @@
 <div id="following_col">
   <div id="following_header">{{user.followingUnit.length}} FOLLOWING</div>
   <div class="badge_chest">
-    <a ng-repeat="following in user.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"  width="40px" height="40px"/></a>
+    <a ng-repeat="following in user.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" ng-src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"  width="40px" height="40px"/></a>
     <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
   </div>
 </div>
@@ -79,7 +79,7 @@
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in showPins" class="game_pin" sample-done>
       <a class="view_trigger" ng-click="viewGamePin()">
-        <img class="game_img" src="{{pin.sourceUrl}}" width="220"/>
+        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
       <div class="pin_footer">
         <p class="game_description">{{pin.description}}</p>

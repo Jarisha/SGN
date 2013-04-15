@@ -283,7 +283,7 @@
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-  background-image:url('http://localhost:3001/images/UI/XP.png');
+  /*background-image:url('/images/UI/XP.png');*/
   /*background:blue;*/
   
 }
@@ -295,7 +295,6 @@
   -moz-border-radius-bottomright: 15px; /* Firefox */
   border-top-right-radius: 15px; /* CSS3 */
   border-bottom-right-radius: 15px; /* CSS3 */
-  /*background:Cornsilk;*/
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B3B3B3', endColorstr='#747474', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#B3B3B3), to(#747474));
   background: -moz-linear-gradient(bottom, #B3B3B3, #747474);

@@ -26,7 +26,6 @@ angular.module('myApp.directives', [])
             scope.masonry();
           }
           else{
-            scope.masonry();
             scope.remason();
           }
         }

@@ -1,4 +1,4 @@
-<div ng-include="modals" onload="setupPostContent(); setup();"></div>
+<div ng-include="modals" onload="setupPostContent();"></div>
 <div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
 <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
 <noscript>
@@ -9,7 +9,7 @@
     You don't have javascript enabled.  Please Enable javascript to view this site.
   </div>
 </noscript>
-<div id="content" class="container" ng-include="content">
+<div id="content" class="container" ng-include="content" onload="setup()">
 </div>
 <a data-toggle="dropdown" ng-click="scrollup()" id="scrollup">
   <img src="<%= rootPath %>/images/UI/scrollup.png">

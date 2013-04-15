@@ -2,9 +2,10 @@
   <div id="profile_header">PROFILE</div>
   <div class="left_container">
     <div class="left_padding" style="position:relative">
-      <div class="profile_pic">
-        <button ng-click="changeavatar(); log('test');" class="change_avatar hidden" type="button" >Change Avatar</button>
-        <img src="{{profile.profileImg}}" width="165" height="165"/>
+      <div class="profile_pic" ng-mouseenter="changeImage = true;" ng-mouseleave="changeImage = false;">
+        <button ng-show="!profile.profileImg" ng-click="changeavatar()" class="change_avatar" type="button" >Upload Avatar</button>
+        <button ng-show="profile.profileImg && changeImage" ng-click="changeavatar()" class="change_avatar" type="button" >Change Avatar</button>
+        <img ng-src="{{profile.profileImg || '<%= rootPath %>/images/160x160.gif' }}" width="165" height="165"/>
       </div>
       <div class="profile_xp">
         <span class="curr_level">Level {{profile.level || 1}}</span>
@@ -35,7 +36,9 @@
   <div id="people_container">
     <div id="people_header"> {{profile.followerUnit.length}} FOLLOWERS<!--<span class="view_all"><a ng-click="listFollowers()" href="#">View All</a></span>--></div>
     <div class="bot_container">
-      <a ng-repeat="follower in profile.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" width="40px" height="40px" src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>
+      <a ng-repeat="follower in profile.followerUnit" href="/user/{{follower.name}}">
+        <img title="{{follower.name}}" width="40px" height="40px" ng-src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}"/>
+      </a>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
@@ -65,38 +68,16 @@
 <div id="following_col">
   <div id="following_header">{{ profile.followingUnit.length }} FOLLOWING<!--<span class="view_all"><a ng-click="listFollowing()" href="#">View All</a></span>--></div>
   <div class="badge_chest">
-    <a ng-repeat="following in profile.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif' }}"/></a>
-    <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
+    <a ng-repeat="following in profile.followingUnit" href="/user/{{following.name}}"><img
+      title="{{following.name}}" width="40px" height="40px" ng-src="{{following.image || '<%= rootPath %>/images/30x30.gif' }}"/>
+    </a>
   </div>
 </div>
-<!--<div id="profile_data">
-  <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in samplePins" class="game_pin" sample-done>
-      <div class="game_options hidden">
-        <a class="like_btn">Like</a>
-        <a class="pin_btn">Repin</a>
-        <a class="comment_btn" href="#c1">Comment</a>
-      </div>
-      <a class="view_trigger" ng-click="viewGamePin()">
-        <img class="game_img" src="{{pin.img}}" width="220"/>
-      </a>
-      <a name="c1"></a>
-      <p class="game_description">This is a description</p>
-      <p class="game_attributes">
-        <span>1 like</span>&nbsp;&nbsp;<span>1 pin</span>&nbsp;&nbsp;<span>0 comments</span>
-      </p>
-      <div class="posted_by">
-        <img src="<%= rootPath %>/images/30x30.gif" class="profile_img" /><p
-        class="post_text"><a ng-show="loggedIn" href="/user/user1"><b>Tony</b></a> onto Shooters</p>
-      </div>
-    </div>
-  </div>
-</div>-->
 <div id="profile_data">
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in showPins" class="game_pin" sample-done>
       <a class="view_trigger" ng-click="viewGamePin()">
-        <img class="game_img" src="{{pin.sourceUrl}}" width="220"/>
+        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
       <div class="pin_footer">
         <p class="game_description">{{pin.description}}</p>

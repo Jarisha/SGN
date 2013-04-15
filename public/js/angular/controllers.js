@@ -136,6 +136,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       //console.log(data);
       $scope.bigPin.index = index;
       $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
@@ -264,7 +265,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
-    console.log('loadMore');
+    //console.log('loadMore');
     var event = false;
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
       if($scope.gamePins[pinIndex]){
@@ -444,10 +445,11 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
                       following: [],
                       friends: []
   };
+  $scope.changeImage = false;
   
-  //Tossing out this rubbish
   $scope.setup = function(){
-    console.log('setup setup setup');
+    console.log('setup profile UI');
+    
     //"Scroll to Top" button
     $(window).scroll(function(){
         if ($(this).scrollTop() > 200) {
@@ -458,13 +460,16 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
     });
     
     var $changeAvatar = $('.change_avatar');
-    $timeout(function(){ console.log($('.profile_pic')); }, 1000);
+    /*$timeout(function(){ console.log($('.profile_pic')); }, 1000);
     console.log($('.profile_pic'));
-    $('.profile_pic').mouseenter(function(e){
+    $(document).on('mouseenter', '.profile_pic', function(){$changeAvatar.removeClass('hidden'); });
+    $(document).on('mouseleave', '.profile_pic', function(){$changeAvatar.addClass('hidden'); });*/
+    
+    /*$('.profile_pic').mouseenter(function(e){
       $changeAvatar.removeClass('hidden');
     }).mouseleave(function(e){
       $changeAvatar.addClass('hidden');
-    });
+    });*/
     
     $scope.scrollup = function(){
       console.log('scrollup');
@@ -489,7 +494,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
         }
         $scope.profile = data;
         //deal with logic in controller, not view
-        $scope.profile.profileImg = $scope.profile.profileImg || $rootScope.rootPath + '/images/160x160.gif';
+        //$scope.profile.profileImg = $scope.profile.profileImg || $rootScope.rootPath + '/images/160x160.gif';
         console.log($scope.profile);
       })
       .error(function(data, status, headers, config){

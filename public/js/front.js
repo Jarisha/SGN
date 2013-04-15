@@ -7,7 +7,7 @@ function frontSetup($scope, $rootScope, $http){
   }
   
   //Post youtube video functionality
-  var url;
+  /*var url;
   var embed;
   var arr;
   $(document).on('click', '#pinYoutube .load_vid', function(e){
@@ -20,7 +20,7 @@ function frontSetup($scope, $rootScope, $http){
                             arr[1] +'" frameborder="0" allowfullscreen></iframe>');
     $rootScope.post.content = embed;
     return true;
-  });
+  });*/
   
   //post game_pin
   $('.post_vid').click(function(){

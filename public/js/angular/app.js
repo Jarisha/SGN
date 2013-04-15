@@ -38,13 +38,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 // Entry Point
 app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   console.log('app.run()');
-  /* Detect if HTML5 features: placeholder, localstorage, inputs 
-  if( !Modernizr.input.placeholder ||
-      !Modernizr.input.required ||
-      !Modernizr.input.min ||
-      !Modernizr.input.max ||
-      !Modernizr.input.pattern){
-  }*/
+  
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
@@ -84,12 +78,12 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //Debugging Tools
   //Allows you to execute debug functions from the view
-  /*$rootScope.log = function(variable) {
+  $rootScope.log = function(variable) {
     console.log(variable);
   };
   $rootScope.alert = function(text) {
     alert(text);
-  };*/
+  };
   
   //Masonry calls
   $rootScope.masonry = function(){
@@ -100,7 +94,13 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
     });
   }
-  $rootScope.profileMason = function(){
+  $rootScope.remason = function(){
+    $('#content').imagesLoaded(function(){
+      console.log('reload masonry');
+      $('#content').masonry('reload');
+    });
+  }
+  /*$rootScope.profileMason = function(){
     $('#profile_data_inner').imagesLoaded(function(){
       $('#profile_data_inner').masonry({
         itemSelector : '.game_pin',
@@ -110,10 +110,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   }
   $rootScope.profileRemason = function(){
     $('#profile_data_inner').masonry('reload');
-  }
-  $rootScope.remason = function(){
-    $('#content').masonry('reload');
-  }
+  }*/
+
   
   //Global AJAX calls
   

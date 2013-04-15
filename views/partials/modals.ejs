@@ -1,7 +1,7 @@
 <!-- Front Pin Enlarged Modal -->
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img_top" src="{{bigPin.posterImg || '<%= rootPath %>/images/30x30.gif' }}"/></a>
+    <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.posterImg }}"/></a>
     <button ng-click="follow(bigPin.poster)" class="follow"  type="button">Follow</button>
     <p class="poster"><a href="#">{{bigPin.poster}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
@@ -14,7 +14,7 @@
     </div>
     <div class="view_img_container">
       <div ng-show="bigPin.videoEmbed" class="view_vid"><iframe width="200" height="200" src="http://www.youtube.com/embed/pV5Yv2NogrU" frameborder="0" allowfullscreen></iframe></div>
-      <a ng-show="!bigPin.videoEmbed" href="#"><img class="view_img" src="{{bigPin.imageUrl}}"/></a>
+      <a ng-show="!bigPin.videoEmbed" href="#"><img class="view_img" ng-src="{{bigPin.imageUrl}}"/></a>
     </div>
     <div class="view_comment_container">
       <!--<p> {{bigPin.description}} </p>-->
@@ -22,11 +22,11 @@
         <p> {{bigPin.description}} </p>
       </div>
       <div ng-repeat="cmt in bigPin.comments" class="view_comment">
-        <a href="#"><img src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif' }}" class="profile_img"/></a><p 
+        <a href="#"><img ng-src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif' }}" class="profile_img"/></a><p 
         class="view_post_text"><b>{{cmt.posterName}}</b><br/>{{cmt.content}}</p>
       </div>
       <div class="view_respond clearfix">
-        <a href="#"><img src="{{avatarUrl}}" class="profile_img"/></a><textarea 
+        <a href="#"><img ng-src="{{avatarUrl}}" class="profile_img"/></a><textarea 
         class="view_respond_txtarea" placeholder="Post comment" tabindex="" ng-model="big_text"></textarea>
         <button ng-click="addBigComment(big_text, bigPin.index)" class="view_respond_btn hidden" type="button">Comment</button>
       </div>
@@ -226,7 +226,7 @@
             <span class="fileupload-exists">Change</span>
             <input name="image" type="file" />
           </span>
-          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+          <span class="btn fileupload-exists" data-dismiss="fileupload">Remove</span>
         </div>
         <!-- JQuery intercepts submit, due to complexity of file upload -->
         <div class="modal_slice profileImg_submit">
