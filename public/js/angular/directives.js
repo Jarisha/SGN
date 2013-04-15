@@ -24,6 +24,7 @@ angular.module('myApp.directives', [])
             scope.setup();
             scope.changeState();
             scope.masonry();
+            scope.remason();
           }
           else{
             setTimeout(function(){ scope.remason() }, 0);
