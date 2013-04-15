@@ -7,11 +7,13 @@ exports.dev_db_host = '10.1.10.23';
 exports.dev_db_port = 8100;
 exports.dev_ssl_path = 'C:/node/Q_SSL/';
 
-exports.dev_temp_path = "C:/Users/Tony/AppData/Local/Temp/";
+exports.dev_temp_path = 'C:/Users/Tony/AppData/Local/Temp/';
+exports.dev_log_path = 'C:/node/Q_LOG/';
 exports.dev_host = 'localhost';
-exports.dev_redis_host = '10.1.10.23'
+exports.dev_redis_host = '10.1.10.23';
 exports.dev_nodeflake_host = '10.1.10.23';
 exports.dev_port = '80';
+
 
 
 /*exports.dev_Fb_ID = "387033471379256";
@@ -27,6 +29,7 @@ exports.production_db_port = 8098;
 exports.production_ssl_path = '/var/lib/quyay/';
 
 exports.production_temp_path = '/tmp';
+exports.production_log_path = '/var/log/quyay/';
 exports.production_host = "www.quyay.com";
 exports.production_redis_host = 'redis1.quyay.com';
 exports.production_nodeflake_host = '127.0.0.1';

@@ -15,6 +15,9 @@ var request = exports.request = require('request');
 var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
 var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
+var winston = require('winston');
+
+winston.info('Hello there this is winston default');
 
 //Quyay_API
 var userApi = require('./routes/api/user');
@@ -27,10 +30,6 @@ var routes = require('./routes');
 var config = require('./config');
 var passConfig = require('./pass_config');
 var riakConfig = require('./riak_config');
-
-//dev
-process.env.ENV_VARIABLE
-//production
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -47,6 +46,7 @@ rackit.init({
   if(err) console.error('error:' + err);
 });
 
+//node cluster encapsulates web server creation
 if(cluster.isMaster){
   for(var i = 0; i < numCores; i++){
     cluster.fork();
@@ -86,6 +86,19 @@ else{
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
+    var outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:false })
+      ]
+    }); 
+    var errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'error.log', json:false })
+      ]
+    });
+    
     //SSL options
     var options = {
       key: fs.readFileSync(config.dev_ssl_path + 'quyay.com.key'),
@@ -106,7 +119,7 @@ else{
     var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
     var temp_path = exports.temp_path = config.production_temp_path;
     app.use(express.session({ secret: "tazazaz",
-                            store : new RedisStore({ 
+                            store : new RedisStore({
                               host : config.production_redis_host,
                             }),
                             cookie: { maxAge: 86400000
@@ -116,6 +129,22 @@ else{
     app.locals.host = config.production_host;
     app.locals.rootPath =  "http://" + config.production_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    
+    var outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json:false })
+      ]
+    });
+    var errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'error.log', json:false })
+      ]
+    });
+    
+    outlog.info('This is log output');
+    errlog.info('This is err output');
     
     //SSL options
     var options = {

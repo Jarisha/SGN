@@ -11,7 +11,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   console.log('frontController');
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
-  //console.log($scope.gamePins);
   var imgCount = 0;
   
   //console.log(beforeFront);
@@ -249,7 +248,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadFirst to load initial gamepins into view
   function loadFirst(){
-    //console.log('loadFirst');
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
       if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
       else break;
