@@ -1,6 +1,10 @@
 /****************************Utility functions****************************/
 var request = require('request');
 var url = require('url');
+var app = require('../../app');
+var errlog = app.errlog;
+var evtlog = app.evtlog;
+var outlog = app.outlog;
 
 exports.validImg = function(req, res){
   request({ method: 'HEAD', url: req.body.url},

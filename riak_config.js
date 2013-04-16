@@ -21,7 +21,9 @@ exports.init = function(){
     app.riak.ping(function(err, response){
      if(err) return errlog.info('app.riak.ping: ' + response);
      console.log('Riak Connected');
-     return outlog.info('app.riak.ping: ' + response);
+     outlog.info('app.riak.ping: ' + response);
+     evtlog.info('app.riak.ping: ' + response);
+     return 
     });
   }
 }

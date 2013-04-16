@@ -3,6 +3,9 @@ var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
 var util = require('../../utility');
 var app = require('../../app');
+var errlog = app.errlog;
+var evtlog = app.evtlog;
+var outlog = app.outlog;
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
