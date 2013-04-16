@@ -422,7 +422,7 @@ exports.editSettings = function(req, res){
 //get port # from server.  This belongs in a misc.js rather than user.js
 exports.getPath = function(req, res){
   return res.json({
-    path: app.server.locals.rootPath
+    path: app.self.locals.rootPath
   });
 }
 //deactivate

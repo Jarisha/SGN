@@ -1,18 +1,21 @@
 var passport = exports.passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var app = require('./app');
+var errlog = app.errlog;
+var evtlog = app.evtlog;
+var outlog = app.outlog;
 
 exports.init = function(Fb_ID, Fb_secret, rootPath){
   //configure passport
   passport.serializeUser(function(user, done) {
-    console.log(user);
-    console.log('serializeUser');
+    outlog.info(user);
+    outlog.info('serializeUser');
     done(null, user.data.email);
   });
   
   //sent on every requests
   passport.deserializeUser(function(email, done) {
-    console.log('serializeUser');
+    outlog.info('serializeUser');
     return(null, email);
   });
   

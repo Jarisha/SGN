@@ -1,11 +1,16 @@
 /* utility.js contains conflict resolution, nodeflake ID generation, and other useful
  * functions used here and there.
  */
+
+//TODO: Give Quyay API callback in callback(err, success) format
 var app = require('./app');
 var http = require('http');
 var random = require('secure_random');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('./config');
+var errlog = app.errlog;
+var evtlog = app.evtlog;
+var outlog = app.outlog;
 
 //Takes in array and returns new one with duplicate entries removed
 function arrNoDupe(a) {
@@ -41,7 +46,8 @@ var getDate = exports.getDate = function(){
 
 //Default conflict resolution, returns latest sibling
 var last_write_wins = exports.last_write_wins = function(siblings){
-  console.log('last_write_wins()');
+  evtlog.info('last_write_wins');
+  outlog.info('last_write_wins');
   function siblingLastModifiedSort(a, b) {
     if(!a.metadata.last_modified || new Date(a.metadata.last_modified) < new Date(b.metadata.last_modified)) {
       return 1;
@@ -57,10 +63,12 @@ var last_write_wins = exports.last_write_wins = function(siblings){
 //Conflict resolution for gamepins
 var pin_resolve = exports.pin_resolve = function(siblings){
   if(!siblings[0].data.posterId){
-    console.log('pin_resolve called on non pin: calling default resolver');
+    evtlog.info('pin_resolve called on non pin: calling default resolver');
+    outlog.info('pin_resolve called on non pin: calling default resolver');
     return last_write_wins(siblings);
   }
-  console.log('pin_resolve');
+  evtlog.info('pin_resolve');
+  outlog.info('pin_resolve');
   function siblingLastModifiedSort(a, b) {
     if(!a.metadata.last_modified || new Date(a.metadata.last_modified) < new Date(b.metadata.last_modified))
       return 1;
@@ -104,10 +112,12 @@ var pin_resolve = exports.pin_resolve = function(siblings){
 var user_resolve = exports.user_resolve = function(siblings){
   //Check to make sure our obj is a user, else call default resolver
   if(!siblings[0].data.email){
-    console.log('user_resolve called on non user: calling default resolver');
+    evtlog.info('user_resolve called on non user: calling default resolver');
+    outlog.info('user_resolve called on non user: calling default resolver');
     return last_write_wins(siblings);
   }
-  console.log('user_resolve()');
+  evtlog.info('user_resolve()');
+  outlog.info('user_resolve()');
   function siblingLastModifiedSort(a, b) {
     if(!a.metadata.last_modified || new Date(a.metadata.last_modified) < new Date(b.metadata.last_modified))
       return 1;
@@ -172,23 +182,17 @@ var categories = ['Casino', 'Casual', 'Shooter', 'Action',
 var link = exports.link = function(userId, pinId){
   usr = app.riak.bucket('users').objects.new(userId);
   usr.fetch(user_resolve, function(err, obj){
-    if(err){
-      console.log('err');
-      console.log(err);
-    }
+    if(err) return errlog.info('err');
     clearChanges(obj);
-  
-    console.log('userId: '+userId + ' pinId:' + pinId);
-    console.log('before: [' + obj.data.posts + ']');
+
     //add this pin to the user object
     if(obj.data.posts.indexOf(pinId) === -1){
       obj.data.posts.push(pinId);
       obj.data.changes.posts.add.push(pinId);
-      console.log('happening');
     }
     obj.save(function(err, saved){
-      console.log('after: [' +saved.data.posts + ']');
-      console.log('linked '+ pinId + 'to ' + userId);
+      evtlog.info('added gamepin: '+ pinId + 'to ' + userId);
+      outlog.info('added gamepin: '+ pinId + 'to ' + userId);
     });
   });
 }
@@ -197,31 +201,24 @@ var link = exports.link = function(userId, pinId){
 var like = exports.like = function(userId, pinId){
   //check if pin exists
   app.riak.bucket('gamepins').object.exists(pinId, function(err, result){
-    if(err){
-      console.log('Pin Exists: ' + err);
-      return;
-    }
-    if(result) next();
-    else console.log('Error: pin ' + pinId + 'not found in db');
+    if(err) return errlog.info('like error -> pin Exists: ' + err);
+    next();
   });
   //add pinId to user's likes[]
   function next(){
     usr = app.riak.bucket('users').objects.new(userId);
     usr.fetch(user_resolve, function(err, obj){
-      if(err){
-        console.log('Fetch User:' + err);
-        return;
-      }
+      if(err) return errlog.info('fetch user error: ' + err);
       clearChanges(obj);
-      console.log(userId + ' liked pin #'+pinId);
       if(obj.data.likes.indexOf(pinId) === -1){
         obj.data.likes.push(pinId);
         obj.data.changes.likes.add.push(pinId);
       }
-      else
-        console.log('Error: '+ userId + 'already liked this pin');
+      else return errlog.info('like error: '+ userId + ' already liked this pin');
       obj.save(function(err, saved){
-        console.log('like added to '+userId+': [' +saved.data.likes + ']');
+        if(err) return errlog.info('like error: ' + err);
+        evtlog.info('like added to '+userId+': [' +saved.data.likes + ']');
+        outlog.info('like added to '+userId+': [' +saved.data.likes + ']');
         next2();
       });
     });
@@ -230,20 +227,16 @@ var like = exports.like = function(userId, pinId){
   function next2(){
     var pin = app.riak.bucket('gamepins').object.new(pinId);
     pin.fetch(pin_resolve, function(err, obj){
-      if(err){
-        console.log("Fetch Pin: " +err);
-        return;
-      }
+      if(err) return errlog.info("fetch pin: " +err);
       //clear changes
       clearChanges(obj);
       if(obj.data.likedBy.indexOf(userId) === -1){
         obj.data.likedBy.push(userId);
         obj.data.changes.likedBy.add.push(userId);
       }
-      else
-        console.log('Error: ' + userId + 'already in pin '+ pinId + 's likedBy list');
+      else return errlog.info('error: ' + userId + 'already in pin '+ pinId + 's likedBy list');
       obj.save(function(err, saved){
-        console.log("gamepin's likedBy list [" + saved.data.likedBy + "]");
+        outlog.info("gamepin's likedBy list updated [" + saved.data.likedBy + "]");
       });
     });
   }
@@ -253,30 +246,23 @@ var like = exports.like = function(userId, pinId){
 var unlike = exports.unlike = function(userId, pinId){
   //check if pin exists
   app.riak.bucket('gamepins').object.exists(pinId, function(err, result){
-    if(err){
-      console.log('GamePin Exists: ' + err);
-      return;
-    }
+    if(err) return errlog.info('gamePin exists: ' + err);
     if(result) next();
-    else console.log('Error: pin ' + pinId + 'not found in db');
   });
   //remove pinId from user's likes
   function next(){
     usr = app.riak.bucket('users').objects.new(userId);
     usr.fetch(user_resolve, function(err, obj){
-      if(err){
-        console.log('Fetch User:' + err);
-        return;
-      }
+      if(err) return errlog.info('Fetch User:' + err);
       //clear changes
       clearChanges(obj);
-      console.log(userId + ' unliked pin #'+pinId);
       if(obj.data.likes.indexOf(pinId) !== -1){
         obj.data.likes.splice(obj.data.likes.indexOf(pinId), 1);
         obj.data.changes.likes.remove.push(pinId);
       }
       obj.save(function(err, saved){
-        console.log('like removed from '+userId+': [' +saved.data.likes + ']');
+        evtlog.info('like removed from '+userId+': [' +saved.data.likes + ']');
+        outlog.info('like removed from '+userId+': [' +saved.data.likes + ']');
         next2();
       });
     });
@@ -285,19 +271,18 @@ var unlike = exports.unlike = function(userId, pinId){
   function next2(){
     pin = app.riak.bucket('gamepins').objects.new(pinId);
     pin.fetch(pin_resolve, function(err, obj){
-      if(err){
-        console.log('Fetch Pin:' + err);
-        return;
-      }
+      if(err) return errlog.info('Fetch Pin:' + err);
       //clear changes
       clearChanges(obj);
-      console.log('Pin #'+pinId + ' removed ' +userId+ 'from likedBy list');
+      outlog.info('Pin #'+pinId + ' removed ' +userId+ 'from likedBy list');
+      evtlog.info('Pin #'+pinId + ' removed ' +userId+ 'from likedBy list');
       if(obj.data.likedBy.indexOf(userId) !== -1){
         obj.data.likedBy.splice(obj.data.likedBy.indexOf(userId), 1);
         obj.data.changes.likedBy.remove.push(userId);
       }
       obj.save(function(err, saved){
-        console.log('result liked list: [' + saved.data.likedBy +  ']');
+        if(err) return errlog.info('Gamepin save error: ' + err);
+        outlog.info('result liked list: [' + saved.data.likedBy +  ']');
       });
     });
   }
@@ -310,51 +295,35 @@ var follow = exports.follow = function(sourceId, targetId){
   var targ = app.riak.bucket('users').objects.new(targetId);
   //source user adds target to following
   src.fetch(user_resolve, function(err, obj){
-    if(err){
-      console.log("Fetch User: " + err);
-      return;
-    }
+    if(err) return errlog.info("Fetch User: " + err);
     clearChanges(obj);
-    if(sourceId === targetId){
-      console.log("Error: cannot follow yourself");
-      return;
-    }
+    if(sourceId === targetId) return errlog.info("Error: cannot follow yourself");
     if(obj.data.following.indexOf(targetId) === -1){
       obj.data.following.push(targetId);
       obj.data.changes.following.add.push(targetId);
       obj.save(function(err,saved){
-        console.log(sourceId + " following ["+ saved.data.following +"]");
+        outlog.info(sourceId + " following ["+ saved.data.following +"]");
+        evtlog.info(sourceId + " following ["+ saved.data.following +"]");
         next();
       });
     }
-    else{
-      console.log("User " + targetId + " aready on following list");
-      return;
-    }
+    else return errlog.info("User " + targetId + " aready on following list");
   });
   function next(){
     //target user adds source to followers
     targ.fetch(user_resolve, function(err, obj){
-      if(err){
-        console.log("Fetch User " + err);
-        return;
-      }
+      if(err) return outlog.info("Fetch User " + err);
       clearChanges(obj);
-      if(sourceId === targetId){
-        console.log("Error: cannot follow yourself");
-        return;
-      }
+      if(sourceId === targetId) return errlog.info("Error: cannot follow yourself");
       if(obj.data.followers.indexOf(sourceId) === -1){
         obj.data.followers.push(sourceId);
         obj.data.changes.followers.add.push(sourceId);
         obj.save(function(err, saved){
-          console.log(targetId + " followers ["+ saved.data.followers +"]");
+          outlog.info(targetId + " followers ["+ saved.data.followers +"]");
+          evtlog.info(targetId + " followers ["+ saved.data.followers +"]");
         });
       }
-      else{
-        console.log("User " + sourceId + " aready on followers list");
-        return;
-      }
+      else return errlog.info("User " + sourceId + " aready on followers list");
     });
   } 
 }
@@ -365,51 +334,35 @@ var unfollow = exports.unfollow = function(sourceId, targetId){
   var targ = app.riak.bucket('users').objects.new(targetId);
   //source user removes target from following
   src.fetch(user_resolve, function(err, obj){
-    if(err){
-      console.log("Fetch User: " + err);
-      return;
-    }
+    if(err) return errlog.info("Fetch User: " + err);
     clearChanges(obj);
-    if(sourceId === targetId){
-      console.log("Error: cannot unfollow yourself");
-      return;
-    }
+    if(sourceId === targetId) return errlog.info("Error: cannot unfollow yourself");
     if(obj.data.following.indexOf(targetId) !== -1){
       obj.data.following.splice(obj.data.following.indexOf(targetId), 1);
       obj.data.changes.following.remove.push(targetId);
       obj.save(function(err,saved){
-        console.log(sourceId + " following ["+ saved.data.following +"]");
+        outlog.info(sourceId + " following ["+ saved.data.following +"]");
+        evtlog.info(sourceId + " following ["+ saved.data.following +"]");
         next();
       });
     }
-    else{
-      console.log("User " + targetId + " not on following list");
-      return;
-    }
+    else return errlog.info("User " + targetId + " not on following list");
   });
   function next(){
     //target user removes source from followers
     targ.fetch(user_resolve, function(err, obj){
-      if(err){
-        console.log("Fetch User: " + err);
-        return;
-      }
+      if(err) return errlog.info("Fetch User: " + err);
       clearChanges(obj);
-      if(sourceId === targetId){
-        console.log("Error: cannot unfollow yourself");
-        return;
-      }
+      if(sourceId === targetId) return errlog.info("Error: cannot unfollow yourself");
       if(obj.data.followers.indexOf(sourceId) !== -1){
         obj.data.followers.splice(obj.data.followers.indexOf(sourceId), 1);
         obj.data.changes.followers.remove.push(sourceId);
         obj.save(function(err, saved){
-          console.log(targetId + " followers ["+ saved.data.followers +"]");
+          outlog.info(targetId + " followers ["+ saved.data.followers +"]");
+          evtlog.info(targetId + " followers ["+ saved.data.followers +"]");
         });
       }
-      else{
-        console.log("User " + sourceId + " not on followers list");
-        return;
-      }
+      else return errlog.info("User " + sourceId + " not on followers list");
     });
   }
 }
@@ -420,35 +373,28 @@ var unfollow = exports.unfollow = function(sourceId, targetId){
 deletePin = exports.deletePin = function(pinId){
   old_pin = app.riak.bucket('gamepins').object.new(pinId);
   old_pin.fetch(pin_resolve, function(err, pin_obj){
-    if(err){
-      console.log("Fetch Pin: " + err);
-      return;
-    }
+    if(err) return errlog.info("Fetch Pin: " + err);
     clearChanges(pin_obj);
     usr = app.riak.bucket('users').object.new(pin_obj.data.posterId);
     //remove reference from pin owner
     usr.fetch(user_resolve, function(err, usr_obj){
       if(err){
-        console.log("Fetch User: " + err);
+        errlog.info("Fetch User: " + err);
         //if pin owner does not exist, delete the pin anyways
         if(err.status_code === 404) next();
         return;
       }
       clearChanges(usr_obj);
-      if(usr_obj.data.posts.indexOf(pinId) === -1){
-        console.log("Error: User does not own this pin");
-        return;
-      }
+      if(usr_obj.data.posts.indexOf(pinId) === -1) return errlog.info("Error: User does not own this pin");
       usr_obj.data.posts.splice(usr_obj.data.posts.indexOf(pinId), 1);
       usr_obj.data.changes.posts.remove.push(pinId);
       usr_obj.save(function(err, saved){
-        console.log('pin #' + pinId + 'removed from '+ saved.key);
-        console.log('result array [' + saved.data.posts + ']');
+        outlog.info('pin #' + pinId + 'removed from '+ saved.key);
+        evtlog.info('pin #' + pinId + 'removed from '+ saved.key);
         next();
       });
     });
     function next(){
-      console.log('TREEHORNS');
       //get all users, if any, who liked this pin and remove those likes
       var clock = 0;
       if(pin_obj.data.likedBy.length === 0) next2();
@@ -456,10 +402,12 @@ deletePin = exports.deletePin = function(pinId){
         (function(i){
           var usr = app.riak.bucket('users').objects.new(pin_obj.data.likedBy[i]);
           usr.fetch(user_resolve, function(err, obj){
+            if(err) return errlog.info('Fectch user error: ' + err);
             clearChanges(obj);
             obj.data.likes.splice(obj.data.likes.indexOf(pinId), 1);
             obj.data.changes.likes.remove.push(pinId);
             usr.save(function(err, saved){
+              if(err) return errlog.info( 'User save error: ' + err );
               if(clock === pin_obj.data.likedBy.length-1) next2();
               clock++;
             });
@@ -470,7 +418,9 @@ deletePin = exports.deletePin = function(pinId){
     function next2(){
       //delete the pin itself
       pin_obj.delete(function(err, obj){
-        console.log(pinId + 'deleted');
+        if(err) return errlog.info('delete gamepin: ' + err);
+        evtlog.info('Pin ' + pinId + 'deleted');
+        outlog.info('Pin ' + pinId + 'deleted');
       });
     }
   });
@@ -482,23 +432,20 @@ var deactivateUser = exports.deactivateUser = function(userId){
   var temp_usr = app.riak.bucket('users').objects.new(userId);
   var clock;
   temp_usr.fetch(user_resolve, function(err, obj){
-    if(err){
-      console.log("Fetch "+ userId + ": " + err);
-      return;
-    }
-    console.log('feched');
+    if(err) return errlog.info("Fetch "+ userId + ": " + err);
     clearChanges(obj);
     //delete all pins
     clock = 0;
     for(var p in obj.data.posts){
       (function(p){
+        //TODO deletePin a callback
         deletePin(obj.data.posts[p].toString());
         if(clock === obj.data.posts.length-1) next();
         clock++;
       })(p);
     }
     function next(){
-      console.log('pinsDeleted');
+      outlog.info('pinsDeleted');
       //find people following user and remove user from their following list
       clock = 0;
       if(obj.data.followers.length === 0) next2();
@@ -506,9 +453,11 @@ var deactivateUser = exports.deactivateUser = function(userId){
         (function(f){
           var usr = app.riak.bucket('users').objects.new(obj.data.followers[f]);
           usr.fetch(user_resolve, function(err, obj){
+            if(err) return errlog.info('user fetch error: ' + err);
             obj.data.following.splice(obj.data.following.indexOf(userId), 1);
             obj.data.changes.following.remove.push(userId);
             obj.save(function(err, saved){
+              if(err) return errlog.info('user save error:' + err);
               if(clock === obj.data.followers.length-1) next2();
               clock++;
             });
@@ -518,16 +467,17 @@ var deactivateUser = exports.deactivateUser = function(userId){
     }
     //find people who user has followed and remove user from followers
     function next2(){
-      console.log('next');
       clock = 0;
       if(obj.data.followers.length === 0) next3();
       for(var f in obj.data.following){
         (function(f){
           var usr = app.riak.bucket('users').objects.new(obj.data.following[f]);
           usr.fetch(user_resolve, function(err, obj){
+            if(err) return errlog.info('user fetch error: ' + err);
             obj.data.followers.splice(obj.data.followers.indexOf(userId), 1);
             obj.data.changes.followers.remove.push(userId);
             obj.save(function(err, saved){
+              if(err) return errlog.info('user save error: ' + err);
               if(clock === obj.data.following.length-1) next3();
               clock++;
             });
@@ -538,13 +488,16 @@ var deactivateUser = exports.deactivateUser = function(userId){
     //delete the user. This is the end.
     function next3(){
       obj.delete(function(err, deleted){
-        console.log('User ' +userId+ ' and all connected references wiped from db. This is the end.');
+        if(err) return errlog.info('Delete error: ' + err);
+        outlog.info('User ' +userId+ ' and all connected references wiped from db. This is the end.');
       });
     }
   });
   
 }
 
+
+//TODO: Make nodeflake return in nodejs style, callback(err, result)
 //Get unique, roughly sequential ID from nodeflake server
 var nodeflake_prev = '';
 var generateId = exports.generateId = function(callback){
@@ -566,7 +519,7 @@ var generateId = exports.generateId = function(callback){
       ID_obj = JSON.parse(ID);
       //if we get duplicate, retry
       if(ID_obj.id === nodeflake_prev){
-        console.log('dupId: ' +ID_obj.id);
+        errlog.info('dupId: ' +ID_obj.id);
         //recursive function
         return generateId(callback);
       }
@@ -575,7 +528,7 @@ var generateId = exports.generateId = function(callback){
     });
   });
   R.on('error', function(e){
-    console.log('Nodeflake error: ' + e);
+    errlog.info('Nodeflake error: ' + e);
   });
   R.end();
   function next(){
@@ -588,35 +541,31 @@ var generateId = exports.generateId = function(callback){
 //Removes link to pin, then deletes comment.
 //TODO: Remove link from user's 'recent activity'
 var deleteComment = exports.deleteComment = function(commentId){
-  console.log("DeleteComment()");
   var cmt = app.riak.bucket('comments').objects.new(commentId);
   cmt.fetch(function(err, cmt_obj){
-    if(err){
-      console.log("Fetch Comment: " + err);
-      return;
-    }
+    if(err) return errlog.info("Fetch Comment: " + err);
     var pinId = cmt_obj.data.pin;
     var pin = app.riak.bucket('gamepins').objects.new(pinId);
     pin.fetch(pin_resolve, function(err, pin_obj){
-      if(err){
-        console.log("Fetch Pin: " + err);
-        return;
-      }
+      if(err) return outlog.info("Fetch Pin: " + err);
       //remove comment from pin
       if(pin_obj.data.comments.indexOf(cmt_obj.key) !== -1){
         pin_obj.data.comments.splice(pin_obj.data.comments.indexOf(cmt_obj.key), 1);
         pin_obj.data.changes.comments.remove.push(cmt_obj.key);
       }
       pin_obj.save(function(err, saved){
-        console.log('Comment #' +cmt_obj.key+ " removed from list");
-        console.log('Pin #'+pin_obj.key+' comment list['+ saved.data.comments +']');
+        if(err) return errlog.info('Gamepin save error: ' + err);
+        outlog.info('Comment #' +cmt_obj.key+ " removed from list");
+        evtlog.info('Comment #' +cmt_obj.key+ " removed from list");
         next();
       });
     });
     function next(){
       //delete the comment
       cmt_obj.delete(function(err, deleted){
-        console.log("Comment #"+deleted.key+ " deleted!");
+        if(err) errlog.info('Delete comment error: ' + err);
+        outlog.info("Comment #"+deleted.key+ " deleted!");
+        evtlog.info("Comment #"+deleted.key+ " deleted!");
       });
     }
   });

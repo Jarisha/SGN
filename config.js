@@ -14,14 +14,6 @@ exports.dev_redis_host = '10.1.10.23';
 exports.dev_nodeflake_host = '10.1.10.23';
 exports.dev_port = '80';
 
-
-
-/*exports.dev_Fb_ID = "387033471379256";
-exports.dev_Fb_Secret = "5481010ba4013aa2b1629de5f08b3a6b";
-exports.tony_host = 'localhost';
-exports.tony_Fb_ID = "313249415456863";
-exports.tony_Fb_Secret = "cabb1ae80788c824000f0745a98575e4";*/
-
 /* Production Config */
 //Riak
 exports.production_db_host = '127.0.0.1';

@@ -17,8 +17,6 @@ var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 var winston = require('winston');
 
-winston.info('Hello there this is winston default');
-
 //Quyay_API
 var userApi = require('./routes/api/user');
 var gamepinApi = require('./routes/api/gamepin');
@@ -53,8 +51,8 @@ if(cluster.isMaster){
   }
 }
 else{
-  //Create server
-  var app = exports.server = express();
+  //Create server and export it to others who need it
+  var app = exports.self = express();
   
   var nodeflake_host;
   
@@ -71,6 +69,7 @@ else{
   });
   
   app.configure('tony', function(){
+    //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
     var nodeflake_host = exports.nodeflake_host = config.dev_nodeflake_host;
     var temp_path = exports.temp_path = config.dev_temp_path;
@@ -81,23 +80,33 @@ else{
                             cookie: { maxAge: 86400000
                                       }
                             }));
-    riakConfig.init();
+    //express globals
     app.locals.host = config.dev_host;
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    var outlog = new (winston.Logger)({
+    //logging (note that these funcs are async, but there's no fucking callback)
+    var outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:false })
-      ]
-    }); 
-    var errlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'error.log', json:false })
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true })
       ]
     });
+    var errlog = exports.errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'error.log', json:true })
+      ]
+    });
+    var evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true })
+      ]
+    });
+    
+    //ping riak and nodeflake
+    riakConfig.init();
     
     //SSL options
     var options = {
@@ -107,14 +116,17 @@ else{
     }
     
     http.createServer(app).listen(80, function(){
-      console.log('HTTP Express server listening on port 80');
+      outlog.info('HTTP Express server listening on port 80');
     });
     https.createServer(options, app).listen(443, function(){
-      console.log('HTTPS Express server listening on port 443');
+      outlog.info('HTTPS Express server listening on port 443');
     });
+    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
   });
   
   app.configure('production', function(){
+    //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
     var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
     var temp_path = exports.temp_path = config.production_temp_path;
@@ -125,26 +137,34 @@ else{
                             cookie: { maxAge: 86400000
                                       }
                             }));
-    riakConfig.init();
+    
+    //express globals
     app.locals.host = config.production_host;
     app.locals.rootPath =  "http://" + config.production_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    var outlog = new (winston.Logger)({
+    //logging
+    var outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json:false })
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json: true })
       ]
     });
-    var errlog = new (winston.Logger)({
+    var errlog = exports.errlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'error.log', json:false })
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'error.log', json: true })
+      ]
+    });
+    var evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true })
       ]
     });
     
-    outlog.info('This is log output');
-    errlog.info('This is err output');
+    //ping riak and nodeflake
+    riakConfig.init();
     
     //SSL options
     var options = {
@@ -154,16 +174,18 @@ else{
     }
     
     http.createServer(app).listen(80, function(){
-      console.log('HTTP Express server listening on port 80');
+      outlog.info('HTTP Express server listening on port 80');
     });
     https.createServer(options, app).listen(443, function(){
-      console.log('HTTPS Express server listening on port 443');
+      outlog.info('HTTPS Express server listening on port 443');
     });
+    
+    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
   });
   
   
   //Routes will be handled client side, all routes are built from base
-  
   app.get('*', function(req, res, next){
     //if https and logged in, redirect to http version of page
     if(req.connection.encrypted && req.session.loggedIn){
@@ -173,10 +195,8 @@ else{
   });
   
   app.get('/', function(req, res){
-    console.log('Worker: ' + cluster.worker.id + ' served this page.');
     //redirect us to https page
     if(!req.connection.encrypted && !req.session.loggedIn) return res.redirect('https://' + app.locals.host + '/');
-    //console.log(req.session);
     if(!req.session.loggedIn){
       return res.render('banner');
     }
