@@ -18,16 +18,17 @@ var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJ
 var winston = require('winston');
 
 //Quyay_API
-var userApi = require('./routes/api/user');
-var gamepinApi = require('./routes/api/gamepin');
-var utilApi = require('./routes/api/util');
-var util = require('./utility');
+var userApi;
+var gamepinApi;
+var utilApi;
+var util;
 
 //Local files
-var routes = require('./routes');
 var config = require('./config');
-var passConfig = require('./pass_config');
-var riakConfig = require('./riak_config');
+
+var routes;
+var passConfig;
+var riakConfig;
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -65,7 +66,6 @@ else{
     app.use(express.static(__dirname + '/public'));
     app.use(express.favicon(__dirname + '/public'));
     app.use(express.cookieParser());
-    app.use(passConfig.passport.initialize());
   });
   
   app.configure('tony', function(){
@@ -85,7 +85,7 @@ else{
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    //logging (note that these funcs are async, but there's no fucking callback)
+    //logging (note that these funcs behave like async, but there's no fucking callback)
     var outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
@@ -104,7 +104,17 @@ else{
         new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true })
       ]
     });
+  
+    routes = require('./routes');
+    passConfig = require('./pass_config');
+    riakConfig = require('./riak_config');
     
+    userApi = require('./routes/api/user');
+    gamepinApi = require('./routes/api/gamepin');
+    utilApi = require('./routes/api/util');
+    util = require('./utility');
+    
+    app.use(passConfig.passport.initialize());
     //ping riak and nodeflake
     riakConfig.init();
     
@@ -117,9 +127,11 @@ else{
     
     http.createServer(app).listen(80, function(){
       outlog.info('HTTP Express server listening on port 80');
+      console.log('HTTP Express server listening on port 80');
     });
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443');
+      console.log('HTTP Express server listening on port 443');
     });
     console.log('Cluster worker ' + cluster.worker.id + ' initialized');
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');

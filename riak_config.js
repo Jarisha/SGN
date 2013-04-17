@@ -2,13 +2,13 @@ var app = require('./app');
 var util = require('./utility');
 var http = require('http');
 var config = require('./config');
-
+var outlog = app.outlog;
+var errlog = app.errlog;
+var evtlog = app.evtlog;
 
 exports.init = function(){
   //I blame nodejitsu for this
-  var errlog = app.errlog;
-  var evtlog = app.evtlog;
-  var outlog = app.outlog;
+
   util.generateId(function(id){
     var idNum;
     if(id){
@@ -23,7 +23,7 @@ exports.init = function(){
      console.log('Riak Connected');
      outlog.info('app.riak.ping: ' + response);
      evtlog.info('app.riak.ping: ' + response);
-     return 
+     return;
     });
   }
 }
