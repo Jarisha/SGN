@@ -104,7 +104,7 @@ else{
         new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true })
       ]
     });
-  
+    //apis and initialization modules
     routes = require('./routes');
     passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
@@ -174,6 +174,16 @@ else{
         new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true })
       ]
     });
+    
+    //apis and initialization modules
+    routes = require('./routes');
+    passConfig = require('./pass_config');
+    riakConfig = require('./riak_config');
+    
+    userApi = require('./routes/api/user');
+    gamepinApi = require('./routes/api/gamepin');
+    utilApi = require('./routes/api/util');
+    util = require('./utility');
     
     //ping riak and nodeflake
     riakConfig.init();
