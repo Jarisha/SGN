@@ -157,6 +157,176 @@ else{
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
   });
   
+  app.configure('staging', function(){
+    //setup riak and express
+    var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.staging_db_port);
+    var nodeflake_host = exports.nodeflake_host = config.staging_nodeflake_host;
+    var temp_path = exports.temp_path = config.staging_temp_path;
+    app.use(express.session({ secret: "tazazaz",
+                            store : new RedisStore({
+                              host : config.staging_redis_host,
+                            }),
+                            cookie: { maxAge: 86400000
+                                      }
+                            }));
+    
+    //express globals
+    app.locals.host = config.staging_host;
+    app.locals.rootPath =  "http://" + config.staging_host;
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    
+    outlog = exports.outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.staging_log_path + 'quyay.log', json:true,
+                                      options: {   //stupid hack b/c winston doesn't work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    errlog = exports.errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.staging_log_path + 'error.log',
+                                        json:true,
+                                        options: {   
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.staging_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    
+    //apis and initialization modules
+    routes = require('./routes');
+    passConfig = require('./pass_config');
+    riakConfig = require('./riak_config');
+    
+    userApi = require('./routes/api/user');
+    gamepinApi = require('./routes/api/gamepin');
+    utilApi = require('./routes/api/util');
+    util = require('./utility');
+    
+    //ping riak and nodeflake
+    riakConfig.init();
+    
+    //SSL options
+    var options = {
+      key: fs.readFileSync(config.staging_ssl_path + 'quyay.com.key'),
+      cert: fs.readFileSync(config.staging_ssl_path + 'quyay.com.crt'),
+      ca: [fs.readFileSync(config.staging_ssl_path + 'gd_bundle.crt')]
+    }
+    
+    http.createServer(app).listen(80, function(){
+      outlog.info('HTTP Express server listening on port 80');
+    });
+    https.createServer(options, app).listen(443, function(){
+      outlog.info('HTTPS Express server listening on port 443');
+    });
+    
+    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
+  });
+  
+  app.configure('production', function(){
+    //setup riak and express
+    var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
+    var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
+    var temp_path = exports.temp_path = config.production_temp_path;
+    app.use(express.session({ secret: "tazazaz",
+                            store : new RedisStore({
+                              host : config.production_redis_host,
+                            }),
+                            cookie: { maxAge: 86400000
+                                      }
+                            }));
+    
+    //express globals
+    app.locals.host = config.production_host;
+    app.locals.rootPath =  "http://" + config.production_host;
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    
+    outlog = exports.outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json:true,
+                                      options: {   //stupid hack b/c winston doesn't work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    errlog = exports.errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.production_log_path + 'error.log',
+                                        json:true,
+                                        options: {   
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    
+    //apis and initialization modules
+    routes = require('./routes');
+    passConfig = require('./pass_config');
+    riakConfig = require('./riak_config');
+    
+    userApi = require('./routes/api/user');
+    gamepinApi = require('./routes/api/gamepin');
+    utilApi = require('./routes/api/util');
+    util = require('./utility');
+    
+    //ping riak and nodeflake
+    riakConfig.init();
+    
+    //SSL options
+    var options = {
+      key: fs.readFileSync(config.production_ssl_path + 'quyay.com.key'),
+      cert: fs.readFileSync(config.production_ssl_path + 'quyay.com.crt'),
+      ca: [fs.readFileSync(config.production_ssl_path + 'gd_bundle.crt')]
+    }
+    
+    http.createServer(app).listen(80, function(){
+      outlog.info('HTTP Express server listening on port 80');
+    });
+    https.createServer(options, app).listen(443, function(){
+      outlog.info('HTTPS Express server listening on port 443');
+    });
+    
+    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
+  });
+  
   app.configure('production', function(){
     //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);

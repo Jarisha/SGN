@@ -14,6 +14,18 @@ exports.dev_redis_host = '10.1.10.23';
 exports.dev_nodeflake_host = '10.1.10.23';
 exports.dev_port = '80';
 
+/* Staging Config */
+exports.staging_db_host = '127.0.0.1';
+exports.staging_db_port = 8098;
+exports.staging_ssl_path = '/var/lib/quyay/';
+
+exports.staging_temp_path = '/tmp';
+exports.staging_log_path = '/var/log/quyay/';
+exports.staging_host = "api1.example.com";
+exports.staging_redis_host = 'puppet.example.com';
+exports.staging_nodeflake_host = '127.0.0.1';
+exports.staging_port = '80';
+
 /* Production Config */
 //Riak
 exports.production_db_host = '127.0.0.1';
