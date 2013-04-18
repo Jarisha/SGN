@@ -92,7 +92,7 @@ else{
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
-                                      options: {
+                                      options: {   //stupid hack b/c winston doesn't work with express
                                           flags: 'a',
                                           highWaterMark: 24
                                         }
@@ -105,7 +105,7 @@ else{
         new (winston.transports.File)({ level: 'info',
                                         filename: config.dev_log_path + 'error.log',
                                         json:true,
-                                        options: {   //fuck you winston you piece of shit you don't even work with express
+                                        options: {   
                                           flags: 'a',
                                           highWaterMark: 24
                                         }
@@ -124,7 +124,6 @@ else{
       ]
     });
     
-  console.log(config.dev_log_path);
     //apis and initialization modules
     routes = require('./routes');
     passConfig = require('./pass_config');
@@ -176,23 +175,39 @@ else{
     app.locals.rootPath =  "http://" + config.production_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    //logging
     outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json: true })
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json:true,
+                                      options: {   //stupid hack b/c winston doesn't work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
     errlog = exports.errlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'error.log', json: true })
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.production_log_path + 'error.log',
+                                        json:true,
+                                        options: {   
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
     evtlog = exports.evtlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true })
+        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
     
@@ -226,7 +241,6 @@ else{
     console.log('Cluster worker ' + cluster.worker.id + ' initialized');
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
   });
-  
   
   //Routes will be handled client side, all routes are built from base
   app.get('*', function(req, res, next){
