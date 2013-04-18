@@ -6,7 +6,7 @@ var url = require('url');
 var fs = require('fs');
 var numCores = require('os').cpus().length;
 
-//External modules, read in from node_modules.
+//External modules, read in from node_modules
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
 var socket = require('socket.io');
@@ -17,18 +17,20 @@ var rackit = exports.rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 var winston = require('winston');
 
-//Quyay_API
-var userApi;
-var gamepinApi;
-var utilApi;
-var util;
+//Loggers
+var outlog, evtlog, errlog;
+
+//Quyay_API + utility functions
+var userApi, gamepinApi, utilApi, util;
 
 //Local files
 var config = require('./config');
 
+//Partials
 var routes;
-var passConfig;
-var riakConfig;
+
+//Initilization
+var passConfig, riakConfig;
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -86,24 +88,43 @@ else{
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
     //logging (note that these funcs behave like async, but there's no fucking callback)
-    var outlog = exports.outlog = new (winston.Logger)({
+    outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true })
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
+                                      options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
-    var errlog = exports.errlog = new (winston.Logger)({
+    errlog = exports.errlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'error.log', json:true })
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.dev_log_path + 'error.log',
+                                        json:true,
+                                        options: {   //fuck you winston you piece of shit you don't even work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
-    var evtlog = exports.evtlog = new (winston.Logger)({
+    evtlog = exports.evtlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true })
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
       ]
     });
+    
+  console.log(config.dev_log_path);
     //apis and initialization modules
     routes = require('./routes');
     passConfig = require('./pass_config');
@@ -126,12 +147,12 @@ else{
     }
     
     http.createServer(app).listen(80, function(){
-      outlog.info('HTTP Express server listening on port 80');
-      console.log('HTTP Express server listening on port 80');
+      outlog.info('HTTP Express server listening on port 80 in tony mode');
+      console.log('HTTP Express server listening on port 80 in tony mode');
     });
     https.createServer(options, app).listen(443, function(){
-      outlog.info('HTTPS Express server listening on port 443');
-      console.log('HTTP Express server listening on port 443');
+      outlog.info('HTTPS Express server listening on port 443 in tony mode');
+      console.log('HTTP Express server listening on port 443 in tony mode');
     });
     console.log('Cluster worker ' + cluster.worker.id + ' initialized');
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
@@ -156,19 +177,19 @@ else{
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
     //logging
-    var outlog = exports.outlog = new (winston.Logger)({
+    outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json: true })
       ]
     });
-    var errlog = exports.errlog = new (winston.Logger)({
+    errlog = exports.errlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'error.log', json: true })
       ]
     });
-    var evtlog = exports.evtlog = new (winston.Logger)({
+    evtlog = exports.evtlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true })

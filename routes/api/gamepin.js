@@ -7,12 +7,13 @@ var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
 
+
 //Create gamepin and "post" to relevant areas
 //exports.postGamePin = function(req, res){
 exports.postImageUpload = function(req, res){
   //validate data
   if(!req.body.name || !req.body.description || !req.body.category || !req.files.image){
-    //errlog.info("Error: Required fields missing or left blank");
+    errlog.info("Error: Required fields missing or left blank");
     return res.json({ error: "Required fields missing or left blank" });
   }
   
@@ -44,9 +45,9 @@ exports.postImageUpload = function(req, res){
   //Push content onto rackspace CDN, retreive URL
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
     if(err){
-      //errlog.info('rackspace error:' + err);
+      errlog.info('rackspace error:' + err);
       if(IE){
-        res.contentType('text/plain'); 
+        res.contentType('text/plain');
         return res.send(JSON.stringify({error: "CDN error"}));
       }
       return res.json({error: err});
@@ -56,15 +57,16 @@ exports.postImageUpload = function(req, res){
     post_data.cloudPath = cloudpath;
     postGamePin(post_data, function(err, data){
       if(err){
-        //errlog.info('postGamePin error: ' + err);
+        errlog.info('postGamePin error: ' + err);
         if(IE){
           res.contentType('text/plain');
           return res.send(JSON.stringify({ error: "Fetch user error" }));
         }
         return res.json({error: err});
       }
-      //outlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
-      //evtlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
+      outlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
+      evtlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
+      
       if(IE){
        res.contentType('text/plain');
        return res.send(JSON.stringify(data));
@@ -77,7 +79,7 @@ exports.postImageUpload = function(req, res){
 exports.postImageUrl = function(req, res){
   //validate data
   if(!req.body.name || !req.body.description || !req.body.category){
-    //errlog.info("Error: Required fields missing or left blank");
+    errlog.info("Error: Required fields missing or left blank");
     return res.json({ error: "Required fields missing or left blank" });
   }
   //create data to be saved
@@ -104,7 +106,7 @@ exports.postImageUrl = function(req, res){
   var content_type = req.body.type;
   var file_extension;
   var imgPath;
-  //outlog.info(content_type);
+  outlog.info(content_type);
   switch(content_type){
     case 'image/png':
       file_extension = '.png';
@@ -117,58 +119,30 @@ exports.postImageUrl = function(req, res){
       break;
   }
   
-  //generate some name for the file we will download
-  util.generateId(function(id){
-    //outlog.info('nodeflake ID: ' + id);
-    next(id);
-  });
-  
-  function next(id){
-    //download image from url, save to local /tmp folder
-    //outlog.info(app.temp_path + id + '.jpg');
-    httpGet.get(req.body.url,
-                app.temp_path + id + file_extension,
-      function (error, result) {
-        if (error) {
-          //errlog.info('Download image from url Error: ' + error);
-          return res.json({ error: error });
-        } else {
-          //outlog.info('File downloaded at: ' + result.file);
-          //evtlog.info('File downloaded at: ' + result.file);
-          imgPath = result.file;
-          next2();
-        }
-      }
-    );
-  }
-  //read the file into rackspace
-  function next2(){
-    console.log('rackit add URL!!!!');
-    app.rackit.add(imgPath, {type: content_type}, function(err, cloudpath){
-      if(err){
-        errlog.info('rackit.add error: ' + err);
-        return res.json({ error: err });
-      }
-      var viewUrl = app.rackit.getURI(cloudpath);
-      post_data.sourceUrl = viewUrl;
+  //stream url for image directly into rackspace...rackmagic!
+  http.get(req.body.url, function(resp){
+    app.rackit.add(resp, function(err, cloudpath){
+      if(err) return errlog.info('Rackspcae url stream error ' + err);
+      post_data.sourceUrl = app.rackit.getURI(cloudpath);
       post_data.cloudPath = cloudpath;
       postGamePin(post_data, function(err, data){
         if(err){
-          //errlog.info('postGamePin error' + err);
+          errlog.info('postGamePin error' + err);
           return res.json({error: err});
         }
-        console.log('post Image Url success');
-        outlog.info('post Image Url success');
+        outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+        evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+        
         return res.json(data);
       });
     });
-  }
+  });
 }
 
 exports.postYoutubeUrl = function(req, res){
   //validate data
   if(!req.body.name || !req.body.description || !req.body.category || !req.body.imgUrl || !req.body.embedHtml){
-    //errlog.info('Error: Required fields missing or left blank');
+    errlog.info('Error: Required fields missing or left blank');
     return res.json({ error: "Required fields missing or left blank" });
   }
   //create data to be saved
@@ -194,9 +168,12 @@ exports.postYoutubeUrl = function(req, res){
   };
   postGamePin(post_data, function(err, data){
     if(err){
-      //errlog.info('postGamePin Error: ' + err);
+      errlog.info('postGamePin Error: ' + err);
       return res.json({ error: err });
     }
+    outlog.info(post_data.posterName + ' posted Youtube link onto ' + post_data.category);
+    evtlog.info(post_data.posterName + ' posted Youtube link onto ' + post_data.category);
+    
     return res.json(data);
   });
 }
@@ -206,7 +183,7 @@ function postGamePin(post_data, callback){
   var post_id;
   //Generate nodeflake ID
   util.generateId(function(id){
-    //outlog.info('nodeflake ID: ' + id);
+    outlog.info('nodeflake ID: ' + id);
     post_id = id;
     next();
   });
@@ -214,54 +191,61 @@ function postGamePin(post_data, callback){
   function next(){
     var gamepin = app.riak.bucket('gamepins').objects.new(post_id, post_data);
     gamepin.save(function(err, saved){
-      if(err) return callback('Save gamepin failed', null);
-      //outlog.info('Gamepin ' + saved.key + ' created');
-      //evtlog.info('Gamepin ' + saved.key + ' created');
+      if(err){
+        errlog.info('Gamepin save error: ' + err);
+        return callback('Save gamepin failed', null);
+      }
+      outlog.info('Gamepin ' + saved.key + ' created');
       next2();
     });
   }
   //add gamepin ID to author's post array
   function next2(){
     app.riak.bucket('users').objects.get(post_data.posterId, util.user_resolve, function(err, usr){
-      if(err) return callback("postGamePin: Fetch User failed", null);
+      if(err){
+        errlog.info('postGamePin: Fetch User failed');
+        return callback('postGamePin: Fetch User failed', null);
+      }
       util.clearChanges(usr);
       //add this gamepin ID to the user object
       usr.data.posts.push(post_id);
       usr.data.changes.posts.add.push(post_id);
       usr.save(function(err, saved){
-        //outlog.info('gamepin ID added to user posts[]');
-        //evtlog.info('gamepin ID added to user posts[]');
+        if(err) return errlog.info('user update error: ' + err); 
+        outlog.info('gamepin ID added to user posts[]');
         next3();
       });
     });
   }
+  
   //add gamepin id to author's groups and activity
   function next3(){
     app.riak.bucket('users').objects.get(post_data.posterId + '-groups', function(err, obj){
       if(err && err.status_code === 404){
-        //errlog.info('user group not found');
+        errlog.info('user-group not found');
         return callback('Error: user does not have groups list', null);
       }
       if(!obj.data[post_data.category]) obj.data[post_data.category] = [post_id];
       else obj.data[post_data.category].push(post_id);
       obj.save(function(err, saved){
-        //outlog.info('gamepin id added to '+ post_data.posterId +'\'s ' + post_data.category + ' group');
-        //evtlog.info('gamepin id added to '+ post_data.posterId +'\'s ' + post_data.category + ' group');
+        if(err) return errlog.info('user save error: ' + err);
+        outlog.info('gamepin id added to '+ post_data.posterId +'\'s ' + post_data.category + ' group');
         next4();
       });
     });
   }
+  
   //add gamepin event to recent activity
   function next4(){
     app.riak.bucket('users').objects.get(post_data.posterId + '-activity', function(err, obj){
       if(err && err.status_code === 404){
-        //errlog.info('not found');
+        errlog.info('user-activity not found');
         return callback('Error: user does not have an activity list', null);
       }
       obj.data['evtIds'].push(post_id);
       obj.save(function(err, saved){
-        //outlog.info('gamepin id added to '+ post_data.posterId +'\'s recent activity');
-        //evtlog.info('gamepin id added to '+ post_data.posterId +'\'s recent activity');
+        if(err) return errlog.info('activity save error: ' + err);
+        outlog.info('gamepin id added to '+ post_data.posterId +'\'s recent activity');
         return callback(null, {gamepin: post_data});
       });
     });
@@ -270,7 +254,7 @@ function postGamePin(post_data, callback){
 
 //edit
 exports.edit = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
@@ -278,7 +262,7 @@ exports.edit = function(req, res){
 
 //remove
 exports.remove = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
@@ -289,7 +273,7 @@ exports.getComments = function(req, res){
   var commentList = [];
   app.riak.bucket('comments').objects.get(req.body.commentIds, function(err, objs){
     if(err){
-      //errlog.info('getComments error: ' + err);
+      errlog.info('getComments error: ' + err);
       return res.json({ error: err });
     }
     //TODO: update nodiak and get rid of this mess
@@ -307,8 +291,7 @@ exports.getComments = function(req, res){
     commentList.sort(function(a,b){
       return a.id - b.id;
     });
-    //outlog.info('getComments success');
-    //evtlog.info('getComments success');
+    outlog.info('getComments success');
     return res.json({ success:true, list: commentList });
   });
 }
@@ -322,31 +305,31 @@ exports.addComment = function(req, res){
       text = req.body.content;
   //validations
   if(text === '' || text === null || text === undefined){
-    //errlog.info('Text is empty');
+    errlog.info('Text is empty');
     return res.json({ error: "Error: text is empty" });
   }
   util.generateId(function(id){
     commentId = id;
-    //outlog.info(id);
+    outlog.info(id);
     next();
   });
   function next(){
     var cmt = app.riak.bucket('comments').objects.new(commentId,
       {pin: pinId, posterId: posterId, posterName: poster,  content: text});
     cmt.save(function(err, saved_cmt){
-      if(err) return //errlog.info('comment save error: ' + err);
+      if(err) return errlog.info('comment save error: ' + err);
       var pin = app.riak.bucket('gamepins').objects.new(pinId);
       pin.fetch(util.pin_resolve, function(err, obj){
         if(err){
-          //errlog.info('Fetch Pin error: ' + err);
+          errlog.info('Fetch Pin error: ' + err);
           return res.json({ error: 'Fetch Pin: ' + err });;
         }
         util.clearChanges(obj);
         obj.data.comments.push(saved_cmt.key);
         obj.data.changes.comments.add.push(saved_cmt.key);
         obj.save(function(err, saved_pin){
-          //outlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
-          //evtlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
+          if(err) return errlog.info('save gamepin error: ' + err);
+          outlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
           return res.json({ success: true });
         });
       });
@@ -359,17 +342,18 @@ exports.getPinData = function(req, res){
   //req.pinId
   app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){
     if(err){
-      //errlog.info('getPinData error: ' + error);
+      errlog.info('getPinData error: ' + error);
       return res.json({error: err});
     }
     util.clearChanges(obj);
+    outlog.info('getPInData for pin: ' + obj.key);
     return res.json({ gamepin: obj.data });
   });
 }
 
 //editComment
 exports.editComment = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
@@ -377,7 +361,7 @@ exports.editComment = function(req, res){
 
 //like
 exports.like = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
@@ -385,7 +369,7 @@ exports.like = function(req, res){
 
 //share
 exports.share = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
@@ -393,7 +377,7 @@ exports.share = function(req, res){
 
 //search
 exports.search = function(req, res){
-  //outlog.info(req.body);
+  outlog.info(req.body);
   return res.json({
     success: true
   })
