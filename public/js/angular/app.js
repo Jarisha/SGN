@@ -262,7 +262,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   }
   //clear all fields and images, disable all forms
   function clearModalFields(){
-    /* if($rootScope.badInput){
+     if($rootScope.badInput){
       $('#imageUrlModal form').resetForm();
       $('#imageUrlModal .urlInput').val('');
       $('#imageUrlModal .thumbnail').empty();
@@ -284,7 +284,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     }
     $('#imageUrlForm input[type="submit"], \
                   #uploadForm input[type="submit"], \
-                  #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');*/
+                  #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');
     
   }
   $rootScope.imageUrl = function(){
@@ -465,6 +465,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     var content_type;
     $getUrl.click(function(e){
       url = $getUrl.next('.urlInput').val();
+      //check to see if Url is valid, return content type
       urlExists(url, function(valid, contentType){
         if(!valid){
           console.log("Invalid Url");
@@ -489,7 +490,9 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#imageUrlModal *').css('cursor', 'auto');
           if(data.error){
-            console.log(data.error);
+            //console.log(data.error);
+            $('#imageUrlModal').modal('hide');
+            $rootScope.popNotify(data.error);
             return;
           }
           $('#imageUrlModal').modal('hide');

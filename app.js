@@ -30,7 +30,7 @@ var config = require('./config');
 var routes;
 
 //Initilization
-var passConfig, riakConfig;
+var riakConfig;
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -126,7 +126,7 @@ else{
     
     //apis and initialization modules
     routes = require('./routes');
-    passConfig = require('./pass_config');
+    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     
     userApi = require('./routes/api/user');
@@ -134,7 +134,7 @@ else{
     utilApi = require('./routes/api/util');
     util = require('./utility');
     
-    app.use(passConfig.passport.initialize());
+    //app.use(passConfig.passport.initialize());
     //ping riak and nodeflake
     riakConfig.init();
     
@@ -213,7 +213,7 @@ else{
     
     //apis and initialization modules
     routes = require('./routes');
-    passConfig = require('./pass_config');
+    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     
     userApi = require('./routes/api/user');
@@ -298,7 +298,7 @@ else{
     
     //apis and initialization modules
     routes = require('./routes');
-    passConfig = require('./pass_config');
+    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     
     userApi = require('./routes/api/user');
@@ -383,7 +383,7 @@ else{
     
     //apis and initialization modules
     routes = require('./routes');
-    passConfig = require('./pass_config');
+    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     
     userApi = require('./routes/api/user');
@@ -464,10 +464,10 @@ else{
   });
   /*
   app.get('/auth/facebook',
-    passConfig.passport.authenticate('facebook', { scope: ['email'] })
+    //passConfig.passport.authenticate('facebook', { scope: ['email'] })
   );
   app.get('/auth/facebook/callback',
-    passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
+    //passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
     function(req, res) {
       //if we need to register this facebook user, store user params into req.session.fbUser
       if(req.user.registerMe){

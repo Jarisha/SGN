@@ -12,6 +12,17 @@ var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
 
+var clone = exports.clone = function(obj){
+  if(obj == null || typeof(obj) != 'object')
+      return obj;
+
+  var temp = obj.constructor(); // changed
+
+  for(var key in obj)
+      temp[key] = clone(obj[key]);
+  return temp;
+}
+
 //Takes in array and returns new one with duplicate entries removed
 function arrNoDupe(a) {
     var temp = {};

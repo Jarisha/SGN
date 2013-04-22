@@ -3,6 +3,12 @@ var bcrypt = require('bcrypt-nodejs');
 var config = require('../../config');
 var util = require('../../utility');
 var app = require('../../app');
+
+var userSchema = require('../../schema/user');
+
+
+var comment_obj = require('../../schema/comment');
+
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
@@ -244,27 +250,15 @@ exports.register_2 = function(req, res){
     for(category in req.body.categories){
       favCategories.push(req.body.categories[category]);
     }
-    var newUser = {
-                email: newEmail,
-                passHash: newHash,
-                username: newName,
-                fbConnect: newFbConnect,
-                favCat: favCategories,
-                profileImg: newAvatarUrl,
-                gender: null,
-                bio:null,
-                dateJoined: dayJoined,
-                posts:[],
-                likes:[],
-                followers:[],
-                following:[],
-                changes:{
-                  posts: {add:[], remove:[]},
-                  likes: {add:[], remove:[]},
-                  followers: {add:[], remove:[]},
-                  following: {add:[], remove:[]},
-                }
-    };
+    var new_usr =  new userSchema.user();
+    new_usr.email = newEmail;
+    new_usr.passHash = newHash;
+    new_usr.username = newName;
+    new_usr.fbConnect = newFbConnect;
+    new_usr.favCat = favCategories;
+    new_usr.profileImg = newAvatarUrl;
+    new_usr.dateJoined = dayJoined;
+    
   //make new user
   
   //create/overwrite user
@@ -345,7 +339,10 @@ exports.register_2 = function(req, res){
   }
   //store email -> {username, profileImg} into bucket for easy reference
   function next3(){
-    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, {username: newName, imgUrl: newUser.profileImg});
+    var ref_data = new userSchema.userRef();
+    ref_data.username = newName;
+    ref_data.imgUrl = newUser.profileImg;
+    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, ref_data);
     usr_ref.save(function(err, obj){
       outlog.info('user Reference saved!');
       return res.json({register: true, userData: newUser});
@@ -405,9 +402,13 @@ exports.editSettings = function(req, res){
       obj.data.username = req.body.settings.username;
       req.session.userName = req.body.settings.username;
       //if username is changed, we need to change the reference table
-      var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email,
+      var ref_data =  util.clone(userReference_obj);
+      ref_data.username = req.body.settings.username;
+      ref_data.imgUrl = req.session.avatarUrl;
+      /*var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email,
                                                                 {username: req.body.settings.username,
-                                                                 imgUrl: req.session.avatarUrl});
+                                                                 imgUrl: req.session.avatarUrl});*/
+      var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email, ref_data);
       usr_ref.save(function(err, saved){
         outlog.info("userReference table updated: " + saved);
         next();
@@ -884,7 +885,7 @@ exports.changeAvatar = function(req, res){
       });
     });
   }
-  //update the user quickreference
+  //update the user ref
   function next2(){
     app.riak.bucket('userReference').objects.get(req.session.loggedIn, function(err, obj){
       if(err) return res.json({error: err});
@@ -899,14 +900,11 @@ exports.changeAvatar = function(req, res){
           return res.json({error: err});
         }
         if(IE){
-          //res.contentType('text/plain');
-          //return res.send(JSON.stringify(data));
-          
           res.contentType('text/plain');
           return res.end();
         }
         outlog.info('Avatar change success');
-        return res.json({success: "Avatar changed success"});
+        return res.json({ success: "Avatar changed success" });
       });
     });
   }
@@ -937,11 +935,10 @@ exports.createPending = function(req, res){
   if(!req.body.email || !req.body.userName)
     return res.send('');
   
-  var pending_data = {
-    email: req.body.email,
-    userName: req.body.userName,
-    company: req.body.company || false
-  }
+  var pending_data = new userSchema.pendingUser();
+  pending_data.email = req.body.email;
+  pending_data.userName = req.body.userName;
+  pending_data.email = req.body.company || false;
   
   //create pending user
   pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);
@@ -1119,7 +1116,6 @@ exports.getActivity = function(req, res){
 //get groups which contain gamepin IDs, then fetch those gamepins and return them
 //replace object containing IDs the actual object itself
 exports.getGroups = function(req, res){
-  outlog.info(req.params.userName);
   var user_id;
   var gamepinIds = [];
   var groupIdMap = {};

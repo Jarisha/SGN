@@ -1,12 +1,14 @@
 /*************************************** Gamepin ***************************************/
-var util = require('../../utility');
-var http = require('http');
+var http = require('http')
 var httpGet = require('http-get');
+var util = require('../../utility');
 var app = require('../../app');
+var gamepinSchema = require('../../schema/gamepin');
+var commentSchema = require('../../schema/comment');
+
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
-
 
 //Create gamepin and "post" to relevant areas
 //exports.postGamePin = function(req, res){
@@ -20,27 +22,17 @@ exports.postImageUpload = function(req, res){
   var IE = false;
   if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
   
-  //create data to be saved
-  var post_data = {
-    posterId: req.session.loggedIn,
-    posterName: req.session.userName,
-    likedBy: [],
-    repinVia: null,
-    category: req.body.category,
-    sourceUrl: null,
-    videoEmbed: null,
-    cloudPath: null,
-    gameName: req.body.name,
-    publisher: req.body.publisher || null,
-    description: req.body.description,
-    datePosted: util.getDate(),
-    //used for riak search
-    returnAll: 'y',
-    comments: [],
-    changes:{ likedBy: {add:[], remove:[]},
-              comments:{add:[], remove:[] }
-            }
-  };
+  //get blank gamepin obj
+  //var post_data = util.clone(gamepin_obj);
+  var post_data = new gamepinSchema.gamepin();
+  console.log(post_data);
+  post_data.posterId = req.session.loggedIn;
+  post_data.posterName = req.session.userName;
+  post_data.category = req.body.category;
+  post_data.gameName = req.body.name;
+  post_data.publisher = req.body.publisher || null;
+  post_data.description = req.body.description;
+  post_data.datePosted = util.getDate();
   
   //Push content onto rackspace CDN, retreive URL
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
@@ -82,27 +74,19 @@ exports.postImageUrl = function(req, res){
     errlog.info("Error: Required fields missing or left blank");
     return res.json({ error: "Required fields missing or left blank" });
   }
-  //create data to be saved
-  var post_data = {
-    posterId: req.session.loggedIn,
-    posterName: req.session.userName,
-    likedBy: [],
-    repinVia: null,
-    category: req.body.category,
-    sourceUrl: null,
-    videoEmbed: null,
-    cloudPath: null,
-    gameName: req.body.name,
-    publisher: req.body.publisher || null,
-    description: req.body.description,
-    datePosted: util.getDate(),
-    //used for riak search
-    returnAll: 'y',
-    comments: [],
-    changes:{ likedBy: {add:[], remove:[]},
-              comments:{add:[], remove:[] }
-            }
-  };
+  
+  //get blank gamepin obj
+  var post_data = new gamepinSchema.gamepin();
+  
+  console.log(post_data);
+  post_data.posterId = req.session.loggedIn;
+  post_data.posterName = req.session.userName;
+  post_data.category = req.body.category;
+  post_data.gameName = req.body.name;
+  post_data.publisher = req.body.publisher || null;
+  post_data.description = req.body.description;
+  post_data.datePosted = util.getDate();
+  
   var content_type = req.body.type;
   var file_extension;
   var imgPath;
@@ -118,6 +102,12 @@ exports.postImageUrl = function(req, res){
       file_extension = '.jpg';
       break;
   }
+  //hack to detect https, TODO: try to upload https using nodejs htps module
+  console.log(req.body.url);
+  if(req.body.url.indexOf('https://') !== -1){
+    errlog.info('cannot upload https url');
+    return res.json({ error: 'cannot upload https url' });
+  };
   
   //stream url for image directly into rackspace...rackmagic!
   http.get(req.body.url, function(resp){
@@ -146,26 +136,18 @@ exports.postYoutubeUrl = function(req, res){
     return res.json({ error: "Required fields missing or left blank" });
   }
   //create data to be saved
-  var post_data = {
-    posterId: req.session.loggedIn,
-    posterName: req.session.userName,
-    likedBy: [],
-    repinVia: null,
-    category: req.body.category,
-    sourceUrl: req.body.imgUrl,
-    videoEmbed: req.body.embedHtml,
-    cloudPath: null,
-    gameName: req.body.name,
-    publisher: req.body.publisher || null,
-    description: req.body.description,
-    datePosted: util.getDate(),
-    //used for riak search
-    returnAll: 'y',
-    comments: [],
-    changes:{ likedBy: {add:[], remove:[]},
-              comments:{add:[], remove:[] }
-            }
-  };
+  //get blank gamepin obj
+  var post_data = new gamepinSchema.gamepin();
+  post_data.posterId = req.session.loggedIn;
+  post_data.posterName = req.session.userName;
+  post_data.category = req.body.category;
+  post_data.sourceUrl = req.body.imgUrl;
+  post_data.videoEmbed = req.body.embedHtml;
+  post_data.gameName = req.body.name;
+  post_data.publisher = req.body.publisher || null;
+  post_data.description = req.body.description;
+  post_data.datePosted = util.getDate();
+  
   postGamePin(post_data, function(err, data){
     if(err){
       errlog.info('postGamePin Error: ' + err);
@@ -299,15 +281,21 @@ exports.getComments = function(req, res){
 //add comment
 exports.addComment = function(req, res){
   var commentId;
+  var comment_data;
   var pinId = req.body.pinId,
       posterId = req.body.posterId,
       poster = req.body.posterName,
       text = req.body.content;
   //validations
-  if(text === '' || text === null || text === undefined){
+  if(req.body.content === '' || req.body.content === null || req.body.content === undefined){
     errlog.info('Text is empty');
     return res.json({ error: "Error: text is empty" });
   }
+  comment_data = new commentSchema.comment();
+  comment_data.pin = req.body.pinId;
+  comment_data.posterID = req.body.posterId;
+  comment_data.posterName = req.body.posterName;
+  comment_data.content = req.body.content;
   util.generateId(function(id){
     commentId = id;
     outlog.info(id);

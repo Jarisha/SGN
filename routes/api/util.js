@@ -1,6 +1,7 @@
 /****************************Utility functions****************************/
-var request = require('request');
 var url = require('url');
+var request = require('request');
+var util = require('../../utility');
 var app = require('../../app');
 var errlog = app.errlog;
 var evtlog = app.evtlog;

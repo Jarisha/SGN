@@ -7,6 +7,7 @@ var errlog = app.errlog;
 var evtlog = app.evtlog;
 
 exports.init = function(){
+  console.log('INITTT');
   util.generateId(function(id){
     var idNum;
     if(id){
