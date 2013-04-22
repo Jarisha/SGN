@@ -11,15 +11,15 @@
 
 var user = function user(){
   this.version = '0.0.1';
-  this.email = null;
+  this.email = 'user1@gmail.com';
   this.passHash = null;
-  this.username = null;
+  this.username = 'user1';
   this.fbConnect = null;
   this.favCat = null;
-  this.profileImg = null;
+  this.profileImg = '/images/profile/profile19.png';
   this.gender = null;
   this.bio = null;
-  this.dateJoined = null;
+  this.dateJoined = '10/13/2012';
   this.posts = [];
   this.likes =[];
   this.followers = [];
@@ -34,23 +34,11 @@ var user = function user(){
 
 var userRef = function userRef(){
   this.version = '0.0.1';
-  this.username = null;
-  this.imgUrl = null;
+  this.username = 'user1';
+  this.imgUrl = '/images/profile/profile19.png';
 }
-
-var pendingUser = function pendingUser(){
-  this.version = '0.0.1';
-  this.email = null;
-  this.userName = null;
-  this.company = false;
-}
-
-//usage:
-//userSchema = require('../users.js');
-//user = new userSchema.user();
 
 module.exports = {
   user: user,
-  userRef: userRef,
-  pendingUser: pendingUser
+  userRef: userRef
 }

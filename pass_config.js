@@ -8,14 +8,14 @@ var outlog = app.outlog;
 exports.init = function(Fb_ID, Fb_secret, rootPath){
   //configure passport
   passport.serializeUser(function(user, done) {
-    outlog.info(user);
-    outlog.info('serializeUser');
+    console.log(user);
+    console.log('serializeUser');
     done(null, user.data.email);
   });
   
   //sent on every requests
   passport.deserializeUser(function(email, done) {
-    outlog.info('serializeUser');
+    console.log('serializeUser');
     return(null, email);
   });
   

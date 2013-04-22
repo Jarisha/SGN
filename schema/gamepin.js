@@ -1,20 +1,22 @@
 /*  Schema for gamepin obj. Key: NodeflakeID
 */
+var gamepin_count = 0;
 
 var gamepin = function gamepin(){
+  gamepin_count++;
   this.version = '0.0.1';
-  this.posterId = null;
-  this.posterName = null;
+  this.posterId = '104';
+  this.posterName = 'user1';
   this.likedBy = null;
   this.repinVia = null;
-  this.category = null;
-  this.sourceUrl = null;
+  this.category = 'Shooters';
+  this.sourceUrl = '/images/game_images/images%20%2823%29.jpg';
   this.videoEmbed = null;
   this.cloudPath = null;
-  this.gameName = null;
-  this.publisher = null;
-  this.description = null;
-  this.datePosted = null;
+  this.gameName = 'StarCraft 2';
+  this.publisher = 'Blizzard';
+  this.description = 'This is Gamepin ' + gamepin_count;
+  this.datePosted = '11/13/2012';
   this.returnAll = 'y';
   this.comments = [];
   this.changes = {

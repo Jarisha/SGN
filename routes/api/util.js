@@ -3,19 +3,16 @@ var url = require('url');
 var request = require('request');
 var util = require('../../utility');
 var app = require('../../app');
-var errlog = app.errlog;
-var evtlog = app.evtlog;
-var outlog = app.outlog;
 
 exports.validImg = function(req, res){
   request({ method: 'HEAD', url: req.body.url},
             function(err, response, body){
               if(err){
-                outlog.info('validImg error: ' + err);
+                console.log('validImg error: ' + err);
                 return res.json({valid: false});
               }
               if(response.statusCode === 404){
-                outlog.info('image not found: ');
+                console.log('image not found: ');
                 return res.json({valid: false});
               }
               if(response.statusCode === 200 && (
@@ -41,11 +38,11 @@ exports.validVideo = function(req, res){
   request({ method: 'HEAD', url: req.body.url},
             function(err, response, body){
               if(err){
-                outlog.info('validVideo error: ' + err);
+                console.log('validVideo error: ' + err);
                 return res.json({valid: false});
               }
               if(response.statusCode === 404){
-                outlog.info('youtube video not found');
+                console.log('youtube video not found');
                 return res.json({valid: false});
               }
               if(response.statusCode === 200 && response.headers['content-type'].indexOf('text/html') !== -1){
@@ -59,7 +56,7 @@ exports.validVideo = function(req, res){
                 embedHtml = '<iframe width="200" height="200" src="http://www.youtube.com/embed/'+youtubeId+'" frameborder="0" allowfullscreen></iframe>';
                 return res.json({valid: true, embed: embedHtml, url: imgUrl});
               }
-              errlog.info('video not returned with 200 response code: ' + response);
+              //errlog.info('video not returned with 200 response code: ' + response);
               return res.json({valid: false});
             }
           );

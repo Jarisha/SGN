@@ -12,15 +12,15 @@ exports.init = function(){
     var idNum;
     if(id){
       console.log('Ping to nodeflake success: ' + id);
-      outlog.info('Connection to nodeflake OK!');
+      console.log('Connection to nodeflake OK!');
       next();
     }
   });
   function next(){
     app.riak.ping(function(err, response){
-     if(err) return errlog.info('app.riak.ping: ' + response);
+     if(err) return //errlog.info('app.riak.ping: ' + response);
      console.log('Riak Connected');
-     outlog.info('app.riak.ping: ' + response + ' !!!!!!');
+     console.log('app.riak.ping: ' + response + ' !!!!!!');
      evtlog.info('app.riak.ping: ' + response);
      return;
     });

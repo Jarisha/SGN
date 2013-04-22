@@ -39,7 +39,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   var pinLimit = 20;
   var pinStop = 0;
   
-  loadFirst();
+  loadOne();
   $scope.fbModal = function(){
     $('#fbRegisterModal').modal();
   }
@@ -85,7 +85,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       pinIndex = 0;
       pinLimit = 20;
       pinStop = 0;
-      loadFirst();
+      loadOne();
     });
   }
   //getPinList
@@ -105,7 +105,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       pinStop = 0;
       $scope.showPins = [];
       $scope.gamePins = categoryList;
-      loadFirst();
+      loadOne();
     }
   }
   $scope.textsearch = function(txt){
@@ -123,7 +123,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       pinStop = 0;
       $scope.showPins = [];
       $scope.gamePins = textList;
-      loadFirst();
+      loadOne();
     }
   }
   
@@ -274,7 +274,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $timeout( function(){ $scope.flag = true }, 100 );
   }
   //test usage only
-  $scope.loadOne = function(){
+  function loadOne(){
     console.log('load Zs');
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});

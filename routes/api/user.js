@@ -5,359 +5,68 @@ var util = require('../../utility');
 var app = require('../../app');
 
 var userSchema = require('../../schema/user');
-
-
 var comment_obj = require('../../schema/comment');
-
-var errlog = app.errlog;
-var evtlog = app.evtlog;
-var outlog = app.outlog;
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
-  if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
-  //Clear newUser which stores register data
-  if(req.session){
-    if(req.session.newUser) req.session.newUser = null;
-  }
-	if(req.session.loggedIn){
-		return res.json({
-			loggedIn: true,
-      userId: req.session.loggedIn,
-      userName: req.session.userName,
-      avatarImg: req.session.avatarUrl
-		});
-	}
-}
-
-//If we are registering with facebook, send profile params (stored in req.session.fbUser) to front end
-exports.facebookRegister = function(req, res){
-  if(req.session.fbUser){
-    //delete req.user
-    var temp = req.session.fbUser;
-    req.session.fbUser = null;
-    return res.json({
-      fb: true,
-      fbEmail: temp.data.email,
-      fbName: temp.data.name,
-      fbConnect: true
-    });
-  }
+  console.log(app.self.locals);
+  if(!app.self.locals.fake_session.loggedIn) return res.json({ loggedIn: false });
   else{
     return res.json({
-      fb: false
+      loggedIn: app.self.locals.fake_session.loggedIn,
+      userId: null,
+      userName: app.self.locals.fake_session.userAvatar,
+      avatarImg: app.self.locals.fake_session.useAvatar
     });
   }
 }
+
+exports.getPath = function(req, res){
+  return res.json({
+    path: 'http://localhost'
+  });
+}
+
 //Login via gateway, identical to login except for body params
 exports.gatewayLogin = function(req, res){
-  var IE = false;
-  if(req.get('X-Requested-With') != 'XMLHttpRequest') IE = true;
-  
-  //validation.  TODO: more rigorous validations
-  if(!req.body.email) return res.json({login: false, error: 'Invalid email entered'});
-  if(!req.body.password) return res.json({login: false, error: 'Invalid password entered'});
-	//check if email exists in db
-  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
-    if(err){
-      errlog.info('User exists error: ' +  err);
-      return res.json({login: false, error: 'Error: ' +  err});
-    }
-    if(!exists){
-      outlog.info('Email does not exist!');
-      return res.send(JSON.stringify({login: false, error: 'Email not registered'}));
-    }
-    return next();
+  app.self.locals.fake_session.loggedIn = true;
+  return res.json({
+    loggedIn: app.self.locals.fake_session.loggedIn,
+    userId: null,
+    userName: app.self.locals.fake_session.userAvatar,
+    avatarImg: app.self.locals.fake_session.useAvatar
   });
-	function next(){
-    //get user
-    var user = app.riak.bucket('users').objects.new(req.body.email);
-    user.fetch(util.user_resolve, function(err, obj){
-      outlog.info('user fetch error: ' + err);
-      util.clearChanges(obj);
-      
-      //check password
-      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
-        return res.send(JSON.stringify({ login: false, error: 'Wrong password.' }));
-			}
-      //log in
-      req.session.loggedIn = obj.data.email;
-      req.session.userEmail = obj.data.email;
-      req.session.userName = obj.data.username;
-      req.session.avatarUrl = obj.data.profileImg;
-      outlog.info('Gateway Login Success for: ' + obj.data.username);
-      evtlog.info('Gateway Login Success for: ' + obj.data.username);
-      return res.send(JSON.stringify({
-        login: true,
-        userId: req.session.loggedIn,
-        userEmail: req.session.userEmail,
-        userName: req.session.userName,
-        avatarUrl:  req.session.avatarUrl
-      }));
-    });
-	}
 }
 
 // Login: Set session given correct params
 exports.login = function(req, res){
-  // Prompt error if we are already logged in (client should prevent this from happening)
-  if(req.session.loggedIn){
-    outlog.info('Login Failed: User already logged in');
-    return res.json({
-      login: false,
-      error: 'Login Failed: User already logged in'
-    });
-  }
-  
-  //validation.  TODO: more rigorous validations
-  if(!req.body.email){
-    outlog.info('Invalid email entered');
-    return res.json({login: false, error: 'Invalid email entered'});
-  }
-  if(!req.body.password){
-    outlog.info('Invalid password entered');
-    return res.json({login: false, error: 'Invalid password entered'});
-  }
-	//check if email exists in db
-  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
-    if(err){
-      errlog.info('Email exists error: ' + err);
-      return res.json({login: false, error: 'Error: ' +  err});
-    }
-    if(!exists){
-      outlog.info('Does not exist!');
-      return res.json({login: false, error: 'Email not registered'});
-    }
-    return next();
+  app.self.locals.fake_session.loggedIn = true;
+  return res.json({
+    loggedIn: app.self.locals.fake_session.loggedIn,
+    userId: null,
+    userName: app.self.locals.fake_session.userAvatar,
+    avatarImg: app.self.locals.fake_session.useAvatar
   });
-	function next(){
-    //get user
-    var user = app.riak.bucket('users').objects.new(req.body.email);
-    user.fetch(util.user_resolve, function(err, obj){
-      if(err) return errlog.info('Fetch User: ' + err);
-      util.clearChanges(obj);
-      
-      //check password
-      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
-        outlog.info('Wrong Password');
-				return res.json({ login: false, error: 'Wrong password.' });
-			}
-      
-      //log in
-      outlog.info('login success!');
-      evtlog.info('login success!');
-      req.session.loggedIn = obj.data.email;
-      req.session.userEmail = obj.data.email;
-      req.session.userName = obj.data.username;
-      req.session.avatarUrl = obj.data.profileImg;
-      
-      return res.json({
-        login: true,
-        userId: req.session.loggedIn,
-        userEmail: req.session.userEmail,
-        userName: req.session.userName,
-        avatarUrl:  req.session.avatarUrl
-      });
-    });
-	}
 }
 
 // Destroy Session
 exports.logout = function(req, res){
   if(req.session.loggedIn){
-    outlog.info('logging out');
-    evtlog.info('logging out'); 
-    req.session.destroy();  //actually log us out
+    console.log('logging out');
+    app.self.locals.fake_session.loggedIn = false;
     res.json({
       logout: true
     });
   }
-  else{
-    outlog.info('User is not logged in');
-    res.json({
-      logout: false,
-      error: "User is not logged in"
-    });
-  }
 }
-
-// Register step 1: hash password and put user data into session
-exports.register = function(req, res){
-  // Prompt error if we are already logged in (client should prevent this from happening)
-  if(req.session.loggedIn){
-    outlog.info('Registration Failed: User already logged in');
-    return res.json({
-      register: false,
-      error: 'Registration Failed: User already logged in'
-    });
-  }
-  //validate user input
-  //validation.  TODO: more rigorous validations
-  if(!req.body.email) return res.json({login: false, error: 'No email entered'});
-  if(!req.body.name) return res.json({login: false, error: 'No name entered'});
-  if(!req.body.password) return res.json({login: false, error: 'No password entered'});
-  if(!req.body.confirm) return res.json({login: false, error: 'No confirm entered'});
-  
-	if(req.body.password !== req.body.confirm){
-    outlog.info('Password does not match confirm');
-		return res.json({
-      register: false,
-			error: 'Password does not match confirm'
-		});
-	}
-	//check if another user with this email exists already
-  app.riak.bucket('users').object.exists(req.body.email, function(err, exists){
-    if(err){
-      errlog.info('Check for existing user error: ' + err);
-      return res.json({ error: 'Error: ' + err });
-    }
-    if(exists){
-      outlog.info('This email is already registered. Please log in.');
-      return res.json({
-        register: false,
-        error: 'This email is already registered. Please log in'
-      });
-    }
-    next();
-  });
-  //check if another user with this name exists
-	function next(){
-		var hash = bcrypt.hashSync(req.body.password);
-		//save data into session so step 2 can use it to complete the registration
-		req.session.newUser = {
-      email: req.body.email,
-      name: req.body.name,
-      fbConnect: req.body.fbConnect,
-      passHash: hash,
-      avatarImg: null
-    };
-    outlog.info('register step 1 complete');
-		return res.json({
-			register: true
-		});
-	}
-};
-//Register step 2: Construct new user from session.newUser & categories selected
-exports.register_2 = function(req, res){
-  var newEmail = req.session.newUser.email,
-      newName = req.session.newUser.name,
-      newHash = req.session.newUser.passHash,
-      newFbConnect = req.session.newUser.fbConnect,
-      newAvatarUrl = req.session.newUser.avatarImg,
-			favCategories = [],
-      dayJoined = util.getDate();
-    //set fav_categories
-    for(category in req.body.categories){
-      favCategories.push(req.body.categories[category]);
-    }
-    var new_usr =  new userSchema.user();
-    new_usr.email = newEmail;
-    new_usr.passHash = newHash;
-    new_usr.username = newName;
-    new_usr.fbConnect = newFbConnect;
-    new_usr.favCat = favCategories;
-    new_usr.profileImg = newAvatarUrl;
-    new_usr.dateJoined = dayJoined;
-    
-  //make new user
-  
-  //create/overwrite user
-  var new_usr = app.riak.bucket('users').objects.new(newUser.email, newUser);
-  //index username so we can query via username instead of email
-  new_usr.addToIndex('username', newName);
-  app.riak.bucket('users').objects.get(newUser.email, util.user_resolve, function(err, obj) {
-    if(err){
-      //if user doesn't exist, create new user
-      if(err.status_code === 404){
-        new_usr.save(function(err, saved){
-          outlog.info('User ' + newUser.email + ' created');
-          req.session.loggedIn = saved.data.email;
-          req.session.userName = saved.data.username;
-          req.session.userEmail = saved.data.email;
-          req.session.avatarUrl = saved.data.profileImg;
-          outlog.info(req.session.userName + 'Registered and logged In');
-          next();
-        });
-      }
-      else{
-        outlog.info('Get user error: ' + err);
-      }
-    }
-    //if existing user found, fetch that user's vec clock and overwrite with new_usr
-    else if(obj){
-      outlog.info('Error: user with existing email found');
-      return;
-    }
-  });
-  //create/overwrite user-groups
-  function next(){
-    //create one group per favCat
-    var groups = {};
-    var group_key = newUser.email + '-groups';
-    for(f in new_usr.data.favCat){
-       groups[new_usr.data.favCat[f]] = [];
-    }
-    var usr_groups = app.riak.bucket('users').objects.new(group_key, groups);
-    app.riak.bucket('users').objects.get(group_key, function(err, obj) {
-      if(err && err.status_code === 404){
-        usr_groups.save(function(err, data){
-          outlog.info('Groups object ' + group_key + ' created');
-          next2();
-        });
-      }
-      else if(obj){
-        usr_groups.metadata.vclock = obj.metadata.vclock;
-        usr_groups.save(function(err, data){
-          outlog.info('Groups object ' + group_key + ' found and overwritten');
-          next2();
-        });
-      }
-    });
-  }
-  //create/overwrite user-activity
-  function next2(){
-    var activity = {evtIds:[]};
-    var activity_key = newUser.email + '-activity';
-    var usr_activity = app.riak.bucket('users').objects.new(activity_key, activity);
-    app.riak.bucket('users').objects.get(activity_key, function(err, obj) {
-      if(err && err.status_code === 404){
-        usr_activity.save(function(err, saved){
-          outlog.info('Activity queue ' + activity_key + ' created');
-          outlog.info('createUser complete!');
-          next3();
-        });
-      }
-      else if(obj){
-        usr_activity.metadata.vclock = obj.metadata.vclock;
-        usr_activity.save(function(err, saved){
-          outlog.info('Groups object ' + activity_key + ' found and overwritten');
-          outlog.info('createUser complete!');
-          next3();
-        });
-      }
-    });
-  }
-  //store email -> {username, profileImg} into bucket for easy reference
-  function next3(){
-    var ref_data = new userSchema.userRef();
-    ref_data.username = newName;
-    ref_data.imgUrl = newUser.profileImg;
-    var usr_ref = app.riak.bucket('userReference').objects.new(newEmail, ref_data);
-    usr_ref.save(function(err, obj){
-      outlog.info('user Reference saved!');
-      return res.json({register: true, userData: newUser});
-    });
-  }
-}
-
 // Get current user settings to prefill My Settings Page
 exports.getSettings = function(req, res){
   app.riak.bucket('users').objects.get(req.session.userEmail, function(err, obj){
     if(err){
-      errlog.info('User not found');
+      //errlog.info('User not found');
       return res.json({ error: 'User not found: ' + err });
     }
-    outlog.info('Got settings for current user');
+    console.log('Got settings for current user');
     return res.json({
       email: obj.data.email,
       username: obj.data.username,
@@ -371,7 +80,7 @@ exports.getSettings = function(req, res){
 exports.editSettings = function(req, res){
   //validate user input
   if(!(req.body.settings.email && req.body.settings.username)){
-    outlog.info('Email or Username is blank');
+    console.log('Email or Username is blank');
     return res.json({
       error: 'Email or Username is blank'
     });
@@ -382,7 +91,7 @@ exports.editSettings = function(req, res){
     changePass = true;
   }
   else if(req.body.settings.changePass !== req.body.settings.changeConfirm){
-    outlog.info('Confirm does not match password');
+    console.log('Confirm does not match password');
     return res.json({error: 'Confirm does not match Passowrd'});
   }
   //get current user object
@@ -390,7 +99,7 @@ exports.editSettings = function(req, res){
   var oldName;
   //need to refresh navbar if user changes name
   user.fetch(function(err, obj){
-    if(err) return errlog.info('fetch user error: ' + err);
+    if(err) return //errlog.info('fetch user error: ' + err);
     //update password if change password conditions are correct
     if(changePass) obj.data.passHash = bcrypt.hashSync(req.body.settings.changePass);
     //update settings & session data
@@ -410,7 +119,7 @@ exports.editSettings = function(req, res){
                                                                  imgUrl: req.session.avatarUrl});*/
       var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email, ref_data);
       usr_ref.save(function(err, saved){
-        outlog.info("userReference table updated: " + saved);
+        console.log("userReference table updated: " + saved);
         next();
       });
     }
@@ -421,28 +130,15 @@ exports.editSettings = function(req, res){
       obj.addToIndex('username', req.body.settings.username);
       obj.save(function(err, obj){
         if(changePass){
-          outlog.info('Settings saved and Password updated!');
+          console.log('Settings saved and Password updated!');
           evtlog.info('Settings saved and Password updated!');
           return res.json({ success: true, username: obj.data.username, notify: "Settings Saved and Password updated!" });
         }
-        outlog.info('Settings saved');
+        console.log('Settings saved');
         return res.json({ success: true, username: obj.data.username, notify: "Settings Saved!" });
       });
     }
   });
-}
-
-//get port # from server.  This belongs in a misc.js rather than user.js
-exports.getPath = function(req, res){
-  return res.json({
-    path: app.self.locals.rootPath
-  });
-}
-//deactivate
-exports.deactivate = function(req, res){
-  return res.json({
-    success: true
-  })
 }
 
 //addFollowers: source user follows target user
@@ -453,14 +149,14 @@ exports.follow = function(req, res){
       targ = app.riak.bucket('users').objects.new(targetId);
   //validate
   if(sourceId === targetId){
-    outlog.info('Error: cannot follow yourself');
+    console.log('Error: cannot follow yourself');
     return res.json({ error: 'Error: cannot follow yourself' });
   }
   
   //source user adds target to following
   src.fetch(util.user_resolve, function(err, obj){
     if(err){
-      errlog.info('fetch user error: ' + err);
+      //errlog.info('fetch user error: ' + err);
       return res.json({ error: 'Fetch User: ' + err });
     }
     util.clearChanges(obj);
@@ -469,13 +165,13 @@ exports.follow = function(req, res){
       obj.data.following.push(targetId);
       obj.data.changes.following.add.push(targetId);
       obj.save(function(err,saved){
-        if(err) return errlog.info('user save error: ' + err);
-        outlog.info(sourceId + ' following ['+ saved.data.following +']');
+        if(err) return //errlog.info('user save error: ' + err);
+        console.log(sourceId + ' following ['+ saved.data.following +']');
         next();
       });
     }
     else{
-      outlog.info('User ' + targetId + ' aready on following list');
+      console.log('User ' + targetId + ' aready on following list');
       return res.json({ error: 'User ' + targetId + ' aready on following list' });
     }
   });
@@ -483,7 +179,7 @@ exports.follow = function(req, res){
     //target user adds source to followers
     targ.fetch(util.user_resolve, function(err, obj){
       if(err){
-        errlog.info('fetch user error: ' + err);
+        //errlog.info('fetch user error: ' + err);
         return res.json({ error: 'Fetch User: ' + err });
       }
       util.clearChanges(obj);
@@ -491,24 +187,17 @@ exports.follow = function(req, res){
         obj.data.followers.push(sourceId);
         obj.data.changes.followers.add.push(sourceId);
         obj.save(function(err, saved){
-          if(err) errlog.info('user save error: ' + err);
-          outlog.info(targetId + " followers ["+ saved.data.followers +"]");
+          if(err) //errlog.info('user save error: ' + err);
+          console.log(targetId + " followers ["+ saved.data.followers +"]");
           return res.json({ success: true });
         });
       }
       else{
-        outlog.info('User ' + targetId + ' aready on following list')
+        console.log('User ' + targetId + ' aready on following list')
         return res.json({ error: "User " + targetId + " aready on following list" });
       }
     });
   }
-}
-
-//removeFollowers
-exports.unfollow = function(req, res){
-  return res.json({
-    success: true
-  })
 }
 
 //getProfile - return profile data
@@ -524,12 +213,12 @@ exports.getProfile = function(req, res){
   }
   else next();
   function next(){
-    outlog.info('next1');
+    console.log('next1');
     key = key || req.body.userEmail;
     var usr = app.riak.bucket('users').objects.new(key);
     usr.fetch(util.user_resolve, function(err, obj){
       if(err){
-        errlog.info('getProfile error: ' + err);
+        //errlog.info('getProfile error: ' + err);
         return res.json({error: "getProfile error: " + err});
       }
       util.clearChanges(obj);
@@ -541,7 +230,7 @@ exports.getProfile = function(req, res){
       for(f in obj.data.followers){
         (function(f){
           app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, ref_obj){
-            if(err) errlog.info('get userReference error: ' + err);
+            if(err) //errlog.info('get userReference error: ' + err);
             var user_name = ref_obj.data.username;
             var user_image = ref_obj.data.imgUrl;
             obj.data.followerUnit.push({ name: user_name, image: user_image });
@@ -558,8 +247,8 @@ exports.getProfile = function(req, res){
         for(f in obj.data.following){
           (function(_f){
             app.riak.bucket('userReference').objects.get(obj.data.following[_f], function(err, ref_obj){
-              if(err) outlog.info('Error: ' + err);
-              outlog.info(ref_obj.data);
+              if(err) console.log('Error: ' + err);
+              console.log(ref_obj.data);
               var user_name = ref_obj.data.username;
               var user_image = ref_obj.data.imgUrl;
               obj.data.followingUnit.push({name: user_name, image: user_image});
@@ -570,7 +259,7 @@ exports.getProfile = function(req, res){
         }
       }
       function next3(){
-        outlog.info('getProfile Success!');
+        console.log('getProfile Success!');
         return res.json(obj.data);
       }
     });
@@ -583,6 +272,8 @@ exports.getProfile = function(req, res){
 
 //return list of gamepin-with-comments objs given no search params
 exports.getPinList = function(req, res){
+  return res.json({objects: {}});
+  /*
   var returnList = [];
   //javascript objects are maps. So ordered series KV pairs, ordered via insertion order
   var commentMap = {};
@@ -599,11 +290,11 @@ exports.getPinList = function(req, res){
   //get list of pins in sorted order
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
-      errlog.info('search.solr error: ' + err);
+      //errlog.info('search.solr error: ' + err);
       return res.json({error: err});
     }
     if(response.response.numFound === 0){
-      outlog.info('search.solr: none found');
+      console.log('search.solr: none found');
       return res.json({ objects: returnList });
     }
     objs = response.response.docs;
@@ -613,10 +304,10 @@ exports.getPinList = function(req, res){
         app.riak.bucket('userReference').objects.get(objs[o].fields.posterId, function(err, obj){
           var cmts = [];
           if(err){
-            errlog.info('error:' + err);
+            //errlog.info('error:' + err);
             return res.json({error: err});
           }
-          //outlog.info(obj.data);
+          //console.log(obj.data);
           //convert commments from string to proper array
           if(objs[o].fields.comments)
             cmts = objs[o].fields.comments.split(" ");
@@ -647,11 +338,11 @@ exports.getPinList = function(req, res){
       if(cmt_objs.length === 0) next2();
       if(err){
         if(err.status_code = 404){
-          errlog.info('get comments error: ' + err);
+          //errlog.info('get comments error: ' + err);
           return res.json({error: 'get comments error: ' + err});
         }
         else{
-          errlog.info('get comments error: ' + err);
+          //errlog.info('get comments error: ' + err);
           return res.json({error: 'get comments error: ' + err});
         }
       }
@@ -664,7 +355,7 @@ exports.getPinList = function(req, res){
           //fetch current user name from userReference
           app.riak.bucket('userReference').objects.get(cmt_objs[_c].data.posterId, function(err, obj){
             if(err){
-              errlog.info('get userReference error: ' + err);
+              //errlog.info('get userReference error: ' + err);
               return res.json('err getting comment posters');
             }
             pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]] = {};
@@ -688,7 +379,7 @@ exports.getPinList = function(req, res){
         return res.json({ objects: returnList });
       }
     });
-  }
+  }*/
 }
 
 //return list of gamepin-with-comment objs of given category
@@ -699,7 +390,7 @@ exports.categorySearch = function(req, res){
   var commentIds = [];
   var category = req.body.category;
   
-  outlog.info(req.body.category);
+  console.log(req.body.category);
   if(req.body.category === 'Action & Adventure') category = 'Action \& Adventure';
   
   var query = {
@@ -708,15 +399,15 @@ exports.categorySearch = function(req, res){
     rows: 1000,
     presort: 'key'
   };
-  outlog.info(query);
+  console.log(query);
   //get list of pins in sorted order
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
-      outlog.info(err);
+      console.log(err);
       return res.json({error: err});
     }
     objs = response.response.docs;
-    outlog.info(objs);
+    console.log(objs);
     for(obj in objs){
       var cmts = [];
       if(objs[obj].fields.comments)
@@ -773,11 +464,11 @@ exports.textSearch = function(req, res){
   };
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
-      outlog.info(err);
+      console.log(err);
       return res.json({error: err});
     }
     objs = response.response.docs;
-    outlog.info(objs);
+    console.log(objs);
     for(obj in objs){
       var cmts = [];
       if(objs[obj].fields.comments)
@@ -806,7 +497,7 @@ exports.textSearch = function(req, res){
   function next(){
     app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
       if(err){
-        errlog.info('get comments error: ' + err);
+        //errlog.info('get comments error: ' + err);
         return res.json({error: 'get comments failure or no comments'});
       }
       if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
@@ -822,7 +513,7 @@ exports.textSearch = function(req, res){
       for(pin in pinMap){
         returnList.push(pinMap[pin]);
       }
-      outlog.info('text search success');
+      console.log('text search success');
       return res.json({ objects: returnList });
     });
   }
@@ -833,7 +524,7 @@ exports.getUser = function(req, res){
   
   app.riak.bucket('users').search.twoi(req.body.name, 'username', function(err, keys){
     if(err){
-      errlog.info('twoi error: ' + err);
+      //errlog.info('twoi error: ' + err);
       return res.json({error: "2i Error:" + err});
     }
     if(keys.length > 0) return res.json({ exists: true, email: keys[0] });
@@ -853,7 +544,7 @@ exports.changeAvatar = function(req, res){
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
     if(err){
       if(IE){
-        errlog.info('File upload error');
+        //errlog.info('File upload error');
         res.contentType('text/plain'); 
         return res.send(JSON.stringify({error: 'File upload error'}));
       }
@@ -867,7 +558,7 @@ exports.changeAvatar = function(req, res){
   function next(){
     app.riak.bucket('users').objects.get(req.session.loggedIn, util.user_resolve, function(err, obj){
       if(err){
-        errlog.info('update user error : ' + err);
+        //errlog.info('update user error : ' + err);
         return res.json({error: err});
       }
       util.clearChanges(obj);
@@ -875,7 +566,7 @@ exports.changeAvatar = function(req, res){
       obj.save(function(err, saved){
         if(err){
           if(IE){
-            errlog.info('Fetch user error ' + er);
+            //errlog.info('Fetch user error ' + er);
             res.contentType('text/plain'); 
             return res.send(JSON.stringify({error: 'Fetch user error'}));
           }
@@ -893,7 +584,7 @@ exports.changeAvatar = function(req, res){
       obj.save(function(err, saved){
         if(err){
           if(IE){
-            errlog.info('userReference save error ' + err);
+            //errlog.info('userReference save error ' + err);
             res.contentType('text/plain'); 
             return res.send(JSON.stringify({error: "Save error"}));
           }
@@ -903,7 +594,7 @@ exports.changeAvatar = function(req, res){
           res.contentType('text/plain');
           return res.end();
         }
-        outlog.info('Avatar change success');
+        console.log('Avatar change success');
         return res.json({ success: "Avatar changed success" });
       });
     });
@@ -913,18 +604,18 @@ exports.changeAvatar = function(req, res){
 //upload avatar image, used for registration only
 exports.uploadAvatar = function(req, res){
   if(!req.files.image){
-    outlog.info('No image recieved by server');
+    console.log('No image recieved by server');
     return res.json({error: 'No image recieved by server'});
   }
   //Push content onto rackspace CDN, retreieve URL, set session.newUser.avatarImg
   app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
     if(err){
-      errlog.info('uploadAvatar rackit add error: ' + err);
+      //errlog.info('uploadAvatar rackit add error: ' + err);
       return res.json({error: err});
     }
     var url = app.rackit.getURI(cloudpath);
     req.session.newUser.avatarImg = url;
-    outlog.info('uploadAvatar success!');
+    console.log('uploadAvatar success!');
     return res.json({ success: true });
   });
 }
@@ -945,10 +636,10 @@ exports.createPending = function(req, res){
   pend_usr.addToIndex('username', pending_data.userName);
   pend_usr.save(function(err, saved){
     if(err){
-      errlog.info('Save Pending User Error: ' + err);
+      //errlog.info('Save Pending User Error: ' + err);
       return res.json({ error: 'Save Pending User Error: ' + err });
     }
-    outlog.info('Pending user '+ saved.key + ' created');
+    console.log('Pending user '+ saved.key + ' created');
     evtlog.info('Pending user '+ saved.key + ' created');
     app.mandrill('messages/send', {
         message: {
@@ -962,12 +653,12 @@ exports.createPending = function(req, res){
         }
       }, function(err, response){
         if(err){
-          errlog.info('send email failure: ' + JSON.stringify(err));
-          outlog.info('send email failure: ' +JSON.stringify(err));
+          //errlog.info('send email failure: ' + JSON.stringify(err));
+          console.log('send email failure: ' +JSON.stringify(err));
           return res.json({error: err});
         }
         else{
-          outlog.info('send email success');
+          console.log('send email success');
           evtlog.info('send email success');
           return res.json({ success: "Submit Successful!" });
         }
@@ -976,36 +667,36 @@ exports.createPending = function(req, res){
 }
 //accept pending account, create real account, email user tmp password
 exports.acceptPending = function(req, res){
-  outlog.info('acceptPending');
+  console.log('acceptPending');
   return res.json({ success: true });
 }
 
 exports.rejectPending = function(req, res){
-  outlog.info('rejectPending');
+  console.log('rejectPending');
   return res.json({ success: true });
 }
 
 //set real password, disabling temp password
 exports.setPassword = function(req, res){
-  outlog.info('setPassword');
+  console.log('setPassword');
   return res.json({ success: true });
 }
 
 //ensure that user name has not been taken
 exports.checkUniqueName = function(req, res){
-  outlog.info('checkUniqueName');
+  console.log('checkUniqueName');
   //validation
   if(!req.body.userName) return res.send(JSON.stringify({error: 'No Username Entered'}));
   
   //check pending accounts to see if username exists
   app.riak.bucket('pendingUsers').search.twoi(req.body.userName, 'username', function(err, keys){
     if(err){
-      errlog.info('check user exists error: ' + err);
+      //errlog.info('check user exists error: ' + err);
       return res.json({error: err});
     }
     if(keys){
       if(keys.length !== 0){
-        outlog.info('Username already exists!');
+        console.log('Username already exists!');
         return res.send(JSON.stringify({error: 'Username already exists'}));
       }
       return next();
@@ -1015,12 +706,12 @@ exports.checkUniqueName = function(req, res){
     //check registered accounts to see if username exists
     app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
       if(err){
-        errlog.info('check registered accounts twoi error: ' + err);
+        //errlog.info('check registered accounts twoi error: ' + err);
         return res.send(JSON.stringify({error: err}));
       }
       if(keys){
         if(keys.length !== 0){
-          outlog.info('Username already exists');
+          console.log('Username already exists');
           return res.send(JSON.stringify({error: 'Username already exists'}));
         }
         return res.send(JSON.stringify({ success: true }));
@@ -1032,17 +723,17 @@ exports.checkUniqueName = function(req, res){
 //ensure that user email has not been taken
 exports.checkUniqueEmail = function(req, res){
   if(!req.body.email){
-    outlog.info('No Email Entered');
+    console.log('No Email Entered');
     return res.send(JSON.stringify({error: 'No Email Entered'}));
   }
   //check pending accounts to see if email exists
   app.riak.bucket('pendingUsers').object.exists(req.body.email, function(err, result){
     if(err){
-      errlog.info('Pending Email Exists Error: ' + err);
+      //errlog.info('Pending Email Exists Error: ' + err);
       return res.send(JSON.stringify({ error: 'Pending Email Exists Error: ' + err }));
     }
     if(result){
-      errlog.info('Pending Email already exists');
+      //errlog.info('Pending Email already exists');
       return res.send(JSON.stringify({ error: 'Pending Email already exists' }));
     }
     else next();
@@ -1051,11 +742,11 @@ exports.checkUniqueEmail = function(req, res){
     //check registered accounts to see if email exists
     app.riak.bucket('users').object.exists(req.body.email, function(err, result){
       if(err){
-        errlog.info(err);
+        //errlog.info(err);
         return res.send(JSON.stringify({ error: 'Registered Email Exists Error: ' + err }));
       }
       if(result){
-        errlog.info('Registered Email Exists Error: ' + err);
+        //errlog.info('Registered Email Exists Error: ' + err);
         return res.json(JSON.stringify({ error: 'Registerd Email already exists' }));
       }
       else return res.json(JSON.stringify({ success: true }));
@@ -1065,7 +756,7 @@ exports.checkUniqueEmail = function(req, res){
 
 //Get user activity, and then fetch those pins
 exports.getActivity = function(req, res){
-  outlog.info(req.params.userName);
+  console.log(req.params.userName);
   var user_id;
   var activityIds = [];
   var activityMap = {};
@@ -1073,7 +764,7 @@ exports.getActivity = function(req, res){
   //0: fetch userId via 2i
   app.riak.bucket('users').search.twoi(req.params.userName, 'username', function(err, keys){
     if(err){
-      errlog.info('2i error: ' + err);
+      //errlog.info('2i error: ' + err);
       return res.json({error: '2i Error: ' + err});
     }
     user_id = keys[0];
@@ -1083,7 +774,7 @@ exports.getActivity = function(req, res){
   function next(){
     app.riak.bucket('users').objects.get(user_id + '-activity', function(err, obj){
       if(err){
-        errlog.info('Fetch Activity Error ' + err)
+        //errlog.info('Fetch Activity Error ' + err)
         return res.json({error: 'Fetch Activity Error: ' + err});
       }
       activityIds = obj.data.evtIds;
@@ -1099,7 +790,7 @@ exports.getActivity = function(req, res){
     //fetch gamepins + fill map
     app.riak.bucket('gamepins').objects.get(activityIds, function(errs, objs){
       if(errs){
-        errlog.info('One or More activity objects not found');
+        //errlog.info('One or More activity objects not found');
         return res.json({error: 'One or More activity objects not found'});
       }
       //if nodiak gives us a single object, convert that into an array with 1 element
@@ -1123,7 +814,7 @@ exports.getGroups = function(req, res){
   //0: fetch userId via 2i
   app.riak.bucket('users').search.twoi(req.params.userName, 'username', function(err, keys){
     if(err){
-      errlog.info('2i error: ' + err);
+      //errlog.info('2i error: ' + err);
       return res.json({error: '2i Error:' + err});
     }
     user_id = keys[0];
@@ -1133,7 +824,7 @@ exports.getGroups = function(req, res){
   function next(){
     app.riak.bucket('users').objects.get(user_id + '-groups', function(err, obj){
       if(err){
-        errlog.info('Fetch Group error');
+        //errlog.info('Fetch Group error');
         return res.json({ error: 'Fetch Group error:' +  err });
       }
       groupIdMap = obj.data;
@@ -1160,7 +851,7 @@ exports.getGroups = function(req, res){
   function next2(){
     app.riak.bucket('gamepins').objects.get(gamepinIds, function(errs, objs){
       if(errs){
-        errlog.info('One or more group gamepins not found');
+        //errlog.info('One or more group gamepins not found');
         return res.json({ error: 'One or more group gamepins not found: '});
       }
       //if nodiak gives us a single object, convert that into an array with 1 element
