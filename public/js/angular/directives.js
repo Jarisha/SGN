@@ -18,7 +18,7 @@ angular.module('myApp.directives', [])
       link: function(scope, element, attrs, $timeout){
         //Whenever we extend our pinList array, we trigger a new $last event
         if(scope.$last){
-          console.log('last');
+          ('last');
           //If this is our first time, 
           if(scope.masonInit){
             scope.setup();
@@ -33,7 +33,7 @@ angular.module('myApp.directives', [])
       }
     };
   })
-  .directive('sampleDone', function(version) {
+  .directive('activityDone', function(version) {
     return {
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.
@@ -41,7 +41,11 @@ angular.module('myApp.directives', [])
         //Whenever we extend our pinList array, we trigger a new $last event
         if(scope.$last){
           scope.setup();
+          scope.changeState();
           scope.profileMason();
+          scope.profileRemason();
+        }
+        else{
           scope.profileRemason();
         }
       }

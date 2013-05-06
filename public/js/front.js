@@ -1,26 +1,9 @@
 //frontSetup applies UI related, JQuery, and non angular functionality to our html
 function frontSetup($scope, $rootScope, $http){
-  console.log('frontSetup');
   
   $scope.viewGamePin = function(){
     $('#gamePinModal').modal({dynamic: true});
   }
-  
-  //Post youtube video functionality
-  /*var url;
-  var embed;
-  var arr;
-  $(document).on('click', '#pinYoutube .load_vid', function(e){
-    //if url is empty do nothing
-    if(!$('input.load_input').val()) return false;
-    url = $('input.load_input').val();
-    arr = url.split("?v=");
-    embed = arr[1];
-    $('.post_content').html('<iframe width="560" height="315" src="http://www.youtube.com/embed/' +
-                            arr[1] +'" frameborder="0" allowfullscreen></iframe>');
-    $rootScope.post.content = embed;
-    return true;
-  });*/
   
   //post game_pin
   $('.post_vid').click(function(){

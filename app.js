@@ -10,26 +10,19 @@ var numCores = require('os').cpus().length;
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
 var socket = require('socket.io');
-var httpGet = exports.httpGet =  require('http-get');
-var request = exports.request = require('request');
-var bcrypt = exports.bcrypt = require('bcrypt-nodejs');
-var rackit = exports.rackit = require('rackit');
+var httpGet = require('http-get');
+var request = require('request');
+var bcrypt = require('bcrypt-nodejs');
+var rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 var winston = require('winston');
 
-//Loggers
-var outlog, evtlog, errlog;
 
-//Quyay_API + utility functions
-var userApi, gamepinApi, utilApi, util;
-
-//Local files
+//Modules within SGN
 var config = require('./config');
-
-//Partials
-var routes;
-
-//Initilization
+var partials = require('./routes/partials');
+var outlog, evtlog, errlog;
+var apiRoutes;
 var riakConfig;
 
 //create rackspace image, define name of container we will push images to
@@ -47,13 +40,15 @@ rackit.init({
   if(err) console.error('error:' + err);
 });
 
+// ADD CLUSTER BACK IN BEFORE PUSH TO PRODUCTION
+
 //node cluster encapsulates web server creation
-if(cluster.isMaster){
+/*if(cluster.isMaster){
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
 }
-else{
+else{*/
   //Create server and export it to others who need it
   var app = exports.self = express();
   
@@ -69,6 +64,25 @@ else{
     app.use(express.favicon(__dirname + '/public'));
     app.use(express.cookieParser());
   });
+
+  //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
+  function auth(req, res, next){
+    //HTTP + Logged out = GOTO HTTPS
+    if(!req.session.loggedIn && !req.connection.encrypted){
+      return res.redirect('https://' + app.locals.host + req.url);
+    }
+    //HTTPS + Logged out = Serve banner
+    else if(!req.session.loggedIn && req.connection.encrypted){
+      return res.render('banner');
+    }
+    //HTTPS + Logged in = GOTO HTTP
+    else if(req.session.loggedIn && req.connection.encrypted){
+      return res.redirect('http://' + app.locals.host + req.url);
+    }
+    //HTTP + Logged in = OK
+    else if(req.session.loggedIn && !req.connection.encrypted);
+    next();
+  }
   
   app.configure('tony', function(){
     //setup riak and express
@@ -87,7 +101,6 @@ else{
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    //logging (note that these funcs behave like async, but there's no fucking callback)
     outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
@@ -123,15 +136,10 @@ else{
                                       })
       ]
     });
+    apiRoutes = require('./routes/apiRoutes');
     
-    //apis and initialization modules
-    routes = require('./routes');
     //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
-    
-    userApi = require('./routes/api/user');
-    gamepinApi = require('./routes/api/gamepin');
-    utilApi = require('./routes/api/util');
     util = require('./utility');
     
     //app.use(passConfig.passport.initialize());
@@ -151,10 +159,10 @@ else{
     });
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443 in tony mode');
-      console.log('HTTP Express server listening on port 443 in tony mode');
+      console.log('HTTPS Express server listening on port 443 in tony mode');
     });
-    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
+    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
   
   app.configure('staging', function(){
@@ -179,7 +187,7 @@ else{
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.staging_log_path + 'quyay.log', json:true,
-                                      options: {   //stupid hack b/c winston doesn't work with express
+                                      options: {   //stupid hack to make winston work with express
                                           flags: 'a',
                                           highWaterMark: 24
                                         }
@@ -210,15 +218,9 @@ else{
                                       })
       ]
     });
+    apiRoutes = require('./routes/apiRoutes');
     
-    //apis and initialization modules
-    routes = require('./routes');
-    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
-    
-    userApi = require('./routes/api/user');
-    gamepinApi = require('./routes/api/gamepin');
-    utilApi = require('./routes/api/util');
     util = require('./utility');
     
     //ping riak and nodeflake
@@ -237,9 +239,6 @@ else{
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443');
     });
-    
-    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
   });
   
   app.configure('production', function(){
@@ -295,15 +294,9 @@ else{
                                       })
       ]
     });
+    apiRoutes = require('./routes/apiRoutes');
     
-    //apis and initialization modules
-    routes = require('./routes');
-    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
-    
-    userApi = require('./routes/api/user');
-    gamepinApi = require('./routes/api/gamepin');
-    utilApi = require('./routes/api/util');
     util = require('./utility');
     
     //ping riak and nodeflake
@@ -323,146 +316,36 @@ else{
       outlog.info('HTTPS Express server listening on port 443');
     });
     
-    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
+    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
+    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
   
-  app.configure('production', function(){
-    //setup riak and express
-    var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
-    var nodeflake_host = exports.nodeflake_host = config.production_nodeflake_host;
-    var temp_path = exports.temp_path = config.production_temp_path;
-    app.use(express.session({ secret: "tazazaz",
-                            store : new RedisStore({
-                              host : config.production_redis_host,
-                            }),
-                            cookie: { maxAge: 86400000
-                                      }
-                            }));
-    
-    //express globals
-    app.locals.host = config.production_host;
-    app.locals.rootPath =  "http://" + config.production_host;
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    
-    outlog = exports.outlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'quyay.log', json:true,
-                                      options: {   //stupid hack b/c winston doesn't work with express
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });
-    errlog = exports.errlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info',
-                                        filename: config.production_log_path + 'error.log',
-                                        json:true,
-                                        options: {   
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });
-    evtlog = exports.evtlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.production_log_path + 'event.log', json:true,
-                                        options: {
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });
-    
-    //apis and initialization modules
-    routes = require('./routes');
-    //passConfig = require('./pass_config');
-    riakConfig = require('./riak_config');
-    
-    userApi = require('./routes/api/user');
-    gamepinApi = require('./routes/api/gamepin');
-    utilApi = require('./routes/api/util');
-    util = require('./utility');
-    
-    //ping riak and nodeflake
-    riakConfig.init();
-    
-    //SSL options
-    var options = {
-      key: fs.readFileSync(config.production_ssl_path + 'quyay.com.key'),
-      cert: fs.readFileSync(config.production_ssl_path + 'quyay.com.crt'),
-      ca: [fs.readFileSync(config.production_ssl_path + 'gd_bundle.crt')]
-    }
-    
-    http.createServer(app).listen(80, function(){
-      outlog.info('HTTP Express server listening on port 80');
-    });
-    https.createServer(options, app).listen(443, function(){
-      outlog.info('HTTPS Express server listening on port 443');
-    });
-    
-    console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');
+  app.get('/debug', function(req, res){
+    return res.render('debug');
   });
   
-  //Routes will be handled client side, all routes are built from base
-  app.get('*', function(req, res, next){
-    //if https and logged in, redirect to http version of page
-    if(req.connection.encrypted && req.session.loggedIn){
-      return res.redirect('http://' + app.locals.host + req.url);
-    }
-    next();
-  });
-  
-  app.get('/', function(req, res){
-    //redirect us to https page
-    if(!req.connection.encrypted && !req.session.loggedIn) return res.redirect('https://' + app.locals.host + '/');
-    if(!req.session.loggedIn){
-      return res.render('banner');
-    }
+  app.get('/', auth, function(req, res){
     res.render('base');
   });
-  app.get('/store', function(req, res){
-    if(!req.session.loggedIn){
-      return res.redirect('https://' + app.locals.host + '/');
-    }
+
+  app.get('/store', auth, function(req, res){
     res.render('base');
   });
-  app.get('/profile', function(req, res){
-    if(!req.session.loggedIn){
-      return res.redirect('https://' + app.locals.host + '/');
-    }
+  app.get('/profile', auth, function(req, res){
     res.render('base');
   });
-  app.get('/settings', function(req, res){
-    if(!req.session.loggedIn){
-      return res.redirect('https://' + app.locals.host + '/');
-    }
+  app.get('/settings', auth, function(req, res){
     res.render('base');
   });
-  app.get('/about', function(req, res){
-    if(!req.session.loggedIn){
-      return res.redirect('https://' + app.locals.host + '/');
-    }
+  app.get('/about', auth, function(req, res){
     res.render('base');
   });
-  app.get('/about/:about', function(req, res){
-    if(!req.session.loggedIn){
-      return res.redirect('https://' + app.locals.host + '/');
-    }
+  app.get('/about/:about', auth, function(req, res){
     res.render('base');
   });
-  app.get('/fbfail', function(req, res){
+  /*app.get('/fbfail', function(req, res){
     res.send('facebook login failure');
   });
-  /*
   app.get('/auth/facebook',
     //passConfig.passport.authenticate('facebook', { scope: ['email'] })
   );
@@ -487,78 +370,19 @@ else{
   */
   
   //All view partials must be served
-  app.get('/partials/:name', routes.partials);
+  app.get('/partials/:name', partials);
   app.get('/user/:user', function(req, res){
     if(!req.session.loggedIn){
       return res.render('banner');
     }
     return res.render('base');
   });
-  
-  /********* Quyay API ***********/
-  //User
-  app.get('/api/facebookRegister', userApi.facebookRegister);
-  app.post('/api/facebookRegister', userApi.facebookRegister);
-  app.post('/api/login', userApi.login);
-  //
-  app.post('/api/gatewayLogin', userApi.gatewayLogin);
-  //
-  app.post('/api/logout', userApi.logout);
-  app.post('/api/register', userApi.register);
-  app.post('/api/register_2', userApi.register_2);
-  //app.get('/api/checkLogin', userApi.checkLogin);
-  app.post('/api/checkLogin', userApi.checkLogin);
-  app.get('/api/getSettings', userApi.getSettings);
-  app.post('/api/editSettings', userApi.editSettings);
-  app.get('/api/deactivate', userApi.deactivate);
-  app.post('/api/follow', userApi.follow);
-  app.post('/api/unfollow', userApi.removeFollowers);
-  app.get('/api/getPath', userApi.getPath);
-  app.post('/api/getProfile', userApi.getProfile);
-  app.post('/api/getPinList', userApi.getPinList);
-  app.post('/api/categorySearch', userApi.categorySearch);
-  app.post('/api/textSearch', userApi.textSearch);
-  app.post('/api/getUser', userApi.getUser);
-  app.post('/api/uploadAvatar', userApi.uploadAvatar);
-  app.post('/api/changeAvatar', userApi.changeAvatar);
-  app.post('/api/sendEmail', userApi.sendEmail);
-  
-  //Fetch Profile data
-  app.get('/api/getActivity/:userName', userApi.getActivity);
-  app.get('/api/getGroups/:userName', userApi.getGroups);
-  
-  //alpha registration based api calls
-  app.post('/api/createPending', userApi.createPending);
-  app.post('/api/acceptAccount', userApi.acceptPending);
-  app.post('/api/setPassword', userApi.setPassword);
-  app.post('/api/checkUniqueName', userApi.checkUniqueName);
-  app.post('/api/checkUniqueEmail', userApi.checkUniqueEmail);
-  
-  //Gamepin
-  //app.post('/api/gamepin/postGamePin', gamepinApi.postGamePin);
-  app.post('/api/gamepin/postImageUpload', gamepinApi.postImageUpload);
-  app.post('/api/gamepin/postImageUrl', gamepinApi.postImageUrl);
-  app.post('/api/gamepin/postYoutubeUrl', gamepinApi.postYoutubeUrl);
-  app.post('/api/gamepin/edit', gamepinApi.edit);
-  app.post('/api/gamepin/remove', gamepinApi.remove);
-  app.post('/api/gamepin/getComments', gamepinApi.getComments);
-  app.post('/api/gamepin/addComment', gamepinApi.addComment);
-  app.post('/api/gamepin/editComment', gamepinApi.editComment);
-  app.post('/api/gamepin/like', gamepinApi.like);
-  app.post('/api/gamepin/share', gamepinApi.share);
-  app.post('/api/gamepin/search', gamepinApi.search);
-  app.post('/api/gamepin/getPinData', gamepinApi.getPinData);
-  
-  //misc
-  app.post('/api/util/validImg', utilApi.validImg);
-  app.post('/api/util/validVideo', utilApi.validVideo);
-  app.post('/api/util/reindexGamepins', utilApi.reindexGamepins);
-  app.post('/api/util/reindexUsers', utilApi.reindexUsers);
-  app.post('/api/util/reindexComments', utilApi.reindexComments);
+
+  apiRoutes(app);
   
   //Angular will take care of the 404 page
   app.get('*', function(req, res){
     return res.render('base');
   });
-}
+//}
 

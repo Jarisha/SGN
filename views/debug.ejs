@@ -1,0 +1,347 @@
+<html>
+  <head>
+    <base href="http://<%=host%>" target="_blank">
+    <script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        console.log('document is ready');
+        $('#create_user').submit(function(e){
+          console.log($('form#create_user').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/user/createUser',
+            data: $('form#create_user').serialize(),
+            success: function(data){
+              if(data.success)
+                console.log('success');
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          
+          return false;
+        });
+        $('#edit_user').submit(function(e){
+          console.log($('form#edit_user').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/user/editUser',
+            data: $('form#edit_user').serialize(),
+            success: function(data){
+              if(data.success)
+                console.log('success');
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#delete_user').submit(function(e){
+          $.ajax({
+            type: 'post',
+            url: '/api/user/deactivate',
+            data: $('#delete_user').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              
+            }
+          });
+          return false;
+        });
+        $('#fetch_user').submit(function(e){
+          console.log($('form#fetch_user').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/user/fetchUser',
+            data: $('form#fetch_user').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#fetch_users').submit(function(e){
+          $.ajax({
+            type: 'post',
+            url: '/api/user/fetchUsers',
+            data: $('form#fetch_users').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        
+        $('#create_gamepin').submit(function(e){
+          $.ajax({
+            type: 'post',
+            url: '/api/gamepin/createGamepin',
+            data: $('form#create_gamepin').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#edit_gamepin').submit(function(e){
+          $.ajax({
+            type: 'post',
+            url: '/api/gamepin/editGamepin',
+            data: $('form#edit_gamepin').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#delete_gamepin').submit(function(e){
+          console.log($('form#delete_gamepin').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/gamepin/deleteGamepin',
+            data: $('form#delete_gamepin').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#fetch_gamepin').submit(function(e){
+          //console.log($('form#fetch_gamepin').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/gamepin/fetchGamepin',
+            data: $('form#fetch_gamepin').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#fetch_gamepins').submit(function(e){
+          $.ajax({
+            type: 'post',
+            url: '/api/gamepin/fetchGamepins',
+            data: $('form#fetch_gamepins').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#get_user_settings').submit(function(e){
+          var userName =  $('#get_user_settings input[name="userName"]').val();
+          console.log($('#get_user_settings').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/user/getProfile',
+            data: $('#get_user_settings').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+        $('#get_user_groups').submit(function(e){
+          var userName =  $('#get_user_groups input[name="userName"]').val();
+          console.log($('#get_user_groups').serialize());
+          $.ajax({
+            type: 'post',
+            url: '/api/user/getGroups',
+            data: $('#get_user_groups').serialize(),
+            success: function(data){
+              if(data.success) alert(JSON.stringify(data.success));
+            },
+            error: function(data){
+              console.log('error');
+            }
+          });
+          return false;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Name must match schema -->
+    <h1>User</h1>
+    <p>Create User</p>
+    <form id="create_user">
+      <label>Email</label><input type="email" name="email" placeholder="email" required >
+      </br>
+      <label>userName</label><input type="text" name="userName" placeholder="username" required >
+      </br>
+      <label>userPassword</label><input type="password" name="password" placeholder="password" required >
+      </br>
+      <label>confirm</label><input type="password" name="confirm" placeholder="password" required >
+      </br>
+      <input type="submit">
+    </form>
+    <p>Edit User</p>
+    <form id="edit_user">
+      <label>userEmail</label><input type="text" name="email" placeholder="email">
+      </br>
+      <label>userName</label><input type="text" name="userName" placeholder="username">
+      </br>
+      <label>userPassword</label><input type="password" name="password" placeholder="password">
+      </br>
+      <label>confirm</label><input type="password" name="confirm" placeholder="confirm">
+      <p>Gender</p>
+      <label for="male" >Male</label><input id="male" type="radio" name="gender" value="male">
+      <label for="female" >Female</label><input id="female" type="radio" name="gender" value="female">
+      <label for="decline" >Decline to State</label><input id="decline" type="radio" name="gender" value="decline">
+      </br>
+      <input type="submit">
+    </form>
+    <p>Delete User</p>
+    <form id="delete_user">
+      <input type="text" name="email">
+      <input type="submit">
+    </form>
+    
+    <p>Fetch user</p>
+    <form id="fetch_user">
+      <input type="text" name="email" placeholder="email">
+      <input type="submit">
+    </form>
+    
+    <p>Fetch users</p>
+    <form id="fetch_users">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="submit">
+    </form>
+    <p>Get User Settings + Activity</p>
+    <form id="get_user_settings">
+      <input type="text" name="userName" placeholder="userName">
+      <input type="submit">
+    </form>
+    <p>Get User Groups</p>
+    <form id="get_user_groups">
+      <input type="text" name="userName" placeholder="userName">
+      <input type="submit">
+    </form>
+    
+    <!-- ---------------------------------------------------------------- -->
+    <h1>Gamepin</h1>
+    <p>Create Gamepin</p>
+    <form id="create_gamepin">
+      <label>posterId</label><input type="text" name="posterId" placeholder="posterId" required>
+      </br>
+      <label>sourceUrl</label><input type="text" name="sourceUrl" placeholder="sourceUrl">
+      </br>
+      <label>videoEmbed</label><input type="text" name="videoEmbed" placeholder="videoEmbed">
+      </br>
+      <label>gameName</label><input type="text" name="gameName" placeholder="gameName" required>
+      </br>
+      <label>publisher</label><input type="text" name="publisher" placeholder="gameName">
+      </br>
+      <label>category</label><select name="category">
+        <option value="Action & Adventure">Action & Adventure</option>
+        <option value="Arcade">Arcade</option>
+        <option value="Board & Card">Board & Card</option>
+        <option value="Arcade">Casino & Gambling</option>
+        <option value="Educational">Educational</option>
+        <option value="Family & Kids">Family & Kids</option>
+        <option value="Music & Rhythm">Music & Rhythm</option>
+        <option value="Puzzle">Puzzle</option>
+        <option value="Racing">Racing</option>
+        <option value="Role Playing">Role Playing</option>
+        <option value="Simulation">Simulation</option>
+        <option value="Sports">Sports</option>
+        <option value="Strategy">Strategy</option>
+        <option value="Trivia & Word">Trivia & Word</option>
+      </select>
+      </br>
+      <label>description</label><textarea type="text" name="description" placeholder="description" required></textarea>
+      </br>
+      <input type="submit">
+    </form>
+    <p>Edit Gamepin</p>
+    <form id="edit_gamepin">
+      <input type="text" name="pinId" placeholder="pinId">
+      </br>
+      <input type="text" name="gameName" placeholder="gameName">
+      </br>
+      <textarea name="description" placeholder="description"></textarea>
+      </br>
+      <input type="text" name="publisher" placeholder="publisher">
+      </br>
+      <input type="submit">
+    </form>
+    <p>Delete Gamepin</p>
+    <form id="delete_gamepin">
+      <input type="text" name="pinId" placeholder="pinId" />
+      <input type="submit" >
+    </form>
+    <p>Fetch Gamepin</p>
+    <form id="fetch_gamepin">
+      <input type="text" name="pinId" placeholder="pinId">
+      <input type="submit">
+    </form>
+    <!--<p>Fetch Gamepins</p>
+    <form id="fetch_users">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="text" name="emails[]" placeholder="email">
+      <input type="submit">
+    </form>-->
+    
+    
+    <!--<h1>Comment</h1>
+    <p>Create Comment</p>
+    <form id="create_comment">
+      <input type="email" name="gamepinEmail" placeholder="email">
+      </br>  
+      <input type="text" name="gamepinName" placeholder="gamepinname">
+      </br>
+      <input type="password" name="gamepinPassword" placeholder="password">
+      </br>
+      <input type="submit">
+    </form>
+    <p>Edit Comment</p>
+    <form id="edit_gamepin">
+      <input type="text" name="gamepinName" placeholder="gamepinname">
+      </br>
+      <input type="password" name="gamepinPassword" placeholder="password">
+      </br>
+      <input type="password" name="confirm" placeholder="confirm">
+      </br>
+      <input type="submit">
+    </form>
+    <p>Delete Comment</p>
+    <form id="delete_gamepin">
+      <select>
+        <option value="opt1" name="opt1">Option 1</option>
+      </select>
+    </form>-->
+  </body>
+</html>

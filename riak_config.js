@@ -7,7 +7,16 @@ var errlog = app.errlog;
 var evtlog = app.evtlog;
 
 exports.init = function(){
-  console.log('INITTT');
+console.log('\
+********  *********  **       *\n\
+*         *          * *      *\n\
+*         *          *  *     *\n\
+********  *    ****  *   *    *\n\
+       *  *       *  *    *   *\n\
+       *  *       *  *     *  *\n\
+       *  *       *  *      * *\n\
+********  *********  *       **\n\
+');
   util.generateId(function(id){
     var idNum;
     if(id){

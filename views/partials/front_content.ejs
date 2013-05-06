@@ -14,7 +14,7 @@
     <span>{{pin.comments.length}} comments</span>
   </p>
   <div class="posted_by">
-    <img ng-src="{{pin.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
+    <img ng-src="{{pin.profileImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
     class="post_text"><a href="/user/{{pin.poster || pin.posterName}}"><b>{{pin.poster || pin.posterName}}</b></a> 
                        onto {{pin.category}}
     </p>
@@ -26,7 +26,7 @@
     </p>
   </div>
   <div class="respond clearfix" tabindex="">
-      <img ng-src="{{avatarUrl || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
+      <img ng-src="{{userImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
       class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
       <button class="respond_btn hidden" type="submit" ng-click="addComment(text, $index); text=null;">Comment</button>
   </div>

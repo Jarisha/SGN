@@ -8,12 +8,13 @@
  
 function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, resolveFront,
                          gamepinService, $window){
-  console.log('frontController');
+  ('frontController');
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
+  console.log($scope.gamePins);
   var imgCount = 0;
   
-  //console.log(beforeFront);
+  //(beforeFront);
   /* $scope wide variables, binded to view */
   $rootScope.css = 'front';
   //$rootScope.title = 'front';
@@ -129,10 +130,11 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //trigger enlarged Gamepin
   $scope.viewBigPin = function(index){
-    console.log($scope.showPins[index]);
+    ($scope.showPins[index]);
     $('.view_vid').empty();
+    //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
-      //console.log(data);
+      //(data);
       $scope.bigPin.index = index;
       $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
       $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
@@ -153,37 +155,36 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //follow user while looking at big Pin.  Need to fetch user id, then pass that to /api/follow
   $scope.follow = function(targetName){
-    console.log('bigPin follow');
+    ('bigPin follow');
     $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
       .success(function(data, status, headers, config){
         if(!data.exists) return;
-        console.log(data.email);
+        (data.email);
         next(data.email);
       })
       .error(function(data, status, headers, config){
-        console.log("AJAX Error: " + data);
+        ("AJAX Error: " + data);
         return;
       });
     function next(targetId){
-      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: targetId} })
+      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetId: targetId} })
         .success(function(data, status, headers, config){
           if(data.success){
-            console.log('Now following' + targetId);
+            ('Now following' + targetId);
             $rootScope.popNotify('Now Following ' + targetName);
             $('#follow_user').attr('disabled', 'disabled');
           }
           if(data.error){
             $('#gamePinModal').modal('hide');
             $rootScope.popNotify('Error', data.error);
-            console.log(data.error);
+            (data.error);
           }
         })
         .error(function(data, status, headers, config){
-          console.log('Error: ' + status);
-        }); 
+          ('Error: ' + status);
+        });
     }
   }
-  
   //Must do a POST, otherwise response is cached
   
   //Called after our modals have loaded, do anything that needs to be done
@@ -193,13 +194,11 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
         if(data.fb){
-          console.log('fb = true');
+          ('fb = true');
           $rootScope.register.email = data.fbEmail;
           $rootScope.register.name = data.fbName;
           $rootScope.register.fbConnect = true;
           $('#fbRegisterModal').modal();
-        }
-        else{
         }
       })
       .error(function(data, status, headers, config) {
@@ -214,35 +213,33 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //add comment via the big Pin
   $scope.addBigComment = function(text, index){
-    console.log($rootScope.avatarUrl);
-    $scope.bigPin.comments.push({ posterName: $rootScope.rootSettings.username, content: text, posterImg: $rootScope.avatarUrl });
+    ($rootScope.userImg);
+    $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
     $http({ method:'post', url:'/api/gamepin/addComment',
-      data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userId, posterName: $rootScope.userName, content: text} })
+      data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
       .success(function(data, status, headers, config){
-        console.log('post big comment success!');
         $('textarea.view_respond_txtarea').val('');
-        //$scope.big_text = null;
         $rootScope.remason();
       })
       .error(function(data, status, headers, config){
-        console.log('error');
       });
   }
   
   //add comment via the front page
   $scope.addComment = function(text, index){
     //add the comment in the view
-    $scope.showPins[index].comments.push({posterName: $rootScope.rootSettings.username, content: text, posterImg: $rootScope.avatarUrl});
+    ($rootScope.rootSettings);
+    $scope.showPins[index].comments.push({posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg});
     
     $http({ method:'post', url:'/api/gamepin/addComment',
-      data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userId, posterName: $rootScope.userName, content: text} })
+      data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
       .success(function(data, status, headers, config){
-        console.log('post comment success!');
+        if(data.error) $rootScope.popNotify('Now Following ' + targetName);
         $scope.text = null;
         $rootScope.remason();
       })
       .error(function(data, status, headers, config){
-        console.log('error');
+        ('error');
       });
     //API call to add comment to DB
   }
@@ -259,11 +256,11 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
     }
     //$rootScope.remason();
-    console.log($scope.showPins[3]);
+    ($scope.showPins[3]);
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
-    //console.log('loadMore');
+    //('loadMore');
     var event = false;
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
       if($scope.gamePins[pinIndex]){
@@ -275,7 +272,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //test usage only
   $scope.loadOne = function(){
-    console.log('load Zs');
+    ('load Zs');
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
     $scope.showPins.push({id:'Z', description:'Z', poster:'Z', category:'Z'});
@@ -295,12 +292,10 @@ FrontController.resolve = {
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       gamepinService.getPinList(function(data){
-        console.log(data);
         if(data.objects){
           deferred.resolve(data.objects);
         }
-        else
-          deferred.reject("Error");
+        else deferred.reject("Error");
       });
     });
     return deferred.promise;
@@ -325,13 +320,13 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   } 
   //Youtube video functionality
   /*function onYouTubePlayerReady(playerId){
-    console.log(playerId);
-    console.log('onYouTubePlayerReady');
+    (playerId);
+    ('onYouTubePlayerReady');
   }*/
   
   /* AJAX FUNCTIONS */
   $scope.ajaxLogin = function(){
-    console.log('rootScope.login()');
+    ('rootScope.login()');
     $http({ method: 'POST', url: '/api/login', data:
           {"email": $scope.login.email, "password": $scope.login.password }})
       .success(function(data, status, headers, config){
@@ -339,7 +334,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
           $rootScope.loggedIn = true;
           $rootScope.userEmail = data.userEmail;
           $rootScope.userName = data.userName;
-          $rootScope.userId = data.userId;
+          $rootScope.userEmail = data.userId;
           $scope.status = 'Login Successful!';
           $('#loginModal').modal('hide');
           
@@ -353,7 +348,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
             $templateCache.remove('partials/navbar');
             $http.get('partials/navbar', {cache:$templateCache});
           }
-          console.log("Login success: remason()");
+          ("Login success: remason()");
           $rootScope.remason();
         }
         else if(!data.login && data.error){
@@ -377,7 +372,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
           $rootScope.loggedIn = true;
           $rootScope.userEmail = data.userEmail;
           $rootScope.userName = data.userName;
-          $rootScope.userId = data.userId;
+          $rootScope.userEmail = data.userId;
           $scope.status = 'Registration Successful!';
           
           $('#registerModal').modal('hide');
@@ -411,11 +406,20 @@ StoreController.resolve = {
     return deferred.promise;
   }
 }
-function ProfileController($scope, $rootScope, $http, $location, $timeout , resolveProfile){
-  console.log('ProfileController');
-  $scope.activityPins = resolveProfile.activity;
-  $scope.groupPins = resolveProfile.groups;
-  $scope.showPins = $scope.activityPins;
+function ProfileController($scope, $rootScope, $http, $location, $timeout, resolveProfile){
+  ('ProfileController');
+  //read resolveData into $scope variables
+  $scope.R_Data = resolveProfile;
+  
+  $scope.activityPins = resolveProfile.activityData;
+  $scope.profile = resolveProfile.profileData;
+  
+  //(resolveProfile);
+  //$scope.activityPins = resolveProfile.activityData;
+  //$scope.groupPins = resolveProfile.groups;
+  /*$scope.showPins = $scope.activityPins;
+  $scope.profile = resolveProfile.profileData;
+  (resolveProfile.profileData);*/
   
   $rootScope.css = 'profile';
   $rootScope.title = 'profile';
@@ -423,10 +427,11 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/profile_content';
-  $scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
+  //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
   $scope.groupToggle = false;
+  $scope.masonInit = true;
   
-  $scope.profile = {  name: null,
+  /*$scope.profile = {  name: null,
                       email: null,
                       fbConnect: null,
                       favCat: null,
@@ -442,11 +447,15 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
                       followers: [],
                       following: [],
                       friends: []
-  };
+  };*/
   $scope.changeImage = false;
   
+  $scope.changeState = function(){
+    $scope.masonInit = false;
+  }
+  
   $scope.setup = function(){
-    console.log('setup profile UI');
+    ('setup profile UI');
     
     //"Scroll to Top" button
     $(window).scroll(function(){
@@ -458,19 +467,9 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
     });
     
     var $changeAvatar = $('.change_avatar');
-    /*$timeout(function(){ console.log($('.profile_pic')); }, 1000);
-    console.log($('.profile_pic'));
-    $(document).on('mouseenter', '.profile_pic', function(){$changeAvatar.removeClass('hidden'); });
-    $(document).on('mouseleave', '.profile_pic', function(){$changeAvatar.addClass('hidden'); });*/
-    
-    /*$('.profile_pic').mouseenter(function(e){
-      $changeAvatar.removeClass('hidden');
-    }).mouseleave(function(e){
-      $changeAvatar.addClass('hidden');
-    });*/
     
     $scope.scrollup = function(){
-      console.log('scrollup');
+      ('scrollup');
       $("html, body").animate({ scrollTop: 0 }, 600);
     }
   }
@@ -481,42 +480,24 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
       if(res.message) $scope.status = res.message;
     });
   }
-  /* dummy profile for front end completion */
-  
-  $scope.getProfile = function(){
-    $http({method:'post', url:'/api/getProfile', data:{ userEmail: $rootScope.userId }})
-      .success(function(data, status, headers, config){
-        if(data.error){
-          console.log(error);
-          return;
-        }
-        $scope.profile = data;
-        //deal with logic in controller, not view
-        //$scope.profile.profileImg = $scope.profile.profileImg || $rootScope.rootPath + '/images/160x160.gif';
-        console.log($scope.profile);
-      })
-      .error(function(data, status, headers, config){
-        console.log('Error: ' + status);
-      });
-  }
   
   $scope.toggleCategories = function(){
-    console.log('showCategories');
+    ('showCategories');
     if(!$scope.groupToggle){
-      console.log('show');
+      ('show');
       $('#view_groups .dropdown-menu').css('display', 'block');
       $scope.groupToggle = true;
     }
     else{
-      console.log('hide');
+      ('hide');
       $('#view_groups .dropdown-menu').css('display', 'none');
       $scope.groupToggle = false;
     }
   }
   
   $scope.showGroup = function(group){
-    console.log('fire the showGroup');
-    console.log(group);
+    ('fire the showGroup');
+    (group);
     $scope.showPins = $scope.groupPins[group];
     $rootScope.profileRemason();
   }
@@ -525,194 +506,168 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout , reso
     $rootScope.profileRemason();
   }
   
-  $scope.getProfile();
+  //$scope.getProfile();
 }
 ProfileController.resolve = {
-  resolveProfile: function($q, $rootScope, $location, $http){
+  resolveProfile: function($q, $rootScope, $location, $http, $timeout){
     var deferred = $q.defer();
-    var resultData = {};
+    
+    //get session data + login state
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
-      else next();
+      else {
+        //get User Profile data + activity pins
+        $http({ method: 'post', url:'/api/user/getProfile', data: {userName: $rootScope.userName} })
+          .success(function(data, status, headers, config){
+            if(data.error) deferred.reject(); //$rootScope.$apply(deferred.reject(data.error));
+            deferred.resolve(data);
+            //$rootScope.$apply(deferred.resolve(data));
+          })
+          .error(function(data, status, headers, config){
+            deferred.reject(data);  //$rootScope.$apply(deferred.reject(data));
+          });
+      }
     });
-    //get user Activity gamepin Data
-    function next(){
-      $http({ method: 'get', url:'/api/getActivity/' + $rootScope.rootSettings.username})
-      .success(function(data, status, headers, config){
-        if(data.error) deferred.reject(error);
-        resultData.activity = data.activity;
-        next2();
-      })
-      .error(function(data, status, headers, config){
-        deffered.reject(data);
-      });
-    }
-    //get user Group gamepin Data
-    function next2(){
-      $http({ method: 'get', url:'/api/getGroups/' + $rootScope.rootSettings.username})
-      .success(function(data, status, headers, config){
-        if(data.error) deferred.reject(data.error);
-        resultData.groups = data.groups;
-        deferred.resolve(resultData);
-      })
-      .error(function(data, status, headers, config){
-        deffered.reject(data);
-      });
-    }
     return deferred.promise;
   }
 }
 
 //Looking at another user's page
 function UserController($scope, $rootScope, $http, $location, $routeParams, resolveUser){
-  console.log(resolveUser);
-  $scope.activityPins = resolveUser.activity;
-  $scope.groupPins = resolveUser.groups;
-  $scope.showPins = $scope.activityPins;
-  
-  
+  ('UserController');
   $rootScope.css = 'profile';
   $rootScope.title = 'user';
-  console.log('UserController');
   
-  /*$scope.activityPins = resolveUser.activity;
-  $scope.groupPins = resolveUser.groups;
-  $scope.showPins = $scope.activityPins;*/
-  
+  // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/user_content';
-  //$scope.profile = {};
-  $scope.user = {};
+  
+  // get resolve data into view
+  $scope.activityPins = resolveUser.activityData;
+  $scope.user = resolveUser.profileData;
   $scope.isFollowing = false;
   
-  $scope.setup = function(){
-    //profileSetup($scope);
+  // disable following button if already following ( this should be done on backend )
+  for(var i = 0, len = $scope.user.followers.length; i < len; i++){
+    ($scope.user.followers[i]);
+    if($scope.user.followers[i].userName === $rootScope.userName){
+      $scope.isFollowing = true;
+      break;
+    }
   }
   
+  //hack to get masonry to work.  This code works with an Angular directive.
+  $scope.masonInit = true;
+  $scope.changeState = function(){
+    $scope.masonInit = false;
+  }
+  
+  //setup UI related things
+  $scope.setup = function(){
+    //"Scroll to Top" button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 200) {
+            $('#scrollup').fadeIn();
+        } else {
+            $('#scrollup').fadeOut();
+        }
+    });
+    
+    var $changeAvatar = $('.change_avatar');
+    
+    $scope.scrollup = function(){
+      $("html, body").animate({ scrollTop: 0 }, 600);
+    }
+  }
+  
+  //Doing 2 AJAX calls is retarded
+  //TODO: Change to 1 AJAX call, let backend do the work
   $scope.follow = function(targetName){
-    console.log('userContoller follow');
+    ('userController follow: ' + targetName);
     $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
       .success(function(data, status, headers, config){
         if(!data.exists) return;
-        console.log(data.email);
+        (data.email);
         next(data.email);
       })
       .error(function(data, status, headers, config){
-        console.log("AJAX Error: " + data);
+        ("AJAX Error: " + data);
         return;
       });
     function next(targetId){
-      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userId, targetId: targetId} })
+      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetId: targetId} })
         .success(function(data, status, headers, config){
           if(data.success){
-            console.log('Now following' + targetId);
+            ('Now following' + targetId);
             $rootScope.popNotify('Now Following ' + targetName);
             $('#follow_user').attr('disabled', 'disabled');
           }
           if(data.error){
-            console.log(error);
+            (error);
           }
         })
         .error(function(data, status, headers, config){
-          console.log('Error: ' + status);
+          ('Error: ' + status);
         }); 
     }
   }
   
-  //get profile data for this user
-  $scope.getProfile = function(){
-    $http({method:'post', url:'/api/getProfile', data:{ userName: $routeParams.username}})
-      .success(function(data, status, headers, config){
-        if(data.error){
-          console.log(error);
-          return;
-        }
-        for(var f in data.followers){
-          console.log(data.followers[f]);
-          if($rootScope.userId === data.followers[f]){
-            $scope.isFollowing = true;
-          }
-        }
-        $scope.user = data;
-      })
-      .error(function(data, status, headers, config){
-        console.log('Error: ' + status);
-      });
-  }
-  
   $scope.toggleCategories = function(){
-    console.log('showCategories');
+    ('showCategories');
     if(!$scope.groupToggle){
-      console.log('show');
+      ('show');
       $('#view_groups .dropdown-menu').css('display', 'block');
       $scope.groupToggle = true;
     }
     else{
-      console.log('hide');
+      ('hide');
       $('#view_groups .dropdown-menu').css('display', 'none');
       $scope.groupToggle = false;
     }
   }
+  
   $scope.showGroup = function(group){
-    console.log('fire the showGroup');
-    console.log(group);
+    ('fire the showGroup');
+    (group);
     $scope.showPins = $scope.groupPins[group];
     $rootScope.profileRemason();
   }
   $scope.showActivity = function(){
     $scope.showPins = $scope.activityPins;
     $rootScope.profileRemason();
-  }
-  
+  }  
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
   }
-  $scope.getProfile();
 }
+
 UserController.resolve = {
   resolveUser: function($q, $route, $rootScope, $location, $http, $routeParams, $window){
     var deferred = $q.defer();
-    var resultData = {};
     var user = $route.current.params.username;
-    console.log(user);
+    if(user === $rootScope.userName) $location.path('/profile');
+    
     $rootScope.checkLogin(function(err, login){
-      if(user === $rootScope.rootSettings.username) $location.path('/profile');
-      if(err) deferred.reject(err);
+      if(err) deferred.reject();
       else if(!login) $location.path('/');
-      else next();
+      else{
+        (user);
+        //get User Profile data + activity pins
+        $http({ method: 'post', url:'/api/user/getProfile', data: {userName: user} })
+          .success(function(data, status, headers, config){
+            if(data.error) deferred.reject();
+            deferred.resolve(data);
+          })
+          .error(function(data, status, headers, config){
+            deferred.reject(data);
+          });
+      }
     });
-    //get user Activity gamepin Data
-    function next(){
-      $http({ method: 'get', url:'/api/getActivity/' + user})
-      .success(function(data, status, headers, config){
-        if(data.error){
-          //deferred.reject(error);
-          $window.location = '/notfound';
-        }
-        resultData.activity = data.activity;
-        next2();
-      })
-      .error(function(data, status, headers, config){
-        deffered.reject(data);
-      });
-    }
-    //get user Group gamepin Data
-    function next2(){
-      $http({ method: 'get', url:'/api/getGroups/' + user})
-      .success(function(data, status, headers, config){
-        if(data.error) deferred.reject(data.error);
-        resultData.groups = data.groups;
-        deferred.resolve(resultData);
-      })
-      .error(function(data, status, headers, config){
-        deffered.reject(data);
-      });
-    }
     return deferred.promise;
   }
 }
@@ -726,7 +681,7 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
   $scope.content = $rootScope.rootPath + '/partials/about_content';
   $scope.section = $rootScope.rootPath + '/partials/faq';
   
-  console.log($routeParams);
+  ($routeParams);
   
   $scope.setup = function(){
     aboutSetup($scope);
@@ -789,7 +744,7 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
 AboutController.resolve = {
   resolveAbout: function($q, $rootScope, $location){
     var deferred = $q.defer();
-    console.log('AboutController');
+    ('AboutController');
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
@@ -801,5 +756,5 @@ AboutController.resolve = {
 
 
 function TempController($scope, $rootScope, $http, $location, $routeParams){
-  console.log('TempController');
+  ('TempController');
 }

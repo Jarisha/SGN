@@ -16,7 +16,7 @@ angular.module('myApp.services', []).
   //a service is an obj with a function (or set of functions) that does some work
   .service('printService', function(){
     this.printSomething = function(thing){
-      console.log(thing);
+      (thing);
       return thing;
     }
   })
@@ -29,8 +29,8 @@ angular.module('myApp.services', []).
     return {
       printSomething: function(thing){
         count++;
-        console.log(thing);
-        console.log(count);
+        (thing);
+        (count);
         return thing;
       }
     }
@@ -54,12 +54,12 @@ angular.module('myApp.services', []).
               callback(data);
             }
             else{
-              console.log("getPinList Error");
+              ("getPinList Error");
               callback('error');
             }
           })
           .error(function(data, status, headers, config){
-            console.log('AJAX error');
+            ('AJAX error');
           });
       },
       getPinData: function(id, callback){
@@ -69,12 +69,12 @@ angular.module('myApp.services', []).
               callback(data.gamepin);
             }
             else{
-              console.log("getPinList Error");
+              ("getPinList Error");
               callback('error');
             }
           })
           .error(function(data, status, headers, config){
-            console.log('AJAX error');
+            ('AJAX error');
           });
       },
       categorySearch: function(cat, callback){
@@ -85,12 +85,12 @@ angular.module('myApp.services', []).
               callback(data);
             }
             else{
-              console.log("getPinList Error");
+              ("getPinList Error");
               callback('error');
             }
           })
           .error(function(data, status, headers, config){
-            console.log('AJAX error');
+            ('AJAX error');
           });
       },
       textSearch: function(txt, callback){
@@ -101,18 +101,18 @@ angular.module('myApp.services', []).
               callback(data);
             }
             else{
-              console.log("getPinList Error");
+              ("getPinList Error");
               callback('error');
             }
           })
           .error(function(data, status, headers, config){
-            console.log('AJAX error');
+            ('AJAX error');
           });
       }
     }
   })
   .service('loadContent', function($q, gamepinService){
-    console.log('bunnies!');
+    ('bunnies!');
     this.loadPins = function(){
       var deferred = $q.defer();
       gamepinService.getPinList(function(data){
@@ -126,7 +126,7 @@ angular.module('myApp.services', []).
   });
   /*.service('debugService', function(){
     this.log = function(variable) {
-      console.log(variable);
+      (variable);
     };
     this.alert = function(text) {
       alert(text);

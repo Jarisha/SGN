@@ -8,7 +8,7 @@
     , "ejs": "0.8.3"
     , "bcrypt-nodejs": "0.0.2"
     , "connect-redis": "1.4.5"
-    , "nodiak": "0.1.1"
+    , "nodiak": "0.2.3"
     , "passport": "0.1.15"
     , "secure_random": "0.1.0"
     , "winston": "0.6.2"
@@ -19,5 +19,6 @@
     , "node-mandrill": "1.0.1"
     , "toobusy": "0.2.3"
     , "socket.io": "0.9.14"
+    , "async": "0.2.7"
   }
 }

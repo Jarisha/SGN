@@ -1,25 +1,70 @@
-/* utility.js contains conflict resolution, nodeflake ID generation, and other useful
- * functions used here and there.
+/* utility.js contains a toolbox of usefull Javascript functions
  */
 
 //TODO: Give Quyay API callback in callback(err, success) format
 var app = require('./app');
 var http = require('http');
+var async = require('async');
 var random = require('secure_random');
 var bcrypt = require('bcrypt-nodejs');
 var config = require('./config');
+var E = require('./customErrors');
+
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
 
+//TODO: Remove clearChanges from codebase
+var clearChanges = exports.clearChanges = function(){};
+
+//deals with case where user specifies a hasOwnProperty on an objet, screwing things up
+//http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/
+var has = exports.has = function(obj, key){
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+//remove null values from array. 
+var removeNulls = exports.removeNulls = function(arr){
+  for(var i = 0; i < arr.length; i++){
+    if(!arr[i]){
+      arr.splice(i,1);
+      i--;
+    }
+  }
+}
+
+//remove null values from obj, recursive search.  Modifies input obj.
+var removeNullsFromObj = exports.removeNullsFromObj = function(obj){
+  for(o in obj){
+    if(obj[o] === null) delete obj[o];
+    else if(Object.prototype.toString.call(obj[o]) === '[object Object]') removeNullsFromObj(obj[o]);
+    else;
+  }
+  return;
+}
+
+//Update BaseObj with input
+//Modifies baseObj, return false on success, error string on error
+var overwrite = exports.overwrite = function(baseObj, inputObj){
+  if(Object.keys(inputObj).length === 0) return false;
+  for(p in inputObj){
+    if(has(inputObj, p) && has(baseObj, p)) baseObj[p] = inputObj[p];
+    else{
+      console.log('overwrite error: invalid property '+p+' specified');
+      return new Error('overwrite error: invalid property '+p+' specified');
+    }
+  }
+  return false;
+}
+
+//return copy of JS object
 var clone = exports.clone = function(obj){
   if(obj == null || typeof(obj) != 'object')
-      return obj;
-
+    return obj;
   var temp = obj.constructor(); // changed
 
   for(var key in obj)
-      temp[key] = clone(obj[key]);
+    temp[key] = clone(obj[key]);
   return temp;
 }
 
@@ -34,16 +79,6 @@ function arrNoDupe(a) {
     return r;
 }
 
-//clears changes array. Should be called immediately after a succesful read.
-var clearChanges = exports.clearChanges = function(obj){
-  var ch = obj.data.changes;
-  for(var o in ch){
-    for(var a in ch[o]){
-      if(ch[o][a]) ch[o][a].length = 0;
-    }
-  }
-}
-
 //returns date in mm/dd/yyyy format
 //TODO: Evaluate if this is good enough
 var getDate = exports.getDate = function(){
@@ -53,6 +88,62 @@ var getDate = exports.getDate = function(){
   var yyyy = today.getFullYear();
   today = mm+'/'+dd+'/'+yyyy;
   return today;
+}
+
+//TODO: get rid of 2i and replace with KV pair
+//Check if userName has not been taken. callback(err)
+var uniqueUserName = exports.uniqueUserName = function(userName, callback){
+  async.parallel([
+    function(callback){
+      app.riak.bucket('pendingUsers').search.twoi(userName, 'username', function(err, keys){
+        if(err) return callback(err);
+        if(keys && keys.length !== 0) return callback(new Error('Username taken'));
+        return callback(null);
+      });
+    },
+    function(callback){
+      app.riak.bucket('users').search.twoi(userName, 'username', function(err, keys){
+        if(err) return callback(err);
+        if(keys && keys.length !== 0) return callback(new Error('Username taken'));
+        return callback(null);
+      });
+    },
+  ],
+  function(err){
+    if(err) return callback(err);
+    return callback(null);
+  });
+}
+
+//Check if user email has not been taken.  callback(err)
+var uniqueUserEmail = exports.uniqueUserEmail = function(userEmail, callback){
+  async.parallel([
+    function(callback){
+      app.riak.bucket('pendingUsers').object.exists(userEmail, function(err, result){
+        if(err) return callback(new Error('uniqueUserEmail: '+err.message));
+        if(result) return callback(new Error('Email taken'));
+        return callback(null);
+      });
+    },
+    function(callback){
+      app.riak.bucket('users').object.exists(userEmail, function(err, result){
+        if(err) return callback(new Error('uniqueUserEmail: '+err.message));
+        if(result) return callback(new Error('Email taken'));
+        return callback(null);
+      });
+    },
+    function(callback){
+      app.riak.bucket('graveyard').object.exists(userEmail, function(err, result){
+        if(err) return callback(new Error('uniqueUserEmail: '+err.message));
+        if(result) return callback(new Error('Email taken'));
+        return callback(null);
+      });
+    }
+  ],
+  function(err){
+    if(err) return callback(err);
+    return callback(null);
+  });
 }
 
 //Default conflict resolution, returns latest sibling
@@ -116,7 +207,6 @@ var pin_resolve = exports.pin_resolve = function(siblings){
       siblings[0].data.comments.splice(siblings[0].data.comments.indexOf(net_changes.comments.remove[p]), 1);
   }
   return siblings[0];
-  
 }
 
 //Conflict resolution for user
@@ -543,9 +633,12 @@ var generateId = exports.generateId = function(callback){
   });
   R.end();
   function next(){
-    //invert values allowing us to sort from new (low #) to old (high #)
-    var val = "999999999999999999" - ID_obj.id;
-    callback(val);
+    //invert values allowing us to sort from new (low #) to old (high #) via Riak search
+    //this is madness.....THIS.....IS......JAVASCRIPT!
+    var str1 = ('999999999' - ID_obj.id.substr(0,9)).toString();
+    var str2 = ('999999999' - ID_obj.id.substr(9,9)).toString();
+    var str3 = str1.concat(str2);
+    callback(str3);
   }
 }
 

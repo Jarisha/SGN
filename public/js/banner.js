@@ -9,7 +9,7 @@ $(document).ready(function(){
   
   var path;
   
-  //get path
+  //get path (part of a horrible hack to get us to the home page after we log in)
   $.ajax({
     type: 'get',
     url: '/api/getPath',
@@ -21,7 +21,6 @@ $(document).ready(function(){
       console.log(data);
     }
   });
-  
   
   //Uniqueness flags
   var validUserName = false;
@@ -38,7 +37,6 @@ $(document).ready(function(){
   });
   
   $('#previewTrigger').click(function(e){
-    console.log('wtf');
     $('div.modal').omniWindow().trigger('show');
   });
   

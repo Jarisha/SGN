@@ -1,14 +1,294 @@
 /*************************************** Gamepin ***************************************/
 var http = require('http')
+
 var httpGet = require('http-get');
+var async = require('async');
+
 var util = require('../../utility');
 var app = require('../../app');
 var gamepinSchema = require('../../schema/gamepin');
 var commentSchema = require('../../schema/comment');
+var userAPI = require('./user');
+var base = require('./base.js');
+var E = require('../../customErrors');
 
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
+
+/********************************************* DB Level - Level 1 *******************************/
+
+// Reindex Riak Object ~ gamepin to gamepinSchema.
+// Cases: Error - Success. callback(error, RO_usr)
+var reindexGamepin = function(ROgamepin, callback){
+  ROgamepin.data['version'] = gamepinSchema.gamepinInstance.version;
+  //hard code data transfers
+  
+  var new_gamepin = new gamepinSchema.gamepin(ROgamepin.data);
+  var invalid = new_gamepin.validate();
+  if(invalid) return callback(invalid, null);
+  ROgamepin.data = new_gamepin;
+  base.save_RO(ROgamepin, 'gamepin', function(err, savedRO){
+    if(err) return callback(err, null);
+    return callback(null, savedRO);
+  });
+}
+
+// Get Riak Object ~ Gamepin. Tested - No
+// Cases: Error - Out of Date - Success.  callback(error, RO_gamepin)
+var get_RO_gamepin = exports.get_RO_gamepin = function(key, callback){
+  app.riak.bucket('gamepins').object.get(key, function(err, pin){
+    if(err){
+      if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_gamepin: '+err.data+' not found'), null);
+      return callback(new Error('get_RO_gamepin: '+err.message), null);
+    }
+    //reindex if out of date
+    if(!pin.data.version || pin.data.version !== gamepinSchema.gamepinInstance.version){
+      reindexGamepin(pin, function(_err, updated_pin){
+        if(_err) return callback(_err, null);
+        return callback(null, updated_pin);
+      });
+    }
+    else return callback(null, pin);
+  });
+}
+
+// Get Riak Object Array ~ Gamepin. Tested - No
+// Cases: Error - Out of Date - Success. callback(errors, RO_gamepins)
+var get_RO_gamepins= function(keys, callback){
+  var gamepins = [];
+  var outdated = [];
+  var outdated_index = {};
+  
+  async.waterfall([
+    //eliminate all not found keys
+    function(callback){
+      base.RO_exists(keys, 'gamepins', function(err, not_found, found){
+        if(err) callback(err, null);
+        keys = found;
+        callback(null, keys);
+     });
+    },
+    //fetch user RObjects
+    function(keys, callback){
+      app.riak.bucket('gamepins').objects.get(keys, util.last_write_wins, function(err, usrs){
+        if(err) return callback(new Error('get_RO_gamepins: '+err.message), null);
+        return callback(null, usrs);
+      });
+    }
+  ], function(err, pins){
+    if(err) return callback(err, null);
+    gamepins = pins;
+    next();
+  });
+  
+  function next(){
+    //find all outdated gamepins
+    for(i = 0, len = gamepins.length; i < len; i++){
+      if(gamepins[i].data.version !== userSchema.userInstance.version){
+        outdated.push(gamepins[i]);
+        outdated_index[gamepins[i]] = i;
+      }
+    }
+    if(outdated.length === 0) next2();
+    //reindex outdated gamepins, then overwrite their outdated counterparts
+    async.map(outdated, reindexUser, function(err, results){
+      if(err) callback(err, null);
+      for(i = 0, len = results.length; i < len; i++){
+        gamepins[outdated_index[results[i]]] = results[i];
+      }
+      next2();
+    });
+  }
+  function next2(){
+    return callback(null, gamepins);
+  }
+}
+
+
+
+/********************************************* CRUD & Validation Level - Level 2 ********************************/
+//create new gamepin data, callback(error, pin_data);
+function createGamepin(input, callback){
+  var pin = new gamepinSchema.gamepin(input);
+  var invalid = pin.validate();
+  if(invalid) return callback(invalid);
+  return callback(null, pin);
+}
+
+//merge input into validData, modifies validData, callback(error);
+function updateGamepin(validData, input, callback){
+  var result = util.overwrite(validData, input);
+  if(result) return callback(result);
+  var pin = new gamepinSchema.gamepin(validData);
+  var invalid = pin.validate();
+  invalid ? callback(invalid) : callback(false);
+}
+
+/***************************************************** API Level - Level 3 *****************************************/
+
+exports.fetchGamepin = function(req, res){
+  get_RO_gamepin(req.body.pinId, function(err, pin){
+    if(err) return res.json({ error: err.message });
+    else return res.send(JSON.stringify(pin.data));
+  });
+}
+
+exports.fetchGamepins = function(req, res){
+  
+}
+
+exports.createWrap = function(req, res){
+  if(!req.body.posterId) return res.json({ error: 'posterId missing' });
+  var poster;
+  var pinId;
+  
+  async.waterfall([
+   //verify user is valid
+    function(callback){
+      app.riak.bucket('users').object.exists(req.body.posterId, function(err, result){
+        if(err) return callback(err, null);
+        if(!result) return res.json({ error: 'posterId not found in DB' });
+        poster = req.body.posterId;
+        callback(null);
+      });
+    },
+    //create gamepin
+    function(callback){
+      createGamepin(req.body, function(err, pinData){
+        if(err) return callback(err, null);
+        callback(null, pinData);
+      });
+    },
+    //generate nodeflake ID
+    function(pinData, callback){
+      util.generateId(function(id){
+        pinId = id;
+        callback(null, id, pinData);
+      });
+    },
+    //save gamepin to DB
+    function(id, data, callback){
+      var RO_pin = app.riak.bucket('gamepins').object.new(id, data);
+      base.save_RO(RO_pin, 'gamepins', function(err, saved){
+        if(err) return callback(err, null);
+        callback(null);
+      });
+    },
+    //add gamepin to user posts, save usr
+    function(callback){
+      userAPI.addPinToUser(poster, pinId, function(err, result){
+        if(err) callback(err, null);
+        return callback(null);
+      });
+    }
+  ], function(err, result){
+    if(err){
+      errlog.info('createGamePin error: '+err.message);
+      return res.json({ error: err.message });
+    }
+    return res.json({ success: poster+' posted '+pinId+' successfully' });
+  });
+}
+
+exports.editWrap = function(req, res){
+  var input = {};
+  if(!req.body.pinId) return res.json({ error: 'pinId missing' });
+  var pinId = req.body.pinId;
+  delete req.body.pinId;
+  for(a in req.body){
+    if(!req.body[a]) delete req.body[a];
+  }
+  async.waterfall([
+    //get gamepin
+    function(callback){
+      get_RO_gamepin(pinId, function(err, pin){
+        if(err) return callback(err);
+        return callback(err, pin);
+      });
+    },
+    //update gamepin data
+    function(pin, callback){
+      updateGamepin(pin.data, req.body, function(err){
+        if(err) return callback(err, null);
+        return callback(null, pin);
+      });
+    },
+    //save gamepin
+    function(pin, callback){
+      pin.save(function(err, saved){
+        if(err) return callback(err, null);
+        return callback(null, saved);
+      });
+    }
+  ], function(err, result){
+    if(err){
+      errlog.info('Edit Gamepin error: '+err.messsage);
+      return res.json({ error: 'Edit Gamepin error: '+err.message });
+    }
+    return res.json({ success: 'pin: '+pinId+' edited successfully!' });
+  });
+}
+
+exports.deleteWrap = function(req, res){
+  if(!req.body.pinId) res.json({ error: 'pinID missing' });
+  var pinId = req.body.pinId;
+  var userId;
+  
+  async.waterfall([
+    //check if gamepin exists
+    function(callback){
+      app.riak.bucket('gamepins').object.exists(pinId, function(err, exists){
+        if(err) callback(err);
+        else if(!exists) callback(new Error('delete error: gamepin'+pinId+' does not exist'));
+        else callback(null);
+      });
+    },
+    //get RO_gamepin, extract userId
+    function(callback){
+      app.riak.bucket('gamepins').objects.get(pinId, function(err, pin){
+        if(err) callback(err);
+        else{
+          userId = pin.data.posterId;
+          callback(null);
+        }
+      });
+    }
+  ], function(err, result){
+    if(err){
+      errlog.info('delete gamepin error: '+err.message);
+      return res.json({ error: err.message });
+    }
+    next();
+  });
+  
+  function next(){
+    async.parallel([
+      //delete gamepin
+      function(callback){
+        base.get_and_delete({key: pinId, bucket: 'gamepins'}, function(err){
+          if(err) return callback(err);
+          callback(null);
+        });
+      },
+      //remove reference from user and save
+      function(callback){
+        userAPI.removePinFromUser(userId, pinId, function(err, usr){
+          if(err) return callback(err);
+          if(usr) callback(null);
+        });
+      }
+    ], function(err, result){
+      if(err){
+        errlog.info('delete gamepin error: '+err.messsage);
+        return res.json({ error: 'delete gamepin error: '+err.messsage });
+      }
+      return res.json({ success: 'gamepin '+pinId+' deleted' });
+    });
+  }
+}
+
+/********************************************** API Level - Redacted  *************************************/
 
 //Create gamepin and "post" to relevant areas
 //exports.postGamePin = function(req, res){
@@ -25,7 +305,6 @@ exports.postImageUpload = function(req, res){
   //get blank gamepin obj
   //var post_data = util.clone(gamepin_obj);
   var post_data = new gamepinSchema.gamepin();
-  console.log(post_data);
   post_data.posterId = req.session.loggedIn;
   post_data.posterName = req.session.userName;
   post_data.category = req.body.category;
@@ -78,7 +357,6 @@ exports.postImageUrl = function(req, res){
   //get blank gamepin obj
   var post_data = new gamepinSchema.gamepin();
   
-  console.log(post_data);
   post_data.posterId = req.session.loggedIn;
   post_data.posterName = req.session.userName;
   post_data.category = req.body.category;
@@ -278,8 +556,10 @@ exports.getComments = function(req, res){
   });
 }
 
-//add comment
+//TODO: Abstract comment functionality better.
+//add comment, given pinId and poster
 exports.addComment = function(req, res){
+  console.log(req.body);
   var commentId;
   var comment_data;
   var pinId = req.body.pinId,
@@ -312,11 +592,10 @@ exports.addComment = function(req, res){
           errlog.info('Fetch Pin error: ' + err);
           return res.json({ error: 'Fetch Pin: ' + err });;
         }
-        util.clearChanges(obj);
         obj.data.comments.push(saved_cmt.key);
-        obj.data.changes.comments.add.push(saved_cmt.key);
         obj.save(function(err, saved_pin){
           if(err) return errlog.info('save gamepin error: ' + err);
+          console.log('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
           outlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
           return res.json({ success: true });
         });
@@ -327,16 +606,24 @@ exports.addComment = function(req, res){
 
 //Retrieve all data for a single gamepin
 exports.getPinData = function(req, res){
-  //req.pinId
-  app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){
+  console.log(req.body.pinId);
+  get_RO_gamepin( req.body.pinId, function(err, pin){
     if(err){
-      errlog.info('getPinData error: ' + error);
-      return res.json({error: err});
+      errlog.info('getPinData error ' + err.message);
+      return res.json({ error: err.message });
+    }
+    return res.json({ gamepin: pin.data });
+  });
+  
+  /* app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){
+    if(err){
+      errlog.info('getPinData error: ' + err.message);
+      return res.json({error: err.message});
     }
     util.clearChanges(obj);
     outlog.info('getPInData for pin: ' + obj.key);
     return res.json({ gamepin: obj.data });
-  });
+  }); */
 }
 
 //editComment

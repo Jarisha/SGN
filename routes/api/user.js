@@ -1,17 +1,676 @@
 /********************************* User *******************************/
+/* TODO - Clean things up with async - Update to Latest Version of Nodiak */
 var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
+
 var config = require('../../config');
 var util = require('../../utility');
 var app = require('../../app');
+var pinAPI = require('./gamepin');
+var base = require('./base.js');
+var E = require('../../customErrors');
 
 var userSchema = require('../../schema/user');
-
-
 var comment_obj = require('../../schema/comment');
 
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
+
+/******************************** DB Level - Level 1 *******************************/
+
+// Reindex Riak Object ~ User to userSchema.
+// Cases: Error - Success. callback(error, RO_usr)
+var reindexUser = function(ROuser, callback){
+  ROuser.data['version'] = userSchema.userInstance.version;
+  //hard code data transfers
+  if(ROuser.data['username']) ROuser.data['userName'] = ROuser.data['username'];
+  var new_usr = new userSchema.user(ROuser.data);
+  var invalid = new_usr.validate();
+  if(invalid) return callback(invalid, null);
+  ROuser.data = new_usr;
+  base.save_RO(ROuser, 'users', function(err, savedRO){
+    if(err) return callback(err, null);
+    return callback(null, savedRO);
+  });
+}
+
+// Get Riak Object ~ User. Tested - OK!
+// Cases: Error - Out of Date - Success.  callback(error, RO_user)
+var get_RO_user = function(key, callback){
+  app.riak.bucket('users').object.get(key, util.last_write_wins, function(err, usr){
+    if(err){
+      if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_user: '+err.data+' not found'), null);
+      return callback(new Error('get_RO_user: '+err.message), null);
+    }
+    //reindex if out of date
+    if(!usr.data.version || usr.data.version !== userSchema.userInstance.version){
+      reindexUser(usr, function(_err, updated_usr){
+        if(_err) return callback(_err, null);
+        return callback(null, updated_usr);
+      });
+    }
+    else return callback(null, usr);
+  });
+}
+
+// Get Riak Object Array ~ User. Tested - OK!
+// Cases: Error - Out of Date - Success. callback(errors, RO_users)
+var get_RO_users = function(keys, callback){
+  var users = [];
+  var outdated = [];
+  var outdated_index = {};
+  
+  async.waterfall([
+    //eliminate all not found keys
+    function(callback){
+      base.RO_exists(keys, 'users', function(err, not_found, found){
+        if(err) callback(err, null);
+        keys = found;
+        callback(null, keys);
+     });
+    },
+    //fetch user RObjects
+    function(keys, callback){
+      app.riak.bucket('users').objects.get(keys, util.last_write_wins, function(err, usrs){
+        if(err) return callback(new Error('get_RO_users: '+err.message), null);
+        return callback(null, usrs);
+      });
+    }
+  ], function(err, usrs){
+    if(err) return callback(err, null);
+    users = usrs;
+    next();
+  });
+  
+  function next(){
+    //find all outdated users
+    for(i = 0, len = users.length; i < len; i++){
+      if(users[i].data.version !== userSchema.userInstance.version){
+        outdated.push(users[i]);
+        outdated_index[users[i]] = i;
+      }
+    }
+    if(outdated.length === 0) next2();
+    //reindex outdated users, then overwrite their outdated counterparts
+    async.map(outdated, reindexUser, function(err, results){
+      if(err) callback(err, null);
+      for(i = 0, len = results.length; i < len; i++){
+        users[outdated_index[results[i]]] = results[i];
+      }
+      next2();
+    });
+  }
+  function next2(){
+    return callback(null, users);
+  }
+}
+
+// Get user activity RObjects, given user-activity key + event_id
+// Note that events can me multiple types, but are limited to only gamepins for now           TEST - PASSED
+// callback(error, evtIds[RObject])
+var get_activity = function(activity_key, callback){
+  //get list of evtIds
+  app.riak.bucket('users').objects.get(activity_key, function(err, act_obj){
+    if(err) return callback(new Error('get_RO_activity error: '+err.message) , null);
+    next(act_obj.data.evtIds);
+  });
+  function next(idList){
+    //fetch evt_ROs, store RO.data into result array (only gamepins for now, other events will have custom logic)
+    async.map(idList,
+      function(evtId, _callback){
+        pinAPI.get_RO_gamepin(evtId, function(err, pin_RO){
+          if(err instanceof E.NotFoundError) return _callback(null, null);  //if not found, just put null and continue
+          if(err) return _callback(err, null);
+          return _callback(null, pin_RO.data);
+        });
+      },
+      function(err, evt_Data){
+        if(err) return callback(err, null);
+        util.removeNulls(evt_Data);     //remove not found (null) elements from result list
+        return callback(null, evt_Data);
+      }
+    );
+  }
+}
+
+// Add event_id to user activity, given user-activity key & event_id
+// callback(error)
+var add_activity = function(activity_key, event_id ,callback){
+}
+
+// Remove event_id from user activity, given user-activity key & event_id
+// callback(error)
+var remove_activity = function(id, event_id, callback){
+}
+
+// Updates userReference. - Tested - OK!
+// Cases: Error - Success. callback(error, saved)
+var update_userRef = function(emailId, userName, profileImg, callback){
+  app.riak.bucket('userReference').objects.get(emailId, function(err, usr_ref){
+    if(err) return callback('Update userReference error: ' + err, null);
+    usr_ref.data = {  userName: userName || usr_ref.data.userName || usr_ref.data.username,
+                      profileImg: profileImg || usr_ref.data.profileImg || usr_ref.data.imgUrl  };
+    base.save_RO(usr_ref, 'userReference', function(_err, saved){
+      if(_err) return callback(_err, null);
+      return callback(null, saved);
+    });
+  });
+}
+
+// Removes gamepin id from user's posts list                                              TEST
+// callback(error, modifiedUser)
+var removePinFromUser = exports.removePinFromUser = function(userId, pinId, callback){
+  async.waterfall([
+    //get user
+    function(_callback){
+      get_RO_user(userId, function(err, usr){
+        if(err) _callback(err, null);
+        else _callback(null, usr);
+      });
+    },
+    //remove pin reference + save user
+    function(usr, _callback){
+      //pinId = parseInt(pinId);
+      var pindex = usr.data.posts.indexOf(pinId);
+      if(pindex === -1) _callback(new Error('user '+userId+' does not own pin'), null);
+      else{
+        usr.data.posts.splice(pindex, 1);
+        usr.save(function(err, saved){
+          if(err) _callback(new Error(err.message), null);
+          else _callback(null, saved);
+        });
+      }
+    }
+  ],
+  //return user or error
+  function(err, usr){
+    if(err) callback(err, null);
+    else callback(null, usr);
+  });
+}
+
+//add pinId to user's post list. callback(error, modified_usr)                            TEST
+var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
+  async.waterfall([
+    //get user
+    function(_callback){
+      get_RO_user(userId, function(err, usr){
+        if(err) _callback(err, null);
+        else _callback(null, usr);
+      });
+    },
+    //push pinID to end of posts list, then save
+    function(usr, _callback){
+      if(usr.data.posts.indexOf(pinId) === -1){
+        console.log('pinId added')
+        usr.data.posts.push(pinId);
+        base.save_RO(usr, 'users', function(err, saved){
+          if(err) _callback(err, null);
+          _callback(null, usr);
+        });
+      }
+      else{
+        _callback(null, usr);
+      }
+
+    }
+  ], function(err, usr){
+    if(err) callback(err, null);
+    else callback(null, usr);
+  });
+}
+
+// create follower & following connection between source and target.                      TEST
+// If connection already exists, continue without error
+// callback(error, updatedSource)
+var addFollower = exports.addFollower = function(sourceId, targetId, callback){
+  async.waterfall([
+    function(_callback){
+      //get sourceUsr and targetUsr
+      get_RO_user(sourceId, function(err, src_usr){
+        if(err) return _callback(err, null, null);
+        get_RO_user(targetId, function(_err, trg_usr){
+          if(_err) return _callback(_err, null, null);
+          return _callback(null, src_usr, trg_usr);
+        });
+      });
+    },
+    //link them together & save
+    function(src_user, trg_user, _callback){
+      //add target to source's following list
+      if(src_user.data.following.indexOf(targetId) === -1){
+        src_user.data.following.push(targetId);
+        base.save_RO(src_user, 'users', function(err, saved){
+          if(err) return _callback(err, null, null);
+          else return _callback(null, saved, trg_user); //next(saved);
+        });
+      }
+      else return _callback(null, src_user, trg_user); //next(src_user);
+    },
+    function(source_RO, target_RO, _callback){
+      if(target_RO.data.followers.indexOf(sourceId) === -1){
+        target_RO.data.followers.push(sourceId);
+        base.save_RO(target_RO, 'users', function(err, saved){
+          if(err) return _callback(err, null);
+          else return _callback(null, source_RO);
+        });
+      }
+      else return _callback(null, source_RO);
+    }
+  ], function(err, source_RO){
+    if(err) return callback(err, null);
+    else return callback(null, source_RO);
+  });
+}
+
+//remove follower & following connection between source and target                        TEST
+//if connection does not exist, continue without error
+//callback(error, updatedSource)
+var removeFollower = exports.removeFollower = function(sourceId, targetId, callback){
+  async.waterfall([
+    function(_callback){
+      //get sourceUsr and targetUsr
+      get_RO_user(sourceId, function(err, src_usr){
+        if(err) return _callback(err, null);
+        get_RO_user(targetId, function(_err, trg_usr){
+          if(_err) return _callback(_err, null);
+          return _callback(null, src_usr, trg_usr)
+        });
+      });
+    },
+    //remove references & save
+    function(src_usr, trg_usr, _callback){
+      //remove targetId from source's following list
+      var index = src_usr.data.following.indexOf(targetId);
+      if(index !== -1){
+        src_usr.data.following.splice(index, 1);
+        base.save_RO(src_usr, 'users', function(err, saved){
+          if(err) return _callback(err, null, null);
+          else return _callback(null, saved, trg_usr) // next(saved);
+        });
+      }
+      else return _callback(null, src_usr, trg_usr) // next(src_user);
+    },
+    function(src_usr, trg_usr, _callback){
+      var _index = trg_usr.data.followers.indexOf(sourceId);
+      if(_index !== -1){
+        trg_usr.data.followers.splice(_index, 1);
+        base.save_RO(trg_usr, 'users', function(err, saved){
+          if(err) return _callback(err, null);
+          _callback(null, src_usr /*source_RO*/);
+        });
+      }
+      else _callback(null, src_usr);
+    }
+  ], function(err, source_RO){
+      if(err) callback(err, null);
+      else callback(null, source_RO);
+  });
+}
+/********************************************* CRUD & Validation Level - Level 2 ********************************/
+
+//Create new user
+function createUser(userInput, callback){
+  var usr = new userSchema.user(userInput);
+  var invalid = usr.validate();
+  if(invalid) return callback(invalid);
+  var assets = usr.getUserAssets();
+  var ref = assets[0]; var groups = assets[1]; var activity = assets[2];
+  return callback(null, usr, ref, groups, activity);
+}
+
+//Overwrite Valid data from RObject with input. Validate.
+//Return error string on error, false on success
+function updateUser(validData, input, callback){
+  console.log('validData: ');
+  var result = util.overwrite(validData, input);
+  if(result) callback(result);
+  var usr = new userSchema.user(validData);
+  var invalid = usr.validate();
+  invalid ? callback(invalid) : callback(false);
+}
+
+//check to make sure there are no dangling references. If so, delete them and adjust count.
+function repairUser(userInput, callback){
+  
+}
+
+/***************************************************** API Level - Level 3 *****************************************/
+
+/** test reindex function **/
+//fetch RObject for user
+exports.fetchUser = function(req, res){
+  get_RO_user(req.body.email, function(err, usr){
+    if(err){
+      errlog.info(err.message);
+      return res.json({ error: err.message });
+    }
+    
+    return res.json({ user: usr });
+  });
+}
+//fetch RObject for users
+exports.fetchUsers = function(req, res){
+  get_RO_users(req.body.emails, function(err, usrs){
+    if(err){
+      errlog.info('fetchUsers error: '+err.message);
+      return res.json({ error: 'fetchUsers error: '+err.message });
+    }
+    return res.json({ users: usrs });
+  });
+}
+
+//create new user
+exports.createWrap = function(req, res){
+  var passHash;
+  //Validate user input
+  if(!req.body.email) return res.json({ error: 'email not entered' });
+  if(!req.body.userName) return res.json({ error: 'userName not entered' });
+  if(!req.body.password) return res.json({error: 'password not entered'});
+  if(!req.body.confirm) return res.json({error: 'confirm not entered'});
+  if(req.body.confirm !== req.body.password) return res.json({error: 'confirm does not match password'});
+  req.body.passHash = bcrypt.hashSync(req.body.password);
+  //clear useless data
+  delete req.body.password;
+  delete req.body.confirm;
+  
+  //Ensure that email + username are not taken
+  async.parallel([
+    function(callback){
+      util.uniqueUserEmail(req.body.email, function(taken){
+        if(taken) return callback(taken);
+        return callback(null);
+      });
+    },
+    function(callback){
+      util.uniqueUserName(req.body.email, function(taken){
+        if(taken) return callback(taken);
+        return callback(null);
+      })
+    }
+  ],
+  function(taken){
+    if(taken){
+      errlog.info('Create User Error: '+taken.message);
+      return res.json({error: taken.message});
+    }
+  });
+  
+  createUser(util.clone(req.body), function(err, user_obj, user_ref, user_groups, user_activity){
+    if(err){
+      errlog.info('Create user error: ' + err);
+      return res.json({ error: err });
+    }
+    //Prepare user RObjects to be saved
+    var save_user = app.riak.bucket('users').object.new(user_obj.email, user_obj);
+    save_user.addToIndex('username', user_obj.userName);
+    var save_groups = app.riak.bucket('users').object.new(user_obj.email + '-groups', user_groups);
+    var save_activity = app.riak.bucket('users').object.new(user_obj.email + '-activity', user_activity);
+    var save_ref = app.riak.bucket('userReference').object.new(user_obj.email , user_ref);
+    
+    //save user to Riak
+    async.parallel([
+      function(callback){
+        base.save_ROs([save_user, save_groups, save_activity], 'users', function(_err){
+          if(_err) return callback(error);
+          return callback(null);
+        });
+      },
+      function(callback){
+        base.save_RO(save_ref, 'userReference', function(_err){
+          if(_err) return callback(error);
+          return callback(null);
+        });
+      }
+    ],
+    function(err){
+      if(err){
+        errlog.info('Create User Error: '+err.message);
+        return res.json({ error: err.message });
+      }
+      return res.json({ success: 'Create User Success!' });
+    });
+  });
+};
+
+//edit user settings
+exports.editWrap = function(req, res){
+  var nameChange = false;
+  if(!req.body.email) return res.json({ error: 'email required to edit user' });
+  if(req.body.userName) nameChange = true;
+  //handle change password
+  if(req.body.password && !req.body.confirm) return res.json({ error: 'please enter confirm or leave password blank' });
+  if(!req.body.password && req.body.confirm) return res.json({ error: 'please enter password or leave confirm blank' });
+  if(req.body.password !== req.body.confirm){
+    return res.json({ error: 'password does not match confirm'});
+  }
+  if(req.body.password) req.body.passHash = bcrypt.hashSync(req.body.password);
+  delete req.body.password;
+  delete req.body.confirm;
+  
+  async.waterfall([
+    //Get user
+    function(callback){
+      get_RO_user(req.body.email, function(err, usr){
+        if(err){
+          errlog.info('Edit user error: '+err.message);
+          return callback(err, null); // res.json({ error: err.message });
+        }
+        callback(null, usr);
+      });
+    },
+    //update user settings
+    function(usr, callback){
+      updateUser(usr.data, req.body, function(err){
+        if(err){
+          errlog.info('Edit user error: '+err.message);
+          return callback(err, null); // res.json({ error: err.message });
+        }
+        return callback(null, usr);
+      });
+    },
+    //save user and userReference
+    function(updated, callback){
+      if(nameChange) updated.addToIndex('username', updated.data.userName);
+      base.save_RO(updated, 'users', function(err){
+        if(err) return res.json({ error: err.message });
+        if(nameChange){
+          update_userRef(updated.data.email, updated.data.userName, null, function(err, saved){
+            if(err){
+              return callback(err, null); // res.json({ error: err.message });
+            }
+            return callback(null, saved);
+          });
+        }
+        else callback(null, updated);
+      });
+    }
+  ], function(err, usr){
+    if(err){
+      errlog.info('editWrap error: '+err.message);
+      return res.json({ error: err.message });
+    }
+    if(usr){
+      return res.json({ success: 'Edit User '+req.body.email+' Success' });
+    }
+  });
+}
+
+//Deletes User and UserReference. Adds email and name to 'graveyard' bucket.
+exports.deleteWrap = function(req, res){
+  if(!req.body.email) return res.json({ error: 'email required to delete user' });
+  var email = req.body.email;
+  var name;
+  
+  //check if user exists
+  app.riak.bucket('uses').object.exists(email, function(err, result){
+    if(err) return res.json({ error: 'Delete user error: '+result });
+    if(result) return res.json({ error: 'User does not exist' });
+    else next();
+  });
+  
+  function next(){
+    //delete user, user-groups, user-activity, userReference
+    async.each(
+      [{key: email, bucket: 'users'}, {key: email+'-groups', bucket:'users'}, {key: email+'-activity', bucket:'users'},
+      {key: email, bucket: 'userReference' }],
+      base.get_and_delete,
+      function(err){
+        if(err){
+          errlog.info('get_and_delete error: '+err.message);
+          return res.json({ error: 'get_and_delete error: '+err.message });
+        }
+        //add user to graveyard
+        else{
+          var dead_usr = app.riak.bucket('graveyard').objects.new(email, {userName: name});
+          dead_usr.save(function(_err, obj){
+            if(_err){
+              errlog.info('save to graveyward failed: '+_err.message)
+              return res.json({ error: 'save to graveyard failed: '+_err.message });
+            }
+            else return res.json({ success: 'delete ' + email + ' success!' });
+          });
+        }
+      }
+    );
+  }
+}
+
+exports.editSettings = function(req, res){
+  var nameChange = false;
+  var settings = req.body.settings;
+  if(!req.body.email) return res.json({ error: 'email required to edit user' });
+  if(settings.userName) nameChange = true;
+  
+  //handle change password
+  if(settings.password && !settings.confirm) return res.json({ error: 'please enter confirm or leave password blank' });
+  if(!settings.password && settings.confirm) return res.json({ error: 'please enter password or leave confirm blank' });
+  if(settings.password !== settings.confirm){
+    return res.json({ error: 'password does not match confirm'});
+  }
+  if(settings.password) settings.passHash = bcrypt.hashSync(settings.password);
+  delete settings.password;
+  delete settings.confirm;
+  
+  async.waterfall([
+    //Get user
+    function(callback){
+      get_RO_user(req.body.email, function(err, usr){
+        if(err){
+          errlog.info('Edit user error: '+err.message);
+          return callback(err, null); // res.json({ error: err.message });
+        }
+        callback(null, usr);
+      });
+    },
+    //update user settings
+    function(usr, callback){
+      updateUser(usr.data, settings, function(err){
+        if(err){
+          errlog.info('Edit user error: '+err.message);
+          return callback(err, null); // res.json({ error: err.message });
+        }
+        return callback(null, usr);
+      });
+    },
+    //save user and userReference. If name changes, update session.
+    function(updated, callback){
+      if(nameChange){
+        updated.addToIndex('username', updated.data.userName);
+        req.session.userName = updated.data.userName;
+      }
+      base.save_RO(updated, 'users', function(err){
+        if(err) return res.json({ error: err.message });
+        if(nameChange){
+          update_userRef(updated.data.email, updated.data.userName, null, function(err, saved){
+            if(err){
+              return callback(err, null); // res.json({ error: err.message });
+            }
+            return callback(null, saved);
+          });
+        }
+        else callback(null, updated);
+      });
+    }
+  ], function(err, usr){
+    if(err){
+      errlog.info('editWrap error: '+err.message);
+      return res.json({ error: 'Error Error Error' });
+    }
+    if(usr){
+      return res.json({ success: 'Edit User '+req.body.email+' Success',
+                        userName: usr.data.userName,
+                        notify: 'Edit User Success!'});
+    }
+  });
+  
+  //return res.json({ success: 'dummy result', notify:'Edit Settings Incomplete' });
+}
+
+//Test for functionality
+exports.testAPI = function(req, res){
+  /*get_activity('zippy@z.z-activity', function(err, evtData){                    //PASSED!
+    if(err){
+      console.log(err.message);
+      return res.send(JSON.stringify({ error: err.message }));
+    }
+    else{
+      console.log(evtData);
+      return res.send(JSON.stringify({ success: 'test passed' }));
+    }
+  });*/
+  
+  //exports.removePinFromUser = function(userId, pinId, callback)
+  /*removePinFromUser('u5@u.u', '777032948567371800', function(err, modifiedUser){            //PASSED!
+    if(err){
+      console.log(err.message);
+      return res.send(JSON.stringify({ error: err.message }));
+    }
+    else{
+      console.log(modifiedUser);
+      return res.send(JSON.stringify({ success: 'test passed' }));
+    }
+  });*/
+  
+  //exports.addPinToUser = function(userId, pinId, callback)
+  /*util.generateId(function(id){
+    next(id);
+  });
+  
+  function next(id){
+    addPinToUser('u5@u.u', id , function(err, modified_usr){
+      if(err){
+        console.log(err.message);
+        return res.send(JSON.stringify({ error: err.message }));
+      }
+      else{
+        return res.send(JSON.stringify({ success: 'test passed' }));
+      }
+    });
+  }*/
+  
+  //exports.addFollower = function(sourceId, targetId, callback)
+  /*addFollower('mom@m.m' ,'dtonys@gmail.com', function(err, updated_source){
+    if(err) return res.send(JSON.stringify({ error: err.message }));
+    else return res.send(JSON.stringify({ success: 'test passed' }));
+  });*/
+  
+  //exports.removeFollower = function(sourceId, targetId, callback)
+  /*removeFollower('dtonys@gmail.com', 'zippy@z.z', function(err, updated_source){
+    if(err) return res.send(JSON.stringify({ error: err.message }));
+    else return res.send(JSON.stringify({ success: 'test passed' }));
+  });*/
+  
+  //editSettings implemented via editWrap
+  
+  //exports.follow = function(req, res){
+  
+  //exports.getProfile = function(req, res){
+  
+}
+
+/********************************************** API Level - Redacted  *************************************/
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
@@ -58,35 +717,28 @@ exports.gatewayLogin = function(req, res){
   if(!req.body.email) return res.json({login: false, error: 'Invalid email entered'});
   if(!req.body.password) return res.json({login: false, error: 'Invalid password entered'});
 	//check if email exists in db
-  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
-    if(err){
-      errlog.info('User exists error: ' +  err);
-      return res.json({login: false, error: 'Error: ' +  err});
-    }
-    if(!exists){
-      outlog.info('Email does not exist!');
-      return res.send(JSON.stringify({login: false, error: 'Email not registered'}));
-    }
-    return next();
+  base.RO_exist(req.body.email, 'users', function(err, not_found, found){
+    if(err) return res.json({login: false, error: 'Error: ' + err.message});
+    if(not_found) return res.json({login: false, error: 'Email not found'});
+    if(found) next();
   });
+  
 	function next(){
-    //get user
-    var user = app.riak.bucket('users').objects.new(req.body.email);
-    user.fetch(util.user_resolve, function(err, obj){
-      outlog.info('user fetch error: ' + err);
-      util.clearChanges(obj);
+    get_RO_user(req.body.email, function(err, ROuser){
+      if(err) return res.json({login: false, error: err.message });
       
       //check password
-      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
+      if(!(bcrypt.compareSync(req.body.password, ROuser.data.passHash))){
         return res.send(JSON.stringify({ login: false, error: 'Wrong password.' }));
 			}
+      
       //log in
-      req.session.loggedIn = obj.data.email;
-      req.session.userEmail = obj.data.email;
-      req.session.userName = obj.data.username;
-      req.session.avatarUrl = obj.data.profileImg;
-      outlog.info('Gateway Login Success for: ' + obj.data.username);
-      evtlog.info('Gateway Login Success for: ' + obj.data.username);
+      req.session.loggedIn = ROuser.data.email;
+      req.session.userEmail = ROuser.data.email;
+      req.session.userName = ROuser.data.userName;
+      req.session.avatarUrl = ROuser.data.profileImg;
+      outlog.info('Gateway Login Success for: ' + ROuser.data.username);
+      evtlog.info('Gateway Login Success for: ' + ROuser.data.username);
       return res.send(JSON.stringify({
         login: true,
         userId: req.session.loggedIn,
@@ -94,70 +746,6 @@ exports.gatewayLogin = function(req, res){
         userName: req.session.userName,
         avatarUrl:  req.session.avatarUrl
       }));
-    });
-	}
-}
-
-// Login: Set session given correct params
-exports.login = function(req, res){
-  // Prompt error if we are already logged in (client should prevent this from happening)
-  if(req.session.loggedIn){
-    outlog.info('Login Failed: User already logged in');
-    return res.json({
-      login: false,
-      error: 'Login Failed: User already logged in'
-    });
-  }
-  
-  //validation.  TODO: more rigorous validations
-  if(!req.body.email){
-    outlog.info('Invalid email entered');
-    return res.json({login: false, error: 'Invalid email entered'});
-  }
-  if(!req.body.password){
-    outlog.info('Invalid password entered');
-    return res.json({login: false, error: 'Invalid password entered'});
-  }
-	//check if email exists in db
-  app.riak.bucket('users').object.exists(req.body.email, function(err, exists) {
-    if(err){
-      errlog.info('Email exists error: ' + err);
-      return res.json({login: false, error: 'Error: ' +  err});
-    }
-    if(!exists){
-      outlog.info('Does not exist!');
-      return res.json({login: false, error: 'Email not registered'});
-    }
-    return next();
-  });
-	function next(){
-    //get user
-    var user = app.riak.bucket('users').objects.new(req.body.email);
-    user.fetch(util.user_resolve, function(err, obj){
-      if(err) return errlog.info('Fetch User: ' + err);
-      util.clearChanges(obj);
-      
-      //check password
-      if(!(bcrypt.compareSync(req.body.password, obj.data.passHash))){
-        outlog.info('Wrong Password');
-				return res.json({ login: false, error: 'Wrong password.' });
-			}
-      
-      //log in
-      outlog.info('login success!');
-      evtlog.info('login success!');
-      req.session.loggedIn = obj.data.email;
-      req.session.userEmail = obj.data.email;
-      req.session.userName = obj.data.username;
-      req.session.avatarUrl = obj.data.profileImg;
-      
-      return res.json({
-        login: true,
-        userId: req.session.loggedIn,
-        userEmail: req.session.userEmail,
-        userName: req.session.userName,
-        avatarUrl:  req.session.avatarUrl
-      });
     });
 	}
 }
@@ -351,86 +939,21 @@ exports.register_2 = function(req, res){
 }
 
 // Get current user settings to prefill My Settings Page
-exports.getSettings = function(req, res){
-  app.riak.bucket('users').objects.get(req.session.userEmail, function(err, obj){
+/*exports.getSettings = function(req, res){
+  console.log('getSettings');
+  get_RO_user(req.session.userEmail, function(err, usr){
     if(err){
-      errlog.info('User not found');
-      return res.json({ error: 'User not found: ' + err });
+      errlog.info('getSettings error: '+err.message);
+      return res.json({ error: 'getSettings error: '+err.message});
     }
-    outlog.info('Got settings for current user');
     return res.json({
-      email: obj.data.email,
-      username: obj.data.username,
-      gender: obj.data.gender,
-      bio: obj.data.bio
+      email: usr.data.email,
+      userName: usr.data.userName,
+      gender: usr.data.gender,
+      bio: usr.data.bio
     });
   });
-}
-
-// editSettings
-exports.editSettings = function(req, res){
-  //validate user input
-  if(!(req.body.settings.email && req.body.settings.username)){
-    outlog.info('Email or Username is blank');
-    return res.json({
-      error: 'Email or Username is blank'
-    });
-  }
-  var changePass = false;
-  if((req.body.settings.changePass && req.body.settings.changeConfirm) &&
-     (req.body.settings.changePass === req.body.settings.changeConfirm) ){
-    changePass = true;
-  }
-  else if(req.body.settings.changePass !== req.body.settings.changeConfirm){
-    outlog.info('Confirm does not match password');
-    return res.json({error: 'Confirm does not match Passowrd'});
-  }
-  //get current user object
-  var user = app.riak.bucket('users').objects.new(req.body.settings.email);
-  var oldName;
-  //need to refresh navbar if user changes name
-  user.fetch(function(err, obj){
-    if(err) return errlog.info('fetch user error: ' + err);
-    //update password if change password conditions are correct
-    if(changePass) obj.data.passHash = bcrypt.hashSync(req.body.settings.changePass);
-    //update settings & session data
-    if(req.body.settings.email) obj.data.email = req.body.settings.email;
-    obj.data.bio = req.body.settings.bio;
-    if(req.body.settings.gender) obj.data.gender = req.body.settings.gender;
-    if(req.body.settings.username){
-      oldName = obj.data.username;
-      obj.data.username = req.body.settings.username;
-      req.session.userName = req.body.settings.username;
-      //if username is changed, we need to change the reference table
-      var ref_data =  util.clone(userReference_obj);
-      ref_data.username = req.body.settings.username;
-      ref_data.imgUrl = req.session.avatarUrl;
-      /*var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email,
-                                                                {username: req.body.settings.username,
-                                                                 imgUrl: req.session.avatarUrl});*/
-      var usr_ref = app.riak.bucket('userReference').objects.new(req.body.settings.email, ref_data);
-      usr_ref.save(function(err, saved){
-        outlog.info("userReference table updated: " + saved);
-        next();
-      });
-    }
-    else next();
-    function next(){
-      //save settings and update index
-      obj.clearIndex('username');
-      obj.addToIndex('username', req.body.settings.username);
-      obj.save(function(err, obj){
-        if(changePass){
-          outlog.info('Settings saved and Password updated!');
-          evtlog.info('Settings saved and Password updated!');
-          return res.json({ success: true, username: obj.data.username, notify: "Settings Saved and Password updated!" });
-        }
-        outlog.info('Settings saved');
-        return res.json({ success: true, username: obj.data.username, notify: "Settings Saved!" });
-      });
-    }
-  });
-}
+}*/
 
 //get port # from server.  This belongs in a misc.js rather than user.js
 exports.getPath = function(req, res){
@@ -440,140 +963,164 @@ exports.getPath = function(req, res){
 }
 //deactivate
 exports.deactivate = function(req, res){
-  return res.json({
-    success: true
-  })
+  if(!req.body.email) return res.json({ error: 'email required to delete user' });
+  var email = req.body.email;
+  var name;
+  
+  //check if user exists
+  app.riak.bucket('uses').object.exists(email, function(err, result){
+    if(err) return res.json({ error: 'Delete user error: '+result });
+    if(result) return res.json({ error: 'User does not exist' });
+    else next();
+  });
+  
+  function next(){
+    //delete user, user-groups, user-activity, userReference
+    async.each(
+      [{key: email, bucket: 'users'}, {key: email+'-groups', bucket:'users'}, {key: email+'-activity', bucket:'users'},
+      {key: email, bucket: 'userReference' }],
+      base.get_and_delete,
+      function(err){
+        if(err){
+          errlog.info('get_and_delete error: '+err.message);
+          return res.json({ error: 'get_and_delete error: '+err.message });
+        }
+        //add user to graveyard
+        else{
+          var dead_usr = app.riak.bucket('graveyard').objects.new(email, {userName: name});
+          dead_usr.save(function(_err, obj){
+            if(_err){
+              errlog.info('save to graveyward failed: '+_err.message)
+              return res.json({ error: 'save to graveyard failed: '+_err.message });
+            }
+            else return res.json({ success: 'delete ' + email + ' success!' });
+          });
+        }
+      }
+    );
+  }
 }
 
-//addFollowers: source user follows target user
+//addFollower: source user follows target user                                          TEST
 exports.follow = function(req, res){
   var sourceId = req.body.sourceId,
-      targetId = req.body.targetId;  
-  var src = app.riak.bucket('users').objects.new(sourceId),
-      targ = app.riak.bucket('users').objects.new(targetId);
+      targetId = req.body.targetId;
   //validate
   if(sourceId === targetId){
     outlog.info('Error: cannot follow yourself');
     return res.json({ error: 'Error: cannot follow yourself' });
   }
   
-  //source user adds target to following
-  src.fetch(util.user_resolve, function(err, obj){
-    if(err){
-      errlog.info('fetch user error: ' + err);
-      return res.json({ error: 'Fetch User: ' + err });
-    }
-    util.clearChanges(obj);
-    
-    if(obj.data.following.indexOf(targetId) === -1){
-      obj.data.following.push(targetId);
-      obj.data.changes.following.add.push(targetId);
-      obj.save(function(err,saved){
-        if(err) return errlog.info('user save error: ' + err);
-        outlog.info(sourceId + ' following ['+ saved.data.following +']');
-        next();
-      });
-    }
-    else{
-      outlog.info('User ' + targetId + ' aready on following list');
-      return res.json({ error: 'User ' + targetId + ' aready on following list' });
-    }
+  //link users together, and save them
+  addFollower(sourceId, targetId, function(err, sourceRO){
+    if(err) return res.json({ error:'follow user error: '+err.message });
+    return res.json({ success: sourceId+' following '+targetId+' success', notify: 'Now following '+targetId });
   });
-  function next(){
-    //target user adds source to followers
-    targ.fetch(util.user_resolve, function(err, obj){
-      if(err){
-        errlog.info('fetch user error: ' + err);
-        return res.json({ error: 'Fetch User: ' + err });
-      }
-      util.clearChanges(obj);
-      if(obj.data.followers.indexOf(sourceId) === -1){
-        obj.data.followers.push(sourceId);
-        obj.data.changes.followers.add.push(sourceId);
-        obj.save(function(err, saved){
-          if(err) errlog.info('user save error: ' + err);
-          outlog.info(targetId + " followers ["+ saved.data.followers +"]");
-          return res.json({ success: true });
-        });
-      }
-      else{
-        outlog.info('User ' + targetId + ' aready on following list')
-        return res.json({ error: "User " + targetId + " aready on following list" });
-      }
+}
+
+//sourceId removes follower relationship from targetId                                  TEST
+exports.unfollow = function(req, res){
+  var sourceId = req.body.sourceId,
+      targetId = req.body.targetId;
+  //validate
+  if(sourceId === targetId){
+    outlog.info('Error: cannot unfollow yourself');
+    return res.json({ error: 'Error: cannot unfollow yourself' });
+  }
+  
+  removeFollower(sourceId, targetId, function(err, sourceRO){
+    if(err) return res.json({ error: 'unfollow error: '+err.message });
+    return res.json({ success: sourceId+' unfollow '+targetId+' success', notify: 'Unfollowed '+targetId });
+  });
+}
+
+exports.getSettings = function(req, res){
+  if(!req.body.userName && !req.body.email) return res.json({ error: 'getSettings: no userName or userEmail specified' });
+  if(req.body.email){
+    get_RO_user(req.body.email, function(err, usr){
+      if(err) return res.json({ error: 'getProfile: '+err.message });
+      return res.json({ success: true, gender: usr.data.gender, userName: usr.data.userName });
+    });
+  }
+  else if(req.body.userName){
+    base.getUserEmail(req.body.userName, function(err, usr_email){
+      if(err) return res.json({ error: 'getProfile: '+err.message });
+      get_RO_user(usr_email, function(err, usr){
+        if(err) return res.json({ error: 'getProfile: '+err.message });
+        return res.json({ success: true, gender: usr.data.gender });
+      });
     });
   }
 }
 
-//removeFollowers
-exports.unfollow = function(req, res){
-  return res.json({
-    success: true
-  })
-}
-
-//getProfile - return profile data
+// getProfile - return profile data for display - does not interact with session.
+// user settings - follower/following user+image - userActivity
+// accepts userEmail OR userName. userEmail preffered.
 exports.getProfile = function(req, res){
-  //if sent username, fetch corresponding email
-  var key;
-  if(req.body.userName){
-    app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
-      if(err) return res.json({error: "2i Error:" + err});
-      key = keys[0];
+  //get email via twoi search
+  if(!req.body.userName && !req.body.email) return res.json({ error: 'getProfile: no userName or userEmail specified' });
+  var user;                 // user RObject
+  var email;                // reference to user's email
+  var displayData = {};     // profile data we will send to the front end
+  var activityList = [];    // contains list of ordered recent activity
+  
+  if(req.body.email){
+    email = req.body.email;
+    get_RO_user(email, function(err, usr){
+      if(err) return res.json({ error: 'getProfile: '+err.message });
+      user = usr;
+      displayData = usr.data;
+      delete displayData.passHash;   //we don't want to send password hash to client
       next();
     });
   }
-  else next();
-  function next(){
-    outlog.info('next1');
-    key = key || req.body.userEmail;
-    var usr = app.riak.bucket('users').objects.new(key);
-    usr.fetch(util.user_resolve, function(err, obj){
-      if(err){
-        errlog.info('getProfile error: ' + err);
-        return res.json({error: "getProfile error: " + err});
-      }
-      util.clearChanges(obj);
-      obj.data.followerUnit = [];
-      obj.data.followingUnit = [];
-      var clock = 0;
-      if(obj.data.followers.length === 0) next2();
-      //add followers, need to get their usernames via userReference
-      for(f in obj.data.followers){
-        (function(f){
-          app.riak.bucket('userReference').objects.get(obj.data.followers[f], function(err, ref_obj){
-            if(err) errlog.info('get userReference error: ' + err);
-            var user_name = ref_obj.data.username;
-            var user_image = ref_obj.data.imgUrl;
-            obj.data.followerUnit.push({ name: user_name, image: user_image });
-            if(clock === obj.data.followers.length-1) next2();
-            clock++;
-          });
-        })(f)
-      }
-      //add following
-      function next2(){
-        var clock = 0;
-        if(obj.data.following.length === 0) next3();
-        //add following
-        for(f in obj.data.following){
-          (function(_f){
-            app.riak.bucket('userReference').objects.get(obj.data.following[_f], function(err, ref_obj){
-              if(err) outlog.info('Error: ' + err);
-              outlog.info(ref_obj.data);
-              var user_name = ref_obj.data.username;
-              var user_image = ref_obj.data.imgUrl;
-              obj.data.followingUnit.push({name: user_name, image: user_image});
-              if(clock === obj.data.following.length-1) next3();
-              clock++;
-            });
-          })(f);
-        }
-      }
-      function next3(){
-        outlog.info('getProfile Success!');
-        return res.json(obj.data);
-      }
+  else if(req.body.userName){
+    //get usr RObject, add data to displayData obj
+    base.getUserEmail(req.body.userName, function(err, usr_email){
+      if(err) return res.json({ error: 'getProfile: '+err.message });
+      email = usr_email;
+      get_RO_user(email, function(err, usr){
+        if(err) return res.json({ error: 'getProfile: '+err.message });
+        user = usr;
+        displayData = usr.data;
+        delete displayData.passHash;   //we don't want to send password hash to client
+        next();
+      });
     });
+  }
+  function next(){
+    //get {username, imageThumb} for all followers and following, store in displayData
+    //if userRef is not found, we will return null
+    async.map(user.data.followers, base.get_userRef, function(err, results){
+      if(err){
+        return res.json({ error: 'getProfile: '+err.message });
+      }
+      util.removeNulls(results);
+      displayData['followers'] = results;
+      async.map(user.data.following, base.get_userRef, function(_err, _results){
+        if(_err){
+          return res.json({ error: 'getProfile: '+_err.message });
+        }
+        util.removeNulls(_results);    //remove not found elements
+        displayData['following'] = _results;
+        next2();
+      });
+    });
+  }
+  function next2(){
+    //get recent activity (RO_gamepin.data), add to activityList[]
+    get_activity(email+'-activity', function(err, evt_data){
+      if(err){
+        errlog.info('getProfile error: '+err.message);
+        return res.json({ error: 'getProfile: '+err.message });
+      }
+      activityList = evt_data;
+      next3();
+    });
+  }
+  //send data to profile page
+  function next3(){
+    return res.json({ profileData: displayData, activityData: activityList });
   }
 }
 /* The following funcs used to retrieve list of pins that populate front page
@@ -581,15 +1128,18 @@ exports.getProfile = function(req, res){
  * sorted list.
  */
 
-//return list of gamepin-with-comments objs given no search params
+//Return front page list of pins with comments
+//Search index data is not deleted alongside DB entires, so we must filter out deleted entries.
 exports.getPinList = function(req, res){
   var returnList = [];
-  //javascript objects are maps. So ordered series KV pairs, ordered via insertion order
-  var commentMap = {};
+  //javascript objects are maps. So ordered series KV pairs, iterable via insertion order.
+  var indexMap = {};
   var pinMap = {};
   //feed comment ids into nodiak
   var commentIds = [];
+  var gamepins;
   
+  //do generic query, will get 200 most recent posts
   var query = {
     q: 'returnAll:y',
     start: 0,
@@ -605,84 +1155,136 @@ exports.getPinList = function(req, res){
     if(response.response.numFound === 0){
       outlog.info('search.solr: none found');
       return res.json({ objects: returnList });
+    }                                           //Hope this example helps, b/c I can't explain this in words
+    gamepins = response.response.docs; // [ {posterId: user1}, {posterId: user2}, {posterId: user1}, {posterId: user1},
+                                           //   {posterId: user3}, {posterId: user1}, {posterId: user1}, {posterId: user3} ]
+    var posterArray = [];                  //[user1, user2, user5] => [user, user]
+    var posterObj = {};                    //{user1: [0,3,5,2], user2:[1], user3:[4,6]} => user: [index, index]
+    
+    var gamepinIds = [];
+    var indexMap = {};
+    
+    for(g = 0, glen = gamepins.length; g < glen; g++){
+      //fill idList and id => index map
+      gamepinIds.push(gamepins[g].id);
+      indexMap[gamepins[g].id] = g;
     }
-    objs = response.response.docs;
-    var clock = 0;
-    for(o in objs){
-      (function(o){
-        app.riak.bucket('userReference').objects.get(objs[o].fields.posterId, function(err, obj){
+    
+    //Remove all gamepins that do not exist
+    base.RO_exists(gamepinIds, 'gamepins', function(err, not_found, found){
+      if(err) return res.json({ error: err.message });
+      for(f = 0, flen = not_found.length; f < flen; f++){
+        gamepins.splice(indexMap[not_found[f]], 1);
+      }
+      next();
+    });
+    //Remove all gamepins who's owners do not exist
+    function next(){
+      for(g = 0, glen = gamepins.length; g < glen; g++){
+        //fill posters and poster => pinIds[]
+        var pinData = gamepins[g].fields;
+        if(posterArray.indexOf(pinData.posterId) === -1) posterArray.push(pinData.posterId);
+        if(!posterObj[pinData.posterId]) posterObj[pinData.posterId] = [g];
+        else posterObj[pinData.posterId].push(g);
+      }
+      base.RO_exists(posterArray, 'users', function(err, not_found, found){
+        if(err) return res.json({ error: err.message });
+        for(f = 0, flen = not_found.length; f < flen; f++){
+          nullUser = not_found[f];
+          for(g = 0, glen = posterObj[nullUser].length; g < glen; g++){
+            gamepins[posterObj[nullUser][g]] = null;
+          }
+        }
+        util.removeNulls(gamepins);
+        next2();
+      });
+    }
+  });
+  /* *** **** *** *** *** *** *** *** *** *** *** *** *** */
+  function next2(){
+    var count = 0;
+    for(var o = 0; o < gamepins.length; o++){
+      //insert null value to create insertion order
+      pinMap[gamepins[o].id] = null;
+      (function(_o){
+        var pin = gamepins[_o];
+        var pinId = gamepins[_o].id;
+        //Fetch userRef to update gamepin
+        app.riak.bucket('userReference').objects.get(pin.fields.posterId, function(err, ref_obj){
+          if(err && err.status_code === 404) return;
           var cmts = [];
           if(err){
             errlog.info('error:' + err);
             return res.json({error: err});
           }
-          //outlog.info(obj.data);
-          //convert commments from string to proper array
-          if(objs[o].fields.comments)
-            cmts = objs[o].fields.comments.split(" ");
-          pinMap[objs[o].id] = {  id: objs[o].id,
-                                    category: objs[o].fields.category,
-                                    description: objs[o].fields.description,
-                                    imageUrl: objs[o].fields.sourceUrl,
-                                    poster: obj.data.username,
-                                    posterImg: obj.data.imgUrl,
-                                    comments: []
-                                  };
-          //keep track of the comment's position so we dont have to sort later
-          for(c in cmts){
+          //convert commments from string to array
+          if(pin.fields.comments)
+            cmts = pin.fields.comments.split(" ");
+          pinMap[pinId] = pin.fields;
+          pinMap[pinId].id = pinId;
+          //Overwrite old values with potentially updated user data
+          pinMap[pinId].poster = ref_obj.data.userName;
+          pinMap[pinId].profileImg = ref_obj.data.profileImg;
+          pinMap[pinId].comments = [];
+          
+          // Push comment IDs into array, so we can send them to nodiak. [<nodeflakeId>, <nodeflakeId>, <nodeflakeId>]
+          // CommmentMap KV = { <nodeflakeId>: <commentIndex>, nodeflakeId>: <commentIndex>, }
+          for(var c = 0; c < cmts.length; c++){
             commentIds.push(cmts[c]);
-            commentMap[cmts[c]] = c;
+            indexMap[cmts[c]] = c;
           }
-          if(clock === objs.length-1) next();
-          clock++;
+          count++;
+          if(count === gamepins.length) next3();
         });
       })(o);
     }
-  });
-  //fetch comments and attach them to their respective gamepin obj
-  function next(){
+  }
+  function next3(){
     var posterIds = [];
     var posterNames = {};
+    //TODO: Access to comment RO_get
     app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
-      if(cmt_objs.length === 0) next2();
+      if(cmt_objs.length === 0) next4();
+      if(err && !cmt_objs){
+        errlog.info('no comments found on pin with commentIds');
+        next4();
+      }
       if(err){
-        if(err.status_code = 404){
-          errlog.info('get comments error: ' + err);
-          return res.json({error: 'get comments error: ' + err});
-        }
-        else{
-          errlog.info('get comments error: ' + err);
-          return res.json({error: 'get comments error: ' + err});
+        for(var e = 0; e < err.length; e++){
+          //remove not found comment from indexMap
+          delete indexMap[err[e].data];
+          if(err[e].status_code === 404 ){
+            errlog.info('comment not found');
+          }
+          else{
+            errlog.info('get comments error: ' + err);
+          }
         }
       }
-      //if nodiak gives us a single object, convert that into an array with 1 element
-      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
-        cmt_objs = [cmt_objs];
-      var clock = 0;
-      for(c in cmt_objs){
+      var count = 0;
+      for(var c = 0; c < cmt_objs.length; c++){
         (function(_c){
-          //fetch current user name from userReference
-          app.riak.bucket('userReference').objects.get(cmt_objs[_c].data.posterId, function(err, obj){
-            if(err){
-              errlog.info('get userReference error: ' + err);
-              return res.json('err getting comment posters');
+          var comment = cmt_objs[_c];
+          app.riak.bucket('userReference').objects.get(comment.data.posterId, function(_err, usr_ref){
+            if(_err){
+              count++;
+              if(count === cmt_objs.length) next4();
+              return;
             }
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]] = {};
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].posterName = obj.data.username;
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].posterImg = obj.data.imgUrl;
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].id = cmt_objs[_c].key;
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].pin = cmt_objs[_c].data.pin;
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].posterId = cmt_objs[_c].data.posterId;
-            pinMap[cmt_objs[_c].data.pin].comments[commentMap[cmt_objs[_c].key]].content = cmt_objs[_c].data.content;
-            if(clock === cmt_objs.length-1) next2();
-            clock++;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]] = comment.data;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].key = comment.key;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterName = usr_ref.data.userName;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterImg = usr_ref.data.profileImg;
+            count++;
+            if(count === cmt_objs.length) next4();
           });
         })(c);
       }
-      function next2(){
+      function next4(){
         //for..in loop will iterate in the order that the gamepins were declared on the obj
         //because riak search gives us an ordered list, we can rely on maintaining the order
         for(pin in pinMap){
+          util.removeNulls(pinMap[pin].comments);  //get rid of not found comments
           returnList.push(pinMap[pin]);
         }
         return res.json({ objects: returnList });
@@ -830,7 +1432,6 @@ exports.textSearch = function(req, res){
 
 //given username, see if user exists and return email if so
 exports.getUser = function(req, res){
-  
   app.riak.bucket('users').search.twoi(req.body.name, 'username', function(err, keys){
     if(err){
       errlog.info('twoi error: ' + err);
@@ -993,74 +1594,22 @@ exports.setPassword = function(req, res){
 
 //ensure that user name has not been taken
 exports.checkUniqueName = function(req, res){
-  outlog.info('checkUniqueName');
-  //validation
   if(!req.body.userName) return res.send(JSON.stringify({error: 'No Username Entered'}));
   
-  //check pending accounts to see if username exists
-  app.riak.bucket('pendingUsers').search.twoi(req.body.userName, 'username', function(err, keys){
-    if(err){
-      errlog.info('check user exists error: ' + err);
-      return res.json({error: err});
-    }
-    if(keys){
-      if(keys.length !== 0){
-        outlog.info('Username already exists!');
-        return res.send(JSON.stringify({error: 'Username already exists'}));
-      }
-      return next();
-    }
+  util.uniqueUserName(req.body.userName, function(err){
+    if(err) return res.send(JSON.stringify({error: 'Username already exists'}));
+    return res.send(JSON.stringify({ success: true }));
   });
-  function next(){
-    //check registered accounts to see if username exists
-    app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
-      if(err){
-        errlog.info('check registered accounts twoi error: ' + err);
-        return res.send(JSON.stringify({error: err}));
-      }
-      if(keys){
-        if(keys.length !== 0){
-          outlog.info('Username already exists');
-          return res.send(JSON.stringify({error: 'Username already exists'}));
-        }
-        return res.send(JSON.stringify({ success: true }));
-      }
-    });
-  }
 }
 
 //ensure that user email has not been taken
 exports.checkUniqueEmail = function(req, res){
-  if(!req.body.email){
-    outlog.info('No Email Entered');
-    return res.send(JSON.stringify({error: 'No Email Entered'}));
-  }
-  //check pending accounts to see if email exists
-  app.riak.bucket('pendingUsers').object.exists(req.body.email, function(err, result){
-    if(err){
-      errlog.info('Pending Email Exists Error: ' + err);
-      return res.send(JSON.stringify({ error: 'Pending Email Exists Error: ' + err }));
-    }
-    if(result){
-      errlog.info('Pending Email already exists');
-      return res.send(JSON.stringify({ error: 'Pending Email already exists' }));
-    }
-    else next();
+  if(!req.body.email) return res.send(JSON.stringify({error: 'No Email Entered'}));
+  
+  util.uniqueUserEmail(req.body.email, function(err){
+    if(err) return res.send(JSON.stringify({error: 'Email already exists'}));
+    return res.send(JSON.stringify({ success: true }));
   });
-  function next(){
-    //check registered accounts to see if email exists
-    app.riak.bucket('users').object.exists(req.body.email, function(err, result){
-      if(err){
-        errlog.info(err);
-        return res.send(JSON.stringify({ error: 'Registered Email Exists Error: ' + err }));
-      }
-      if(result){
-        errlog.info('Registered Email Exists Error: ' + err);
-        return res.json(JSON.stringify({ error: 'Registerd Email already exists' }));
-      }
-      else return res.json(JSON.stringify({ success: true }));
-    });
-  }
 }
 
 //Get user activity, and then fetch those pins
@@ -1116,12 +1665,13 @@ exports.getActivity = function(req, res){
 //get groups which contain gamepin IDs, then fetch those gamepins and return them
 //replace object containing IDs the actual object itself
 exports.getGroups = function(req, res){
+  if(!req.body.userName) return res.json({ error: 'userName missing' });
   var user_id;
   var gamepinIds = [];
   var groupIdMap = {};
   var groupDataMap = {};
-  //0: fetch userId via 2i
-  app.riak.bucket('users').search.twoi(req.params.userName, 'username', function(err, keys){
+  //0: fetch userId via 2i given userName
+  app.riak.bucket('users').search.twoi(req.body.userName, 'username', function(err, keys){
     if(err){
       errlog.info('2i error: ' + err);
       return res.json({error: '2i Error:' + err});
@@ -1139,10 +1689,12 @@ exports.getGroups = function(req, res){
       groupIdMap = obj.data;
       //if object is empty return it right away with no additional fuss
       if(!Object.keys(groupIdMap).length) return res.json({groups: {}});
+      
       //put all of the ids into one big list
       for(cat in groupIdMap){
         gamepinIds = gamepinIds.concat(groupIdMap[cat]);
       }
+      
       //convert this data from map of arrays to map of maps (fun...:p)
       //iterating through object
       for(cat in groupIdMap){
@@ -1160,8 +1712,13 @@ exports.getGroups = function(req, res){
   function next2(){
     app.riak.bucket('gamepins').objects.get(gamepinIds, function(errs, objs){
       if(errs){
-        errlog.info('One or more group gamepins not found');
-        return res.json({ error: 'One or more group gamepins not found: '});
+        for(e = 0, len = errs.length; e < len; e++){
+          if(errs[e].status_code === 404) continue;
+          else{
+            errlog.info("riak.bucket('gamepins').objects.get error: "+errs[e].message);
+            return res.json({ error: "riak.bucket('gamepins').objects.get error: "+errs[e].message});
+          }
+        }
       }
       //if nodiak gives us a single object, convert that into an array with 1 element
       if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
@@ -1169,6 +1726,11 @@ exports.getGroups = function(req, res){
       //put the object into its proper place
       for(var o in objs){
         groupDataMap[objs[o].data.category][objs[o].key] = objs[o].data;
+      }
+      //TODO, make this more...elegant?
+      util.removeNullsFromObj(groupDataMap);        //remove ids that point to no data
+      for(g in groupDataMap){
+        if(Object.keys(groupDataMap[g]).length === 0) delete groupDataMap[g];    //remove categories that have no ids
       }
       return res.json({groups: groupDataMap});
     });

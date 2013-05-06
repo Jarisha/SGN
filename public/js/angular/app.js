@@ -42,17 +42,22 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
-  //Global variables - session data
-  $rootScope.section = '';
-  $rootScope.globalMess = 'Global Message';
+  //Global variables
+  //session / login
   $rootScope.loggedIn = null;
-  $rootScope.userId = null;
-  $rootScope.avatarUrl = '<%= rootPath %>/images/30x30.gif';
+  $rootScope.userName = null;
+  $rootScope.userEmail = null;
+  $rootScope.userImg = '<%= rootPath %>/images/30x30.gif';
+  
+  //settings
+  $rootScope.set =  { password: null,
+                      confirm: null,
+                      userName: null,
+                      gender: null };
+  
+  //Page we are on, full url path
+  $rootScope.section = '';
   $rootScope.rootPath = '';
-  $rootScope.something = 'blah';
-  $rootScope.login = {email: null, password: null};
-  $rootScope.register = { email: null, name: null, password: null, confirm: null, fbConnect: false};
-  $rootScope.rootSettings = {email: null, username: null, gender: null, bio: null, changePass: null, changeConfirm: null };
   
   $rootScope.popModal = function(){
     $('#changeAvatar').modal();
@@ -64,22 +69,22 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
-    //console.log('Route Change Started!  ... retreiving session data from server');
+   // ('Route Change Started!');
   });
   $rootScope.$on("$routeChangeSuccess", function(event, next, current){
-    //console.log('Route Change Success!');
+   // ('Route Change Success!');
   });
   $rootScope.$on("$routeChangeError", function(event, next, current, rejection){
-    //console.log('Route Change Error: ' + rejection); 
+   // ('Route Change Error: ' + rejection);
   });
   $rootScope.$on("$viewContentLoaded", function(event, next, current, rejection){
-    //console.log('ng view loaded');
+    //('ng view loaded');
   });
   
   //Debugging Tools
   //Allows you to execute debug functions from the view
   $rootScope.log = function(variable) {
-    console.log(variable);
+   // (variable);
   };
   $rootScope.alert = function(text) {
     alert(text);
@@ -88,7 +93,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   //Masonry calls
   $rootScope.masonry = function(){
     $('img').imagesLoaded(function(){
-      //alert('masonry');
       console.log('masonry');
       $('#content').masonry({
         itemSelector : '.game_pin, .store_pin',
@@ -98,8 +102,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   }
   $rootScope.remason = function(){
     $('img').imagesLoaded(function(){
-      //alert('remason');
-      console.log('reload masonry');
+     console.log('reload masonry');
       $('#content').masonry('reload');
     });
   }
@@ -115,17 +118,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   }
   $rootScope.profileRemason = function(){
     $('img').imagesLoaded(function(){
-      //alert('remason');
-      console.log('reload profile masonry');
+     console.log('reload profile masonry');
       $('#profile_data_inner').masonry('reload');
     });
   }
-  
   //Global AJAX calls
   
-  //checkLogin fetches session data from the server, returning login data if user is logged in
-  //it also sets $rootScope global variables which keep track of data of the currently logged in user
-  //returns true if loggedin, false if not
+  //Transfer login state + session data to client, stored in $rootScope.
+  //callback(loggedIn)
   $rootScope.checkLogin = function(callback){
     var result = {};
     $http({ method: 'POST', url: '/api/checkLogin' })
@@ -133,17 +133,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         //logged in
         if(data.loggedIn){
           $rootScope.loggedIn = true;
-          $rootScope.rootSettings.username = data.userName;
-          $rootScope.userId = data.userId;
-          $rootScope.avatarUrl = data.avatarImg || '/images/30x30.gif';
+          $rootScope.userName = data.userName;
+          $rootScope.userEmail = data.userId;
+          $rootScope.userImg = data.avatarImg || '/images/30x30.gif';
           return callback(null, true);
         }
         //logged out
         else if(!data.loggedIn){
           $rootScope.loggedIn = false;
-          $rootScope.rootSettings.username = null;
-          $rootScope.userId = null;
-          $rootScope.avatarUrl = null;
+          $rootScope.userName = null;
+          $rootScope.userEmail = null;
+          $rootScope.userImg = null;
           return callback(null, false);
         }
         else{
@@ -158,24 +158,17 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
   }
   $rootScope.logoutSubmit = function(){
-    console.log('rootScope.logout()');
     var result = {};
     $http({ method: 'POST', url:'/api/logout'})
       .success(function(data, status, headers, config){
         if(data.logout){
           $rootScope.loggedIn = false;
-          $rootScope.rootSettings.username = null;
-          //$location.path('/');
+          $rootScope.userName = null;
           window.location = '/';
-          //console.log("logout remason");
-          //$rootScope.popNotify('You are now logged out.');
-          //$timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.logout && data.error){
-          console.log(data.error);
         }
         else{
-          console.log('AJAX error');
         }
       })
       .error(function(data, status, headers, config){
@@ -194,17 +187,13 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         if(data.register){
           $('#registerModal').modal('hide');
           $('#registerModal_2').modal();
-          //window.location = '/register';
         }
         else if(!data.register && data.error){
-          console.log(data.error);
         }
         else{
-          console.log('AJAX error');
         }
       })
       .error(function(data, status, headers, config){
-        console.log('Error: ' + status);
       });
   }
   $rootScope.loginsubmit = function(){
@@ -216,12 +205,11 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         if(data.login){
           $rootScope.loggedIn = true;
           $rootScope.userEmail = data.userEmail;
-          $rootScope.rootSettings.username = data.userName;
-          $rootScope.userId = data.userId;
-          $rootScope.avatarUrl = data.avatarUrl;
+          $rootScope.userName = data.userName;
+          $rootScope.userEmail = data.userId;
+          $rootScope.userImg = data.avatarUrl;
           $('#loginModal').modal('hide');
           $rootScope.popNotify('Success', 'You are now logged in.');
-          //rootScope.popNotify({status: 'success' || 'error', message: 'Login successful!'});
           
           /* If cached, reload and cache partials effected by login */
           if($templateCache.get($rootScope.rootPath +'/partials/front_subnav')){
@@ -232,24 +220,19 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
             $templateCache.remove($rootScope.rootPath +'/partials/navbar');
             $http.get($rootScope.rootPath +'/partials/navbar', {cache:$templateCache});
           }
-          console.log("login remason");
           $timeout( function(){ $rootScope.remason(); }, 100 );
         }
         else if(!data.login && data.error){
-          console.log('Login Failed: ' + data.error);
         }
         else{
-          console.log('Login Failed: ' + data.error);
         }
       })
       .error(function(data, status, headers, config){
         //clear password from memory
         $rootScope.login.password = null;
-        console.log('Server Error: ' + status);
       });
   } 
   $rootScope.postGamePin = function(){
-    console.log('postGamePin');
     //clear post data lying around
     $rootScope.post.name = null;
     $rootScope.post.publisher = null;
@@ -300,56 +283,49 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#youtubeModal').modal();
   }
   
-  $rootScope.getRootSettings = function(){
-    $http.get('api/getSettings')
-      .success(function(data, status, headers, config){
-        if(data.email) $rootScope.rootSettings.email = data.email;
-        if(data.username){
-          $rootScope.rootSettings.username = data.username;
-        }
-        if(data.gender) $rootScope.rootSettings.gender = data.gender;
-        console.log($rootScope.rootSettings.gender);
-        if(data.bio) $rootScope.rootSettings.bio = data.bio;
-      })
-      .error(function(data, status, headers, config) {
-        result.message = 'Error: ' + status;
-      });
-  }
   $rootScope.viewSettings = function(){
-    $rootScope.getRootSettings();
+    var resultData;
+    $rootScope.set.password = null;
+    $rootScope.set.confirm = null;
     
-    $('#settingsModal').modal();
-  }
-  $rootScope.editSettings = function(){
-    console.log('editSettings');
-    console.log($rootScope.rootSettings);
-    $http({ method: 'POST', url: '/api/editSettings', data:
-          { id: $rootScope.userId, settings: $rootScope.rootSettings }})
+    $http({method:'post', url:'/api/getSettings', data:{ email: $rootScope.userEmail }})
       .success(function(data, status, headers, config){
-        if(data.error){
-          console.log('error ' + data.error);
-          $rootScope.popNotify('Error', data.error);
-        }
+        if(data.error) $rootScope.popNotify('Error', data.error);
         if(data.success){
-          if(data.username){
-            $rootScope.rootSettings.username = data.username;
-            $rootScope.popNotify('Success', data.notify);
-            //$rootScope.popNotify('Settings Saved!');
-          }
+          $rootScope.set.gender = data.gender;
+          $rootScope.set.userName = data.userName;
+          $('#settingsModal').modal();
         }
       })
       .error(function(data, status, headers, config){
-        console.log('Error' + status);
+        $rootScope.popNotify('Error', data);
+      });
+  }
+  $rootScope.editSettings = function(){
+    $http({ method: 'POST', url: '/api/editSettings', data:
+          { email: $rootScope.userEmail, settings: $rootScope.set }})
+      .success(function(data, status, headers, config){
+        if(data.error){
+          $rootScope.popNotify('Error', data.error);
+        }
+        if(data.success){
+          if(data.userName) $rootScope.userName = data.userName;
+          $rootScope.popNotify('Success', data.notify);
+        }
+        $rootScope.set.password = null;
+        $rootScope.set.confirm = null;
+      })
+      .error(function(data, status, headers, config){
       });
   }
   
   var hide = null;
   
+  //Pops a notification. Error or Success
   $rootScope.popNotify = function(status, message){
     $('#notify_status').text(status);
     $('#notify_message').text(message);
     $('#alertContainer').show();
-    console.log('popNotify');
     hide = $timeout(function() {
       $('#alertContainer').fadeOut(500, function(){
         $('#notify_message').text('');
@@ -361,7 +337,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#alertContainer').fadeOut(250, function(){
       $('#notify_message').text('');
     });
-    console.log('hideNotify');
   }
   
   //Always check if user is logged in
@@ -371,31 +346,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $http.get('/api/getPath')
     .success(function(data, status, headers, config){
       $rootScope.rootPath = data.path;
-      //next();
     })
     .error(function(data, status, headers, config){
       result.message = 'Error: ' + status;
     });
-  //Load front page html partials into cache
-  //Load partials we will need regardless of page?
-  function next(){
-    //$rootScope.modals = $rootScope.rootPath + '/partials/modals';
-    /*$http.get($rootScope.rootPath + '/partials/modals', {cache:$templateCache});
-    $http.get($rootScope.rootPath + '/partials/front_subnav', {cache:$templateCache});
-    $http.get($rootScope.rootPath + '/partials/navbar', {cache:$templateCache});
-    $http.get($rootScope.rootPath + '/partials/front_content', {cache:$templateCache});*/
-  }
-  //example of what $templateCache can do
-  //$templateCache.put('test.html', '<b> I emphasize testing</b>');
-  
-  //setup modals accessible through more than one page
-  //$rootScope.setupGlobalModals = function(){
-  //  console.log('setupGlobalModals()');
   $rootScope.promptLogin = function(){
     //clear modal
     $rootScope.login.email = null;
     $rootScope.login.password = null;
-    //spawn
     $('#loginModal').modal();
   }
   $rootScope.promptRegister = function(){
@@ -428,22 +386,19 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       
       $(this).ajaxSubmit({
         beforeSubmit: function(formData, jqForm, options){
-          console.log($.param(formData));
           percent = 0;
           setTimeout(function(){}, 5000);
         },
         uploadProgress: function(event, position, total, percentComplete){
           var percent = percentComplete;
-          console.log(percentComplete);
         },
         success: function(responseText, statusText, xhr, $form){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#fileUploadModal *').css('cursor', 'auto');
           if(responseText.error){
-            console.log('Error: ' + responseText.error);
             return;
           }
-          console.log(responseText.gamepin);
+         // (responseText.gamepin);
           $('#fileUploadModal').modal('hide');
           $rootScope.popNotify('Success' ,'Post Image Success!');
         },
@@ -451,7 +406,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#fileUploadModal *').css('cursor', 'auto');
           $form.css('cursor', 'auto');
-          console.log(responseText);
         },
         dataType: 'json'
       });
@@ -468,7 +422,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       //check to see if Url is valid, return content type
       urlExists(url, function(valid, contentType){
         if(!valid){
-          console.log("Invalid Url");
           return;
         }
         content_type = contentType;
@@ -490,7 +443,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#imageUrlModal *').css('cursor', 'auto');
           if(data.error){
-            //console.log(data.error);
             $('#imageUrlModal').modal('hide');
             $rootScope.popNotify(data.error);
             return;
@@ -501,7 +453,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         error: function(err){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#imageUrlModal *').css('cursor', 'auto');
-          console.log('error: ' + err);
         }
       });
       return false;
@@ -535,7 +486,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       vid_url = $get_video.next('.urlInput').val();
       validVideo(vid_url, function(valid, data){
         if(!valid){
-          console.log('invalid video');
           return;
         }
         vid_img = data.url;
@@ -546,7 +496,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     });
     
     $('#youtubeUrlForm').submit(function(e){
-      console.log('youtubeSubmit');
       //disable submit input while AJAX request is processing
       $('#' + $(this)[0].id + ' input[type="submit"]').attr('disabled', 'disabled');
       $('#youtubeUrlForm *').css('cursor', 'wait');
@@ -559,18 +508,15 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#youtubeUrlForm *').css('cursor', 'auto');
           if(data.error){
-            console.log(error);
             return;
           }
-          console.log(data.gamepin);
+         // (data.gamepin);
           $('#youtubeModal').modal('hide');
           $rootScope.popNotify('Post Video Success!');
         },
         error: function(){
-          //re-enable
           $('#' + $(this)[0].id + ' input[type="submit"]').removeAttr('disabled');
           $('#youtubeUrlForm *').css('cursor', 'auto');
-          console.log('error: ' + err);
         }
       });
       return false;
@@ -596,18 +542,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     }
     //register after selecting avatar img
     $('#uploadAvatar').submit(function(){
-      console.log('uploadAvatar submit');
       $(this).ajaxSubmit({
         success: function(responseText, statusText, xhr, $form){
           if(responseText.error){
-            console.log('Error: ' + responseText.error);
             return;
           }
-          console.log(responseText.success);
           window.location = '/register';
         },
         error: function(responseText, statusText, xhr, $form){
-          console.log(responseText);
         },
         dataType: 'json'
       });
@@ -616,7 +558,6 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     
     //Change avatar via profile page
     $rootScope.changeavatar = function(){
-      console.log('changeAvatar');
       $('#changeAvatar').modal();
       $('#changeAvatarForm').submit(function(){
         $('#changeAvatar :submit').attr('disabled', 'disabled');
@@ -628,17 +569,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
             $('#changeAvatar *').css('cursor', 'auto');
             window.location = '/profile';
             if(responseText.error){
-              console.log('Error: ' + responseText.error);
               return;
             }
-            console.log(responseText.success);
             $('#changeAvatar').modal('hide');
             $rootScope.popNotify(responseText.success);
           },
           error: function(responseText, statusText, xhr, $form){
             $('#changeAvatar :submit').removeAttr('disabled');
             $('#changeAvatar *').css('cursor', 'auto');
-            console.log(responseText);
           }
         });
         return false;

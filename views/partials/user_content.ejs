@@ -21,7 +21,7 @@
   </div>
   <div class="right_container">
     <div class="right_padding">
-      <p class="profile_name">{{user.username}}</p>
+      <p class="profile_name">{{user.userName}}</p>
       <p class="bio_text">{{user.bio}}</p>
       <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
@@ -34,14 +34,14 @@
     </div>
   </div>
   <div id="people_container">
-    <div id="people_header"> {{user.followerUnit.length}} FOLLOWERS</div>
+    <div id="people_header"> {{user.followers.length}} FOLLOWERS</div>
     <div class="bot_container">
       <div class="comrade_tabs">
-        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.username)">Follow</button>
+        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName)">Follow</button>
         <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
       </div>
-      <a ng-repeat="follower in user.followerUnit" href="/user/{{follower.name}}"><img title="{{follower.name}}" ng-src="{{follower.image || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
+      <a ng-repeat="follower in user.followers" href="/user/{{follower.userName}}"><img title="{{follower.userName}}" ng-src="{{follower.profileImg || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
@@ -69,15 +69,16 @@
   </div>
 </div>
 <div id="following_col">
-  <div id="following_header">{{user.followingUnit.length}} FOLLOWING</div>
+  <div id="following_header">{{ profile.following.length }} FOLLOWING</div>
   <div class="badge_chest">
-    <a ng-repeat="following in user.followingUnit" href="/user/{{following.name}}"><img title="{{following.name}}" ng-src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"  width="40px" height="40px"/></a>
-    <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
+    <a ng-repeat="following in user.following" href="/user/{{following.userName}}">
+      <img title="{{following.userName}}" ng-src="{{following.profileImg || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/>
+    </a>
   </div>
 </div>
 <div id="profile_data">
   <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" sample-done>
+    <div ng-repeat="pin in activityPins" class="game_pin" activity-done>
       <a class="view_trigger" ng-click="viewGamePin()">
         <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
