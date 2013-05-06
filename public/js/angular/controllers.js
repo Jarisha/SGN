@@ -11,7 +11,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   ('frontController');
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
-  console.log($scope.gamePins);
+  //console.log($scope.gamePins);
   var imgCount = 0;
   
   //(beforeFront);

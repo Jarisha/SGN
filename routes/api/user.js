@@ -1223,8 +1223,8 @@ exports.getPinList = function(req, res){
           pinMap[pinId] = pin.fields;
           pinMap[pinId].id = pinId;
           //Overwrite old values with potentially updated user data
-          pinMap[pinId].poster = ref_obj.data.userName;
-          pinMap[pinId].profileImg = ref_obj.data.profileImg;
+          pinMap[pinId].poster = ref_obj.data.userName || ref_obj.data.username;
+          pinMap[pinId].profileImg = ref_obj.data.profileImg || ref_obj.data.imgUrl;
           pinMap[pinId].comments = [];
           
           // Push comment IDs into array, so we can send them to nodiak. [<nodeflakeId>, <nodeflakeId>, <nodeflakeId>]
