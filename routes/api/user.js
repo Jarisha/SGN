@@ -1273,8 +1273,8 @@ exports.getPinList = function(req, res){
             }
             pinMap[comment.data.pin].comments[indexMap[comment.key]] = comment.data;
             pinMap[comment.data.pin].comments[indexMap[comment.key]].key = comment.key;
-            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterName = usr_ref.data.userName;
-            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterImg = usr_ref.data.profileImg;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterName = usr_ref.data.userName || user_ref.data.username;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterImg = usr_ref.data.profileImg || user_ref.data.imgUrl;
             count++;
             if(count === cmt_objs.length) next4();
           });
