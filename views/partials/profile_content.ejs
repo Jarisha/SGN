@@ -73,10 +73,11 @@
     </a>
   </div>
 </div>
+
 <div id="profile_data">
   <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in activityPins" class="game_pin" activity-done>
-      <a class="view_trigger" ng-click="viewGamePin()">
+    <div ng-repeat="pin in showPins" class="game_pin" activity-done>
+      <a class="view_trigger" ng-click="viewBigPin($index)">
         <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
       <div class="pin_footer">

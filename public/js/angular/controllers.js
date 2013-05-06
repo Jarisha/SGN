@@ -8,7 +8,6 @@
  
 function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, resolveFront,
                          gamepinService, $window){
-  ('frontController');
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
   //console.log($scope.gamePins);
@@ -35,6 +34,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.pinInterval = 20;
   
   $scope.bigPin = {};
+  $scope.bigFollowBtn = true;
                     
   var pinIndex = 0;
   var pinLimit = 20;
@@ -134,7 +134,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $('.view_vid').empty();
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
-      //(data);
       $scope.bigPin.index = index;
       $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
       $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
@@ -142,6 +141,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
+      $scope.bigPin.comments = data.comments;
       if($scope.bigPin.videoEmbed){
         var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
         videoIframe[0].width = "560";
@@ -149,6 +149,19 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         $('.view_vid').append(videoIframe);
       }
       $('#gamePinModal').modal({ dynamic: true });
+      $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
+        .success(function(data, status, headers, config){
+          if(data.error) $rootScope.popNotify('Error', data.error);
+          else if(data.success){
+            var following = data.following;
+            var $followBtn = $('#gamePinModal .follow');
+            if(following.indexOf($scope.bigPin.posterId) !== -1) $scope.bigFollowBtn = false;
+            else $scope.bigFollowBtn = true;
+          }
+        })
+        .error(function(data, status, headers, config){
+        });
+      
       //then spawn modal $('#gamePinModal').modal({dynamic: true});
     });
   }
@@ -159,7 +172,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
       .success(function(data, status, headers, config){
         if(!data.exists) return;
-        (data.email);
         next(data.email);
       })
       .error(function(data, status, headers, config){
@@ -194,7 +206,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $http({ method: 'POST', url: '/api/facebookRegister' })
       .success(function(data, status, headers, config){
         if(data.fb){
-          ('fb = true');
           $rootScope.register.email = data.fbEmail;
           $rootScope.register.name = data.fbName;
           $rootScope.register.fbConnect = true;
@@ -406,13 +417,15 @@ StoreController.resolve = {
     return deferred.promise;
   }
 }
-function ProfileController($scope, $rootScope, $http, $location, $timeout, resolveProfile){
+function ProfileController($scope, $rootScope, $http, $location, $timeout, resolveProfile, gamepinService){
   ('ProfileController');
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   
   $scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
+  
+  $scope.showPins = $scope.activityPins;
   
   //(resolveProfile);
   //$scope.activityPins = resolveProfile.activityData;
@@ -430,6 +443,8 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
   $scope.groupToggle = false;
   $scope.masonInit = true;
+  
+  $scope.bigPin = {};
   
   /*$scope.profile = {  name: null,
                       email: null,
@@ -473,11 +488,51 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       $("html, body").animate({ scrollTop: 0 }, 600);
     }
   }
-  
+
   /* AJAX FUNCTIONS */
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
+    });
+  }
+  
+  //trigger enlarged Gamepin
+  $scope.viewBigPin = function(index){
+    console.log('viewBigPin');
+    $('.view_vid').empty();
+    console.log($scope.showPins[index]);
+    //pass in ID, get pin obj data.  Access via Angular service.
+    gamepinService.getPinData($scope.showPins[index].id, function(data){
+      //(data);
+      $scope.bigPin.index = index;
+      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
+      $scope.bigPin.gameName = data.gameName;
+      $scope.bigPin.publisher = data.publisher;
+      $scope.bigPin.datePosted = data.datePosted;
+      $scope.bigPin.videoEmbed = data.videoEmbed;
+      $scope.bigPin.comments = data.comments;
+      console.log($scope.bigPin);
+      if($scope.bigPin.videoEmbed){
+        var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
+        videoIframe[0].width = "560";
+        videoIframe[0].height = "341";
+        $('.view_vid').append(videoIframe);
+      }
+      $('#gamePinModal').modal({ dynamic: true });
+      $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
+        .success(function(data, status, headers, config){
+          if(data.error) $rootScope.popNotify('Error', data.error);
+          else if(data.success){
+            var following = data.following;
+            var $followBtn = $('#gamePinModal .follow');
+            if(following.indexOf($scope.bigPin.posterId) !== -1) $scope.bigFollowBtn = false;
+            else $scope.bigFollowBtn = true;
+          }
+        })
+        .error(function(data, status, headers, config){
+          console.log(data);
+        });
     });
   }
   
@@ -586,23 +641,11 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   //Doing 2 AJAX calls is retarded
   //TODO: Change to 1 AJAX call, let backend do the work
   $scope.follow = function(targetName){
-    ('userController follow: ' + targetName);
-    $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
-      .success(function(data, status, headers, config){
-        if(!data.exists) return;
-        (data.email);
-        next(data.email);
-      })
-      .error(function(data, status, headers, config){
-        ("AJAX Error: " + data);
-        return;
-      });
     function next(targetId){
-      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetId: targetId} })
+      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetName: targetName} })
         .success(function(data, status, headers, config){
           if(data.success){
-            ('Now following' + targetId);
-            $rootScope.popNotify('Now Following ' + targetName);
+            $rootScope.popNotify('Success', 'Now Following ' + targetName);
             $('#follow_user').attr('disabled', 'disabled');
           }
           if(data.error){
@@ -611,7 +654,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
         })
         .error(function(data, status, headers, config){
           ('Error: ' + status);
-        }); 
+        });
     }
   }
   

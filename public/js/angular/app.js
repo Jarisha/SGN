@@ -41,32 +41,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
-  
-  //Global variables
-  //session / login
-  $rootScope.loggedIn = null;
-  $rootScope.userName = null;
-  $rootScope.userEmail = null;
-  $rootScope.userImg = '<%= rootPath %>/images/30x30.gif';
-  
-  //settings
-  $rootScope.set =  { password: null,
-                      confirm: null,
-                      userName: null,
-                      gender: null };
-  
-  //Page we are on, full url path
-  $rootScope.section = '';
-  $rootScope.rootPath = '';
-  
-  $rootScope.popModal = function(){
-    $('#changeAvatar').modal();
-  }
-  
-  //post modal fields. Stored in object
-  $rootScope.post = {url:null, content: null, name: null, publisher: null,
-    description: null, category: null};
-  
+
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
    // ('Route Change Started!');
@@ -80,16 +55,52 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   $rootScope.$on("$viewContentLoaded", function(event, next, current, rejection){
     //('ng view loaded');
   });
-  
+ 
   //Debugging Tools
   //Allows you to execute debug functions from the view
   $rootScope.log = function(variable) {
-   // (variable);
-  };
+    console.log(variable);
+  };  
   $rootScope.alert = function(text) {
     alert(text);
   };
+
+  /******* Global variables ***********/
+  //session / login
+  $rootScope.loggedIn = null;
+  $rootScope.userName = null;
+  $rootScope.userEmail = null;
+  $rootScope.userImg = '<%= rootPath %>/images/30x30.gif';
+  //settings
+  $rootScope.set =  { password: null,
+                      confirm: null,
+                      userName: null,
+                      gender: null };
+  //post modal fields. Stored in object
+  $rootScope.post = { url:null,
+                      content: null,
+                      name: null,
+                      publisher: null,
+                      description: null,
+                      category: null };
+  //Page we are on, full url path
+  $rootScope.section = '';
+  $rootScope.rootPath = '';
   
+  /*********** Initialization Code ********/
+  //Get full path, useful for loading in images + html
+  $http.get('/api/getPath')
+    .success(function(data, status, headers, config){
+      $rootScope.rootPath = data.path;
+    })
+    .error(function(data, status, headers, config){
+      result.message = 'Error: ' + status;
+    });
+  
+  /******** UI/UX Functionality & Flow *********/
+  $rootScope.popModal = function(){
+    $('#changeAvatar').modal();
+  }  
   //Masonry calls
   $rootScope.masonry = function(){
     $('img').imagesLoaded(function(){
@@ -122,10 +133,103 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       $('#profile_data_inner').masonry('reload');
     });
   }
-  //Global AJAX calls
   
-  //Transfer login state + session data to client, stored in $rootScope.
-  //callback(loggedIn)
+  //post Gamepin
+  $rootScope.postGamePin = function(){
+    //clear post data lying around
+    $rootScope.post.name = null;
+    $rootScope.post.publisher = null;
+    $rootScope.post.category = null;
+    $rootScope.post.description = null;
+    $rootScope.post.url = null;
+    $rootScope.post.content = null;
+    clearModalFields();
+    $('#postModal').modal();
+  }
+  //clear all post gamepin Modals
+  function clearModalFields(){
+     if($rootScope.badInput){
+      $('#imageUrlModal form').resetForm();
+      $('#imageUrlModal .urlInput').val('');
+      $('#imageUrlModal .thumbnail').empty();
+      $('#fileUploadModal form').resetForm();
+      $('#fileUploadModal .thumbnail').empty();
+      $('#youtubeModal form').resetForm();
+      $('#youtubeModal .urlInput').val('');
+      $('#youtubeModal .fileupload').empty();
+    }
+    else{
+      $('#imageUrlModal form').resetForm();
+      $('#imageUrlModal .urlInput').val('');
+      $('#imageUrlModal .thumbnail').empty();
+      $('#fileUploadModal form').resetForm();
+      $('#fileUploadModal .thumbnail').empty();
+      $('#youtubeModal form').resetForm();
+      $('#youtubeModal .urlInput').val('');
+      $('#youtubeModal .fileupload').empty();
+    }
+    $('#imageUrlForm input[type="submit"], \
+                  #uploadForm input[type="submit"], \
+                  #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');
+    
+  }
+ 
+  //post gamepin modal progression
+  $rootScope.popImageUrl = function(){
+    $('#postModal').modal('hide');
+    $('#imageUrlModal').modal();
+  }
+  $rootScope.popFileUpload = function(){
+    $('#postModal').modal('hide');
+    $('#fileUploadModal').modal();
+  }
+  $rootScope.popYoutubeUrl = function(){
+    $('#postModal').modal('hide');
+    $('#youtubeModal').modal();
+  }
+  
+  //Pops a Notification. Error or Success
+  var hide = null;
+  $rootScope.popNotify = function(status, message){
+    $('#notify_status').text(status);
+    $('#notify_message').text(message);
+    $('#alertContainer').show();
+    hide = $timeout(function() {
+      $('#alertContainer').fadeOut(500, function(){
+        $('#notify_message').text('');
+      });
+    }, 5000);
+  }
+  $rootScope.hideNotify = function(){
+    $timeout.cancel(hide);
+    $('#alertContainer').fadeOut(250, function(){
+      $('#notify_message').text('');
+    });
+  }
+
+  //register and login modals, on hold. TODO: Replace gateway register / login with modal progression.
+  /*
+  $rootScope.promptLogin = function(){
+    //clear modal
+    $rootScope.login.email = null;
+    $rootScope.login.password = null;
+    $('#loginModal').modal();
+  }
+  $rootScope.promptRegister = function(){
+    //clear modal
+    $rootScope.register.email = null;
+    $rootScope.register.name = null;
+    $rootScope.register.password = null;
+    $rootScope.register.confirm = null;
+    $rootScope.register.fbConnect = false;
+    $('#registerModal').modal();
+  }
+  */
+  
+  /********* AJAX API ***************/
+  //Global AJAX. Interacts with API backend. Called from controller, returns to controller to perform controller specified logic.
+  
+  //Get session data from backend.  callback(err, bool loggedIn)
   $rootScope.checkLogin = function(callback){
     var result = {};
     $http({ method: 'POST', url: '/api/checkLogin' })
@@ -157,6 +261,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         return callback(status, null);
       });
   }
+  
+  //Log out. destroys our session data, redirect to gateway
   $rootScope.logoutSubmit = function(){
     var result = {};
     $http({ method: 'POST', url:'/api/logout'})
@@ -166,17 +272,14 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $rootScope.userName = null;
           window.location = '/';
         }
-        else if(!data.logout && data.error){
-        }
-        else{
-        }
       })
       .error(function(data, status, headers, config){
         result.message = 'Error: ' + status;
       });
   }
   
-  //register without selecting avatar
+  //registration and login actions on hold, TODO: Replace gateway registration with modal progression
+  /*
   $rootScope.registerSubmit = function(avatarPath){
     $http({ method: 'POST', url: '/api/register', data:
           {"email": $rootScope.register.email ,"name": $rootScope.register.name,
@@ -211,7 +314,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
           $('#loginModal').modal('hide');
           $rootScope.popNotify('Success', 'You are now logged in.');
           
-          /* If cached, reload and cache partials effected by login */
+          // If cached, reload and cache partials effected by login
           if($templateCache.get($rootScope.rootPath +'/partials/front_subnav')){
             $templateCache.remove($rootScope.rootPath +'/partials/front_subnav');
             $http.get($rootScope.rootPath +'/partials/front_subnav', {cache:$templateCache});
@@ -231,58 +334,10 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
         //clear password from memory
         $rootScope.login.password = null;
       });
-  } 
-  $rootScope.postGamePin = function(){
-    //clear post data lying around
-    $rootScope.post.name = null;
-    $rootScope.post.publisher = null;
-    $rootScope.post.category = null;
-    $rootScope.post.description = null;
-    $rootScope.post.url = null;
-    $rootScope.post.content = null;
-    clearModalFields();
-    $('#postModal').modal();
   }
-  //clear all fields and images, disable all forms
-  function clearModalFields(){
-     if($rootScope.badInput){
-      $('#imageUrlModal form').resetForm();
-      $('#imageUrlModal .urlInput').val('');
-      $('#imageUrlModal .thumbnail').empty();
-      $('#fileUploadModal form').resetForm();
-      $('#fileUploadModal .thumbnail').empty();
-      $('#youtubeModal form').resetForm();
-      $('#youtubeModal .urlInput').val('');
-      $('#youtubeModal .fileupload').empty();
-    }
-    else{
-      $('#imageUrlModal form').resetForm();
-      $('#imageUrlModal .urlInput').val('');
-      $('#imageUrlModal .thumbnail').empty();
-      $('#fileUploadModal form').resetForm();
-      $('#fileUploadModal .thumbnail').empty();
-      $('#youtubeModal form').resetForm();
-      $('#youtubeModal .urlInput').val('');
-      $('#youtubeModal .fileupload').empty();
-    }
-    $('#imageUrlForm input[type="submit"], \
-                  #uploadForm input[type="submit"], \
-                  #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');
-    
-  }
-  $rootScope.imageUrl = function(){
-    $('#postModal').modal('hide');
-    $('#imageUrlModal').modal();
-  }
-  $rootScope.fileUpload = function(){
-    $('#postModal').modal('hide');
-    $('#fileUploadModal').modal();
-  }
-  $rootScope.youtubeUrl = function(){
-    $('#postModal').modal('hide');
-    $('#youtubeModal').modal();
-  }
+  */
   
+  //view and edit settings
   $rootScope.viewSettings = function(){
     var resultData;
     $rootScope.set.password = null;
@@ -319,54 +374,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
   }
   
-  var hide = null;
-  
-  //Pops a notification. Error or Success
-  $rootScope.popNotify = function(status, message){
-    $('#notify_status').text(status);
-    $('#notify_message').text(message);
-    $('#alertContainer').show();
-    hide = $timeout(function() {
-      $('#alertContainer').fadeOut(500, function(){
-        $('#notify_message').text('');
-      });
-    }, 5000);
-  }
-  $rootScope.hideNotify = function(){
-    $timeout.cancel(hide);
-    $('#alertContainer').fadeOut(250, function(){
-      $('#notify_message').text('');
-    });
-  }
-  
-  //Always check if user is logged in
-  //$rootScope.checkLogin();
-  
-  //Get full path to simplify urls for loading images/html
-  $http.get('/api/getPath')
-    .success(function(data, status, headers, config){
-      $rootScope.rootPath = data.path;
-    })
-    .error(function(data, status, headers, config){
-      result.message = 'Error: ' + status;
-    });
-  $rootScope.promptLogin = function(){
-    //clear modal
-    $rootScope.login.email = null;
-    $rootScope.login.password = null;
-    $('#loginModal').modal();
-  }
-  $rootScope.promptRegister = function(){
-    //clear modal
-    $rootScope.register.email = null;
-    $rootScope.register.name = null;
-    $rootScope.register.password = null;
-    $rootScope.register.confirm = null;
-    $rootScope.register.fbConnect = false;
-    $('#registerModal').modal();
-  }
-  
-  //setup JQuery needed to deal with post content
+  //Setup
   $rootScope.setupPostContent = function(){
     //setup form polyfill
     $('input, textarea').placeholder();

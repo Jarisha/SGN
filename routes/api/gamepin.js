@@ -380,8 +380,7 @@ exports.postImageUrl = function(req, res){
       file_extension = '.jpg';
       break;
   }
-  //hack to detect https, TODO: try to upload https using nodejs htps module
-  console.log(req.body.url);
+  //hack to detect https, TODO: try to upload https using nodejs htps module;
   if(req.body.url.indexOf('https://') !== -1){
     errlog.info('cannot upload https url');
     return res.json({ error: 'cannot upload https url' });
@@ -466,10 +465,8 @@ function postGamePin(post_data, callback){
         errlog.info('postGamePin: Fetch User failed');
         return callback('postGamePin: Fetch User failed', null);
       }
-      util.clearChanges(usr);
       //add this gamepin ID to the user object
       usr.data.posts.push(post_id);
-      usr.data.changes.posts.add.push(post_id);
       usr.save(function(err, saved){
         if(err) return errlog.info('user update error: ' + err); 
         outlog.info('gamepin ID added to user posts[]');
@@ -559,7 +556,6 @@ exports.getComments = function(req, res){
 //TODO: Abstract comment functionality better.
 //add comment, given pinId and poster
 exports.addComment = function(req, res){
-  console.log(req.body);
   var commentId;
   var comment_data;
   var pinId = req.body.pinId,
@@ -595,7 +591,6 @@ exports.addComment = function(req, res){
         obj.data.comments.push(saved_cmt.key);
         obj.save(function(err, saved_pin){
           if(err) return errlog.info('save gamepin error: ' + err);
-          console.log('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
           outlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
           return res.json({ success: true });
         });
@@ -604,15 +599,39 @@ exports.addComment = function(req, res){
   }
 }
 
-//Retrieve all data for a single gamepin
+//Retrieve all data for a single gamepin, get comments too.
 exports.getPinData = function(req, res){
-  console.log(req.body.pinId);
+  var commentData = [];
   get_RO_gamepin( req.body.pinId, function(err, pin){
     if(err){
       errlog.info('getPinData error ' + err.message);
       return res.json({ error: err.message });
     }
-    return res.json({ gamepin: pin.data });
+    //get comment_ROs
+    var commentIds = pin.data.comments;
+    async.map(commentIds, function(cmtId, callback){
+      app.riak.bucket('comments').objects.get(cmtId, function(err, cmt_obj){
+        if(err){
+          if(err.status_code === 404) return callback(null, null);
+          return callback(new Error('getPinData error: '+err.message), null);
+        }
+        //fetch posterName + posterImg, attach to comment
+        base.get_userRef(cmt_obj.data.posterId, function(_err, usr_ref){
+          if(_err) return callback(new Error('getPinData error: '+err.message), null);
+          cmt_obj.data.posterName = usr_ref.userName;
+          cmt_obj.data.posterImg = usr_ref.profileImg;
+          return callback(null, cmt_obj.data);
+        });
+      });
+    }
+    , function(err, results){
+      if(err) return res.json({ error: err.message });
+      next(results);
+    });
+    function next(results){
+      pin.data.comments = results;
+      return res.json({ gamepin: pin.data });
+    }
   });
   
   /* app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){

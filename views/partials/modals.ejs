@@ -2,8 +2,8 @@
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
     <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.posterImg }}"/></a>
-    <button ng-click="follow(bigPin.poster)" class="follow"  type="button">Follow</button>
-    <p class="poster"><a href="#">{{bigPin.poster}}</a></p>
+    <button ng-show="bigFollowBtn"  ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
+    <p class="poster"><a href="#">{{bigPin.posterName}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
   </div>
   <hr>
@@ -266,15 +266,15 @@
     <h3 id="myModalLabel">Post to Quyay</h3>
   </div>
   <div class="modal-body">
-    <div ng-click="imageUrl()" class="modal_slice post_option">
+    <div ng-click="popImageUrl()" class="modal_slice post_option">
       <img src="<%= rootPath %>/images/image.png" />
       <p>Image via URL<p>
     </div>
-    <div ng-click="fileUpload()" class="modal_slice post_option">
+    <div ng-click="popFileUpload()" class="modal_slice post_option">
       <img src="<%= rootPath %>/images/upload.png" />
       <p>File Upload</p>
     </div>
-    <div ng-click="youtubeUrl()" class="modal_slice post_option_end">
+    <div ng-click="popYoutubeUrl()" class="modal_slice post_option_end">
       <img src="<%= rootPath %>/images/video.png" />
       <p>Youtube URL</p>
     </div>

@@ -41,6 +41,7 @@ module.exports = function(app){
   app.post('/api/unfollow', userApi.removeFollowers);
   app.get('/api/getPath', userApi.getPath);
   app.post('/api/getProfile', userApi.getProfile);
+  app.post('/api/getFollowers', userApi.getFollowers);
   app.post('/api/getPinList', userApi.getPinList);
   app.post('/api/categorySearch', userApi.categorySearch);
   app.post('/api/textSearch', userApi.textSearch);

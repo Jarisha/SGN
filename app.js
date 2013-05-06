@@ -40,6 +40,8 @@ rackit.init({
   if(err) console.error('error:' + err);
 });
 
+exports.rackit = rackit;
+
 // ADD CLUSTER BACK IN BEFORE PUSH TO PRODUCTION
 
 //node cluster encapsulates web server creation
@@ -321,7 +323,8 @@ else{*/
   });
   
   app.get('/debug', function(req, res){
-    return res.render('debug');
+    if(req.session.userEmail !== 'dtonys@gmail.com') res.render('base');
+    else res.render('debug');
   });
   
   app.get('/', auth, function(req, res){

@@ -122,6 +122,7 @@ var get_activity = function(activity_key, callback){
         pinAPI.get_RO_gamepin(evtId, function(err, pin_RO){
           if(err instanceof E.NotFoundError) return _callback(null, null);  //if not found, just put null and continue
           if(err) return _callback(err, null);
+          pin_RO.data.id = evtId;            //keep track of ID
           return _callback(null, pin_RO.data);
         });
       },
@@ -1001,21 +1002,31 @@ exports.deactivate = function(req, res){
   }
 }
 
-//addFollower: source user follows target user                                          TEST
+//addFollower: source user follows target user, given targetName or targetId                                          TEST
 exports.follow = function(req, res){
   var sourceId = req.body.sourceId,
+      targetName = req.body.targetName,
       targetId = req.body.targetId;
-  //validate
-  if(sourceId === targetId){
-    outlog.info('Error: cannot follow yourself');
-    return res.json({ error: 'Error: cannot follow yourself' });
+  //if no targetId give, look it up via 2i
+  if(!targetId){
+    base.getUserEmail(targetName, function(err, email){
+      if(err) return res.json({ error: err.message });
+      targetId = email;
+      next();
+    });
   }
-  
-  //link users together, and save them
-  addFollower(sourceId, targetId, function(err, sourceRO){
-    if(err) return res.json({ error:'follow user error: '+err.message });
-    return res.json({ success: sourceId+' following '+targetId+' success', notify: 'Now following '+targetId });
-  });
+  else next();
+  function next(){
+    if(sourceId === targetId){
+      outlog.info('Error: cannot follow yourself');
+      return res.json({ error: 'Error: cannot follow yourself' });
+    }
+    //link users together, and save them
+    addFollower(sourceId, targetId, function(err, sourceRO){
+      if(err) return res.json({ error:'follow user error: '+err.message });
+      return res.json({ success: sourceId+' following '+targetId+' success', notify: 'Now following '+targetId });
+    });
+  }
 }
 
 //sourceId removes follower relationship from targetId                                  TEST
@@ -1127,6 +1138,16 @@ exports.getProfile = function(req, res){
  * We depend on riak solr search with presort:'key' in order to get a chronologically
  * sorted list.
  */
+
+//given user email, fetch user and return list of followers
+exports.getFollowers = function(req, res){
+  if(!req.body.email) return res.json({ error: 'email required' });
+  
+  get_RO_user(req.body.email, function(err, usr){
+    if(err) return res.json({ error: err.message });
+    return res.json({ success: true, following: usr.data.following });
+  });
+}
 
 //Return front page list of pins with comments
 //Search index data is not deleted alongside DB entires, so we must filter out deleted entries.
