@@ -150,8 +150,8 @@ var remove_activity = function(id, event_id, callback){
 var update_userRef = function(emailId, userName, profileImg, callback){
   app.riak.bucket('userReference').objects.get(emailId, function(err, usr_ref){
     if(err) return callback('Update userReference error: ' + err, null);
-    usr_ref.data = {  userName: userName || usr_ref.data.userName || usr_ref.data.username,
-                      profileImg: profileImg || usr_ref.data.profileImg || usr_ref.data.imgUrl  };
+    usr_ref.data = {  userName: userName || usr_ref.data.userName,
+                      profileImg: profileImg || usr_ref.data.profileImg };
     base.save_RO(usr_ref, 'userReference', function(_err, saved){
       if(_err) return callback(_err, null);
       return callback(null, saved);
@@ -1244,8 +1244,8 @@ exports.getPinList = function(req, res){
           pinMap[pinId] = pin.fields;
           pinMap[pinId].id = pinId;
           //Overwrite old values with potentially updated user data
-          pinMap[pinId].poster = ref_obj.data.userName || ref_obj.data.username;
-          pinMap[pinId].profileImg = ref_obj.data.profileImg || ref_obj.data.imgUrl;
+          pinMap[pinId].poster = ref_obj.data.userName;
+          pinMap[pinId].profileImg = ref_obj.data.profileImg;
           pinMap[pinId].comments = [];
           
           // Push comment IDs into array, so we can send them to nodiak. [<nodeflakeId>, <nodeflakeId>, <nodeflakeId>]
@@ -1294,8 +1294,8 @@ exports.getPinList = function(req, res){
             }
             pinMap[comment.data.pin].comments[indexMap[comment.key]] = comment.data;
             pinMap[comment.data.pin].comments[indexMap[comment.key]].key = comment.key;
-            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterName = usr_ref.data.userName || usr_ref.data.username;
-            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterImg = usr_ref.data.profileImg || usr_ref.data.imgUrl;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterName = usr_ref.data.userName;
+            pinMap[comment.data.pin].comments[indexMap[comment.key]].posterImg = usr_ref.data.profileImg;
             count++;
             if(count === cmt_objs.length) next4();
           });
@@ -1511,7 +1511,7 @@ exports.changeAvatar = function(req, res){
   function next2(){
     app.riak.bucket('userReference').objects.get(req.session.loggedIn, function(err, obj){
       if(err) return res.json({error: err});
-      obj.data.imgUrl = url;
+      obj.data.profileImg = url;
       obj.save(function(err, saved){
         if(err){
           if(IE){

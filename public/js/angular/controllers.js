@@ -8,31 +8,23 @@
  
 function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, resolveFront,
                          gamepinService, $window){
+  /**** Resolve Data ***/
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
-  //console.log($scope.gamePins);
-  var imgCount = 0;
-  
-  //(beforeFront);
-  /* $scope wide variables, binded to view */
+
+  /**** Scope Variables - Variables shared with View ****/
   $rootScope.css = 'front';
-  //$rootScope.title = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  $scope.loadIndex = 0;
-  $scope.pages = [];
-  $scope.newComment = { text: null };
+  //$scope.newComment = { text: null };
   $scope.searchText = '';
   $scope.masonInit = false;
   $scope.appendHtml = '';
   $scope.container = $('#content');
   $scope.masonInit = true;
   $scope.flag = true;
-  $scope.pinIndex = 0;
-  $scope.pinInterval = 20;
-  
   $scope.bigPin = {};
   $scope.bigFollowBtn = true;
                     
@@ -40,7 +32,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   var pinLimit = 20;
   var pinStop = 0;
   
+  /*** Initialization ***/
   loadFirst();
+  
   $scope.fbModal = function(){
     $('#fbRegisterModal').modal();
   }
@@ -54,7 +48,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     var a = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var b = $window.pageYOffset;
     
-    
     if($scope.flag && (a-b) <= 300){
       if((a-b) <= 100){
         $('.rackspace_logo').fadeIn();
@@ -67,11 +60,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
      $('.rackspace_logo').fadeOut();
     }
   }
-
-  
-  /* temp variables - used only in this controller */
-  var commentList = [];
-  var interval = 20;
   
   //Setup non AJAX related javascript => goto front.js
   $scope.setup = function(){
@@ -168,7 +156,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //follow user while looking at big Pin.  Need to fetch user id, then pass that to /api/follow
   $scope.follow = function(targetName){
-    ('bigPin follow');
     $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
       .success(function(data, status, headers, config){
         if(!data.exists) return;
@@ -245,7 +232,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     $http({ method:'post', url:'/api/gamepin/addComment',
       data:{pinId: $scope.showPins[index].id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
       .success(function(data, status, headers, config){
-        if(data.error) $rootScope.popNotify('Now Following ' + targetName);
+        if(data.error);
         $scope.text = null;
         $rootScope.remason();
       })
@@ -260,14 +247,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
       else break;
     }
-    for(var i = 0; i < $scope.gamePins.length; i++){
-      imgCount++;
-      if(imgCount > 36)
-        imgCount = 1;
-      $scope.gamePins[i].imgPath = "http://dev.quyay.com:3000/images/game_images/images%20%28"+ imgCount +"%29.jpg";
-    }
-    //$rootScope.remason();
-    ($scope.showPins[3]);
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){

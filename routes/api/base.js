@@ -97,7 +97,7 @@ var get_userRef = exports.get_userRef = function(email, callback){
       if(err.status_code === 404) return callback(null, null);
       return callback(new Error('get_userRef '+email+' error: '+err.message), null);
     }
-    return callback(null, {userName: ref_obj.data.userName || ref_obj.data.username, profileImg: ref_obj.data.profileImg || ref_obj.data.imgUrl });
+    return callback(null, {userName: ref_obj.data.userName, profileImg: ref_obj.data.profileImg });
   });
 }
 
