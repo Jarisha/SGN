@@ -44,14 +44,14 @@
   </div>
   <div id="footer_container">
     <div id="profile_footer">
-      <div id="view_groups" ng-click="toggleCategories()">Groups<b class="caret"></b>
-        <ul class="dropdown-menu two_col_dropdown">
+      <div id="view_groups" ng-click="getGroupData()">Groups<b class="caret"></b>
+        <!--<ul class="dropdown-menu two_col_dropdown">
           <div class="col1">
             <li ng-repeat="(key,val) in groupPins" ng-click="showGroup(key)">
              <a href="#">{{ key }}</a>
             </li>
           </div>
-        </ul>
+        </ul>-->
       </div>
       <div>My Posts</div>
       <div>Liked Posts</div>
@@ -75,6 +75,9 @@
 </div>
 
 <div id="profile_data">
+  <div id="group_bar" class="clearfix" ng-show="displayMode.group"">
+    <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
+  </div>
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in showPins" class="game_pin" activity-done>
       <a class="view_trigger" ng-click="viewBigPin($index)">

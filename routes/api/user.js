@@ -658,9 +658,13 @@ exports.testAPI = function(req, res){
   });*/
   
   //exports.removeFollower = function(sourceId, targetId, callback)
-  /*removeFollower('dtonys@gmail.com', 'zippy@z.z', function(err, updated_source){
-    if(err) return res.send(JSON.stringify({ error: err.message }));
-    else return res.send(JSON.stringify({ success: 'test passed' }));
+  /*removeFollower('dtonys@gmail.com', 'test1@t.t', function(err, updated_source){
+    removeFollower('dtonys@gmail.com', 'test2@t.t', function(err, updated_source){
+      removeFollower('dtonys@gmail.com', 'test3@t.t', function(err, updated_source){
+        if(err) return res.send(JSON.stringify({ error: err.message }));
+        else return res.send(JSON.stringify({ success: 'test passed' }));
+      });
+    });
   });*/
   
   //editSettings implemented via editWrap

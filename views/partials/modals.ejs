@@ -2,7 +2,7 @@
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
     <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.posterImg }}"/></a>
-    <button ng-show="bigFollowBtn"  ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
+    <button ng-show="bigPin.followBtn" ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
     <p class="poster"><a href="#">{{bigPin.posterName}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
   </div>
@@ -16,12 +16,13 @@
       <!--<div ng-show="bigPin.videoEmbed" class="view_vid">
       </div>
       <a ng-show="!bigPin.videoEmbed" href="#"><img class="view_img" ng-src="{{bigPin.imageUrl}}"/></a>-->
-      <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed" href="#"><img class="view_img" ng-src="{{bigPin.imageUrl || bigPin.sourceUrl}}"/></a>
+      <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed" href="#">
+        <img class="view_img" ng-src="{{bigPin.imageUrl || bigPin.sourceUrl}}"/>
+      </a>
       <div ng-show="bigPin.videoEmbed && bigPin.sourceUrl" class="view_vid">
       </div>
     </div>
     <div class="view_comment_container">
-      <!--<p> {{bigPin.description}} </p>-->
       <div class="pin_description">
         <p> {{bigPin.description}} </p>
       </div>
@@ -30,9 +31,9 @@
         class="view_post_text"><b>{{cmt.posterName}}</b><br/>{{cmt.content}}</p>
       </div>
       <div class="view_respond clearfix">
-        <a href="#"><img ng-src="{{userImg}}" class="profile_img"/></a><textarea 
-        class="view_respond_txtarea" placeholder="Post comment" tabindex="" ng-model="big_text"></textarea>
-        <button ng-click="addBigComment(big_text, bigPin.index)" class="view_respond_btn hidden" type="button">Comment</button>
+        <a href="#"><img ng-src="{{userImg}}" class="profile_img"/></a>
+        <textarea ng-click="showRespond = true" class="view_respond_txtarea" placeholder="Post comment" tabindex="" ng-model="big_text"></textarea>
+        <button ng-show="showRespond" ng-click="addBigComment(big_text, bigPin.index); showRespond = false;" class="view_respond_btn" type="button">Comment</button>
       </div>
     </div>
     <hr>

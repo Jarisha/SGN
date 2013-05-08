@@ -21,6 +21,7 @@ module.exports = function(app){
   
   //new api calls
   app.post('/api/user/deactivate', userApi.deleteWrap);
+  app.post('/api/user/follow', userApi.follow);
   //
   
   app.get('/api/facebookRegister', userApi.facebookRegister);
@@ -37,7 +38,7 @@ module.exports = function(app){
   app.post('/api/getSettings', userApi.getSettings);
   app.post('/api/editSettings', userApi.editSettings);
   app.post('/api/deactivate', userApi.deleteWrap);
-  app.post('/api/follow', userApi.follow);
+  //app.post('/api/follow', userApi.follow);
   app.post('/api/unfollow', userApi.removeFollowers);
   app.get('/api/getPath', userApi.getPath);
   app.post('/api/getProfile', userApi.getProfile);

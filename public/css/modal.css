@@ -1,4 +1,8 @@
 /****************** Modal Windows **********************/
+/* Override bootstrap defaults */
+.modal-wrapper{
+}
+
 /* Modal Header - Modal Body */
 .modal{
   border: 10px solid rgba(153, 204, 0, 0.5);
@@ -7,7 +11,6 @@
   overflow-y: hidden;
   max-height: 450px;
   padding:0;
-  /* border: 2px solid #6D9100;*/
   border-top: none;
 }
 .modal-header{

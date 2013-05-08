@@ -18,15 +18,15 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
-  //$scope.newComment = { text: null };
   $scope.searchText = '';
   $scope.masonInit = false;
   $scope.appendHtml = '';
   $scope.container = $('#content');
   $scope.masonInit = true;
   $scope.flag = true;
+  
   $scope.bigPin = {};
-  $scope.bigFollowBtn = true;
+  $scope.bigPin.followBtn = true;
                     
   var pinIndex = 0;
   var pinLimit = 20;
@@ -118,18 +118,22 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //trigger enlarged Gamepin
   $scope.viewBigPin = function(index){
-    ($scope.showPins[index]);
+    //($scope.showPins[index]);
+    
+    console.log($scope.showPins[index].poster);
+    
     $('.view_vid').empty();
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
       $scope.bigPin.index = index;
-      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, posterName, posterImg
       $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
       $scope.bigPin.comments = data.comments;
+      console.log($scope.bigPin.posterName + ' === ' + $rootScope.userName);
       if($scope.bigPin.videoEmbed){
         var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
         videoIframe[0].width = "560";
@@ -143,7 +147,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
           else if(data.success){
             var following = data.following;
             var $followBtn = $('#gamePinModal .follow');
-            if(following.indexOf($scope.bigPin.posterId) !== -1) $scope.bigFollowBtn = false;
+            if( $scope.showPins[index].poster === $rootScope.userName || 
+                following.indexOf($scope.bigPin.posterId) !== -1) $scope.bigFollowBtn = false;
             else $scope.bigFollowBtn = true;
           }
         })
@@ -156,33 +161,14 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //follow user while looking at big Pin.  Need to fetch user id, then pass that to /api/follow
   $scope.follow = function(targetName){
-    $http({ method: 'post', url: '/api/getUser', data:{ name: targetName } })
-      .success(function(data, status, headers, config){
-        if(!data.exists) return;
-        next(data.email);
-      })
-      .error(function(data, status, headers, config){
-        ("AJAX Error: " + data);
-        return;
-      });
-    function next(targetId){
-      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetId: targetId} })
-        .success(function(data, status, headers, config){
-          if(data.success){
-            ('Now following' + targetId);
-            $rootScope.popNotify('Now Following ' + targetName);
-            $('#follow_user').attr('disabled', 'disabled');
-          }
-          if(data.error){
-            $('#gamePinModal').modal('hide');
-            $rootScope.popNotify('Error', data.error);
-            (data.error);
-          }
-        })
-        .error(function(data, status, headers, config){
-          ('Error: ' + status);
-        });
-    }
+    var promise = $rootScope.follow(targetName);
+    promise.then(function(result){
+      $scope.bigPin.followBtn = false;
+    },
+    function(reason){
+      console.log('$rootScope follow failed');
+      $scope.bigPin.followBtn = false;
+    });
   }
   //Must do a POST, otherwise response is cached
   
@@ -338,7 +324,6 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
             $templateCache.remove('partials/navbar');
             $http.get('partials/navbar', {cache:$templateCache});
           }
-          ("Login success: remason()");
           $rootScope.remason();
         }
         else if(!data.login && data.error){
@@ -397,21 +382,16 @@ StoreController.resolve = {
   }
 }
 function ProfileController($scope, $rootScope, $http, $location, $timeout, resolveProfile, gamepinService){
-  ('ProfileController');
+  console.log('ProfileController');
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   
   $scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
-  
   $scope.showPins = $scope.activityPins;
   
-  //(resolveProfile);
-  //$scope.activityPins = resolveProfile.activityData;
-  //$scope.groupPins = resolveProfile.groups;
-  /*$scope.showPins = $scope.activityPins;
-  $scope.profile = resolveProfile.profileData;
-  (resolveProfile.profileData);*/
+  $scope.groupList = [];
+  $scope.groupData = {};
   
   $rootScope.css = 'profile';
   $rootScope.title = 'profile';
@@ -423,7 +403,13 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.groupToggle = false;
   $scope.masonInit = true;
   
+  //$scope.displayMode = 'activity';
+  $scope.displayMode = {};
+  $scope.displayMode.activity = true;
+  $scope.displayMode.group = false;
+  
   $scope.bigPin = {};
+  $scope.bigFollowBtn = true;
   
   /*$scope.profile = {  name: null,
                       email: null,
@@ -477,12 +463,10 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   
   //trigger enlarged Gamepin
   $scope.viewBigPin = function(index){
-    console.log('viewBigPin');
     $('.view_vid').empty();
     console.log($scope.showPins[index]);
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
-      //(data);
       $scope.bigPin.index = index;
       $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
       $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
@@ -515,10 +499,19 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
     });
   }
   
+  $scope.addBigComment = function(text, index){
+    $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
+    $http({ method:'post', url:'/api/gamepin/addComment',
+      data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
+      .success(function(data, status, headers, config){
+        $('textarea.view_respond_txtarea').val('');
+      })
+      .error(function(data, status, headers, config){
+      });
+  }
+  
   $scope.toggleCategories = function(){
-    ('showCategories');
     if(!$scope.groupToggle){
-      ('show');
       $('#view_groups .dropdown-menu').css('display', 'block');
       $scope.groupToggle = true;
     }
@@ -529,13 +522,31 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
     }
   }
   
+  $scope.getGroupData = function(){
+    $scope.displayMode.activity = false;
+    $scope.displayMode.group = true;
+    $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
+      .success(function(data, status, headers, config){
+        $scope.groupList = [];
+        $scope.groupData = data.groups;
+        //console.log(data.groups['Arcade']);
+        for(var g in data.groups){
+          $scope.groupList.push(g);
+        }
+        $scope.showPins = null;
+        $rootScope.profileRemason();
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
+  }
   $scope.showGroup = function(group){
-    ('fire the showGroup');
-    (group);
-    $scope.showPins = $scope.groupPins[group];
+    $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
     $rootScope.profileRemason();
   }
   $scope.showActivity = function(){
+    $scope.displayMode.activity = true;
+    $scope.displayMode.group = false;
     $scope.showPins = $scope.activityPins;
     $rootScope.profileRemason();
   }
@@ -566,23 +577,33 @@ ProfileController.resolve = {
     return deferred.promise;
   }
 }
-
-//Looking at another user's page
-function UserController($scope, $rootScope, $http, $location, $routeParams, resolveUser){
-  ('UserController');
+function UserController($scope, $rootScope, $http, $location, $routeParams, resolveUser, gamepinService){
+  console.log('UserController');
   $rootScope.css = 'profile';
   $rootScope.title = 'user';
+  
+  // get resolve data into view
+  $scope.activityPins = resolveUser.activityData;
+  $scope.user = resolveUser.profileData;
+  $scope.showPins = $scope.activityPins;
+  $scope.bigPin = {};
+  $scope.bigPin.followBtn = true;
+  $scope.isFollowing = false;
+  
+  //$scope.displayMode = 'activity';
+  $scope.displayMode = {};
+  $scope.displayMode.activity = true;
+  $scope.displayMode.group = false;
+  
+  $scope.groupList = [];
+  $scope.groupData = {};
+  $scope.showGroup = null;
   
   // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/user_content';
-  
-  // get resolve data into view
-  $scope.activityPins = resolveUser.activityData;
-  $scope.user = resolveUser.profileData;
-  $scope.isFollowing = false;
   
   // disable following button if already following ( this should be done on backend )
   for(var i = 0, len = $scope.user.followers.length; i < len; i++){
@@ -617,27 +638,51 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
     }
   }
   
-  //Doing 2 AJAX calls is retarded
-  //TODO: Change to 1 AJAX call, let backend do the work
-  $scope.follow = function(targetName){
-    function next(targetId){
-      $http({ method:'post', url:'/api/follow', data: {sourceId: $rootScope.userEmail, targetName: targetName} })
+  $scope.viewBigPin = function(index){
+    gamepinService.getPinData($scope.showPins[index].id, function(data){
+      $scope.bigPin.index = index;
+      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
+      $scope.bigPin.gameName = data.gameName;
+      $scope.bigPin.publisher = data.publisher;
+      $scope.bigPin.datePosted = data.datePosted;
+      $scope.bigPin.videoEmbed = data.videoEmbed;
+      $scope.bigPin.comments = data.comments;
+      if($scope.bigPin.videoEmbed){
+        var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
+        videoIframe[0].width = "560";
+        videoIframe[0].height = "341";
+        $('.view_vid').append(videoIframe);
+      }
+      $('#gamePinModal').modal({ dynamic: true });
+      $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
         .success(function(data, status, headers, config){
-          if(data.success){
-            $rootScope.popNotify('Success', 'Now Following ' + targetName);
-            $('#follow_user').attr('disabled', 'disabled');
-          }
-          if(data.error){
-            (error);
+          if(data.error) $rootScope.popNotify('Error', data.error);
+          else if(data.success){
+            var following = data.following;
+            if(following.indexOf($scope.bigPin.posterId) !== -1) $scope.bigPin.followBtn = false;
+            else $scope.bigPin.followBtn = true;
           }
         })
         .error(function(data, status, headers, config){
-          ('Error: ' + status);
+          console.log(data);
         });
-    }
+    });
   }
   
-  $scope.toggleCategories = function(){
+  //TODO: Change to 1 AJAX call, let backend do the work
+  $scope.follow = function(targetName){
+    var promise = $rootScope.follow(targetName);
+    promise.then(function(result){
+      $('#follow_user').attr('disabled', 'disabled');
+    },
+    function(reason){
+      console.log('$rootScope follow failed');
+      $scope.bigFollowBtn = false;
+    });
+  }
+  
+  /*$scope.toggleCategories = function(){
     ('showCategories');
     if(!$scope.groupToggle){
       ('show');
@@ -649,15 +694,34 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
       $('#view_groups .dropdown-menu').css('display', 'none');
       $scope.groupToggle = false;
     }
+  }*/
+  
+  $scope.getGroupData = function(){
+    //$scope.displayMode = 'group';
+    $scope.displayMode.activity = false;
+    $scope.displayMode.group = true;
+    $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
+      .success(function(data, status, headers, config){
+        $scope.groupList = [];
+        $scope.groupData = data.groups;
+        for(var g in data.groups){
+          $scope.groupList.push(g);
+        }
+        $scope.showPins = null;
+        $rootScope.profileRemason();
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
   }
   
   $scope.showGroup = function(group){
-    ('fire the showGroup');
-    (group);
-    $scope.showPins = $scope.groupPins[group];
+    $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
     $rootScope.profileRemason();
   }
   $scope.showActivity = function(){
+    $scope.displayMode.activity = true;
+    $scope.displayMode.group = false;
     $scope.showPins = $scope.activityPins;
     $rootScope.profileRemason();
   }  
@@ -703,7 +767,6 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
   $scope.content = $rootScope.rootPath + '/partials/about_content';
   $scope.section = $rootScope.rootPath + '/partials/faq';
   
-  ($routeParams);
   
   $scope.setup = function(){
     aboutSetup($scope);

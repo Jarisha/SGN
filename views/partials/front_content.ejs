@@ -27,8 +27,8 @@
   </div>
   <div class="respond clearfix" tabindex="">
       <img ng-src="{{userImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
-      class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
-      <button class="respond_btn hidden" type="submit" ng-click="addComment(text, $index); text=null;">Comment</button>
+      ng-click="showComment = true; masonry();" class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
+      <button ng-show="showComment" class="respond_btn" type="submit" ng-click="addComment(text, $index); text=null; showComment = false">Comment</button>
   </div>
 </div>
 <img class="rackspace_logo" style="display: none" ng-src="/images/rackspace_logo.png" />

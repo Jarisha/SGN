@@ -73,9 +73,9 @@ function frontSetup($scope, $rootScope, $http){
   });*/
   
   // Show "Comment" button when textarea focused
-  $('.view_respond_txtarea').focus(function(e){
-    $(this).nextAll('.view_respond_btn').removeClass('hidden');
-  });
+  //$('.view_respond_txtarea').focus(function(e){
+  //  $(this).nextAll('.view_respond_btn').removeClass('hidden');
+  //});
   // Post comment
   /*$('.view_respond_btn').click(function(e){
     var response = $.trim($(this).prevAll('.view_respond_txtarea').val());

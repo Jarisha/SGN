@@ -36,15 +36,15 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 }]);
 
 // Entry Point
-app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
+app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
   
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
-
+  
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
-   // ('Route Change Started!');
+    console.log('Route Change Started!');
   });
   $rootScope.$on("$routeChangeSuccess", function(event, next, current){
    // ('Route Change Success!');
@@ -188,6 +188,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
     $('#youtubeModal').modal();
   }
   
+  //$rootScope.popNotify('Test', 'Test Success');
+  
   //Pops a Notification. Error or Success
   var hide = null;
   $rootScope.popNotify = function(status, message){
@@ -200,6 +202,8 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
     }, 5000);
   }
+
+  
   $rootScope.hideNotify = function(){
     $timeout.cancel(hide);
     $('#alertContainer').fadeOut(250, function(){
@@ -228,6 +232,7 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
   
   /********* AJAX API ***************/
   //Global AJAX. Interacts with API backend. Called from controller, returns to controller to perform controller specified logic.
+  //Contains some mixed UI & AJAX functionality
   
   //Get session data from backend.  callback(err, bool loggedIn)
   $rootScope.checkLogin = function(callback){
@@ -336,6 +341,31 @@ app.run(function( $rootScope, $http, $templateCache, $location, $timeout){
       });
   }
   */
+  
+  //returns promise.  promise.then(function(bool result){})
+  $rootScope.follow = function(userName){
+    //console.log(userName);
+    var deferred = $q.defer();
+    
+    $http({ method:'post', url:'/api/user/follow', data:{sourceId: $rootScope.userEmail, targetName: userName} })
+      .success(function(data, status, headers, config){
+        if(data.error){
+          console.log('error');
+          //$rootScope.popNotify('Error', data.error);
+          $rootScope.popNotify('Error', 'Follow '+targetName+' failed');
+          deferred.resolve(false);
+        }
+        else{
+          console.log('success');
+          $rootScope.popNotify('Success', 'Now Following '+userName);
+          deferred.resolve(true);
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
+    return deferred.promise;
+  };
   
   //view and edit settings
   $rootScope.viewSettings = function(){

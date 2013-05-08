@@ -45,12 +45,12 @@ exports.rackit = rackit;
 // ADD CLUSTER BACK IN BEFORE PUSH TO PRODUCTION
 
 //node cluster encapsulates web server creation
-/*if(cluster.isMaster){
+if(cluster.isMaster){
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
 }
-else{*/
+else{
   //Create server and export it to others who need it
   var app = exports.self = express();
   
@@ -387,5 +387,5 @@ else{*/
   app.get('*', function(req, res){
     return res.render('base');
   });
-//}
+}
 

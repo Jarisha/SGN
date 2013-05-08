@@ -2,10 +2,29 @@
 .profile textarea{
 }
 
+/* slices and stacks */
+.group_slice{
+  cursor: pointer;
+  -moz-box-sizing: border-box;
+  float: left;
+  width:20%;
+}
+
 #follow_user{
   font-size: 20px;
   height: 40px;
   width: 100%;
+}
+
+#group_bar{
+  width: 1024px;
+  background: -moz-linear-gradient(center bottom , #6D9100, #99CC00) repeat scroll 0 0 transparent;
+  color: white;
+  font-weight: bold;
+  padding: 0 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  line-height: 30px;
 }
 
 /* General Layout */

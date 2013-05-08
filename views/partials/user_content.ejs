@@ -1,5 +1,4 @@
 <!-- This is the view of another user's profile -->
-
 <div id="profile_col">
   <div id="profile_header">PROFILE</div>
   <div class="left_container">
@@ -37,7 +36,7 @@
     <div id="people_header"> {{user.followers.length}} FOLLOWERS</div>
     <div class="bot_container">
       <div class="comrade_tabs">
-        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName)">Follow</button>
+        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
         <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
       </div>
@@ -47,14 +46,14 @@
   </div>
   <div id="footer_container">
     <div id="profile_footer">
-      <div id="view_groups" ng-click="toggleCategories()">Groups<b class="caret"></b>
-        <ul class="dropdown-menu two_col_dropdown">
+      <div id="view_groups" ng-click="getGroupData()">Groups<b class="caret"></b>
+        <!--<ul class="dropdown-menu two_col_dropdown">
           <div class="col1">
             <li ng-repeat="(key,val) in groupPins" ng-click="showGroup(key)">
               <a href="#">{{ key }}</a>
             </li>
           </div>
-        </ul>
+        </ul>-->
       </div>
       <div>My Posts</div>
       <div>Liked Posts</div>
@@ -77,9 +76,12 @@
   </div>
 </div>
 <div id="profile_data">
+  <div id="group_bar" class="clearfix" ng-show="displayMode.group">
+    <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
+  </div>
   <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in activityPins" class="game_pin" activity-done>
-      <a class="view_trigger" ng-click="viewGamePin()">
+    <div ng-repeat="pin in showPins" class="game_pin" activity-done>
+      <a class="view_trigger" ng-click="viewBigPin($index)">
         <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
       <div class="pin_footer">
