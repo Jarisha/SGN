@@ -34,7 +34,7 @@
   font-size: 20px;
   height: 40px;
   padding: 4px 6px;
-  margin: 0 0 0 10px;
+  /*margin: 0 0 0 10px;*/
 }
 .modal textarea{
   box-sizing: border-box;
@@ -504,4 +504,37 @@
 }
 #gamePinModal .share_element button{
   white-space:nowrap;  /*huzzah!*/
+}
+
+/* User Feedback modal */
+#feedbackModal .intro_text{
+  font-size: 20px;
+}
+#feedbackModal .text_content{
+  padding: 10px;
+}
+#feedbackModal textarea{
+  text-align: left;
+  background: white;
+  margin: 0;
+}
+#feedbackModal .content_opts{
+  background: none;
+  padding: 0 10px;
+  -moz-box-sizing: border-box;
+  width: 50%;
+  border: none;
+}
+#feedbackModal .content_opts .subject{
+  background: white;
+  width: 100%;
+  margin: 0;
+}
+#feedbackModal  .content_opts .submit{
+  width: 100%;
+  line-height: 0;
+}
+#feedbackModal .content_txt{
+  padding: 10px 10px 0 10px;
+  border: none;
 }

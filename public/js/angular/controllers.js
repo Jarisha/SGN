@@ -388,6 +388,22 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   
   $scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
+  
+  $scope.profile.bio = $scope.profile.bio ||
+                                       'User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text.';
+  
   $scope.showPins = $scope.activityPins;
   
   $scope.groupList = [];
@@ -407,6 +423,10 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.displayMode = {};
   $scope.displayMode.activity = true;
   $scope.displayMode.group = false;
+  
+  //tab state (bad magic numbers, dont want to resort to string comparison. TODO: figure out ENUM solution)
+  $scope.a_active = 1;
+  $scope.b_active = 4;
   
   $scope.bigPin = {};
   $scope.bigFollowBtn = true;
@@ -462,20 +482,17 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   }
   
   //trigger enlarged Gamepin
-  $scope.viewBigPin = function(index){
+  $scope.viewBigPin = function(pin){
     $('.view_vid').empty();
-    console.log($scope.showPins[index]);
     //pass in ID, get pin obj data.  Access via Angular service.
-    gamepinService.getPinData($scope.showPins[index].id, function(data){
-      $scope.bigPin.index = index;
-      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
-      $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
+    gamepinService.getPinData(pin.id, function(data){
+      $scope.bigPin = pin; //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      //$scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
       $scope.bigPin.comments = data.comments;
-      console.log($scope.bigPin);
       if($scope.bigPin.videoEmbed){
         var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
         videoIframe[0].width = "560";
@@ -529,7 +546,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       .success(function(data, status, headers, config){
         $scope.groupList = [];
         $scope.groupData = data.groups;
-        //console.log(data.groups['Arcade']);
         for(var g in data.groups){
           $scope.groupList.push(g);
         }
@@ -585,6 +601,20 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   // get resolve data into view
   $scope.activityPins = resolveUser.activityData;
   $scope.user = resolveUser.profileData;
+  $scope.user.bio = $scope.user.bio || 'User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text.';
+  
   $scope.showPins = $scope.activityPins;
   $scope.bigPin = {};
   $scope.bigPin.followBtn = true;
@@ -598,6 +628,10 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.groupList = [];
   $scope.groupData = {};
   $scope.showGroup = null;
+  
+  //tab state (bad magic numbers, dont want to resort to string comparison. TODO: figure out ENUM solution)
+  $scope.a_active = 1;
+  $scope.b_active = 4;
   
   // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -638,11 +672,11 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
     }
   }
   
-  $scope.viewBigPin = function(index){
-    gamepinService.getPinData($scope.showPins[index].id, function(data){
-      $scope.bigPin.index = index;
-      $scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
-      $scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
+  $scope.viewBigPin = function(pin){
+    gamepinService.getPinData(pin.id, function(data){
+      $scope.bigPin = pin;
+      //$scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
+      //$scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
@@ -668,6 +702,17 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
           console.log(data);
         });
     });
+  }
+  
+  $scope.addBigComment = function(text, index){
+    $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
+    $http({ method:'post', url:'/api/gamepin/addComment',
+      data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
+      .success(function(data, status, headers, config){
+        $('textarea.view_respond_txtarea').val('');
+      })
+      .error(function(data, status, headers, config){
+      });
   }
   
   //TODO: Change to 1 AJAX call, let backend do the work

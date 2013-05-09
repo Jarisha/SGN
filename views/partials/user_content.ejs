@@ -19,6 +19,7 @@
     </div>
   </div>
   <div class="right_container">
+    <button id="message_user" class="btn" disabled>Send Message</button>
     <div class="right_padding">
       <p class="profile_name">{{user.userName}}</p>
       <p class="bio_text">{{user.bio}}</p>
@@ -33,10 +34,16 @@
     </div>
   </div>
   <div id="people_container">
-    <div id="people_header"> {{user.followers.length}} FOLLOWERS</div>
+    <div id="people_header">
+      <div ng-class="{'active_tab': a_active==1}" ng-click="a_active=1;" >{{user.followers.length}} FOLLOWERS</div><div
+      ng-class="{'active_tab': a_active==2}" ng-click="a_active=2;" >0 FRIENDS</div><div
+       class="view_all"><p
+      class="view_all" ng-click="popGeneric()" href="#">View All</p></div>
+    </div>
     <div class="bot_container">
       <div class="comrade_tabs">
         <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
+        <button id="friend_user" disabled>Friend</button>
         <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
       </div>
@@ -46,18 +53,10 @@
   </div>
   <div id="footer_container">
     <div id="profile_footer">
-      <div id="view_groups" ng-click="getGroupData()">Groups<b class="caret"></b>
-        <!--<ul class="dropdown-menu two_col_dropdown">
-          <div class="col1">
-            <li ng-repeat="(key,val) in groupPins" ng-click="showGroup(key)">
-              <a href="#">{{ key }}</a>
-            </li>
-          </div>
-        </ul>-->
-      </div>
-      <div>My Posts</div>
-      <div>Liked Posts</div>
-      <div ng-click="showActivity()">Activity</div>
+      <div ng-class="{'active_tab': b_active==1}" ng-click="getGroupData(); b_active=1">Groups</div><div
+      ng-class="{'active_tab': b_active==2}" ng-click="b_active=2">My Posts</div><div
+      ng-class="{'active_tab': b_active==3}" ng-click="b_active=3" >Liked Posts</div><div
+      ng-class="{'active_tab': b_active==4}" ng-click="showActivity(); b_active=4;">Activity</div>
     </div>
   </div>
 </div>
@@ -81,7 +80,7 @@
   </div>
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in showPins" class="game_pin" activity-done>
-      <a class="view_trigger" ng-click="viewBigPin($index)">
+      <a class="view_trigger" ng-click="viewBigPin(pin)">
         <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>
       <div class="pin_footer">

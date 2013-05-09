@@ -32,6 +32,8 @@
 .front .game_description, .front .game_attributes, .front .posted_by{
   margin-top: 5px;
   margin-bottom:0px;
+  max-height: 40px;
+  overflow: hidden;
 }
 .front .game_attributes{
   margin-bottom:5px;
@@ -49,7 +51,7 @@
 .front .post_text, .front .respond_txtarea{
   max-width: 170px;
   margin-left: 5px;
-  line-height: 1.1em;  
+  line-height: 1.1em;
 }
 .front .respond_txtarea{
   font-size:11px;

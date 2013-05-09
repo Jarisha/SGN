@@ -3,8 +3,8 @@
     <li ng-show="loggedIn">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
-      </a>
-      <!--<ul id="follower_dropdown" class="dropdown-menu">
+      <!--</a>
+      <ul id="follower_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">John is following you</a></li>
         <li><a tabindex="-1" href="#">Narasimtah Siddhartha wants to be your friend</a></li>
         <li><a tabindex="-1" href="#">Joe is following you</a></li>
@@ -49,11 +49,11 @@
   </ul>
   <ul id="nav_right" class="nav">
     <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()" data-toggle="dropdown">
-      <img id="profile_post" src="<%= rootPath %>/images/UI/post.png" />
+      <img src="<%= rootPath %>/images/UI/post.png" />
     </a></li>
     <li id="about_tab" class="dropdown">
       <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img id="profile_small" src="<%= rootPath %>/images/UI/about.png" />
+        <img src="<%= rootPath %>/images/UI/about.png" />
       </a>
       <ul class="dropdown-menu active">
         <li><a href="/about/faq">FAQ</a></li>
@@ -72,6 +72,7 @@
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">My Profile</a></li>
+        <li><a ng-click="popGeneric()" data-toggle="dropdown" >Find Friends</a></li>
         <li><a ng-click="viewSettings()" data-toggle="dropdown" >Settings</a></li>
         <li><a ng-click="logoutSubmit()" data-toggle="dropdown" >Log Out</a></li>
       </ul>

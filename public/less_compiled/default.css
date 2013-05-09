@@ -378,7 +378,10 @@ form{
   margin-right: 10px;
 }
 #post_btn {
-  padding-top: 5px;
+  padding-top: 10px;
+}
+#post_btn img{
+  width: 120px;
 }
 #about_toggle {
   padding: 5px 0 0 0;
@@ -627,6 +630,7 @@ form{
   padding: 0;
   padding: 10px 15px;
   text-shadow: none;
+  cursor: pointer;
 }
 .two_col_dropdown div img,
 .one_col_dropdown div img {
@@ -679,6 +683,14 @@ form{
 }
 .game_img {
 }
+/* Feedback tab */
+#feedback_tab{
+  z-index: 1;
+  position: fixed;
+  top: 45%;
+  cursor: pointer;
+}
+
 /* Scroll up button */
 #scrollup {
   background: #FDFDFD;

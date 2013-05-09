@@ -1,7 +1,7 @@
 <!-- Front Pin Enlarged Modal -->
 <div class="modal hide fade" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.posterImg }}"/></a>
+    <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.profileImg }}"/></a>
     <button ng-show="bigPin.followBtn" ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
     <p class="poster"><a href="#">{{bigPin.posterName}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
@@ -321,8 +321,8 @@
         </div>
         <input class="fileSubmit" value="Post It!" type="submit">
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <!-- fileUpload  -->
@@ -545,5 +545,28 @@
     <div class="modal_slice">Modal List Element</div>
     <div class="modal_slice">Modal List Element</div>
     <div class="modal_slice">Modal List Element</div>
+  </div>
+</div>
+
+<!-- Feedback Modal -->
+<div class="modal hide" id="feedbackModal" >
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">User Feedback</h3>
+  </div>
+  <div class="modal-body">
+    <div class="modal_stack intro_text"> Let us hear what you have to say! </div>
+    <div class="modal_stack text_content">
+      <div class="modal_slice content_opts">
+        <input class="subject" placeholder="topic" type="text">
+      </div>
+      <div class="modal_slice content_opts">
+        <button class="submit" disabled>Submit</button>
+      </div>
+      <div class="modal_stack content_txt">
+        <textarea class="modal_stack" placeholder="feedback"></textarea>
+      </div>
+      <!-- <textarea class="modal_stack"></textarea>-->
+    </div>
   </div>
 </div>

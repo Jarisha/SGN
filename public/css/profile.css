@@ -11,9 +11,24 @@
 }
 
 #follow_user{
-  font-size: 20px;
+  -moz-box-sizing: border-box;
+  display: inline;
+  font-size: 15px;
   height: 40px;
-  width: 100%;
+  width: 45%;
+}
+#friend_user{
+  -moz-box-sizing: border-box;
+  display: inline;
+  font-size: 15px;
+  height: 40px;
+  width: 50%;
+}
+#message_user{
+  font-size: 15px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
 #group_bar{
@@ -86,6 +101,9 @@
   display: inline-block;
   cursor: pointer;
 }
+.profile .active_tab{
+  background: #6d9100;
+}
 .profile #tab_content{
   margin: 80px auto 20px;
   width: 1340px;
@@ -100,6 +118,11 @@
 .profile .navbar-inner{
 }
 
+.profile .view_all{
+  float: right;
+  color: white;
+  cursor: pointer;
+}
 
 /* Pin Modal_1 and Pin Modal_2 */
 .profile #pinModal_2{
@@ -217,6 +240,7 @@
 }
 .profile .right_container{
   float:left;
+  position: relative;
   width: 600px;
   height: 253px;
 }
@@ -256,7 +280,10 @@
   margin-right:15px;
 }
 .profile .bio_textarea, .bio_text{
-  height:150px;
+  height:110px;
+  line-height: 19px;
+  overflow: hidden;
+  font-size: 15px;
 }
 .profile .bio_txtarea{
   width:100%;
@@ -335,6 +362,7 @@
 }
 .profile .bot_container .comrade tabs{
   padding:5px;
+  -moz-box-sizing: border-box;
 }
 .profile #people_container{
   float:left;
@@ -346,10 +374,16 @@
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
-  padding: 5px 15px;
 }
-.profile #people_header .view_all{
-  float:right;
+.profile #people_header > *{
+  padding: 0 15px;
+  width: 170px;
+  text-align: center;
+  display:inline-block;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  cursor: pointer;
 }
 .profile .comrade_tabs{
   margin-right: 20px;
@@ -394,9 +428,6 @@
   font-weight: bold;
   padding: 5px 15px;
 }
-.profile #badge_header .view_all{
-  float:right;
-}
 .profile #following_header{
   box-shadow: 0 5px 10px -5px #333333;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
@@ -405,9 +436,6 @@
   color: white;
   font-weight: bold;
   padding: 5px 15px;
-}
-.profile #following_header .view_all{
-  float:right;
 }
 .profile .badge_chest{
   text-align:center;
@@ -422,9 +450,6 @@
 }
 .profile .badge_head .badge_title{
   float:left;
-}
-.profile .badge_head .view_all{
-  float:right;
 }
 
 .profile #following_col{

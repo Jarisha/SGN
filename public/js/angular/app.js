@@ -174,6 +174,15 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     
   }
  
+  //pop generic placeholder modal
+  $rootScope.popGeneric = function(){
+    $('#genericModal').modal();
+  }
+  //pop feedback modal
+  $rootScope.popFeedback = function(){
+    $('#feedbackModal').modal();
+  }
+ 
   //post gamepin modal progression
   $rootScope.popImageUrl = function(){
     $('#postModal').modal('hide');

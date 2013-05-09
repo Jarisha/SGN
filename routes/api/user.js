@@ -123,7 +123,13 @@ var get_activity = function(activity_key, callback){
           if(err instanceof E.NotFoundError) return _callback(null, null);  //if not found, just put null and continue
           if(err) return _callback(err, null);
           pin_RO.data.id = evtId;            //keep track of ID
-          return _callback(null, pin_RO.data);
+          //get userName and profileImg from userRef
+          base.get_userRef(pin_RO.data.posterId, function(_err, usr_ref){
+            if(_err) return callback(_err, null);
+            pin_RO.data.posterName = usr_ref.userName;
+            pin_RO.data.profileImg = usr_ref.profileImg;
+            return _callback(null, pin_RO.data);
+          });
         });
       },
       function(err, evt_Data){
@@ -1748,16 +1754,42 @@ exports.getGroups = function(req, res){
       //if nodiak gives us a single object, convert that into an array with 1 element
       if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
         objs = [objs];
+        
+      /*base.get_userRef(pin_RO.data.posterId, function(_err, usr_ref){
+        if(_err) return callback(_err, null);
+        pin_RO.data.posterName = usr_ref.userName;
+        pin_RO.data.profileImg = usr_ref.profileImg;
+        return _callback(null, pin_RO.data);
+      });
+        
       //put the object into its proper place
       for(var o in objs){
         groupDataMap[objs[o].data.category][objs[o].key] = objs[o].data;
-      }
-      //TODO, make this more...elegant?
-      util.removeNullsFromObj(groupDataMap);        //remove ids that point to no data
-      for(g in groupDataMap){
-        if(Object.keys(groupDataMap[g]).length === 0) delete groupDataMap[g];    //remove categories that have no ids
-      }
-      return res.json({groups: groupDataMap});
+        groupDataMap[objs[o].data.category][objs[o].key].id = objs[o].key; //store pinId into object itself
+      }*/
+      
+      //always must fetch userRef (should think about abstracting this to base API)
+      async.each(objs, function(pin_RO, callback){
+        base.get_userRef(pin_RO.data.posterId, function(_err, usr_ref){
+          if(_err) return callback(_err);
+          pin_RO.data.posterName = usr_ref.userName;
+          pin_RO.data.profileImg = usr_ref.profileImg;
+          return callback(null);
+        });
+      },
+      function(err){
+        if(err) return res.json({ error: err.message });
+        for(var o in objs){
+          groupDataMap[objs[o].data.category][objs[o].key] = objs[o].data;
+          groupDataMap[objs[o].data.category][objs[o].key].id = objs[o].key; //store pinId into object itself
+        }
+        //TODO, make this more...elegant?
+        util.removeNullsFromObj(groupDataMap);        //remove ids that point to no data
+        for(g in groupDataMap){
+          if(Object.keys(groupDataMap[g]).length === 0) delete groupDataMap[g];    //remove categories that have no ids
+        }
+        return res.json({groups: groupDataMap});
+      });
     });
   }
 }
