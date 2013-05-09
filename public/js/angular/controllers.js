@@ -389,8 +389,8 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
   
-  $scope.profile.bio = $scope.profile.bio ||
-                                       'User bio text. Sample user bio text. Sample user bio text staggered.\
+  $scope.profile.bio = $scope.profile.bio || null;
+                                       /*'User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
@@ -402,7 +402,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text.';
+                                        User bio text. Sample user bio text. Sample user bio text.'; */
   
   $scope.showPins = $scope.activityPins;
   
@@ -601,7 +601,8 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   // get resolve data into view
   $scope.activityPins = resolveUser.activityData;
   $scope.user = resolveUser.profileData;
-  $scope.user.bio = $scope.user.bio || 'User bio text. Sample user bio text. Sample user bio text staggered.\
+  $scope.user.bio = $scope.user.bio || null;
+                                       /* 'User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
@@ -613,7 +614,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text.';
+                                        User bio text. Sample user bio text. Sample user bio text.'; */
   
   $scope.showPins = $scope.activityPins;
   $scope.bigPin = {};
