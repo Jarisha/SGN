@@ -12,8 +12,10 @@ module.exports = function(app){
   app.post('/api/user/deleteUser', userApi.deleteWrap);
   app.post('/api/user/fetchUser', userApi.fetchUser);
   app.post('/api/user/fetchUsers', userApi.fetchUsers);
+  
   app.post('/api/user/getProfile', userApi.getProfile);
   app.post('/api/user/getGroups', userApi.getGroups);
+  app.post('/api/user/getLikedPins', userApi.getLikedPins);
   //end debug
   
   //********** Test API ***************/
@@ -80,6 +82,7 @@ module.exports = function(app){
   app.post('/api/gamepin/addComment', gamepinApi.addComment);
   app.post('/api/gamepin/editComment', gamepinApi.editComment);
   app.post('/api/gamepin/like', gamepinApi.like);
+  app.post('/api/gamepin/unlike', gamepinApi.unlike);
   app.post('/api/gamepin/share', gamepinApi.share);
   app.post('/api/gamepin/search', gamepinApi.search);
   app.post('/api/gamepin/getPinData', gamepinApi.getPinData);

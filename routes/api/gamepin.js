@@ -55,7 +55,7 @@ var get_RO_gamepin = exports.get_RO_gamepin = function(key, callback){
 
 // Get Riak Object Array ~ Gamepin. Tested - No
 // Cases: Error - Out of Date - Success. callback(errors, RO_gamepins)
-var get_RO_gamepins= function(keys, callback){
+var get_RO_gamepins = function(keys, callback){
   var gamepins = [];
   var outdated = [];
   var outdated_index = {};
@@ -105,7 +105,12 @@ var get_RO_gamepins= function(keys, callback){
   }
 }
 
-
+//add userId to gamepin's likedBy list, then save
+// callback(error, updatedPin)
+var addLike = function(pin,  callback){
+ //console.log('gamesGRABBR');
+ 
+}
 
 /********************************************* CRUD & Validation Level - Level 2 ********************************/
 //create new gamepin data, callback(error, pin_data);
@@ -653,14 +658,97 @@ exports.editComment = function(req, res){
   })
 }
 
-//like
+//like - link gamepin and user together through love <3
 exports.like = function(req, res){
   outlog.info(req.body);
-  return res.json({
-    success: true
-  })
+  console.log(req.body);
+  if(!req.body.pinId) return res.json({ error: 'Post not specified' });
+  if(!req.body.email) return res.json({ error: 'User not specified' });
+  var email = req.body.email;
+  var pinId = req.body.pinId;
+  
+  var RO_user;
+  var RO_gamepin;
+  
+  async.waterfall([
+    //fetch user and gamepin
+    function(callback){
+      get_RO_gamepin(pinId, function(err, pin){
+        if(err) return callback(err.message)//return res.json({ error: err.message });
+        RO_gamepin = pin;
+        userAPI.get_RO_user(email, function(_err, usr){
+          if(_err) return callback(_err.message); // return res.json({ error: err.message });
+          RO_user = usr;
+          return callback(null);
+        });
+      });
+    },
+    //add links to both, and then save
+    function(callback){
+      if(RO_user.data.likes.indexOf(pinId) === -1) RO_user.data.likes.push(pinId);
+      else return callback(new Error('Already liked this post'));
+      base.save_RO(RO_user, 'users', function(err, saved){
+        if(err) return callback(err.message);
+        if(RO_gamepin.data.likedBy.indexOf(email) === -1) RO_gamepin.data.likedBy.push(email);
+        else return callback(new Error('Post already liked by you'));
+        base.save_RO(RO_gamepin, 'gamepins', function(_err, _saved){
+          if(_err) return callback(_err.message);
+          return callback(null);
+        });
+      });
+    }
+  ],
+  function(err){
+    if(err) return res.json({ error: err.message });
+    return res.json({ success: 'You liked this post' });
+  });
 }
 
+exports.unlike = function(req, res){
+  console.log(req.body);
+  if(!req.body.pinId) return res.json({ error: 'Post not specified' });
+  if(!req.body.email) return res.json({ error: 'User not specified' });
+  var email = req.body.email;
+  var pinId = req.body.pinId;
+  
+  var RO_user;
+  var RO_gamepin;
+  
+  async.waterfall([
+    //fetch user and gamepin
+    function(callback){
+      get_RO_gamepin(pinId, function(err, pin){
+        if(err) return callback(err.message)//return res.json({ error: err.message });
+        RO_gamepin = pin;
+        userAPI.get_RO_user(email, function(_err, usr){
+          if(_err) return callback(_err.message); // return res.json({ error: err.message });
+          RO_user = usr;
+          return callback(null);
+        });
+      });
+    },
+    //delete links to both, and then save
+    function(callback){
+      var pin_index = RO_user.data.likes.indexOf(pinId);
+      if(pin_index !== -1) RO_user.data.likes.splice(pin_index, 1);
+      else return callback(new Error('Post not one of your likes'));
+      base.save_RO(RO_user, 'users', function(err, saved){
+        if(err) return callback(err.message);
+        var usr_index = RO_gamepin.data.likedBy.indexOf(email);
+        if(usr_index !== -1) RO_gamepin.data.likedBy.splice(usr_index, 1);
+        else return callback(new Error('Post holds no reference to you liking it'));
+        base.save_RO(RO_gamepin, 'gamepins', function(_err, _saved){
+          if(_err) return callback(_err.message);
+          return callback(null);
+        });
+      });
+    }
+  ],
+  function(err){
+    if(err) return res.json({ error: err.message });
+    return res.json({ success: 'You unliked this post' });
+  });
+}
 //share
 exports.share = function(req, res){
   outlog.info(req.body);

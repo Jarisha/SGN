@@ -35,8 +35,8 @@
   </div>
   <div id="people_container">
     <div id="people_header">
-      <div ng-class="{'active_tab': a_active==1}" ng-click="a_active=1;" >{{user.followers.length}} FOLLOWERS</div><div
-      ng-class="{'active_tab': a_active==2}" ng-click="a_active=2;" >0 FRIENDS</div><div
+      <div ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >{{user.followers.length}} FOLLOWERS</div><div
+      ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND;" >0 FRIENDS</div><div
        class="view_all"><p
       class="view_all" ng-click="popGeneric()" href="#">View All</p></div>
     </div>
@@ -53,10 +53,10 @@
   </div>
   <div id="footer_container">
     <div id="profile_footer">
-      <div ng-class="{'active_tab': b_active==1}" ng-click="getGroupData(); b_active=1">Groups</div><div
-      ng-class="{'active_tab': b_active==2}" ng-click="b_active=2">My Posts</div><div
-      ng-class="{'active_tab': b_active==3}" ng-click="b_active=3" >Liked Posts</div><div
-      ng-class="{'active_tab': b_active==4}" ng-click="showActivity(); b_active=4;">Activity</div>
+      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div><div
+      ng-class="{'active_tab': content_tab==POSTS}" ng-click="content_tab=POSTS;">My Posts</div><div
+      ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div><div
+      ng-class="{'active_tab': content_tab==ACTIVITY}" ng-click="showActivity(); content_tab=ACTIVITY;">Activity</div>
     </div>
   </div>
 </div>
@@ -79,9 +79,9 @@
     <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
   </div>
   <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" activity-done>
+    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
       <a class="view_trigger" ng-click="viewBigPin(pin)">
-        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
+        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220" height="300"/>
       </a>
       <div class="pin_footer">
         <p class="game_description">{{pin.description}}</p>

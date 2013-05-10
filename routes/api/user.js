@@ -37,7 +37,7 @@ var reindexUser = function(ROuser, callback){
 
 // Get Riak Object ~ User. Tested - OK!
 // Cases: Error - Out of Date - Success.  callback(error, RO_user)
-var get_RO_user = function(key, callback){
+var get_RO_user = exports.get_RO_user = function(key, callback){
   app.riak.bucket('users').object.get(key, util.last_write_wins, function(err, usr){
     if(err){
       if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_user: '+err.data+' not found'), null);
@@ -56,7 +56,7 @@ var get_RO_user = function(key, callback){
 
 // Get Riak Object Array ~ User. Tested - OK!
 // Cases: Error - Out of Date - Success. callback(errors, RO_users)
-var get_RO_users = function(keys, callback){
+var get_RO_users = exports.get_RO_users = function(keys, callback){
   var users = [];
   var outdated = [];
   var outdated_index = {};
@@ -165,7 +165,7 @@ var update_userRef = function(emailId, userName, profileImg, callback){
   });
 }
 
-// Removes gamepin id from user's posts list                                              TEST
+// Removes gamepin id from user's posts list                                              
 // callback(error, modifiedUser)
 var removePinFromUser = exports.removePinFromUser = function(userId, pinId, callback){
   async.waterfall([
@@ -197,7 +197,7 @@ var removePinFromUser = exports.removePinFromUser = function(userId, pinId, call
   });
 }
 
-//add pinId to user's post list. callback(error, modified_usr)                            TEST
+//add pinId to user's post list. callback(error, modified_usr)                            
 var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
   async.waterfall([
     //get user
@@ -228,7 +228,7 @@ var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
   });
 }
 
-// create follower & following connection between source and target.                      TEST
+// create follower & following connection between source and target.                      
 // If connection already exists, continue without error
 // callback(error, updatedSource)
 var addFollower = exports.addFollower = function(sourceId, targetId, callback){
@@ -271,7 +271,7 @@ var addFollower = exports.addFollower = function(sourceId, targetId, callback){
   });
 }
 
-//remove follower & following connection between source and target                        TEST
+//remove follower & following connection between source and target                        
 //if connection does not exist, continue without error
 //callback(error, updatedSource)
 var removeFollower = exports.removeFollower = function(sourceId, targetId, callback){
@@ -743,11 +743,13 @@ exports.gatewayLogin = function(req, res){
         return res.send(JSON.stringify({ login: false, error: 'Wrong password.' }));
 			}
       
-      //log in
+      //log in, set appropriate session data
       req.session.loggedIn = ROuser.data.email;
       req.session.userEmail = ROuser.data.email;
       req.session.userName = ROuser.data.userName;
       req.session.avatarUrl = ROuser.data.profileImg;
+      //req.session.likes = ROuser.data.likes;         //save likes for front page
+      
       outlog.info('Gateway Login Success for: ' + ROuser.data.username);
       evtlog.info('Gateway Login Success for: ' + ROuser.data.username);
       return res.send(JSON.stringify({
@@ -1244,19 +1246,27 @@ exports.getPinList = function(req, res){
         app.riak.bucket('userReference').objects.get(pin.fields.posterId, function(err, ref_obj){
           if(err && err.status_code === 404) return;
           var cmts = [];
+          var likedBy = [];
           if(err){
             errlog.info('error:' + err);
             return res.json({error: err});
           }
-          //convert commments from string to array
+          //convert commments + likes from string to array
           if(pin.fields.comments)
             cmts = pin.fields.comments.split(" ");
+          if(pin.fields.likedBy)
+            likedBy = pin.fields.likedBy.split(" ");
           pinMap[pinId] = pin.fields;
           pinMap[pinId].id = pinId;
           //Overwrite old values with potentially updated user data
           pinMap[pinId].poster = ref_obj.data.userName;
           pinMap[pinId].profileImg = ref_obj.data.profileImg;
           pinMap[pinId].comments = [];
+          pinMap[pinId].likedBy = likedBy;
+          pinMap[pinId].likedFlag = false;                  //set likedflag for front page
+          if(likedBy.indexOf(req.session.userEmail) !== -1) pinMap[pinId].likedFlag = true;
+          //pinMap[pinId].likeFlag = false;
+          //if(req.session.likes.indexOf(pinId) !== -1) pinMap[pinId].likeFlag = true;
           
           // Push comment IDs into array, so we can send them to nodiak. [<nodeflakeId>, <nodeflakeId>, <nodeflakeId>]
           // CommmentMap KV = { <nodeflakeId>: <commentIndex>, nodeflakeId>: <commentIndex>, }
@@ -1691,6 +1701,33 @@ exports.getActivity = function(req, res){
       return res.json({activity: activityMap});
     });
   }
+}
+
+exports.getLikedPins = function(req, res){
+  if(!req.body.email) return res.json({ error: 'No email specified' });
+  if(!req.body.pinIds) return res.json({ error: 'No pinIds specified' });
+  
+  //get pin given pinIds, ignore not found
+  async.map(req.body.pinIds, function(pinId, callback){
+    pinAPI.get_RO_gamepin(pinId, function(err, RO_pin){
+      if(err){
+        console.log(err);
+        if(err instanceof E.NotFoundError) return callback(null, null);
+        else return callback(err, null);
+      }
+      return callback(null, RO_pin);
+    });
+  },
+  function(err, results){
+    if(err) return res.json({ error: err.message });
+    var res_list = [];
+    
+    for(r in results){
+      results[r].data.id = results[r].key;
+      res_list.push(results[r].data);
+    }
+    return res.json({ likedPins: res_list });
+  });
 }
 
 //get groups which contain gamepin IDs, then fetch those gamepins and return them

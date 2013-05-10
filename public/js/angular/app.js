@@ -61,7 +61,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.log = function(variable) {
     console.log(variable);
   };  
-  $rootScope.alert = function(text) {
+  $rootScope.alert = function(text){
     alert(text);
   };
 
@@ -103,35 +103,44 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   }  
   //Masonry calls
   $rootScope.masonry = function(){
+    console.log('masonry');
     $('img').imagesLoaded(function(){
-      console.log('masonry');
       $('#content').masonry({
-        itemSelector : '.game_pin, .store_pin',
+        itemSelector : '.game_pin',
         isFitWidth: true
       });
     });
   }
-  $rootScope.remason = function(){
+  $rootScope.reload = function(){
+    console.log('appendMason');
     $('img').imagesLoaded(function(){
-     console.log('reload masonry');
       $('#content').masonry('reload');
     });
   }
-  $rootScope.profileMason = function(){
-    $('img').imagesLoaded(function(){
-      //alert('masonry');
-      console.log('profile masonry');
-      $('#profile_data_inner').masonry({
-        itemSelector : '.game_pin, .store_pin',
-        isFitWidth: true
+  $rootScope.destroyMason = function(){
+    $('#content').masonry('destroy');
+  }
+  $rootScope.profileMasonry = function(){
+    console.log('profile masonry');
+    $('#profile_data_inner').imagesLoaded(function(){
+      $rootScope.$apply(function(){
+        $('#profile_data_inner').masonry({
+          itemSelector : '.game_pin',
+          isFitWidth: true
+        });
       });
     });
   }
-  $rootScope.profileRemason = function(){
-    $('img').imagesLoaded(function(){
-     console.log('reload profile masonry');
-      $('#profile_data_inner').masonry('reload');
+  $rootScope.profileReload = function(){
+    console.log('reload profile masonry');
+    $('#profile_data_inner').imagesLoaded(function(){
+      $rootScope.$apply(function(){
+        $('#profile_data_inner').masonry('reload');
+      });
     });
+  }
+  $rootScope.destroyProfileMason = function(){
+    $('#profile_data_inner').masonry('destroy');
   }
   
   //post Gamepin
@@ -353,7 +362,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   
   //returns promise.  promise.then(function(bool result){})
   $rootScope.follow = function(userName){
-    //console.log(userName);
     var deferred = $q.defer();
     
     $http({ method:'post', url:'/api/user/follow', data:{sourceId: $rootScope.userEmail, targetName: userName} })
@@ -375,6 +383,36 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
     return deferred.promise;
   };
+  
+  $rootScope.like = function(pin){
+    $http({ method: 'post', url:'/api/gamepin/like', data: {pinId: pin.id, email: $rootScope.userEmail } })
+      .success(function(data, status, headers, config){
+        if(data.error) $rootScope.popNotify('Error', data.error);
+        else if(data.success){
+          $rootScope.popNotify('Success', data.success);
+          pin.likedFlag = !pin.likedFlag;
+          pin.likedBy.length++;
+        }
+      })
+      .error(function(data, status, headers, config){
+        $rootScope.popNotify('Error', 'Server Error');
+      });
+  }
+  
+  $rootScope.unlike = function(pin){
+    $http({ method: 'post', url:'/api/gamepin/unlike', data: {pinId: pin.id, email: $rootScope.userEmail } })
+      .success(function(data, status, headers, config){
+        if(data.error) $rootScope.popNotify('Error', data.error);
+        else if(data.success){
+          $rootScope.popNotify('Success', data.success);
+          pin.likedFlag = !pin.likedFlag;
+          pin.likedBy.length--;
+        }
+      })
+      .error(function(data, status, headers, config){
+        $rootScope.popNotify('Error', 'Server Error');
+      });
+  }
   
   //view and edit settings
   $rootScope.viewSettings = function(){

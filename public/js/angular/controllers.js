@@ -19,7 +19,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.searchText = '';
-  $scope.masonInit = false;
   $scope.appendHtml = '';
   $scope.container = $('#content');
   $scope.masonInit = true;
@@ -68,6 +67,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   /* AJAX FUNCTIONS */
   $scope.getfront = function(){
+    $rootScope.destroyMason();
     $scope.showPins = [];
     gamepinService.getPinList(function(data){
       $scope.gamePins = data.objects;
@@ -236,13 +236,17 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //loadMore invoked to show more gamepins when the user scrolls down
   $scope.loadMore = function(){
-    //('loadMore');
+    console.log('loadMore');
     var event = false;
+    var newElements = [];
     for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
       if($scope.gamePins[pinIndex]){
-        $scope.showPins.push($scope.gamePins[pinIndex]);
+        newElements.push($scope.gamePins[pinIndex]);
+        //$scope.showPins.push($scope.gamePins[pinIndex]);
       }
     }
+    $scope.showPins = $scope.showPins.concat(newElements);
+    $rootScope.reload();
     //force delay so that we don't load too much too fast
     $timeout( function(){ $scope.flag = true }, 100 );
   }
@@ -405,6 +409,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
                                         User bio text. Sample user bio text. Sample user bio text.'; */
   
   $scope.showPins = $scope.activityPins;
+  console.log('here');
   
   $scope.groupList = [];
   $scope.groupData = {};
@@ -418,36 +423,21 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
   $scope.groupToggle = false;
   $scope.masonInit = true;
+  console.log('here1');
   
   //$scope.displayMode = 'activity';
   $scope.displayMode = {};
   $scope.displayMode.activity = true;
   $scope.displayMode.group = false;
   
-  //tab state (bad magic numbers, dont want to resort to string comparison. TODO: figure out ENUM solution)
-  $scope.a_active = 1;
-  $scope.b_active = 4;
+  //tab state
+  $scope.FOLLOW = 1; $scope.FRIEND = 2;
+  $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
+  $scope.people_tab = $scope.FOLLOW;
+  $scope.content_tab = $scope.ACTIVITY;
   
   $scope.bigPin = {};
-  $scope.bigFollowBtn = true;
-  
-  /*$scope.profile = {  name: null,
-                      email: null,
-                      fbConnect: null,
-                      favCat: null,
-                      profileImg: "",
-                      gender: null,
-                      bio: null,
-                      dateJoined: null,
-                      currXP: null,
-                      nextXP: null,
-                      level: null,
-                      posts: [],
-                      likes: [],
-                      followers: [],
-                      following: [],
-                      friends: []
-  };*/
+  $scope.bigFollowBtn = false;
   $scope.changeImage = false;
   
   $scope.changeState = function(){
@@ -566,6 +556,29 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
     $scope.showPins = $scope.activityPins;
     $rootScope.profileRemason();
   }
+  $scope.showLikes = function(){
+    $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
+      .success(function(data, status, headers, config){
+        if(data.error) $rootScope.popNotify('Error', data.error);
+        else if(data.likedPins){
+          //$rootScope.popNotify('Success', data.success);
+          $scope.showPins = data.likedPins;
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
+  }
+  
+  //TODO: this
+  /*$scope.getLikes = function(){
+    console.log(userEmail);
+    $http({ method:'post', url:'/api/user/getLikes', data: {likeIds } })
+      .success(function(data, status, headers, config){
+      })
+      .error(function(data, status, headers, config){
+      });
+  }*/
   
   //$scope.getProfile();
 }
@@ -618,7 +631,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   
   $scope.showPins = $scope.activityPins;
   $scope.bigPin = {};
-  $scope.bigPin.followBtn = true;
+  $scope.bigPin.followBtn = false;
   $scope.isFollowing = false;
   
   //$scope.displayMode = 'activity';
@@ -630,9 +643,10 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.groupData = {};
   $scope.showGroup = null;
   
-  //tab state (bad magic numbers, dont want to resort to string comparison. TODO: figure out ENUM solution)
-  $scope.a_active = 1;
-  $scope.b_active = 4;
+  $scope.FOLLOW = 1; $scope.FRIEND = 2;
+  $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
+  $scope.people_tab = $scope.FOLLOW;
+  $scope.content_tab = $scope.ACTIVITY;
   
   // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -754,7 +768,6 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
           $scope.groupList.push(g);
         }
         $scope.showPins = null;
-        $rootScope.profileRemason();
       })
       .error(function(data, status, headers, config){
         console.log(data);
@@ -762,15 +775,33 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   }
   
   $scope.showGroup = function(group){
+    $rootScope.destroyProfileMason();
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-    $rootScope.profileRemason();
+    //$rootScope.profileReload();
   }
   $scope.showActivity = function(){
+    $rootScope.destroyProfileMason();
     $scope.displayMode.activity = true;
     $scope.displayMode.group = false;
     $scope.showPins = $scope.activityPins;
-    $rootScope.profileRemason();
+    $rootScope.profileMasonry();
+    //$rootScope.profileReload();
   }  
+  $scope.showLikes = function(){
+    $rootScope.destroyProfileMason();
+    $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
+      .success(function(data, status, headers, config){
+        if(data.error) $rootScope.popNotify('Error', data.error);
+        else if(data.likedPins){
+          //$rootScope.popNotify('Success', data.success);
+          $scope.showPins = data.likedPins;
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
+  }
+  
   $scope.ajaxLogout = function(){
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
