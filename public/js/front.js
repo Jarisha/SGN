@@ -54,14 +54,14 @@ function frontSetup($scope, $rootScope, $http){
   });
   
   // Show "Comment" button when textarea focused
-  $(document).on('focus', '.respond_txtarea', function(e){
+  /*$(document).on('focus', '.respond_txtarea', function(e){
     $(this).nextAll('.respond_btn').removeClass('hidden');
     //Remason layout to account for button appearing
     $('#content').masonry({
       itemSelector : '.game_pin, .store_pin',
       isFitWidth: true
     });
-  });
+  });*/
   
   // Post comment (insert HTML string)
   var comment = '<div class="comment"><img class="profile_img" src="<%= rootPath %>/images/30x30.gif"><p class="post_text"></p></div>';

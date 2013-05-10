@@ -70,7 +70,6 @@ module.exports = function(app){
   app.post('/api/gamepin/editGamepin', gamepinApi.editWrap);
   app.post('/api/gamepin/deleteGamepin', gamepinApi.deleteWrap);
   app.post('/api/gamepin/fetchGamepin', gamepinApi.fetchGamepin);
-  //
   
   //app.post('/api/gamepin/postGamePin', gamepinApi.postGamePin);
   app.post('/api/gamepin/postImageUpload', gamepinApi.postImageUpload);

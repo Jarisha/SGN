@@ -1285,7 +1285,7 @@ exports.getPinList = function(req, res){
     var posterNames = {};
     //TODO: Access to comment RO_get
     app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
-      if(cmt_objs.length === 0) next4();
+      if(!cmt_objs || cmt_objs.length === 0) return next4();
       if(err && !cmt_objs){
         errlog.info('no comments found on pin with commentIds');
         next4();

@@ -5,7 +5,7 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   console.log('app.config()');
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
-    .when('/',  { templateUrl: '/partials/front',
+    .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'
                   controller: FrontController,
                   resolve: FrontController.resolve
                 })
@@ -13,22 +13,21 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                       controller: StoreController,
                       resolve: StoreController.resolve
                     })
-    .when('/profile', { templateUrl: '/partials/profile',
+    .when('/profile', { templateUrl: '/partials/profile/profile', // templateUrl: '/partials/profile/profile'
                       controller: ProfileController,
                       resolve: ProfileController.resolve
                     })
-    .when('/about', { templateUrl: '/partials/about',
+    .when('/about', { templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
                       controller: AboutController,
                       resolve: AboutController.resolve
                     })
-    .when('/about/:area', {templateUrl: '/partials/about',
+    .when('/about/:area', {templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
                       controller: AboutController,
                       resolve: AboutController.resolve})
-    .when('/user/:username', {  templateUrl: '/partials/profile',
+    .when('/user/:username', {  templateUrl: '/partials/profile/profile', // templateUrl: '/partials/profile/profile'
                       controller: UserController,
                       resolve: UserController.resolve
                     })
-
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});
     
@@ -109,6 +108,10 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         itemSelector : '.game_pin',
         isFitWidth: true
       });
+      //hack to fix masonry overlaps. (bad)
+      $timeout(function(){
+        $('#content').masonry('reload');
+      }, 1000);
     });
   }
   $rootScope.reload = function(){
@@ -121,22 +124,20 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#content').masonry('destroy');
   }
   $rootScope.profileMasonry = function(){
-    console.log('profile masonry');
     $('#profile_data_inner').imagesLoaded(function(){
-      $rootScope.$apply(function(){
-        $('#profile_data_inner').masonry({
-          itemSelector : '.game_pin',
-          isFitWidth: true
-        });
+      $('#profile_data_inner').masonry({
+        itemSelector : '.game_pin',
+        isFitWidth: true
       });
+      $timeout(function(){
+        $('#profile_data_inner').masonry('reload');
+      }, 1000);
     });
   }
   $rootScope.profileReload = function(){
     console.log('reload profile masonry');
     $('#profile_data_inner').imagesLoaded(function(){
-      $rootScope.$apply(function(){
-        $('#profile_data_inner').masonry('reload');
-      });
+      $('#profile_data_inner').masonry('reload');
     });
   }
   $rootScope.destroyProfileMason = function(){
@@ -152,7 +153,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $rootScope.post.description = null;
     $rootScope.post.url = null;
     $rootScope.post.content = null;
-    clearModalFields();
+    //clearModalFields(); TODO UNDO
     $('#postModal').modal();
   }
   //clear all post gamepin Modals
@@ -484,7 +485,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
             return;
           }
          // (responseText.gamepin);
-          $('#fileUploadModal').modal('hide');
+          //$('#fileUploadModal').modal('hide'); TODO UNDO
           $rootScope.popNotify('Success' ,'Post Image Success!');
         },
         error: function(responseText, statusText, xhr, $form){

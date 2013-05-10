@@ -5,7 +5,7 @@
  * The template will be used to fill ng-view, which represents all the html inside the <body></body>
  * Resolve functions are executed before routing to a specific controller.
  */
- 
+
 function FrontController($scope, $rootScope, $http, $location, $templateCache, $timeout, $routeParams, resolveFront,
                          gamepinService, $window){
   /**** Resolve Data ***/
@@ -15,7 +15,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   /**** Scope Variables - Variables shared with View ****/
   $rootScope.css = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
-  $scope.subnav = $rootScope.rootPath + '/partials/front_subnav';
+  $scope.subnav = $rootScope.rootPath + '/partials/front/front_subnav';
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/front_content';
   $scope.searchText = '';
@@ -43,7 +43,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   
   //load more pins when user scrolls down to a certain point
   $window.onscroll = function(e){
-    //var a = $window.scrollMaxY;
     var a = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var b = $window.pageYOffset;
     
@@ -540,7 +539,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
           $scope.groupList.push(g);
         }
         $scope.showPins = null;
-        $rootScope.profileRemason();
       })
       .error(function(data, status, headers, config){
         console.log(data);
@@ -548,13 +546,11 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   }
   $scope.showGroup = function(group){
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-    $rootScope.profileRemason();
   }
   $scope.showActivity = function(){
     $scope.displayMode.activity = true;
     $scope.displayMode.group = false;
     $scope.showPins = $scope.activityPins;
-    $rootScope.profileRemason();
   }
   $scope.showLikes = function(){
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
@@ -841,57 +837,56 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
-  $scope.content = $rootScope.rootPath + '/partials/about_content';
-  $scope.section = $rootScope.rootPath + '/partials/faq';
-  
-  
+  $scope.content = $rootScope.rootPath + '/partials/about/about_content';
+  $scope.section = $rootScope.rootPath + '/partials/about/faq';
+
   $scope.setup = function(){
     aboutSetup($scope);
   }
   $scope.viewFAQ = function(){
     $('.about_selected').removeClass('about_selected');
     $('.faq_slice').addClass('about_selected');
-    $scope.section = $rootScope.rootPath + '/partials/faq';
+    $scope.section = $rootScope.rootPath + '/partials/about/faq';
   }
   $scope.viewToS = function(){
     $('.about_selected').removeClass('about_selected');
     $('.tos_slice').addClass('about_selected');
-    $scope.section = $rootScope.rootPath + '/partials/tos';
+    $scope.section = $rootScope.rootPath + '/partials/about/tos';
   }
   $scope.viewPrivacy = function(){
     $('.about_selected').removeClass('about_selected');
     $('.privacy_slice').addClass('about_selected');
-    $scope.section = $rootScope.rootPath + '/partials/privacy';
+    $scope.section = $rootScope.rootPath + '/partials/about/privacy';
   }
   $scope.viewAcceptable = function(){
     $('.about_selected').removeClass('about_selected');
     $('.view_slice').addClass('about_selected');
-    $scope.section = $rootScope.rootPath + '/partials/acceptable';
+    $scope.section = $rootScope.rootPath + '/partials/about/acceptable';
   }
   
   switch($routeParams.area){
     case 'faq':
       $('.about_selected').removeClass('about_selected');
       $('.faq_slice').addClass('about_selected');
-      $scope.section = $rootScope.rootPath + '/partials/faq';
+      $scope.section = $rootScope.rootPath + '/partials/about/faq';
       $scope.viewFAQ();
       break;
     case 'tos':
       $('.about_selected').removeClass('about_selected');
       $('.tos_slice').addClass('about_selected');
-      $scope.section = $rootScope.rootPath + '/partials/tos';
+      $scope.section = $rootScope.rootPath + '/partials/about/tos';
       $scope.viewToS();
       break;
     case 'privacy':
       $('.about_selected').removeClass('about_selected');
       $('.privacy_slice').addClass('about_selected');
-      $scope.section = $rootScope.rootPath + '/partials/privacy';
+      $scope.section = $rootScope.rootPath + '/partials/about/privacy';
       $scope.viewPrivacy();
       break;
     case 'acceptable':
       $('.about_selected').removeClass('about_selected');
       $('.view_slice').addClass('about_selected');
-      $scope.section = $rootScope.rootPath + '/partials/acceptable';
+      $scope.section = $rootScope.rootPath + '/partials/about/acceptable';
       $scope.viewAcceptable();
       break;
   }

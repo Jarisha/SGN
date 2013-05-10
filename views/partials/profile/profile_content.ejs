@@ -76,7 +76,7 @@
     <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
   </div>
   <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" activity-done>
+    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
       <a class="view_trigger" ng-click="viewBigPin(pin)">
         <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
       </a>

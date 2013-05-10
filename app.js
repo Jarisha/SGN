@@ -25,6 +25,8 @@ var outlog, evtlog, errlog;
 var apiRoutes;
 var riakConfig;
 
+var god_mode = true;
+
 //create rackspace image, define name of container we will push images to
 rackit.init({
   user: 'happyspace',
@@ -86,7 +88,7 @@ else{
     next();
   }
   
-  app.configure('tony', function(){
+  app.configure('dev', function(){
     //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
     var nodeflake_host = exports.nodeflake_host = config.dev_nodeflake_host;
@@ -156,12 +158,12 @@ else{
     }
     
     http.createServer(app).listen(80, function(){
-      outlog.info('HTTP Express server listening on port 80 in tony mode');
-      console.log('HTTP Express server listening on port 80 in tony mode');
+      outlog.info('HTTP Express server listening on port 80 in dev mode');
+      console.log('HTTP Express server listening on port 80 in dev mode');
     });
     https.createServer(options, app).listen(443, function(){
-      outlog.info('HTTPS Express server listening on port 443 in tony mode');
-      console.log('HTTPS Express server listening on port 443 in tony mode');
+      outlog.info('HTTPS Express server listening on port 443 in dev mode');
+      console.log('HTTPS Express server listening on port 443 in dev mode');
     });
     /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
@@ -323,7 +325,7 @@ else{
   });
   
   app.get('/debug', function(req, res){
-    if(req.session.userEmail !== 'dtonys@gmail.com') res.render('base');
+    if(!god_mode) res.render('base');
     else res.render('debug');
   });
   
@@ -371,16 +373,20 @@ else{
     }
   );
   */
-  
-  //All view partials must be served
-  app.get('/partials/:name', partials);
   app.get('/user/:user', function(req, res){
     if(!req.session.loggedIn){
       return res.render('banner');
     }
     return res.render('base');
   });
+  
+  //All view partials must be served
+  app.get('/partials/front/:name', partials.front);
+  app.get('/partials/profile/:name', partials.profile);
+  app.get('/partials/about/:name', partials.about);
+  app.get('/partials/:name', partials.index);
 
+  
   apiRoutes(app);
   
   //Angular will take care of the 404 page
