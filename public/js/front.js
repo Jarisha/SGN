@@ -43,6 +43,8 @@ function frontSetup($scope, $rootScope, $http){
     $('#subnav').affix({ offset: 42 });
   }
   
+  console.log('!!!!');
+  
   /* Front Page & Pin functionality */
   $(document).on('mouseenter', '.game_pin', function(e){
     $(this).find('.game_options').removeClass('hidden');
