@@ -210,7 +210,7 @@ var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
     //push pinID to end of posts list, then save
     function(usr, _callback){
       if(usr.data.posts.indexOf(pinId) === -1){
-        console.log('pinId added')
+        console.log('pinId added');
         usr.data.posts.push(pinId);
         base.save_RO(usr, 'users', function(err, saved){
           if(err) _callback(err, null);
