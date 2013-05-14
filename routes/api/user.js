@@ -1080,6 +1080,7 @@ exports.getSettings = function(req, res){
 // user settings - follower/following user+image - userActivity
 // accepts userEmail OR userName. userEmail preffered.
 exports.getProfile = function(req, res){
+  console.log(req.body);
   //get email via twoi search
   if(!req.body.userName && !req.body.email) return res.json({ error: 'getProfile: no userName or userEmail specified' });
   var user;                 // user RObject
@@ -1088,6 +1089,7 @@ exports.getProfile = function(req, res){
   var activityList = [];    // contains list of ordered recent activity
   
   if(req.body.email){
+    console.log('!1');
     email = req.body.email;
     get_RO_user(email, function(err, usr){
       if(err) return res.json({ error: 'getProfile: '+err.message });
@@ -1102,6 +1104,8 @@ exports.getProfile = function(req, res){
     base.getUserEmail(req.body.userName, function(err, usr_email){
       if(err) return res.json({ error: 'getProfile: '+err.message });
       email = usr_email;
+      console.log('!!');
+      console.log(usr_email);
       get_RO_user(email, function(err, usr){
         if(err) return res.json({ error: 'getProfile: '+err.message });
         user = usr;
