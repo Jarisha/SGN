@@ -13,6 +13,9 @@ exports.front = function(req, res){
 exports.profile = function(req, res){
   res.render('partials/profile/' + req.params.name);
 }
+exports.user = function(req, res){
+  res.render('partials/user/' + req.params.name);
+}
 exports.about = function(req, res){
   res.render('partials/about/' + req.params.name);
 }

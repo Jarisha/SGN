@@ -379,9 +379,10 @@ else{
     return res.render('base');
   });
   
-  //All view partials must be served
+  //All view partials must be served - This correlates to the Angular Router
   app.get('/partials/front/:name', partials.front);
   app.get('/partials/profile/:name', partials.profile);
+  app.get('/partials/user/:name', partials.user);
   app.get('/partials/about/:name', partials.about);
   app.get('/partials/:name', partials.index);
 
