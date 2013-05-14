@@ -319,9 +319,13 @@
             <option value="Trivia & Word">Trivia & Word</option>
           </select>
         </div>
+        <!--<div class="custom_group" ng-disabled="!custom" ng-click="custom=true">
+          <p>Custom:</p>
+          <input type="text" />
+        </div>-->
         <input class="fileSubmit" value="Post It!" type="submit">
       </div>
-    </form>
+    </form> 
   </div>
 </div>
 
@@ -348,6 +352,8 @@
         <label ng-show="IEforms">Description</label>
         <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
+          <!--<p>Custom Category</p>
+          <input type="text">-->
           <p>Category:</p>
           <select name="category" required>
             <option value="Action & Adventure" >Action & Adventure</option>

@@ -1577,10 +1577,15 @@ exports.createPending = function(req, res){
   if(!req.body.email || !req.body.userName)
     return res.send('');
   
+  console.log(req.body);
+  
   var pending_data = new userSchema.pendingUser();
   pending_data.email = req.body.email;
   pending_data.userName = req.body.userName;
-  pending_data.email = req.body.company || false;
+  pending_data.company = req.body.company || false;
+  
+  console.log(pending_data);
+  console.log(pending_data.email);
   
   //create pending user
   pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);

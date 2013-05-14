@@ -17,7 +17,6 @@ var rackit = require('rackit');
 var mandrill = exports.mandrill = require('node-mandrill')('rRK6Fs7T1NKpMbJZKxpJfA');
 var winston = require('winston');
 
-
 //Modules within SGN
 var config = require('./config');
 var partials = require('./routes/partials');
@@ -73,14 +72,17 @@ else{
   function auth(req, res, next){
     //HTTP + Logged out = GOTO HTTPS
     if(!req.session.loggedIn && !req.connection.encrypted){
+      console.log('1');
       return res.redirect('https://' + app.locals.host + req.url);
     }
     //HTTPS + Logged out = Serve banner
     else if(!req.session.loggedIn && req.connection.encrypted){
+      console.log('2');
       return res.render('banner');
     }
     //HTTPS + Logged in = GOTO HTTP
     else if(req.session.loggedIn && req.connection.encrypted){
+      console.log('3');
       return res.redirect('http://' + app.locals.host + req.url);
     }
     //HTTP + Logged in = OK

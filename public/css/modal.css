@@ -136,9 +136,13 @@
   width: 100%;
   margin: 0 0 10px 0;
 }
-.fileSubmit{
+.modal .fileSubmit{
   background: white;
-  width: 100%;
+  float: right;
+  width: 25%;
+  position: relative;
+  top: -50px;
+  height: 100px;
 }
 
 /* Image URL Modal */
@@ -151,32 +155,51 @@
 #youtubeModal{
   width: 700px;
 }
-
 .urlInput{
   width: 70%;
   margin-left: 10px;
   margin-bottom: 0;
 }
+.uploadMeta .custom_group{
+  width:70%;
+  float: left;
+  font-size: 20px;
+}
+.uploadMeta .custom_group > *{
+  float: left;
+  line-height: 35px;
+}
+.uploadMeta .custom_group > input{
+  width: 180px;
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+.cat_select p, .custom_group p{
+  text-align: left;
+  width: 80px;
+}
+
 .cat_select{
-  width: 100%;
+  float: left;
+    text-align: left;
+  width: 80%;
   height: 15%;
   font-size: 20px;
   margin-bottom: 9px;
-  text-align: left;
 }
 .cat_select > * {
   display: inline;
 }
 
 .cat_select p{
-  width: 50%;
 }
 
 .cat_select select{
+  width: 200px;
   padding: 0;
   margin:0;
   font-size: 20px;
-  width: 50%;
 }
 .fileupload .btn{
   margin: 5px;
