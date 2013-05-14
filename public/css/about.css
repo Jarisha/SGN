@@ -84,9 +84,10 @@
 .tos_stack{
   background: white;
   padding: 20px 10px;
+  padding-top: 0px;  
 }
 .tos_stack b{
-    font-size:18px;
+  font-size:18px;
 }
 .tos_element{
   width: 50%;
@@ -102,8 +103,14 @@
 .tos_right{
   background: #FDFDFD;
 }
+.tos_right i{
+  color: #3C9EDB;
+  font-size: 20px;
+  font-weight: bold;
+}
 .tos_left b{
   font-size: 20px;
+  color: #3C9EDB;
 }
 .tos_right p{
   font-size: 20px;
