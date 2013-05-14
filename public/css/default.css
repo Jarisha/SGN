@@ -438,10 +438,12 @@ form{
   min-width: 130px;
   margin: 5px 0 0 0;
   padding: 0;
-  color: black;
+  color: white;
 }
 #profile_toggle .caret{
-  top:10px;
+  top: 10px;
+  border-top-color: white;
+  border-bottom-color: white;
 }
 #profile_tab{
   position: relative;
