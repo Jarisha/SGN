@@ -40,32 +40,36 @@
   font-size: 20px;
   height: 80px;
   padding: 30px 15px;
+  border-radius: 25px;
 }
 .faq_slice:hover, .tos_slice:hover, .privacy_slice:hover, .view_slice:hover{
   cursor: pointer;
 }
 
 .faq_Q, .faq_A{
-  background: #EBEBEB;
+  background: #F6F6F6;
   width: 100%;
   text-align: left;
 }
 .faq_Q{
   line-height: 25px;
   font-size:20px;
-  padding: 20px 20px 10px 20px;
+  font-weight: bold;
+  padding: 20px 20px 0px 20px;
+  color: #3C9EDB;
+  border-bottom: 0px;
 }
 .faq_A{
-  padding: 10px 10px 10px 20px;
-  background: #FDFDFD;
+  padding: 0px 10px 0px 20px;
 }
 .for_users, .for_developers{
-  background: #EBEBEB;
+  background: #FDFDFD;
   border-bottom: none;
   color: #99CC00;
   font-size: 30px;
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
+  padding-bottom: 15px;
 }
 
 /* TOS Area */
@@ -201,4 +205,9 @@ only screen and (max-device-width : 1074px){
 }
 .about .active_tab{
   border: 1px solid red;
+}
+#about_nav_container{
+  height: 80px;
+  width: 100%;
+  background: white;
 }
