@@ -38,9 +38,13 @@
   color: white;
   font-weight: bold;
   font-size: 20px;
-  height: 80px;
+  height: 40px;
   padding: 30px 15px;
   border-radius: 25px;
+  margin-right: 5px;
+  margin-left: 5px;
+  line-height: 0px;
+  width: 230px;
 }
 .faq_slice:hover, .tos_slice:hover, .privacy_slice:hover, .view_slice:hover{
   cursor: pointer;
@@ -70,6 +74,10 @@
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
   padding-bottom: 15px;
+}
+
+.for_users{
+  padding-top: 0px;
 }
 
 /* TOS Area */
@@ -209,5 +217,11 @@ only screen and (max-device-width : 1074px){
 #about_nav_container{
   height: 80px;
   width: 100%;
+  padding-top: 20px;
   background: white;
+}
+
+#about_nav_buttons_container{
+  margin-right: 20px;
+  margin-left: 20px;
 }
