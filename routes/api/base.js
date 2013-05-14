@@ -81,10 +81,9 @@ var RO_exists = exports.RO_exists = function(keys, bucketName, callback){
 //callback(error, email)
 var getUserEmail = exports.getUserEmail = function(userName, callback){
   //search 'username' index, should return 1 email
-  console.log('lookup ' + userName + '\'s email');
   app.riak.bucket('users').search.twoi(userName, 'username', function(err, keys){
     if(err) return callback(new Error(err.message), null);
-    console.log(keys);
+    if(keys.length===0) return callback(new Error('2i index not found'), null);
     key = keys[0];
     return callback(null, key);
   });
