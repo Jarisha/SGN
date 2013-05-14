@@ -80,6 +80,7 @@
   padding: 20px 0;
   border-right: 1px solid #B8B8B8;
   text-align: center;
+  height: 500px;
 }
 .modal_slice:hover{
 }

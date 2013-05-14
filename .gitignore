@@ -16,4 +16,4 @@ coverage.html
 .settings
 doc
 *.komodoproject
-
+node_modules/

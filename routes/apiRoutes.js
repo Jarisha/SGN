@@ -24,7 +24,6 @@ module.exports = function(app){
   //new api calls
   app.post('/api/user/deactivate', userApi.deleteWrap);
   app.post('/api/user/follow', userApi.follow);
-  //
   
   app.get('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/facebookRegister', userApi.facebookRegister);

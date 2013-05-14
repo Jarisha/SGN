@@ -51,7 +51,7 @@
 }
 
 .faq_Q, .faq_A{
-  background: #F6F6F6;
+  background: #EBEBEB;
   width: 100%;
   text-align: left;
 }
@@ -82,7 +82,7 @@
 
 /* TOS Area */
 .tos_stack{
-  background: #EBEBEB;
+  background: white;
   padding: 20px 10px;
 }
 .tos_stack b{

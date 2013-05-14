@@ -14,6 +14,7 @@ $(document).ready(function(){
     type: 'get',
     url: '/api/getPath',
     success: function(data){
+      console.log(data);
       console.log(data.path);
       path = data.path;
     },
