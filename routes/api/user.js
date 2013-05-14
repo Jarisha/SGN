@@ -210,7 +210,7 @@ var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
     //push pinID to end of posts list, then save
     function(usr, _callback){
       if(usr.data.posts.indexOf(pinId) === -1){
-        console.log('pinId added')
+        console.log('pinId added');
         usr.data.posts.push(pinId);
         base.save_RO(usr, 'users', function(err, saved){
           if(err) _callback(err, null);
@@ -970,7 +970,6 @@ exports.register_2 = function(req, res){
 
 //get port # from server.  This belongs in a misc.js rather than user.js
 exports.getPath = function(req, res){
-  console.log('getPath');
   return res.json({
     path: app.self.locals.rootPath
   });
@@ -1081,6 +1080,7 @@ exports.getSettings = function(req, res){
 // user settings - follower/following user+image - userActivity
 // accepts userEmail OR userName. userEmail preffered.
 exports.getProfile = function(req, res){
+  console.log(req.body);
   //get email via twoi search
   if(!req.body.userName && !req.body.email) return res.json({ error: 'getProfile: no userName or userEmail specified' });
   var user;                 // user RObject
@@ -1089,6 +1089,7 @@ exports.getProfile = function(req, res){
   var activityList = [];    // contains list of ordered recent activity
   
   if(req.body.email){
+    console.log('!1');
     email = req.body.email;
     get_RO_user(email, function(err, usr){
       if(err) return res.json({ error: 'getProfile: '+err.message });
@@ -1103,6 +1104,8 @@ exports.getProfile = function(req, res){
     base.getUserEmail(req.body.userName, function(err, usr_email){
       if(err) return res.json({ error: 'getProfile: '+err.message });
       email = usr_email;
+      console.log('!!');
+      console.log(usr_email);
       get_RO_user(email, function(err, usr){
         if(err) return res.json({ error: 'getProfile: '+err.message });
         user = usr;
@@ -1578,10 +1581,15 @@ exports.createPending = function(req, res){
   if(!req.body.email || !req.body.userName)
     return res.send('');
   
+  console.log(req.body);
+  
   var pending_data = new userSchema.pendingUser();
   pending_data.email = req.body.email;
   pending_data.userName = req.body.userName;
-  pending_data.email = req.body.company || false;
+  pending_data.company = req.body.company || false;
+  
+  console.log(pending_data);
+  console.log(pending_data.email);
   
   //create pending user
   pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);
