@@ -2,7 +2,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
-  console.log('app.config()');
+  console.log('app.config()');  
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'
@@ -99,7 +99,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   /******** UI/UX Functionality & Flow *********/
   $rootScope.popModal = function(){
     $('#changeAvatar').modal();
-  }  
+  }
   //Masonry calls
   $rootScope.masonry = function(){
     console.log('masonry');
