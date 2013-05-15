@@ -112,7 +112,7 @@ else{
     outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: /*config.dev_log_path +*/ 'quyay.log', json:true,
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
                                       options: {   //stupid hack b/c winston doesn't work with express
                                           flags: 'a',
                                           highWaterMark: 24
@@ -124,7 +124,7 @@ else{
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info',
-                                        filename: /*config.dev_log_path +*/ 'error.log',
+                                        filename: config.dev_log_path + 'error.log',
                                         json:true,
                                         options: {   
                                           flags: 'a',
@@ -136,7 +136,7 @@ else{
     evtlog = exports.evtlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: /*config.dev_log_path +*/ 'event.log', json:true,
+        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true,
                                         options: {
                                           flags: 'a',
                                           highWaterMark: 24
@@ -158,9 +158,9 @@ else{
     
     //SSL options
     var options = {
-      key: fs.readFileSync('quyay.com.key'),
-      cert: fs.readFileSync('quyay.com.crt'),
-      ca: [fs.readFileSync('gd_bundle.crt')]
+      key: fs.readFileSync('C:/node/Q_SSL/quyay.com.key'),
+      cert: fs.readFileSync('C:/node/Q_SSL/quyay.com.crt'),
+      ca: [fs.readFileSync('C:/node/Q_SSL/gd_bundle.crt')]
     }
 
 
