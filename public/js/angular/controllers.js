@@ -645,9 +645,11 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.content_tab = $scope.ACTIVITY;
   
   // confirm the partials we want to load in
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
   /*$scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
+  $scope.content = $rootScope.rootPath + '/partials/user_content';
   $scope.content = $rootScope.rootPath + '/partials/user_content';*/
   
   // disable following button if already following ( this should be done on backend )
