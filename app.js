@@ -47,11 +47,13 @@ exports.rackit = rackit;
 
 //node cluster encapsulates web server creation
 if(cluster.isMaster){
+
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
 }
 else{
+
   //Create server and export it to others who need it
   var app = exports.self = express();
   
@@ -70,6 +72,7 @@ else{
 
   //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
+
     //HTTP + Logged out = GOTO HTTPS
     if(!req.session.loggedIn && !req.connection.encrypted){
       return res.redirect('https://' + app.locals.host + req.url);
@@ -104,7 +107,18 @@ else{
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    outlog = exports.outlog = new (winston.Logger)({
+    //only use log files in production
+    outlog = exports.outlog = {
+      info: function(){}
+    }
+    errlog = exports.errlog = {
+      info: function(){}
+    }
+    evtlog = exports.evtlog = {
+      info: function(){}
+    }
+    
+    /*outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
@@ -138,8 +152,10 @@ else{
                                         }
                                       })
       ]
-    });
+    });*/
     apiRoutes = require('./routes/apiRoutes');
+
+
     
     //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
@@ -151,14 +167,14 @@ else{
     
     //SSL options
     var options = {
-      key: fs.readFileSync(config.dev_ssl_path + 'quyay.com.key'),
-      cert: fs.readFileSync(config.dev_ssl_path + 'quyay.com.crt'),
-      ca: [fs.readFileSync(config.dev_ssl_path + 'gd_bundle.crt')]
+      key: fs.readFileSync('quyay.com.key'),
+      cert: fs.readFileSync('quyay.com.crt'),
+      ca: [fs.readFileSync('gd_bundle.crt')]
     }
-    
+
     http.createServer(app).listen(80, function(){
-      outlog.info('HTTP Express server listening on port 80 in dev mode');
-      console.log('HTTP Express server listening on port 80 in dev mode');
+      outlog.info('HTTP Express server listening on port ? in dev mode');
+      console.log('HTTP Express server listening on port ? in dev mode');
     });
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443 in dev mode');
@@ -329,6 +345,7 @@ else{
   });
   
   app.get('/', auth, function(req, res){
+
     res.render('base');
   });
 
@@ -379,13 +396,15 @@ else{
     return res.render('base');
   });
   
-  //All view partials must be served
+  //All view partials must be served - This correlates to the Angular Router
   app.get('/partials/front/:name', partials.front);
   app.get('/partials/profile/:name', partials.profile);
+  app.get('/partials/user/:name', partials.user);
   app.get('/partials/about/:name', partials.about);
   app.get('/partials/:name', partials.index);
 
   
+
   apiRoutes(app);
   
   //Angular will take care of the 404 page
@@ -393,5 +412,3 @@ else{
     return res.render('base');
   });
 }
-
->>>>>>> 601083b1083f391b3e04ba5e9e74281dd23e03f5

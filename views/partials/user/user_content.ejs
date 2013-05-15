@@ -1,0 +1,94 @@
+<!-- This is the view of another user's profile -->
+<div id="profile_col">
+  <div id="profile_header">PROFILE</div>
+  <div class="left_container">
+    <div class="left_padding" style="position:relative">
+      <div class="profile_pic">
+        <img ng-src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
+      </div>
+      <div class="profile_xp">
+        <span class="curr_level">Level {{user.level || 1}}</span>
+        <span class="to_level">{{user.nextXP || 99}}XP to level</span>
+      </div>
+      <div class="xp_bar clearfix">
+        <span class="xp_gained">
+        </span>
+        <span class="xp_remaining">
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="right_container">
+    <button id="message_user" class="btn" disabled>Send Message</button>
+    <div class="right_padding">
+      <p class="profile_name">{{user.userName}}</p>
+      <p class="bio_text">{{user.bio}}</p>
+      <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
+      </textarea>
+      <div class="bio_opts_container hidden">
+        <p class="bio_opts">400 remaining</p>
+      </div>
+      <div class="social_media">
+        <a href="" ng-show="user.fbConnect">Facebook Page</a>
+      </div>
+    </div>
+  </div>
+  <div id="people_container">
+    <div id="people_header">
+      <div ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >{{user.followers.length}} FOLLOWERS</div><div
+      ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND;" >0 FRIENDS</div><div
+       class="view_all"><p
+      class="view_all" ng-click="popGeneric()" href="#">View All</p></div>
+    </div>
+    <div class="bot_container">
+      <div class="comrade_tabs">
+        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
+        <button id="friend_user" disabled>Friend</button>
+        <!--<button ng-show="isFollowing" id="follow_user" ng-click="unfollow(user.username)" >unFollow</button>-->
+        <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
+      </div>
+      <a ng-repeat="follower in user.followers" href="/user/{{follower.userName}}"><img title="{{follower.userName}}" ng-src="{{follower.profileImg || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/></a>
+      <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
+    </div>
+  </div>
+  <div id="footer_container">
+    <div id="profile_footer">
+      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div><div
+      ng-class="{'active_tab': content_tab==POSTS}" ng-click="content_tab=POSTS;">My Posts</div><div
+      ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div><div
+      ng-class="{'active_tab': content_tab==ACTIVITY}" ng-click="showActivity(); content_tab=ACTIVITY;">Activity</div>
+    </div>
+  </div>
+</div>
+<div id="badge_col">
+  <div id="badge_header">BADGES</div>
+  <div class="badge_chest">
+    <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
+  </div>
+</div>
+<div id="following_col">
+  <div id="following_header">{{ profile.following.length }} FOLLOWING</div>
+  <div class="badge_chest">
+    <a ng-repeat="following in user.following" href="/user/{{following.userName}}">
+      <img title="{{following.userName}}" ng-src="{{following.profileImg || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/>
+    </a>
+  </div>
+</div>
+<div id="profile_data">
+  <div id="group_bar" class="clearfix" ng-show="displayMode.group">
+    <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
+  </div>
+  <div id="profile_data_inner" class="clearfix">
+    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
+      <a class="view_trigger" ng-click="viewBigPin(pin)">
+        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220" height="300"/>
+      </a>
+      <div class="pin_footer">
+        <p class="game_description">{{pin.description}}</p>
+        <p class="game_attributes">
+          <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
