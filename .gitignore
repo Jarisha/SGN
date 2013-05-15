@@ -18,3 +18,6 @@ doc
 *.komodoproject
 node_modules/
 app.js
+quyay.com.crt
+quyay.com.key
+gd_bundle.crt
