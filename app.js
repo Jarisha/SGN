@@ -109,7 +109,18 @@ else{
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     
-    outlog = exports.outlog = new (winston.Logger)({
+    //only use log files in production
+    outlog = exports.outlog = {
+      info: function(){}
+    }
+    errlog = exports.outlog = {
+      info: function(){}
+    }
+    evtlog = exports.outlog = {
+      info: function(){}
+    }
+    
+    /*outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
@@ -143,7 +154,7 @@ else{
                                         }
                                       })
       ]
-    });
+    });*/
     apiRoutes = require('./routes/apiRoutes');
 
 
@@ -158,13 +169,11 @@ else{
     
     //SSL options
     var options = {
-      key: fs.readFileSync('C:/node/Q_SSL/quyay.com.key'),
-      cert: fs.readFileSync('C:/node/Q_SSL/quyay.com.crt'),
-      ca: [fs.readFileSync('C:/node/Q_SSL/gd_bundle.crt')]
+      key: fs.readFileSync('quyay.com.key'),
+      cert: fs.readFileSync('quyay.com.crt'),
+      ca: [fs.readFileSync('gd_bundle.crt')]
     }
 
-
-    
     http.createServer(app).listen(80, function(){
       outlog.info('HTTP Express server listening on port ? in dev mode');
       console.log('HTTP Express server listening on port ? in dev mode');
