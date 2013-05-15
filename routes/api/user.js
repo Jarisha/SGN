@@ -970,6 +970,7 @@ exports.register_2 = function(req, res){
 
 //get port # from server.  This belongs in a misc.js rather than user.js
 exports.getPath = function(req, res){
+  console.log('getPath');
   return res.json({
     path: app.self.locals.rootPath
   });

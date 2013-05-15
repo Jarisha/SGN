@@ -47,11 +47,13 @@ exports.rackit = rackit;
 
 //node cluster encapsulates web server creation
 if(cluster.isMaster){
+
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
 }
 else{
+
   //Create server and export it to others who need it
   var app = exports.self = express();
   
@@ -68,8 +70,11 @@ else{
     app.use(express.cookieParser());
   });
 
+
+
   //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
+
     //HTTP + Logged out = GOTO HTTPS
     if(!req.session.loggedIn && !req.connection.encrypted){
       return res.redirect('https://' + app.locals.host + req.url);
@@ -107,7 +112,7 @@ else{
     outlog = exports.outlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
+        new (winston.transports.File)({ level: 'info', filename: /*config.dev_log_path +*/ 'quyay.log', json:true,
                                       options: {   //stupid hack b/c winston doesn't work with express
                                           flags: 'a',
                                           highWaterMark: 24
@@ -119,7 +124,7 @@ else{
       exitOnError: false, //don't crash on exception
       transports: [
         new (winston.transports.File)({ level: 'info',
-                                        filename: config.dev_log_path + 'error.log',
+                                        filename: /*config.dev_log_path +*/ 'error.log',
                                         json:true,
                                         options: {   
                                           flags: 'a',
@@ -131,7 +136,7 @@ else{
     evtlog = exports.evtlog = new (winston.Logger)({
       exitOnError: false, //don't crash on exception
       transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true,
+        new (winston.transports.File)({ level: 'info', filename: /*config.dev_log_path +*/ 'event.log', json:true,
                                         options: {
                                           flags: 'a',
                                           highWaterMark: 24
@@ -140,6 +145,8 @@ else{
       ]
     });
     apiRoutes = require('./routes/apiRoutes');
+
+
     
     //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
@@ -151,14 +158,16 @@ else{
     
     //SSL options
     var options = {
-      key: fs.readFileSync(config.dev_ssl_path + 'quyay.com.key'),
-      cert: fs.readFileSync(config.dev_ssl_path + 'quyay.com.crt'),
-      ca: [fs.readFileSync(config.dev_ssl_path + 'gd_bundle.crt')]
+      key: fs.readFileSync('quyay.com.key'),
+      cert: fs.readFileSync('quyay.com.crt'),
+      ca: [fs.readFileSync('gd_bundle.crt')]
     }
+
+
     
     http.createServer(app).listen(80, function(){
-      outlog.info('HTTP Express server listening on port 80 in dev mode');
-      console.log('HTTP Express server listening on port 80 in dev mode');
+      outlog.info('HTTP Express server listening on port ? in dev mode');
+      console.log('HTTP Express server listening on port ? in dev mode');
     });
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443 in dev mode');
@@ -329,6 +338,7 @@ else{
   });
   
   app.get('/', auth, function(req, res){
+
     res.render('base');
   });
 
@@ -386,6 +396,7 @@ else{
   app.get('/partials/:name', partials.index);
 
   
+
   apiRoutes(app);
   
   //Angular will take care of the 404 page
@@ -393,4 +404,5 @@ else{
     return res.render('base');
   });
 }
+
 

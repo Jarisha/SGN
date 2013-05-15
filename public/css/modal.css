@@ -80,6 +80,7 @@
   padding: 20px 0;
   border-right: 1px solid #B8B8B8;
   text-align: center;
+
 }
 .modal_slice:hover{
 }
@@ -136,8 +137,10 @@
   width: 100%;
   margin: 0 0 10px 0;
 }
+.fileSubmit{
 .modal .fileSubmit{
   background: white;
+  width: 100%;
   float: right;
   width: 25%;
   position: relative;
@@ -181,18 +184,21 @@
 }
 
 .cat_select{
+  width: 100%;
   float: left;
     text-align: left;
   width: 80%;
   height: 15%;
   font-size: 20px;
   margin-bottom: 9px;
+  text-align: left;
 }
 .cat_select > * {
   display: inline;
 }
 
 .cat_select p{
+  width: 50%;
 }
 
 .cat_select select{
@@ -200,6 +206,7 @@
   padding: 0;
   margin:0;
   font-size: 20px;
+  width: 50%;
 }
 .fileupload .btn{
   margin: 5px;
