@@ -24,7 +24,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/about/:area', {templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
                       controller: AboutController,
                       resolve: AboutController.resolve})
-    .when('/user/:username', {  templateUrl: '/partials/profile/profile', // templateUrl: '/partials/profile/profile'
     .when('/user/:username', {   templateUrl: '/partials/user/user', //  templateUrl: '/partials/profile/profile',
                       controller: UserController,
                       resolve: UserController.resolve

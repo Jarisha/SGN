@@ -70,8 +70,6 @@ else{
     app.use(express.cookieParser());
   });
 
-
-
   //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
 
@@ -113,10 +111,10 @@ else{
     outlog = exports.outlog = {
       info: function(){}
     }
-    errlog = exports.outlog = {
+    errlog = exports.errlog = {
       info: function(){}
     }
-    evtlog = exports.outlog = {
+    evtlog = exports.evtlog = {
       info: function(){}
     }
     
