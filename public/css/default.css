@@ -401,6 +401,10 @@ form{
   margin: 0;
   cursor: default;
 }
+#follower_toggle{
+  cursor: pointer;
+  cursor: hand;
+}
 #follower_dropdown,
 #tag_dropdown,
 #message_dropdown {

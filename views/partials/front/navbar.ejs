@@ -1,7 +1,7 @@
 <div id="notifications" ng-show="loggedIn && (css=='front' || css=='profile')">
   <ul id="notify_list">
-    <li ng-show="loggedIn" class="dropdown">
-      <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+    <li id="followers_tab" ng-show="loggedIn" class="dropdown">
+      <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
