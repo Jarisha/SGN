@@ -410,7 +410,7 @@ form{
 #tag_dropdown,
 #message_dropdown {
   left: 20px;
-  min-width: 130px;
+  min-width: 269px;
   top: 42px;
   background: #DCDCDC;
   
@@ -418,6 +418,9 @@ form{
   border-radius: 6px 6px 6px 6px;
   
   border: 2px solid #333333;
+}
+#follower_dropdown {
+  left: -35px;
 }
 #follower_dropdown:after,
 #tag_dropdown:after,
@@ -435,6 +438,9 @@ form{
   top: -20px;
   border: 10px solid transparent;
   border-bottom-color: black;
+}
+#follower_dropdown:before{
+  left: 59px;
 }
 /* Drop down going left */
 #profile_toggle {
