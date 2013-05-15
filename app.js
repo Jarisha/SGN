@@ -412,5 +412,3 @@ else{
     return res.render('base');
   });
 }
-
-
