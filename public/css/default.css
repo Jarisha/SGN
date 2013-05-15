@@ -394,6 +394,7 @@ form{
 #about_dropdown {
   min-width: 100px;
 }
+/* Notifications dropdowns */
 #follower_toggle,
 #tag_toggle,
 #message_toggle {
