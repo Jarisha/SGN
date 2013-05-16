@@ -38,6 +38,9 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
   
+  $rootScope.notificationsDummyData = {
+    followersData : [{name: "John", action: "follow"}, {name:"Narasimtah", action: "friend request"}]
+  };
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
