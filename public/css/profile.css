@@ -448,7 +448,7 @@
   font-weight: bold;
   padding: 5px 15px;
 }
-.profile #following_header{
+.profile #timeline_header{
   box-shadow: 0 5px 10px -5px #333333;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
@@ -473,7 +473,7 @@
   float:left;
 }
 
-.profile #following_col{
+.profile #timeline_col{
   height: 414px;
   width:180px;
   margin:0 15px;
