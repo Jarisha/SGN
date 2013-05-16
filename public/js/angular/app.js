@@ -37,11 +37,11 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 // Entry Point
 app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
-  
+  //The greater the time, the more recent.
   $rootScope.notificationsDummyData = {
-    followersData : [{name: "John", action: "follow"}, {name:"Narasimtah", action: "friend request"}],
-    tagsData : [{name: "Bertha", target: "pin"}, {name: "Joan", target: "comment"}],
-    messagesData : [{name: "Jill"}, {name: "Jack"}]
+    followersData : [{name: "John", action: "follow", time: 1}, {name:"Narasimtah", action: "friend request", time: 2}],
+    tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
+    messagesData : [{name: "Jill", time: 5}, {name: "Jack", time: 6}]
   };
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
