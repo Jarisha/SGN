@@ -416,6 +416,7 @@
 /* badge area */
 .profile #badge_col{
   width:120px;
+  height:414px;
   margin:0 15px 15px 15px;
   float:left;
   background: #FDFDFD;
@@ -454,7 +455,7 @@
 }
 
 .profile #following_col{
-  height: 266px;
+  height: 414px;
   width:180px;
   margin:0 15px;
   float:left;
