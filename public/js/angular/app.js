@@ -39,7 +39,9 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
   
   $rootScope.notificationsDummyData = {
-    followersData : [{name: "John", action: "follow"}, {name:"Narasimtah", action: "friend request"}]
+    followersData : [{name: "John", action: "follow"}, {name:"Narasimtah", action: "friend request"}],
+    tagsData : [{name: "Bertha", target: "pin"}, {name: "Joan", target: "comment"}],
+    messagesData : [{name: "Jill"}, {name: "Jack"}]
   };
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;

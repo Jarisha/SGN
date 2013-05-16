@@ -6,7 +6,7 @@
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="follower_notification in notificationsDummyData.followersData">
-          <a href="#">{{follower_notification.name}} is {{follower_notification.action}}</a>
+          <a tabindex="-1" href="#">{{follower_notification.name}} is {{follower_notification.action}}</a>
         </li>
       </ul>
     </li>
@@ -15,10 +15,9 @@
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
-        <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
-        <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
-        <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
-        <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
+        <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
+          <a tabindex="-1" href="#">{{tag_notification.name}} tagged you in {{tag_notification.target}}</a>
+        </li>
       </ul>
     </li>
     <li id="message_tab" ng-show="loggedIn">
@@ -26,9 +25,9 @@
         <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
       </a>
       <ul id="message_dropdown" class="dropdown-menu">
-        <li><a tabindex="-1" href="#">Bob Smith messaged you</a></li>
-        <li><a tabindex="-1" href="#">Jill Hagey messaged you</a></li>
-        <li><a tabindex="-1" href="#">Nobody messaged you</a></li>
+        <li ng-repeat="message_notification in notificationsDummyData.messagesData">
+          <a tabindex="-1" href="#">{{message_notification.name}} messaged you</a>
+        </li>
       </ul>
     </li>
   </ul>
