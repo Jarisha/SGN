@@ -12,26 +12,26 @@
         <li><a tabindex="-1" href="#">Katie Something is following you</a></li>
       </ul>
     </li>
-    <li ng-show="loggedIn">
+    <li id="tag_tab" ng-show="loggedIn">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
       </a>
-      <!--<ul id="tag_dropdown" class="dropdown-menu">
+      <ul id="tag_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
         <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
         <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
         <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
-      </ul>-->
+      </ul>
     </li>
-    <li ng-show="loggedIn">
+    <li id="message_tab" ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
       </a>
-      <!--<ul id="message_dropdown" class="dropdown-menu">
+      <ul id="message_dropdown" class="dropdown-menu">
         <li><a tabindex="-1" href="#">Bob Smith messaged you</a></li>
         <li><a tabindex="-1" href="#">Jill Hagey messaged you</a></li>
         <li><a tabindex="-1" href="#">Nobody messaged you</a></li>
-      </ul>-->
+      </ul>
     </li>
   </ul>
   <div id="notify_div"></div><img

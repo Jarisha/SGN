@@ -400,9 +400,6 @@ form{
 #message_toggle {
   padding: 0;
   margin: 0;
-  cursor: default;
-}
-#follower_toggle{
   cursor: pointer;
   cursor: hand;
 }
@@ -421,6 +418,12 @@ form{
 }
 #follower_dropdown {
   left: -35px;
+}
+#tag_dropdown {
+  left: -104px;
+}
+#message_dropdown {
+  left: -173px;
 }
 #follower_dropdown:after,
 #tag_dropdown:after,
@@ -441,6 +444,12 @@ form{
 }
 #follower_dropdown:before{
   left: 59px;
+}
+#tag_dropdown:before {
+  left: 129px;
+}
+#message_dropdown:before {
+  left: 198px;
 }
 /* Drop down going left */
 #profile_toggle {
