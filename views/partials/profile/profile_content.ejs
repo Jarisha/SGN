@@ -44,7 +44,7 @@
       <a ng-repeat="follower in profile.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" width="40px" height="40px" ng-src="{{follower.profileImg || '<%= rootPath %>/images/30x30.gif'}}"/>
       </a>
-      <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
+      <a ng-show="people_tab==FOLLOWERS" href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>
     </div>
   </div>
   <div id="footer_container">
