@@ -1,0 +1,81 @@
+<div id="notifications" ng-show="loggedIn && (css=='front' || css=='profile')">
+  <ul id="notify_list">
+    <li ng-show="loggedIn">
+      <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+        <img class="new_followers" src="/images/UI/Following1_effects.png" width="35" height="35"/>
+      <!--</a>
+      <ul id="follower_dropdown" class="dropdown-menu">
+        <li><a tabindex="-1" href="#">John is following you</a></li>
+        <li><a tabindex="-1" href="#">Narasimtah Siddhartha wants to be your friend</a></li>
+        <li><a tabindex="-1" href="#">Joe is following you</a></li>
+        <li><a tabindex="-1" href="#">Billy wants to be your friend</a></li>
+        <li><a tabindex="-1" href="#">Katie Something is following you</a></li>
+      </ul>-->
+    </li>
+    <li ng-show="loggedIn">
+      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
+      </a>
+      <!--<ul id="tag_dropdown" class="dropdown-menu">
+        <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
+        <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
+        <li><a tabindex="-1" href="#">Bertha tagged you in this pin</a></li>
+        <li><a tabindex="-1" href="#">Action tagged you in this comment</a></li>
+      </ul>-->
+    </li>
+    <li ng-show="loggedIn">
+      <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+        <img class="new_messages" src="/images/UI/Comment1_effects.png" width="35" height="35"/>
+      </a>
+      <!--<ul id="message_dropdown" class="dropdown-menu">
+        <li><a tabindex="-1" href="#">Bob Smith messaged you</a></li>
+        <li><a tabindex="-1" href="#">Jill Hagey messaged you</a></li>
+        <li><a tabindex="-1" href="#">Nobody messaged you</a></li>
+      </ul>-->
+    </li>
+  </ul>
+  <div id="notify_div"></div><img
+  id="notify_triangle" src="/images/UI/triangle_green.png" />
+</div>
+<div id="nav_content" class="navbar-inner">
+  <a id="main_logo" href="/" ng-click="getfront()"><img src="/images/UI/QUYAY-LOGO-FINAL.png" /></a>
+  <ul id="nav_left" class="nav">
+    <li>
+      <img class="search_glass" src="/images/UI/search_glass.png" />
+      <form id="search_bar" class="navbar-search" ng-submit="textsearch(searchText)">
+        <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
+      </form>
+    </li>
+  </ul>
+  <ul id="nav_right" class="nav">
+    <!--<li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()" data-toggle="dropdown">
+      <img src="/images/UI/post.png" />
+    </a></li>-->
+    <li id="about_tab" class="dropdown">
+      <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
+        <img src="/images/UI/about.png" />
+      </a>
+      <ul class="dropdown-menu active">
+        <li><a href="/about/faq">FAQ</a></li>
+        <li><a href="/about/tos">Terms of Service</a></li>
+        <li><a href="/about/privacy">Privacy Policy</a></li>
+        <li><a href="/about/acceptable">Acceptable Use</a></li>
+      </ul>
+    </li>
+    <!--<li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
+      <img id="login_btn" src="/images/UI/Login_effects.png" />
+    </a></li>-->
+    <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
+    <li ng-show="loggedIn" id="profile_tab" class="dropdown">
+      <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
+        <img id="profile_small" ng-src="{{userImg}}" height="22" width="22" />{{userName}}<b class="caret"></b>
+      </a>
+      <ul id="profile_dropdown" class="dropdown-menu active">
+        <li><a href="/profile">My Profile</a></li>
+        <li><a ng-click="popGeneric()" data-toggle="dropdown" >Find Friends</a></li>
+        <li><a ng-click="viewSettings()" data-toggle="dropdown" >Settings</a></li>
+        <li><a ng-click="logoutSubmit()" data-toggle="dropdown" >Log Out</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

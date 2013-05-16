@@ -612,42 +612,42 @@ exports.getPinData = function(req, res){
       errlog.info('getPinData error ' + err.message);
       return res.json({ error: err.message });
     }
-    //get comment_ROs
-    var commentIds = pin.data.comments;
-    async.map(commentIds, function(cmtId, callback){
-      app.riak.bucket('comments').objects.get(cmtId, function(err, cmt_obj){
-        if(err){
-          if(err.status_code === 404) return callback(null, null);
-          return callback(new Error('getPinData error: '+err.message), null);
-        }
-        //fetch posterName + posterImg, attach to comment
-        base.get_userRef(cmt_obj.data.posterId, function(_err, usr_ref){
-          if(_err) return callback(new Error('getPinData error: '+err.message), null);
-          cmt_obj.data.posterName = usr_ref.userName;
-          cmt_obj.data.posterImg = usr_ref.profileImg;
-          return callback(null, cmt_obj.data);
+    //fetch posterName + posterImg, attach to comment
+    base.get_userRef(pin.data.posterId, function(e, ref_obj){
+      if(e){
+        errlog.info('getPinData error ' + e.message);
+        return res.json({ error: e.message });
+      }
+      //fetch userName and profileImage
+      pin.data.userName = ref_obj.userName;
+      pin.data.profileImg = ref_obj.profileImg;
+      //get comment_ROs
+      var commentIds = pin.data.comments;
+      async.map(commentIds, function(cmtId, callback){
+        app.riak.bucket('comments').objects.get(cmtId, function(err, cmt_obj){
+          if(err){
+            if(err.status_code === 404) return callback(null, null);
+            return callback(new Error('getPinData error: '+err.message), null);
+          }
+          //fetch posterName + posterImg, attach to comment
+          base.get_userRef(cmt_obj.data.posterId, function(_err, usr_ref){
+            if(_err) return callback(new Error('getPinData error: '+err.message), null);
+            cmt_obj.data.posterName = usr_ref.userName;
+            cmt_obj.data.posterImg = usr_ref.profileImg;
+            return callback(null, cmt_obj.data);
+          });
         });
+      }
+      , function(err, results){
+        if(err) return res.json({ error: err.message });
+        next(results);
       });
-    }
-    , function(err, results){
-      if(err) return res.json({ error: err.message });
-      next(results);
+      function next(results){
+        pin.data.comments = results;
+        return res.json({ gamepin: pin.data });
+      }
     });
-    function next(results){
-      pin.data.comments = results;
-      return res.json({ gamepin: pin.data });
-    }
   });
-  
-  /* app.riak.bucket('gamepins').objects.get(req.body.pinId, util.pin_resolve, function(err, obj){
-    if(err){
-      errlog.info('getPinData error: ' + err.message);
-      return res.json({error: err.message});
-    }
-    util.clearChanges(obj);
-    outlog.info('getPInData for pin: ' + obj.key);
-    return res.json({ gamepin: obj.data });
-  }); */
 }
 
 //editComment

@@ -389,21 +389,18 @@ else{
     }
   );
   */
-  app.get('/user/:user', function(req, res){
-    if(!req.session.loggedIn){
-      return res.render('banner');
-    }
+  app.get('/user/:user', auth, function(req, res){
     return res.render('base');
   });
+  //app.get()
   
   //All view partials must be served - This correlates to the Angular Router
   app.get('/partials/front/:name', partials.front);
   app.get('/partials/profile/:name', partials.profile);
   app.get('/partials/user/:name', partials.user);
   app.get('/partials/about/:name', partials.about);
+  app.get('/partials/post/:name', partials.post);
   app.get('/partials/:name', partials.index);
-
-  
 
   apiRoutes(app);
   

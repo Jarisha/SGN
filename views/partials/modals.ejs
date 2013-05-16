@@ -28,7 +28,7 @@
         <p> {{bigPin.description}} </p>
       </div>
       <div ng-repeat="cmt in bigPin.comments" class="view_comment">
-        <a href="#"><img ng-src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif' }}" class="profile_img"/></a><p 
+        <a href="#"><img ng-src="{{cmt.posterImg || '/images/30x30.gif' }}" class="profile_img"/></a><p 
         class="view_post_text"><b>{{cmt.posterName}}</b><br/>{{cmt.content}}</p>
       </div>
       <div class="view_respond clearfix">

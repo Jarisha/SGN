@@ -19,3 +19,6 @@ exports.user = function(req, res){
 exports.about = function(req, res){
   res.render('partials/about/' + req.params.name);
 }
+exports.post = function(req, res){
+  res.render('partials/post/' + req.params.name);
+}

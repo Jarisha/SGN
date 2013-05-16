@@ -685,6 +685,8 @@ exports.testAPI = function(req, res){
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
+  //util.getDateObj();
+  //console.log(util.createEvent());
   if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
   if(req.session){
@@ -1105,8 +1107,6 @@ exports.getProfile = function(req, res){
     base.getUserEmail(req.body.userName, function(err, usr_email){
       if(err) return res.json({ error: 'getProfile: '+err.message });
       email = usr_email;
-      console.log('!!');
-      console.log(usr_email);
       get_RO_user(email, function(err, usr){
         if(err) return res.json({ error: 'getProfile: '+err.message });
         user = usr;

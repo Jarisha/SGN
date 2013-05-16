@@ -1,0 +1,14 @@
+<div ng-include="modals" onload="setupModals()"></div>
+<div ng-include="'/partials/post/navbar'" id="nav" class="navbar navbar-inverse"></div>
+<!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
+<noscript>
+  <style type="text/css">
+      #content  {display:none;}
+  </style>
+  <div class="noscriptmsg">
+    You don't have javascript enabled.  Please Enable javascript to view this site.
+  </div>
+</noscript>
+<img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
+<div id="content" class="container" ng-include="'partials/post/post_content'" onload="log('content-loaded');">
+</div>
