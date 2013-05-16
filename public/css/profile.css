@@ -227,7 +227,7 @@
 /* My Profile */
 /* profile area */
 .profile #profile_col{
-  width:800px;
+  width:600px;
   float:left;
   background:#FDFDFD;
 }
@@ -241,7 +241,7 @@
 .profile .right_container{
   float:left;
   position: relative;
-  width: 600px;
+  width: 400px;
   height: 253px;
 }
 .profile .right_padding{
@@ -350,7 +350,7 @@
   overflow: hidden;
   height: 40px;
   float: left;
-  width: 770px;
+  width: 570px;
   padding: 15px 15px 15px 15px;
   border-top: 1px solid #A5C0C8;
 }
@@ -366,6 +366,7 @@
 }
 .profile #people_container{
   float:left;
+  width: 600px;
 }
 .profile #people_header{
   box-shadow: 0 5px 10px -5px #333333;
@@ -377,7 +378,7 @@
 }
 .profile #people_header > *{
   padding: 0 15px;
-  width: 166px;
+  width: 19%;
   text-align: center;
   display:inline-block;
   height: 30px;
@@ -414,7 +415,7 @@
 
 /* badge area */
 .profile #badge_col{
-  width:238px;
+  width:120px;
   margin:0 15px 15px 15px;
   float:left;
   background: #FDFDFD;
@@ -454,7 +455,7 @@
 
 .profile #following_col{
   height: 266px;
-  width:238px;
+  width:180px;
   margin:0 15px;
   float:left;
   background: #FDFDFD;
