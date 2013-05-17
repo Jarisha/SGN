@@ -30,7 +30,7 @@
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             {{tag_notification.name}} tagged you in {{tag_notification.target}}
           </a>
         </li>
@@ -46,7 +46,7 @@
       <ul id="message_dropdown" class="dropdown-menu">
         <li ng-repeat="message_notification in notificationsDummyData.messagesData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             {{message_notification.name}} messaged you
           </a>
         </li>
