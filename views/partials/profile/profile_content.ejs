@@ -57,7 +57,7 @@
 </div>
 <div id="timeline_col">
   <div id="timeline_header">Timeline</div>
-  <div class="timeline_contents_container">
+  <div id="timeline_contents_container">
     <ul id="timeline_events">
       <li ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">
         {{event.name}} and {{event.action || event.target}}

@@ -443,6 +443,9 @@
   font-weight: bold;
   padding: 5px 15px;
 }
+.profile #timeline_contents_container {
+  height: 345px;
+}
 /* badge area */
 .profile #badge_col{
   width:120px;
