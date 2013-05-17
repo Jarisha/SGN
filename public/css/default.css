@@ -473,9 +473,19 @@ form{
 #message_dropdown a
  {
   padding-left: 9px;
+  height: 44px;
 }
 .icon-flag {
   float: right;
+  margin-top: 18px;
+}
+.notification-text {
+  float: left;
+}
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
 }
 /* Drop down going left */
 #profile_toggle {

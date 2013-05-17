@@ -10,8 +10,11 @@
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="follower_notification in notificationsDummyData.followersData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
-            {{follower_notification.name}} is {{follower_notification.action}}
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <div class="notification-text">
+              <span>{{follower_notification.name}}</span>
+              <p>is {{follower_notification.action}}</p>
+            </div>
             <i class="icon-flag"></i>
           </a>
         </li>
