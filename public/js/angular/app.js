@@ -39,9 +39,12 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
   //The greater the time, the more recent.
   $rootScope.notificationsDummyData = {
-    followersData : [{name: "John", action: "follow", time: 1}, {name:"Narasimtah", action: "friend request", time: 2}],
+    followersData :
+      [{name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10}],
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
-    messagesData : [{name: "Jill", time: 5}, {name: "Jack", time: 6}]
+    messagesData : [{name: "Jill", time: 5}]
   };
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;

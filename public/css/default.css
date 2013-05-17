@@ -395,6 +395,17 @@ form{
   min-width: 100px;
 }
 /* Notifications dropdowns */
+.notifications-count-badge {
+  background-color: red;
+  border: solid 1px;
+  width: 17px;
+  height: 17px;
+  top: -8px;
+  position: absolute;
+  text-align: center;
+  line-height: 17px;
+  left: 38px;
+}
 #follower_toggle,
 #tag_toggle,
 #message_toggle {

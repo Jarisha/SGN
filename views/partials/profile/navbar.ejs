@@ -3,6 +3,9 @@
     <li id="followers_tab" ng-show="loggedIn" class="dropdown">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge">
+          {{notificationsDummyData.followersData.length}}
+        </span>
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="follower_notification in notificationsDummyData.followersData">
@@ -16,6 +19,9 @@
     <li id="tag_tab" ng-show="loggedIn">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge">
+          {{notificationsDummyData.tagsData.length}}
+        </span>
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
@@ -29,6 +35,9 @@
     <li id="message_tab" ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge">
+          {{notificationsDummyData.messagesData.length}}
+        </span>
       </a>
       <ul id="message_dropdown" class="dropdown-menu">
         <li ng-repeat="message_notification in notificationsDummyData.messagesData">
