@@ -12,6 +12,7 @@
           <a tabindex="-1" href="#">
             <img ng-src="<%= rootPath %>/images/30x30.gif">
             {{follower_notification.name}} is {{follower_notification.action}}
+            <span ng-show="follower_notification.action == 'friend request'">Accept or deny</span>
           </a>
         </li>
       </ul>
