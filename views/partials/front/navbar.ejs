@@ -15,7 +15,11 @@
               <span>{{follower_notification.name}}</span>
               <p>is {{follower_notification.action}}</p>
             </div>
-            <i class="icon-flag"></i>
+            <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
+            <div ng-show="follower_notification.action == 'friend request'" class="friend-request-response-container">
+              <button class="btn btn-success accept-friend-button">Accept</button><br>
+              <button class="btn btn-danger ignore-friend-button">Ignore</button>
+            </div>
           </a>
         </li>
       </ul>
@@ -31,7 +35,10 @@
         <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
-            {{tag_notification.name}} tagged you in {{tag_notification.target}}
+            <div class="notification-text">
+              <span>{{tag_notification.name}}</span>
+              <p>tagged you in {{tag_notification.target}}</p>
+            </div>
           </a>
         </li>
       </ul>
@@ -47,7 +54,10 @@
         <li ng-repeat="message_notification in notificationsDummyData.messagesData">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
-            {{message_notification.name}} messaged you
+            <div class="notification-text">
+              <span>{{message_notification.name}}</span>
+              <p>messaged you</p>
+            </div>
           </a>
         </li>
       </ul>

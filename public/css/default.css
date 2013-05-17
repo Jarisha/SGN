@@ -487,6 +487,19 @@ form{
   width: 40px;
   padding-right: 10px;
 }
+.friend-request-response-container {
+  width: 60px;
+  float: right;
+}
+.friend-request-response-container button{
+  width: 100%;
+  height: 18px;
+  font-size: 11px;
+  line-height: 11px;
+}
+.accept-friend-button {
+  margin-top: 0px;
+}
 /* Drop down going left */
 #profile_toggle {
   height: 45px;
