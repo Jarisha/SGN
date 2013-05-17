@@ -427,13 +427,10 @@ form{
   
   border: 2px solid #333333;
 }
-#follower_dropdown li{
-  width: 100%
-}
-#tag_dropdown li{
-  width: 100%;
-}
-#message_dropdown li{
+#follower_dropdown li,
+#tag_dropdown li,
+#message_dropdown li
+{
   width: 100%
 }
 #follower_dropdown {
@@ -470,6 +467,15 @@ form{
 }
 #message_dropdown:before {
   left: 198px;
+}
+#follower_dropdown a,
+#tag_dropdown a,
+#message_dropdown a
+ {
+  padding-left: 9px;
+}
+.icon-flag {
+  float: right;
 }
 /* Drop down going left */
 #profile_toggle {
