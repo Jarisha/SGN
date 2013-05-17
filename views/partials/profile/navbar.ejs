@@ -10,11 +10,21 @@
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="follower_notification in notificationsDummyData.followersData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
-            {{follower_notification.name}} is {{follower_notification.action}}
-            <span ng-show="follower_notification.action == 'friend request'">Accept or deny</span>
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <div class="notification-text">
+              <span>{{follower_notification.name}}</span>
+              <p>is {{follower_notification.action}}</p>
+            </div>
+            <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
+            <div ng-show="follower_notification.action == 'friend request'" class="friend-request-response-container">
+              <button class="btn btn-success accept-friend-button">Accept</button><br>
+              <button class="btn btn-danger ignore-friend-button">Ignore</button>
+            </div>
           </a>
         </li>
+        <div class="view_all_footer">
+          <p ng-click="popGeneric()" href="#">View All</p>
+        </div>
       </ul>
     </li>
     <li id="tag_tab" ng-show="loggedIn">
@@ -27,10 +37,16 @@
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
-            {{tag_notification.name}} tagged you in {{tag_notification.target}}
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <div class="notification-text">
+              <span>{{tag_notification.name}}</span>
+              <p>tagged you in {{tag_notification.target}}</p>
+            </div>
           </a>
         </li>
+        <div class="view_all_footer">
+          <p ng-click="popGeneric()" href="#">View All</p>
+        </div>
       </ul>
     </li>
     <li id="message_tab" ng-show="loggedIn">
@@ -43,10 +59,16 @@
       <ul id="message_dropdown" class="dropdown-menu">
         <li ng-repeat="message_notification in notificationsDummyData.messagesData">
           <a tabindex="-1" href="#">
-            <img ng-src="<%= rootPath %>/images/30x30.gif">
-            {{message_notification.name}} messaged you
+            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <div class="notification-text">
+              <span>{{message_notification.name}}</span>
+              <p>messaged you</p>
+            </div>
           </a>
         </li>
+        <div class="view_all_footer">
+          <p ng-click="popGeneric()" href="#">View All</p>
+        </div>
       </ul>
     </li>
   </ul>
