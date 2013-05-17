@@ -331,7 +331,6 @@
   border-radius: 15px;
   /*background-image:url('/images/UI/XP.png');*/
   /*background:blue;*/
-  
 }
 .profile .xp_remaining{
   float: right;
@@ -358,7 +357,6 @@
   padding-left: 5px;
   display:inline-block;
   margin-bottom: 20px;
-  
 }
 .profile .bot_container .comrade tabs{
   padding:5px;
@@ -412,7 +410,39 @@
   width: 100px;
   font-size: 16px;
 }
-
+/*******Timeline*******/
+.profile #timeline_col{
+  height: 414px;
+  width:180px;
+  margin:0 15px;
+  float:left;
+  background: #FDFDFD;
+  overflow: hidden;
+}
+#timeline_footer > *{
+  height: 37px;
+  width: 30%;
+  float: left;
+}
+.profile #timeline_footer{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 0 15px;
+  text-align: center;
+  height: 30px;
+}
+.profile #timeline_header{
+  box-shadow: 0 5px 10px -5px #333333;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+}
 /* badge area */
 .profile #badge_col{
   width:120px;
@@ -422,7 +452,7 @@
   background: #FDFDFD;
 }
 .view_all_footer{
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
@@ -448,15 +478,6 @@
   font-weight: bold;
   padding: 5px 15px;
 }
-.profile #timeline_header{
-  box-shadow: 0 5px 10px -5px #333333;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
-  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
-  color: white;
-  font-weight: bold;
-  padding: 5px 15px;
-}
 .profile .badge_chest{
   text-align:center;
   padding:15px;
@@ -471,15 +492,6 @@
 }
 .profile .badge_head .badge_title{
   float:left;
-}
-
-.profile #timeline_col{
-  height: 414px;
-  width:180px;
-  margin:0 15px;
-  float:left;
-  background: #FDFDFD;
-  overflow: hidden;
 }
 
 /* friends followers */
