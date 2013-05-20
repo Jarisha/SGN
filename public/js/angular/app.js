@@ -46,6 +46,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
     messagesData : [{name: "Jill", time: 5}]
   };
+  $rootScope.timelineTabClicked = "none";
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
