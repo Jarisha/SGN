@@ -8,6 +8,7 @@
 .background_img {
   background-image: url("../images/UI/dark_dimple.png");
 }
+
 /* global defaults */
 html,
 body,
@@ -394,6 +395,7 @@ form{
 #about_dropdown {
   min-width: 100px;
 }
+
 /* Notifications dropdowns */
 .notifications-count-badge {
   background-color: red;
@@ -621,6 +623,7 @@ form{
 #nav_right .dropdown-menu.active:before {
   border: none;
 }
+
 /************* Subnav ************************/
 #subnav {
   background: none;
@@ -776,6 +779,7 @@ form{
 }
 .game_img {
 }
+
 /* Feedback tab */
 #feedback_tab{
   z-index: 1;
@@ -807,7 +811,6 @@ form{
 }
 
 /* Alerts */
-
 .alert{
   background-color: transparent;
   color: black;

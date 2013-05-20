@@ -423,6 +423,7 @@
   height: 37px;
   width: 30%;
   float: left;
+  cursor: pointer;
 }
 .profile #timeline_footer{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
