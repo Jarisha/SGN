@@ -215,6 +215,11 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#postModal').modal('hide');
     $('#youtubeModal').modal();
   }
+
+  //Modals for social notifications
+  $rootScope.popFollowerNotifications = function(){
+    $('#followerNotificationsModal').modal();
+  }
   
   //$rootScope.popNotify('Test', 'Test Success');
   

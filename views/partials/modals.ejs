@@ -380,7 +380,6 @@
   </div>
 </div>
 
-
 <!-- youTube Modal -->
 <div class="modal hide" id="youtubeModal" >
   <div class="modal-header">
@@ -467,6 +466,32 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Social Notifications Modals -->
+<div class="modal hide" id="followerNotificationsModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Follower Notifications</h3>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li ng-repeat="follower_notification in notificationsDummyData.followersData">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{follower_notification.name}}</span>
+            <p>is {{follower_notification.action}}</p>
+          </div>
+          <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
+          <div ng-show="follower_notification.action == 'friend request'" class="friend-request-response-container">
+            <button class="btn btn-success accept-friend-button">Accept</button><br>
+            <button class="btn btn-danger ignore-friend-button">Ignore</button>
+          </div>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 
