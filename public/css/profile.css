@@ -486,11 +486,14 @@
 }
 .profile .badge_chest{
   text-align:center;
-  padding:15px;
+  padding: 15px;
   height: 324px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .profile .badge_chest img{
-  margin:3px 3px;
+  margin: 5px 3px;
+  width: 60px;
 }
 .profile .badge_head{
   display:block;
