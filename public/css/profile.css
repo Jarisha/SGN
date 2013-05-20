@@ -443,6 +443,7 @@
   font-weight: bold;
   padding: 5px 15px;
   text-align: center;
+  cursor: pointer;
 }
 .profile #timeline_contents_container {
   height: 345px;

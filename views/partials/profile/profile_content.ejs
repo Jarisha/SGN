@@ -56,7 +56,7 @@
   </div>
 </div>
 <div id="timeline_col">
-  <div id="timeline_header">Timeline</div>
+  <div id="timeline_header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container">
     <ul ng-switch-when="none" id="timeline_events" >
       <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">

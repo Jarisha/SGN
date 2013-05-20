@@ -399,7 +399,8 @@ form{
 /* Notifications dropdowns */
 .notifications-count-badge {
   background-color: red;
-  border: solid 1px;
+  color: white;
+  border-radius: 4px;
   width: 17px;
   height: 17px;
   top: -8px;
