@@ -433,7 +433,8 @@ form{
 #tag_dropdown li,
 #message_dropdown li
 {
-  width: 100%
+  width: 100%;
+  height: 50px;
 }
 #follower_dropdown {
   left: -35px;
@@ -498,8 +499,6 @@ form{
   height: 18px;
   font-size: 11px;
   line-height: 11px;
-}
-.accept-friend-button {
   margin-top: 0px;
 }
 #followerNotificationsModal {
