@@ -226,7 +226,13 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.popFollowerNotifications = function(){
     $('#followerNotificationsModal').modal();
   }
-  
+
+  //Modal for badges
+  $rootScope.popBadgeModal = function(){
+    $('#badgeModal').modal();
+  }
+
+
   //$rootScope.popNotify('Test', 'Test Success');
   
   //Pops a Notification. Error or Success

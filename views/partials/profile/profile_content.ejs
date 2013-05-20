@@ -21,7 +21,7 @@
   </div>
   <div class="right_container">
     <div class="right_padding">
-      <p class="profile_name">{{profile.userName}}</p>
+      <p class="profile_name">{{profile.userName}}</p><span>Message</span>
       <p class="bio_text">{{profile.bio}}</p>
       <textarea class="bio_txtarea hidden" rows="4" maxlength="400">Click here to add bio text
       </textarea>
@@ -105,7 +105,7 @@
       <img ng-src="{{badge.url}}">
     </li>
   </ul>
-  <div class="view_all_footer"><p ng-click="popGeneric()" href="#">View All</p></div>
+  <div class="view_all_footer"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
 <div id="profile_data">
   <div id="group_bar" class="clearfix" ng-show="displayMode.group">

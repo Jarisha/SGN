@@ -495,6 +495,21 @@
   </div>
 </div>
 
+<!-- Badges Modal -->
+<div class="modal hide" id="badgeModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Badges</h3>
+  </div>
+  <div class="modal-body">
+    <ul class="badge_chest">
+      <li ng-repeat="badge in profileDummyData.badges">
+        <img ng-src="{{badge.url}}">
+      </li>
+    </ul>
+  </div>
+</div>
+
 <!-- Alert Container Template -->
 <div id="alertContainer" style="display: none">
   <div id="masterAlert" class="alert" >
