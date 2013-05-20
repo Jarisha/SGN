@@ -430,9 +430,8 @@
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
-  padding: 0 15px;
   text-align: center;
-  height: 30px;
+  height: 39px;
 }
 .profile #timeline_header{
   box-shadow: 0 5px 10px -5px #333333;
@@ -442,6 +441,7 @@
   color: white;
   font-weight: bold;
   padding: 5px 15px;
+  text-align: center;
 }
 .profile #timeline_contents_container {
   height: 345px;
@@ -480,6 +480,7 @@
   color: white;
   font-weight: bold;
   padding: 5px 15px;
+  text-align: center;
 }
 .profile .badge_chest{
   text-align:center;
