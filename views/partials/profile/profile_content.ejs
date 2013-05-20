@@ -97,6 +97,11 @@
   <div id="badge_header">BADGES<span class="view_all"></div>
   <div class="badge_chest">
     <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
+    <ul id="badge_list">
+      <li ng-repeat="badge in profileDummyData.badges">
+        <img ng-src="{{badge.url}}">
+      </li>
+    </ul>
   </div>
   <div class="view_all_footer"><p ng-click="popGeneric()" href="#">View All</p></div>
 </div>
