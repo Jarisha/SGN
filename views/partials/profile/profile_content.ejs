@@ -37,14 +37,16 @@
     <div id="people_header">
       <div ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >{{profile.followers.length}} FOLLOWERS</div>
       <div ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND;" >0 FRIENDS</div>
-      <div ng-class="{'active_tab': people_tab==FOLLOWERS}" ng-click="people_tab=FOLLOWERS;" >{{ profile.following.length }} FOLLOWING</div>
+      <div ng-class="{'active_tab': people_tab==FOLLOWING}" ng-click="people_tab=FOLLOWING;" >{{ profile.following.length }} FOLLOWING</div>
       <div class="view_all"><p class="view_all" ng-click="popGeneric()" href="#">View All</p></div>
     </div>
     <div class="bot_container">
       <a ng-show="people_tab==FOLLOW" ng-repeat="follower in profile.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" width="40px" height="40px" ng-src="{{follower.profileImg || '<%= rootPath %>/images/30x30.gif'}}"/>
       </a>
-      <a ng-show="people_tab==FOLLOWERS" href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>
+      <a ng-show="people_tab==FOLLOWING" ng-repeat="following in profile.following" href="/user/test">
+        <img title="test" width="40px" height="40px" ng-src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/>
+      </a>
     </div>
   </div>
   <div id="footer_container">
