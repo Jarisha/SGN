@@ -73,13 +73,13 @@
     </li>
   </ul>
   <div id="notify_div"></div><img
-  id="notify_triangle" src="<%= rootPath %>/images/UI/triangle_green.png" />
+  id="notify_triangle" src="/images/UI/triangle_green.png" />
 </div>
 <div id="nav_content" class="navbar-inner">
-  <a id="main_logo" href="/" ng-click="getfront()"><img src="<%= rootPath %>/images/UI/QUYAY-LOGO-FINAL.png" /></a>
+  <a id="main_logo" href="/" ng-click="getfront()"><img src="/images/UI/QUYAY-LOGO-FINAL.png" /></a>
   <ul id="nav_left" class="nav">
     <li>
-      <img class="search_glass" src="<%= rootPath %>/images/UI/search_glass.png" />
+      <img class="search_glass" src="/images/UI/search_glass.png" />
       <form id="search_bar" class="navbar-search" ng-submit="textsearch(searchText)">
         <input type="text" ng-model="searchText" class="search-query" placeholder="Search">
       </form>
@@ -87,11 +87,11 @@
   </ul>
   <ul id="nav_right" class="nav">
     <li ng-show="loggedIn"><a id="post_btn" style="font-size: 25px;" ng-click="postGamePin()" data-toggle="dropdown">
-      <img src="<%= rootPath %>/images/UI/post.png" />
+      <img src="/images/UI/post.png" />
     </a></li>
     <li id="about_tab" class="dropdown">
       <a href="/about" id="about_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="<%= rootPath %>/images/UI/about.png" />
+        <img src="/images/UI/about.png" />
       </a>
       <ul class="dropdown-menu active">
         <li><a href="/about/faq">FAQ</a></li>
@@ -101,7 +101,7 @@
       </ul>
     </li>
     <!--<li ng-show="!loggedIn"><a ng-click="promptLogin(); log('test')">
-      <img id="login_btn" src="<%= rootPath %>/images/UI/Login_effects.png" />
+      <img id="login_btn" src="/images/UI/Login_effects.png" />
     </a></li>-->
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">

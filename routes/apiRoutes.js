@@ -5,6 +5,9 @@ var baseApi = require('./api/base');
 
 module.exports = function(app){
   /********* Quyay API ***********/
+  //temporary
+  app.get('/api/fixProblems', userApi.fixProblems);
+  
   //User
   //Debug only
   app.post('/api/user/createUser', userApi.createWrap);
@@ -12,6 +15,8 @@ module.exports = function(app){
   app.post('/api/user/deleteUser', userApi.deleteWrap);
   app.post('/api/user/fetchUser', userApi.fetchUser);
   app.post('/api/user/fetchUsers', userApi.fetchUsers);
+  app.get('/api/user/fetchEvent', baseApi.fetchEvent);
+
   
   app.post('/api/user/getProfile', userApi.getProfile);
   app.post('/api/user/getGroups', userApi.getGroups);

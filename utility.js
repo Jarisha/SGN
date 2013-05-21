@@ -90,6 +90,44 @@ var getDate = exports.getDate = function(){
   return today;
 }
 
+//returns a JS object with all relevant date details
+var getDateObj = exports.getDateObj = function(){
+  var obj = Object.create(null);      //creates obj without prototype.  Container only.
+  var now = new Date();
+  obj.year = now.getFullYear();
+  obj.month = now.getMonth();
+  obj.day = now.getDate();
+  obj.hour = now.getHours();
+  obj.second = now.getSeconds();
+  return obj;
+}
+
+//Lets explore events here
+var createEvent = exports.createEvent = function(){
+  
+  var evt = { sourceUser: 'dtonys@gmail.com',
+              eventAction: 'follow',
+              target: 'user2@gmail.com',
+              targetLink: '/user/user2',
+              date: getDateObj()
+            };
+  var evt2 = { sourceUser: 'dtonys@gmail.com',
+               eventAction: 'commment',
+               target: 'Action & Adventure',
+               targetUI: '/images/',
+               targetLink: '/post/3448284947294583',
+               date: getDateObj()
+            };
+  var evt3 = { sourceUser: 'dtonys@gmail.com',
+               eventAction: 'like',
+               target: 'Action & Adventure',
+               targetUI: '/images/',
+               targetLink: '/user/user2',
+               date: getDateObj()
+              };
+  console.log(evt);
+}
+
 //TODO: get rid of 2i and replace with KV pair
 //Check if userName has not been taken. callback(err)
 var uniqueUserName = exports.uniqueUserName = function(userName, callback){
@@ -150,6 +188,7 @@ var uniqueUserEmail = exports.uniqueUserEmail = function(userEmail, callback){
 var last_write_wins = exports.last_write_wins = function(siblings){
   evtlog.info('last_write_wins');
   outlog.info('last_write_wins');
+  console.log('last_write_wins');
   function siblingLastModifiedSort(a, b) {
     if(!a.metadata.last_modified || new Date(a.metadata.last_modified) < new Date(b.metadata.last_modified)) {
       return 1;
@@ -594,7 +633,6 @@ var deactivateUser = exports.deactivateUser = function(userId){
       });
     }
   });
-  
 }
 
 

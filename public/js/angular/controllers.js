@@ -903,7 +903,6 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
 AboutController.resolve = {
   resolveAbout: function($q, $rootScope, $location){
     var deferred = $q.defer();
-    ('AboutController');
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
@@ -914,6 +913,19 @@ AboutController.resolve = {
 }
 
 
-function TempController($scope, $rootScope, $http, $location, $routeParams){
-  ('TempController');
+function TempController($scope, $rootScope, $http, $location, $routeParams, $route, gamepinService){
+  var id = $route.current.params.postId;
+  console.log($rootScope.loggedIn);
+  console.log('TempController');
+  console.log('id: ' + id);
+  $rootScope.css = 'post';
+  $rootScope.title = 'post';
+  $scope.pagePin = {};
+  gamepinService.getPinData(id, function(data){
+    $scope.pagePin = data;
+    console.log(data);
+  });
+  
+  $rootScope.checkLogin(function(err, res){
+  });
 }

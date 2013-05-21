@@ -2,7 +2,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
-  console.log('app.config()');  
+  console.log('app.config()');
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'
@@ -27,6 +27,9 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
     .when('/user/:username', {   templateUrl: '/partials/user/user', //  templateUrl: '/partials/profile/profile',
                       controller: UserController,
                       resolve: UserController.resolve
+                    })
+    .when('/post/:postId',{ templateUrl: '/partials/post/post',
+                      controller: TempController
                     })
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});
@@ -106,7 +109,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.loggedIn = null;
   $rootScope.userName = null;
   $rootScope.userEmail = null;
-  $rootScope.userImg = '<%= rootPath %>/images/30x30.gif';
+  $rootScope.userImg = '/images/30x30.gif';
   //settings
   $rootScope.set =  { password: null,
                       confirm: null,
@@ -156,6 +159,9 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('img').imagesLoaded(function(){
       $('#content').masonry('reload');
     });
+  }
+  $rootScope.remason = function(){
+    $('#content').masonry('reload');
   }
   $rootScope.destroyMason = function(){
     $('#content').masonry('destroy');

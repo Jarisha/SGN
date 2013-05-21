@@ -16,19 +16,19 @@
     <span>{{pin.likedBy.length}} like<span ng-show="pin.likedBy.length != 1">s</span></span>
   </p>
   <div class="posted_by">
-    <img ng-src="{{pin.profileImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
+    <img ng-src="{{pin.profileImg || '/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p
     class="post_text"><a href="/user/{{pin.poster || pin.posterName}}"><b>{{pin.poster || pin.posterName}}</b></a> 
                        onto {{pin.category}}
     </p>
   </div>
   <div ng-repeat="cmt in pin.comments" class="comment">
-    <img ng-src="{{cmt.posterImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p 
+    <img ng-src="{{cmt.posterImg || '/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p 
     class="post_text"><a href="/user/{{cmt.posterName}}"><b>{{cmt.posterName}}</b></a>
                        {{cmt.content}}
     </p>
   </div>
   <div class="respond clearfix" tabindex="">
-      <img ng-src="{{userImg || '<%= rootPath %>/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
+      <img ng-src="{{userImg || '/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
       ng-click="showComment = true; masonry();" class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
       <button ng-show="showComment" class="respond_btn" type="submit" ng-click="addComment(text, $index); text=null; showComment = false">Comment</button>
   </div>

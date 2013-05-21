@@ -72,7 +72,6 @@ else{
 
   //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
-
     //HTTP + Logged out = GOTO HTTPS
     if(!req.session.loggedIn && !req.connection.encrypted){
       return res.redirect('https://' + app.locals.host + req.url);
@@ -102,7 +101,7 @@ else{
                             cookie: { maxAge: 86400000
                                       }
                             }));
-    //express globals
+    //express global
     app.locals.host = config.dev_host;
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -117,46 +116,7 @@ else{
     evtlog = exports.evtlog = {
       info: function(){}
     }
-    
-    /*outlog = exports.outlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'quyay.log', json:true,
-                                      options: {   //stupid hack b/c winston doesn't work with express
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });
-    errlog = exports.errlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info',
-                                        filename: config.dev_log_path + 'error.log',
-                                        json:true,
-                                        options: {   
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });
-    evtlog = exports.evtlog = new (winston.Logger)({
-      exitOnError: false, //don't crash on exception
-      transports: [
-        new (winston.transports.File)({ level: 'info', filename: config.dev_log_path + 'event.log', json:true,
-                                        options: {
-                                          flags: 'a',
-                                          highWaterMark: 24
-                                        }
-                                      })
-      ]
-    });*/
     apiRoutes = require('./routes/apiRoutes');
-
-
-    
     //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     util = require('./utility');
@@ -345,7 +305,6 @@ else{
   });
   
   app.get('/', auth, function(req, res){
-
     res.render('base');
   });
 
@@ -389,10 +348,7 @@ else{
     }
   );
   */
-  app.get('/user/:user', function(req, res){
-    if(!req.session.loggedIn){
-      return res.render('banner');
-    }
+  app.get('/user/:user', auth, function(req, res){
     return res.render('base');
   });
   
@@ -401,12 +357,11 @@ else{
   app.get('/partials/profile/:name', partials.profile);
   app.get('/partials/user/:name', partials.user);
   app.get('/partials/about/:name', partials.about);
+  app.get('/partials/post/:name', partials.post);
   app.get('/partials/:name', partials.index);
 
-  
-
   apiRoutes(app);
-  
+
   //Angular will take care of the 404 page
   app.get('*', function(req, res){
     return res.render('base');

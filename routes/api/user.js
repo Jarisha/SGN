@@ -11,13 +11,28 @@ var base = require('./base.js');
 var E = require('../../customErrors');
 
 var userSchema = require('../../schema/user');
-var comment_obj = require('../../schema/comment');
 
 var errlog = app.errlog;
 var evtlog = app.evtlog;
 var outlog = app.outlog;
 
 /******************************** DB Level - Level 1 *******************************/
+
+var fixProblems = exports.fixProblems = function(req, res){
+  app.riak.bucket('users').objects.get('user3@u.u', function(err, usr){
+    if(err) return res.json({error: 'fixProblems error'});
+    usr.data['version'] = userSchema.userInstance.version;
+    var new_data = new userSchema.user(usr.data);
+    var invalid = new_data.validate();
+    if(invalid) return res.json({ error: 'invalid data or something' });
+    var newUsr = app.riak.bucket('users').object.new('user3@u.u', new_data);
+    newUsr.addToIndex('username', 'user3');
+    newUsr.save(function(err, saved){
+      if(err) return res.json({ error: 'save error' });
+      return res.json({ success: true });
+    });
+  });
+}
 
 // Reindex Riak Object ~ User to userSchema.
 // Cases: Error - Success. callback(error, RO_usr)
@@ -28,9 +43,14 @@ var reindexUser = function(ROuser, callback){
   var new_usr = new userSchema.user(ROuser.data);
   var invalid = new_usr.validate();
   if(invalid) return callback(invalid, null);
-  ROuser.data = new_usr;
-  base.save_RO(ROuser, 'users', function(err, savedRO){
+  //ROuser.data = new_usr;
+  console.log('reindexUser');
+  var newUser = app.riak.bucket('users').object.new(ROuser.data.email, new_usr);
+  newUser.addToIndex('username', ROuser.data.userName);
+  base.save_RO(newUser, 'users', function(err, savedRO){
+    console.log(err);
     if(err) return callback(err, null);
+    console.log(savedRO.data);
     return callback(null, savedRO);
   });
 }
@@ -38,13 +58,18 @@ var reindexUser = function(ROuser, callback){
 // Get Riak Object ~ User. Tested - OK!
 // Cases: Error - Out of Date - Success.  callback(error, RO_user)
 var get_RO_user = exports.get_RO_user = function(key, callback){
-  app.riak.bucket('users').object.get(key, util.last_write_wins, function(err, usr){
+  console.log('get_RO_user');
+  //console.log(key);
+  app.riak.bucket('users').object.get(key, function(err, usr){
     if(err){
       if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_user: '+err.data+' not found'), null);
       return callback(new Error('get_RO_user: '+err.message), null);
     }
     //reindex if out of date
-    if(!usr.data.version || usr.data.version !== userSchema.userInstance.version){
+    console.log(usr.data.version);
+    console.log(userSchema.userInstance.version);
+    if(!usr.data.version || (usr.data.version !== userSchema.userInstance.version)){
+      console.log('reindexing '+key);
       reindexUser(usr, function(_err, updated_usr){
         if(_err) return callback(_err, null);
         return callback(null, updated_usr);
@@ -228,10 +253,10 @@ var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
   });
 }
 
-// create follower & following connection between source and target.                      
+// create follower & following connection between source and target.
 // If connection already exists, continue without error
 // callback(error, updatedSource)
-var addFollower = exports.addFollower = function(sourceId, targetId, callback){
+var addFollower = exports.addFollower = function(sourceId, targetId, followEventId, notifyEventId, callback){
   async.waterfall([
     function(_callback){
       //get sourceUsr and targetUsr
@@ -245,9 +270,10 @@ var addFollower = exports.addFollower = function(sourceId, targetId, callback){
     },
     //link them together & save
     function(src_user, trg_user, _callback){
-      //add target to source's following list
+      //add target to source's following list + event
       if(src_user.data.following.indexOf(targetId) === -1){
         src_user.data.following.push(targetId);
+        src_user.data.timelineEvents.push(followEventId);
         base.save_RO(src_user, 'users', function(err, saved){
           if(err) return _callback(err, null, null);
           else return _callback(null, saved, trg_user); //next(saved);
@@ -256,8 +282,10 @@ var addFollower = exports.addFollower = function(sourceId, targetId, callback){
       else return _callback(null, src_user, trg_user); //next(src_user);
     },
     function(source_RO, target_RO, _callback){
+      //add source to target's followers list + event
       if(target_RO.data.followers.indexOf(sourceId) === -1){
         target_RO.data.followers.push(sourceId);
+        target_RO.data.userEvents.push(notifyEventId);
         base.save_RO(target_RO, 'users', function(err, saved){
           if(err) return _callback(err, null);
           else return _callback(null, source_RO);
@@ -568,7 +596,7 @@ exports.editSettings = function(req, res){
           errlog.info('Edit user error: '+err.message);
           return callback(err, null); // res.json({ error: err.message });
         }
-        callback(null, usr);
+        return callback(null, usr);
       });
     },
     //update user settings
@@ -673,18 +701,21 @@ exports.testAPI = function(req, res){
     });
   });*/
   
-  //editSettings implemented via editWrap
-  
-  //exports.follow = function(req, res){
-  
-  //exports.getProfile = function(req, res){
-  
+  /*base.getEvents(['761069696226291699', '761069319544238079', '76106930318680319'], function(err, evt_ROs){
+    console.log(err);
+    for(var e = 0, len = evt_ROs.length; e < len; e++){
+      console.log(evt_ROs[e].key);
+      console.log(evt_ROs[e].data);
+    }
+  });*/
 }
 
-/********************************************** API Level - Redacted  *************************************/
+/********************************************** API Level  *************************************/
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 exports.checkLogin = function(req, res){
+  //util.getDateObj();
+  //console.log(util.createEvent());
   if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
   if(req.session){
@@ -750,17 +781,25 @@ exports.gatewayLogin = function(req, res){
       req.session.avatarUrl = ROuser.data.profileImg;
       //req.session.likes = ROuser.data.likes;         //save likes for front page
       
-      outlog.info('Gateway Login Success for: ' + ROuser.data.username);
-      evtlog.info('Gateway Login Success for: ' + ROuser.data.username);
-      return res.send(JSON.stringify({
-        login: true,
-        userId: req.session.loggedIn,
-        userEmail: req.session.userEmail,
-        userName: req.session.userName,
-        avatarUrl:  req.session.avatarUrl
-      }));
+      //set login date.
+      ROuser.data.lastLogin = util.getDateObj();
+      base.save_RO(ROuser, 'users', function(err, saved){
+        if(err) return res.json({ error: err.message });
+        next2();
+      });
     });
 	}
+  function next2(){
+    outlog.info('Gateway Login Success for: ' + req.body.email);
+    evtlog.info('Gateway Login Success for: ' + req.body.email);
+    return res.send(JSON.stringify({
+      login: true,
+      userId: req.session.loggedIn,
+      userEmail: req.session.userEmail,
+      userName: req.session.userName,
+      avatarUrl:  req.session.avatarUrl
+    }));
+  }
 }
 
 // Destroy Session
@@ -1015,27 +1054,67 @@ exports.deactivate = function(req, res){
   }
 }
 
+
+//TODO: finish follower event stuff
 //addFollower: source user follows target user, given targetName or targetId                                          TEST
 exports.follow = function(req, res){
   var sourceId = req.body.sourceId,
       targetName = req.body.targetName,
       targetId = req.body.targetId;
+
+  var followId;
+  var notifyId;
+  var followEvent = { date: util.getDateObj(),
+                      sourceUser: sourceId,
+                      action: 'followSent',
+                      target: targetId,
+                    };
+  var notifyEvent = { date: util.getDateObj(),
+                      sourceUser: sourceId,
+                      action: 'followRecieved',
+                      target: targetId
+                    };
+  
   //if no targetId give, look it up via 2i
   if(!targetId){
     base.getUserEmail(targetName, function(err, email){
       if(err) return res.json({ error: err.message });
       targetId = email;
+      followEvent.target = targetId;
+      notifyEvent.target = targetId;
       next();
     });
   }
   else next();
+  //deal with events
   function next(){
     if(sourceId === targetId){
       outlog.info('Error: cannot follow yourself');
       return res.json({ error: 'Error: cannot follow yourself' });
     }
-    //link users together, and save them
-    addFollower(sourceId, targetId, function(err, sourceRO){
+    async.series([
+      function(callback){
+        base.createEvent(followEvent, function(err, eventId){
+          if(err) return callback(err);
+          followId = eventId;
+          return callback(null);
+        });
+      },
+      function(callback){
+        base.createEvent(notifyEvent, function(err, eventId){
+          if(err) return callback(err);
+          notifyId = eventId;
+          return callback(err);
+        });
+      }
+    ], function(err){
+      if(err) return res.json({ error: err.message });
+      next2();
+    });
+  }
+  function next2(){
+    //link users together, and save them, pass in events
+    addFollower(sourceId, targetId, followId, notifyId, function(err, sourceRO){
       if(err) return res.json({ error:'follow user error: '+err.message });
       return res.json({ success: sourceId+' following '+targetId+' success', notify: 'Now following '+targetId });
     });
@@ -1080,6 +1159,7 @@ exports.getSettings = function(req, res){
 // getProfile - return profile data for display - does not interact with session.
 // user settings - follower/following user+image - userActivity
 // accepts userEmail OR userName. userEmail preffered.
+// returns timeline data
 exports.getProfile = function(req, res){
   console.log(req.body);
   //get email via twoi search
@@ -1087,15 +1167,18 @@ exports.getProfile = function(req, res){
   var user;                 // user RObject
   var email;                // reference to user's email
   var displayData = {};     // profile data we will send to the front end
-  var activityList = [];    // contains list of ordered recent activity
+  //var activityList = [];    // contains list of ordered recent activity
+  var timelineIds = [];
+  var timelineEvents = [];
   
   if(req.body.email){
-    console.log('!1');
     email = req.body.email;
     get_RO_user(email, function(err, usr){
       if(err) return res.json({ error: 'getProfile: '+err.message });
       user = usr;
       displayData = usr.data;
+      util.removeNulls(usr.data.timelineEvents);
+      timelineIds = usr.data.timelineEvents;
       delete displayData.passHash;   //we don't want to send password hash to client
       next();
     });
@@ -1105,11 +1188,11 @@ exports.getProfile = function(req, res){
     base.getUserEmail(req.body.userName, function(err, usr_email){
       if(err) return res.json({ error: 'getProfile: '+err.message });
       email = usr_email;
-      console.log('!!');
-      console.log(usr_email);
       get_RO_user(email, function(err, usr){
         if(err) return res.json({ error: 'getProfile: '+err.message });
         user = usr;
+        util.removeNulls(usr.data.timelineEvents);
+        timelineIds = usr.data.timelineEvents;
         displayData = usr.data;
         delete displayData.passHash;   //we don't want to send password hash to client
         next();
@@ -1135,20 +1218,42 @@ exports.getProfile = function(req, res){
       });
     });
   }
+  //fetch timeline given timeline events
   function next2(){
-    //get recent activity (RO_gamepin.data), add to activityList[]
-    get_activity(email+'-activity', function(err, evt_data){
-      if(err){
-        errlog.info('getProfile error: '+err.message);
-        return res.json({ error: 'getProfile: '+err.message });
-      }
-      activityList = evt_data;
-      next3();
+    async.map(timelineIds, function(eventId, callback){
+      app.riak.bucket('events').objects.get(eventId, function(err, event_RO){
+        if(err){
+          if(err.status_code === 404) return callback(null, null);
+          else return callback(new Error('Fetch Timeline error: '+err.message), null);
+        }
+        return callback(null, event_RO);
+      });
+    },
+    function(err, events){
+      if(err) return res.json({ error: err.message });
+      
+      //if target is User, convert email => {email, userName, profileImg} to show on front end
+      async.map(events, function(event, callback){
+        if(event.data.action === 'followSent'){
+          base.get_userRef(event.data.target, function(err, ref_data){
+            if(err) return callback(err, null);
+            event.data.target = { email: event.data.target, userName: ref_data.userName, profileImg: ref_data.profileImg };
+            event.data.targetLink = '/user/'+ref_data.userName;
+            return callback(null, event.data);
+          });
+        }
+        else{
+          //keep things async in both cases
+          process.nextTick(function(){
+            return callback(null, event.data);
+          });
+        }
+      },
+      function(err, event_data){
+        if(err) return res.json({ error: err.message });
+        return res.json({ profileData: displayData, timeline: event_data });
+      });
     });
-  }
-  //send data to profile page
-  function next3(){
-    return res.json({ profileData: displayData, activityData: activityList });
   }
 }
 /* The following funcs used to retrieve list of pins that populate front page
@@ -1743,6 +1848,7 @@ exports.getLikedPins = function(req, res){
 //get groups which contain gamepin IDs, then fetch those gamepins and return them
 //replace object containing IDs the actual object itself
 exports.getGroups = function(req, res){
+  
   if(!req.body.userName) return res.json({ error: 'userName missing' });
   var user_id;
   var gamepinIds = [];
@@ -1839,4 +1945,24 @@ exports.getGroups = function(req, res){
       });
     });
   }
+}
+
+//take in event ID array, return event object array.  TODO: Fetch user ref data for user based events (which is every event)
+exports.getTimeline = function(req, res){
+  var timelineData = [];
+  if(!req.eventIds) return res.json({ error: 'no ids specified' });
+  base.getEvents(req.eventids, function(err, evt_ROs){
+    if(err) return res.json({ error: err.message });
+    for(var e = 0, len = evt_ROs.length; e < len; e++){
+      console.log(evt_ROs[e].key);
+      console.log(evt_ROs[e].data);
+      /*var temp = evt_ROs[e].data;
+      temp.id = evt_ROs[e].key;
+      timelineData.push(temp);*/
+    }
+  });
+}
+//take in notification ID array,s reutnr event object arrays
+exports.getNotifications = function(req, res){
+  
 }
