@@ -4,7 +4,12 @@
     <script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        console.log('document is ready');
+        //console.log('document is ready');
+        $('#fix_problems').click(function(e){
+          $.get('/api/fixProblems', function(data){
+            console.log(data);
+          });
+        });
         $('#create_user').submit(function(e){
           console.log($('form#create_user').serialize());
           $.ajax({
@@ -186,10 +191,18 @@
           });
           return false;
         });
+        $('#fetch_event').submit(function(e){
+          console.log($(this).serialize());
+          $.get('/api/user/fetchEvent?'+$(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
       });
     </script>
   </head>
   <body>
+    <button id="fix_problems" style="position: fixed; right:100px;" >Fix Problems</button>
     <!-- Name must match schema -->
     <h1>User</h1>
     <p>Create User</p>
@@ -307,41 +320,12 @@
       <input type="text" name="pinId" placeholder="pinId">
       <input type="submit">
     </form>
-    <!--<p>Fetch Gamepins</p>
-    <form id="fetch_users">
-      <input type="text" name="emails[]" placeholder="email">
-      <input type="text" name="emails[]" placeholder="email">
-      <input type="text" name="emails[]" placeholder="email">
-      <input type="submit">
-    </form>-->
-    
-    
-    <!--<h1>Comment</h1>
-    <p>Create Comment</p>
-    <form id="create_comment">
-      <input type="email" name="gamepinEmail" placeholder="email">
-      </br>  
-      <input type="text" name="gamepinName" placeholder="gamepinname">
-      </br>
-      <input type="password" name="gamepinPassword" placeholder="password">
-      </br>
-      <input type="submit">
+    <!-- Events -->
+    <h1>Event</h1>
+    <p>Fetch Event</p>
+    <form id="fetch_event">
+      <input type="text" name="eventId" placeholder="eventId" />
+      <input type="submit" />
     </form>
-    <p>Edit Comment</p>
-    <form id="edit_gamepin">
-      <input type="text" name="gamepinName" placeholder="gamepinname">
-      </br>
-      <input type="password" name="gamepinPassword" placeholder="password">
-      </br>
-      <input type="password" name="confirm" placeholder="confirm">
-      </br>
-      <input type="submit">
-    </form>
-    <p>Delete Comment</p>
-    <form id="delete_gamepin">
-      <select>
-        <option value="opt1" name="opt1">Option 1</option>
-      </select>
-    </form>-->
   </body>
 </html>

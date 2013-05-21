@@ -123,6 +123,9 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       $('#content').masonry('reload');
     });
   }
+  $rootScope.remason = function(){
+    $('#content').masonry('reload');
+  }
   $rootScope.destroyMason = function(){
     $('#content').masonry('destroy');
   }

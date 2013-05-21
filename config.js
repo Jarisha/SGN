@@ -31,7 +31,6 @@ exports.staging_port = '80';
 exports.production_db_host = '127.0.0.1';
 exports.production_db_port = 8098;
 exports.production_ssl_path = '/var/lib/quyay/';
-
 exports.production_temp_path = '/tmp';
 exports.production_log_path = '/var/log/quyay/';
 exports.production_host = "www.quyay.com";

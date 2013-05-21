@@ -16,8 +16,15 @@ var outlog = app.outlog;
 //Save single RO and return it.  Tested - OK!
 //Cases: Error - Success.  callback(Error, Saved)
 var save_RO = exports.save_RO = function(RObject, bucketName, callback){
-  app.riak.bucket(bucketName).objects.save(RObject, function(err, savedRO){
-    if(err) return callback(new Error('save_RO: ' + bucketName + ' failed: ' + err), null);
+  //console.log(RObject);
+  console.log(RObject);
+  console.log(bucketName);
+  app.riak.bucket(bucketName).object.save(RObject, function(err, savedRO){
+    if(err){
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log(err);
+      return callback(new Error('save_RO: ' + bucketName + ' failed: ' + err), null);
+    }
     return callback(null, savedRO);
   })
 }
@@ -54,8 +61,8 @@ var RO_exist = exports.RO_exist = function(key, bucketName, callback){
   });
 }
 
-//Given an array of keys, return found and not found keys.
-//callback(error, not_found[], found[])
+// Given an array of keys, return found and not found keys.
+// callback(error, not_found[], found[])
 var RO_exists = exports.RO_exists = function(keys, bucketName, callback){
   if(keys.length === 0) callback('RO_exists error: no keys specified', null, null);
   var found = [];
@@ -76,9 +83,9 @@ var RO_exists = exports.RO_exists = function(keys, bucketName, callback){
   });
 }
 
-//get email given userName via riak 2i
-//TODO: replace 2i with KV pair
-//callback(error, email)
+// get email given userName via riak 2i
+// TODO: replace 2i with KV pair
+// callback(error, email)
 var getUserEmail = exports.getUserEmail = function(userName, callback){
   //search 'username' index, should return 1 email
   app.riak.bucket('users').search.twoi(userName, 'username', function(err, keys){
@@ -102,7 +109,66 @@ var get_userRef = exports.get_userRef = function(email, callback){
   });
 }
 
+// Event goes like: SourceUser does Action onto Target.
+// pass data object: {date:{year, month, day, hour, minute}, sourceEmail, action, target, (targetLink), (content) }
+// callback(error, evtId);
+var createEvent = exports.createEvent = function(evtObj, callback){
+  //generateId
+  var evtId;
+  util.generateId(function(id){
+    evtId = id;
+    next();
+  });
+  function next(){
+    //save the event
+    var evt_RO =  app.riak.bucket('events').object.new(evtId, evtObj);
+    evt_RO.save(function(err, saved){
+      if(err) return callback(new Error('createEvent error: ' + err.message), null);
+      else return callback(null, evtId);
+    });
+  }
+}
+
+
+// Given one event Id, return that Event RO
+// callback(err, event_RO)
+var getEvent = exports.getEvent = function(evtId, callback){
+  app.riak.bucket('events').objects.get(evtId, function(err, evt_RO){
+    if(err) return callback(new Error('getEvent error: ' + err.message), null);
+    return callback(null, evt_RO);
+  });
+}
+
+// Given an array of event Ids, return list of Events in the same order the Ids were specified
+// callback(err, event_ROs[])
+var getEvents = exports.getEvents = function(idArray, callback){
+  async.map(idArray, function(id, _callback){
+    app.riak.bucket('events').objects.get(id, function(err, evt_RO){
+      if(err) return _callback(new Error('getEvents error: '+err.message), null);
+      else return _callback(null, evt_RO);
+    });
+  },
+  function(err, results){
+    console.log(results);
+    /*if(err) return callback(err, null);
+    return callback(null, results)*/
+  });
+  /*app.riak.bucket('events').objects.get(idArray, callback(errs, evt_ROs){
+    if(errs) return callback(new Error('getEvents error'), null);
+    
+    
+  });*/
+}
+
 /************************ Level 3 ***********************/
+exports.fetchEvent = function(req, res){
+  console.log(req.query);
+  app.riak.bucket('events').objects.get(req.query.eventId, function(err, event_RO){
+    if(err) return res.json({ error: err.message });
+    return res.json({ event: event_RO.data });
+  });
+}
+
 exports.validImg = function(req, res){
   request({ method: 'HEAD', url: req.body.url},
             function(err, response, body){

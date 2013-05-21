@@ -7,7 +7,6 @@ var async = require('async');
 var util = require('../../utility');
 var app = require('../../app');
 var gamepinSchema = require('../../schema/gamepin');
-var commentSchema = require('../../schema/comment');
 var userAPI = require('./user');
 var base = require('./base.js');
 var E = require('../../customErrors');
@@ -25,10 +24,12 @@ var reindexGamepin = function(ROgamepin, callback){
   //hard code data transfers
   
   var new_gamepin = new gamepinSchema.gamepin(ROgamepin.data);
+  //console.log(new_gamepin);
   var invalid = new_gamepin.validate();
   if(invalid) return callback(invalid, null);
   ROgamepin.data = new_gamepin;
-  base.save_RO(ROgamepin, 'gamepin', function(err, savedRO){
+  console.log('reindexGamepin');
+  base.save_RO(ROgamepin, 'gamepins', function(err, savedRO){
     if(err) return callback(err, null);
     return callback(null, savedRO);
   });
@@ -42,8 +43,8 @@ var get_RO_gamepin = exports.get_RO_gamepin = function(key, callback){
       if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_gamepin: '+err.data+' not found'), null);
       return callback(new Error('get_RO_gamepin: '+err.message), null);
     }
-    //reindex if out of date
     if(!pin.data.version || pin.data.version !== gamepinSchema.gamepinInstance.version){
+      console.log('reindex gamepin');
       reindexGamepin(pin, function(_err, updated_pin){
         if(_err) return callback(_err, null);
         return callback(null, updated_pin);
@@ -296,7 +297,6 @@ exports.deleteWrap = function(req, res){
 /********************************************** API Level - Redacted  *************************************/
 
 //Create gamepin and "post" to relevant areas
-//exports.postGamePin = function(req, res){
 exports.postImageUpload = function(req, res){
   //validate data
   if(!req.body.name || !req.body.description || !req.body.category || !req.files.image){
@@ -444,14 +444,24 @@ exports.postYoutubeUrl = function(req, res){
 
 //generate ID, save into DB, and link to user
 function postGamePin(post_data, callback){
+  var user;
   var post_id;
-  //Generate nodeflake ID
+  var postEventId;
+  var postEvent = { date: util.getDateObj(),
+                    sourceUser: post_data.posterId,
+                    action: 'gamepinPosted',
+                    target: post_data.category,
+                    targetLink: null
+                  };
+                    
+  //Generate nodeflake ID for gamepin
   util.generateId(function(id){
     outlog.info('nodeflake ID: ' + id);
     post_id = id;
+    postEvent.targetLink = '/post/'+id;
     next();
   });
-  //create gamepin and store into Riak db
+  //create gamepin and store into Riak db + create post gamepin event
   function next(){
     var gamepin = app.riak.bucket('gamepins').objects.new(post_id, post_data);
     gamepin.save(function(err, saved){
@@ -460,18 +470,25 @@ function postGamePin(post_data, callback){
         return callback('Save gamepin failed', null);
       }
       outlog.info('Gamepin ' + saved.key + ' created');
-      next2();
+      base.createEvent(postEvent, function(err, eventId){
+        if(err) return res.json('wtf');
+        console.log('eventId: ' + eventId);
+        postEventId = eventId;
+        next2();
+      });
     });
   }
-  //add gamepin ID to author's post array
+  //add gamepin ID to author's post array + add event to Timeline
   function next2(){
-    app.riak.bucket('users').objects.get(post_data.posterId, util.user_resolve, function(err, usr){
+    userAPI.get_RO_user(post_data.posterId, function(err, usr){
       if(err){
         errlog.info('postGamePin: Fetch User failed');
         return callback('postGamePin: Fetch User failed', null);
       }
-      //add this gamepin ID to the user object
+      //add this gamepin ID to the user's posts + timeline
       usr.data.posts.push(post_id);
+      usr.data.timelineEvents.push(postEventId);
+      
       usr.save(function(err, saved){
         if(err) return errlog.info('user update error: ' + err); 
         outlog.info('gamepin ID added to user posts[]');
@@ -480,7 +497,7 @@ function postGamePin(post_data, callback){
     });
   }
   
-  //add gamepin id to author's groups and activity
+  //add gamepin id to author's groups and activity...... timeline
   function next3(){
     app.riak.bucket('users').objects.get(post_data.posterId + '-groups', function(err, obj){
       if(err && err.status_code === 404){
@@ -559,20 +576,40 @@ exports.getComments = function(req, res){
 }
 
 //TODO: Abstract comment functionality better.
-//add comment, given pinId and poster
+//add comment, given pinId and poster.   EVENTS ATTACHED!
 exports.addComment = function(req, res){
-  var commentId;
-  var comment_data;
+  console.log('start');
   var pinId = req.body.pinId,
       posterId = req.body.posterId,
       poster = req.body.posterName,
       text = req.body.content;
+  
+  //you posted a comment onto sports
+  var postEvent = { date: util.getDateObj(),
+                    sourceUser: posterId,
+                    action: 'commentPosted',
+                    target: null,
+                    targetLink: null
+                  }
+  //user1 posted a comment onto your post on sports
+  var notifyEvent = { date: util.getDate(),
+                      sourceUser: posterId,
+                      action: 'commentRecieved',
+                      target: null,
+                      targetLink: null
+                    }
+  
+  var commentId;
+  var comment_data;
+  var comment_poster = req.body.posterId;
+  var gamepin_owner;
+
   //validations
   if(req.body.content === '' || req.body.content === null || req.body.content === undefined){
     errlog.info('Text is empty');
     return res.json({ error: "Error: text is empty" });
   }
-  comment_data = new commentSchema.comment();
+  comment_data = {};
   comment_data.pin = req.body.pinId;
   comment_data.posterID = req.body.posterId;
   comment_data.posterName = req.body.posterName;
@@ -583,23 +620,110 @@ exports.addComment = function(req, res){
     next();
   });
   function next(){
+    console.log('next');
     var cmt = app.riak.bucket('comments').objects.new(commentId,
       {pin: pinId, posterId: posterId, posterName: poster,  content: text});
+    //save comment
     cmt.save(function(err, saved_cmt){
       if(err) return errlog.info('comment save error: ' + err);
       var pin = app.riak.bucket('gamepins').objects.new(pinId);
+      //get and update gamepin
       pin.fetch(util.pin_resolve, function(err, obj){
         if(err){
           errlog.info('Fetch Pin error: ' + err);
-          return res.json({ error: 'Fetch Pin: ' + err });;
+          return res.json({ error: 'Fetch Pin: ' + err });
         }
+        gamepin_owner = obj.data.posterId;
+        //update events
+        postEvent.target = obj.data.category;
+        notifyEvent.target = obj.data.category;
+        postEvent.targetLink = '/post/'+obj.key;
+        notifyEvent.targetLink = '/post/'+obj.key;
+        
         obj.data.comments.push(saved_cmt.key);
         obj.save(function(err, saved_pin){
           if(err) return errlog.info('save gamepin error: ' + err);
           outlog.info('Comment #' + saved_cmt.key + ' written to pin #' + saved_pin.key);
-          return res.json({ success: true });
+          next2();
         });
       });
+    });
+  }
+  //deal with events
+  function next2(){
+    var postId;
+    var notifyId;
+    async.parallel([
+      function(callback){
+        base.createEvent(postEvent, function(err, id){
+          if(err) return callback(err.message);
+          postId = id;
+          return callback(null);
+        });
+      },
+      function(callback){
+        base.createEvent(notifyEvent, function(err, id){
+          if(err) return callback(err.message);
+          notifyId = id;
+          return callback(null);
+        });
+      }
+    ],
+    function(err){
+      if(err) return res.json({ error: err.message });
+      next3(postId, notifyId);
+    });
+  }
+  function next3(postId, notifyId){
+    console.log('next3');
+    //post event to timeline
+    async.waterfall([
+      //get user, add evtId to timeline
+      function(callback){
+        userAPI.get_RO_user(comment_poster, function(err, usr){
+          if(err) return callback(err.message, null);
+          if(usr.data.timelineEvents.indexOf(postId) === -1) usr.data.timelineEvents.push(postId);
+          else return callback(new Error('Event already exists in user\'s timeline'), null);
+          return callback(null, usr);
+        });
+      },
+      //save user. If we posted to our own gamepin, done. Else, continue
+      function(usr, callback){
+        base.save_RO(usr, 'users', function(err, saved){
+          if(err) return callback(err.message, null);
+          if(comment_poster !== gamepin_owner) return next4(notifyId);
+          return callback(null, null);
+        });
+      }
+    ],
+    //done
+    function(err, result){
+      if(err) return res.json({ error: err.message });
+      return res.json({ success: true, notify: 'Post comment success!' });
+    });
+  }
+  //post notification to pin owner
+  function next4(notifyId){
+    console.log('next4');
+    async.waterfall([
+      function(callback){
+        userAPI.get_RO_user(gamepin_owner, function(err, usr){
+          if(err) return res.json({ error: err.message });
+          if(usr.data.pinEvents.indexOf(notifyId) === -1) usr.data.pinEvents.push(notifyId);
+          else return callback(new Error('Event already exists in user\'s pinEvents'), null);
+          return callback(null, usr);
+        });
+      },
+      function(usr, callback){
+        base.save_RO(usr, 'users', function(err, saved){
+          if(err) return callkback(err.message, null);
+          return callback(null, null);
+        });
+      }
+    ],
+    function(err, result){
+      if(err) return res.json({ error: err.message });
+      return res.json({ success: true, notify: 'posts comment success!' });
     });
   }
 }

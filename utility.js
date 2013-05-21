@@ -188,6 +188,7 @@ var uniqueUserEmail = exports.uniqueUserEmail = function(userEmail, callback){
 var last_write_wins = exports.last_write_wins = function(siblings){
   evtlog.info('last_write_wins');
   outlog.info('last_write_wins');
+  console.log('last_write_wins');
   function siblingLastModifiedSort(a, b) {
     if(!a.metadata.last_modified || new Date(a.metadata.last_modified) < new Date(b.metadata.last_modified)) {
       return 1;
@@ -632,7 +633,6 @@ var deactivateUser = exports.deactivateUser = function(userId){
       });
     }
   });
-  
 }
 
 

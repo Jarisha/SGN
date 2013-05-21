@@ -21,8 +21,10 @@ var user = function user(userInput){
   //set userInput to empty if no args
   if(Object.keys(arguments).length === 0) userInput = {};
   
+  console.log('new user');
+  
   // Set object's properties to userInput if declared, else set them to default values
-  this.version = userInput.version       || '0.0.2';
+  this.version = userInput.version       || '0.0.4';
   this.email = userInput.email           || null;           //required, email regex, 5 < chars < 50,... TODO: More validations
   this.passHash = userInput.passHash     || null;           //required, 
   this.userName = userInput.userName     || null;           //required
@@ -36,6 +38,12 @@ var user = function user(userInput){
   this.likes = userInput.likes           || [];
   this.followers = userInput.followers   || [];
   this.following = userInput.following   || [];
+
+  this.timelineEvents = userInput.timelineEvents || [];
+  this.userEvents = userInput.userEvents || [];
+  this.pinEvents = userInput.pinEvents   || [];
+  
+  this.lastLogin = userInput.lastLogin   || null;
 }
 
 //validate a user argument
