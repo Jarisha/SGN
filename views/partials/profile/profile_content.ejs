@@ -64,7 +64,7 @@
   <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
     <ul ng-switch-when="none" id="timeline_events" >
-      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true | limitTo:5">
+      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
