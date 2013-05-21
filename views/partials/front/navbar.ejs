@@ -8,7 +8,7 @@
         </span>
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
-        <li ng-repeat="follower_notification in notificationsDummyData.followersData">
+        <li ng-repeat="follower_notification in notificationsDummyData.followersData | limitTo:4">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">

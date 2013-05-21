@@ -41,14 +41,36 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.notificationsDummyData = {
   //The greater the time, the more recent.
     followersData :
-      [{name: "John", action: "follow", time: 1},
+      [
+        {name: "John", action: "follow", time: 1},
         {name:"Narasimtah", action: "friend request", time: 2},
-        {name:"Joe", action: "friend request", time: 10}],
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10}
+      ],
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
     messagesData : [{name: "Jill", time: 5}]
   };
   $rootScope.profileDummyData = {
-    badges: [{url: "http://localhost/images/misc_images/badge1.png"}, {url: "http://localhost/images/misc_images/badge1.png"}],
+    badges: [
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"}
+    ],
     followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
     following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
   };

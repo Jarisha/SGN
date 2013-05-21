@@ -64,7 +64,7 @@
   <div id="timeline_header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container">
     <ul ng-switch-when="none" id="timeline_events" >
-      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">
+      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true | limitTo:12">
         {{event.name}} and {{event.action || event.target}}
       </li>
     </ul>
@@ -101,7 +101,7 @@
 <div id="badge_col">
   <div id="badge_header">BADGES</div>
   <ul class="badge_chest">
-    <li ng-repeat="badge in profileDummyData.badges">
+    <li ng-repeat="badge in profileDummyData.badges | limitTo:4">
       <img ng-src="{{badge.url}}">
     </li>
   </ul>

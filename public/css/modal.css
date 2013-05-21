@@ -590,3 +590,8 @@
   line-height: 11px;
   font-size: 11px;
 }
+
+/*Badge modal*/
+#badgeModal li {
+  display: inline;
+}
