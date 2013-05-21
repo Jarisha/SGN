@@ -65,23 +65,59 @@
   <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
     <ul ng-switch-when="none" id="timeline_events" >
-      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true | limitTo:12">
-        {{event.name}} and {{event.action || event.target}}
+      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true | limitTo:5">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{event.name}}</span>
+            <p>is {{event.action}}</p>
+          </div>
+          <i ng-show="event.action != 'friend request'" class="icon-flag"></i>
+          <div ng-show="event.action == 'friend request'" class="friend-request-response-container">
+            <button class="btn btn-success accept-friend-button">Accept</button><br>
+            <button class="btn btn-danger ignore-friend-button">Ignore</button>
+          </div>
+        </a>
       </li>
     </ul>
     <ul ng-switch-when="followers" id="timeline_events">
-      <li ng-repeat="followerEvent in notificationsDummyData.followersData">
-        {{followerEvent.name}} is {{followerEvent.action}}
+      <li ng-repeat="followerEvent in notificationsDummyData.followersData | limitTo:5">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{followerEvent.name}}</span>
+            <p>is {{followerEvent.action}}</p>
+          </div>
+          <i ng-show="followerEvent.action != 'friend request'" class="icon-flag"></i>
+          <div ng-show="followerEvent.action == 'friend request'" class="friend-request-response-container">
+            <button class="btn btn-success accept-friend-button">Accept</button><br>
+            <button class="btn btn-danger ignore-friend-button">Ignore</button>
+          </div>
+        </a>
       </li>
     </ul>
     <ul ng-switch-when="tags" id="timeline_events">
       <li ng-repeat="tagEvent in notificationsDummyData.tagsData">
-        {{tagEvent.name}} pinned to {{tagEvent.target}}
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{tagEvent.name}}</span>
+            <p>pinned to {{tagEvent.target}}</p>
+          </div>
+          <i class="icon-flag"></i>
+        </a>
       </li>
     </ul>
     <ul ng-switch-when="comments" id="timeline_events">
       <li ng-repeat="commentEvent in notificationsDummyData.messagesData">
-        {{commentEvent.name}} commented
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{commentEvent.name}}</span>
+            <p>commented</p>
+          </div>
+          <i class="icon-flag"></i>
+        </a>
       </li>
     </ul>
   </div>

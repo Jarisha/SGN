@@ -458,10 +458,31 @@
 .profile #timeline_header{
   cursor: pointer;
 }
-
+.profile #timeline_contents_container ul {
+  margin: 0px;
+}
+.profile #timeline_contents_container img {
+  padding-right: 6px;
+}
+.profile #timeline_contents_container .friend-request-response-container {
+  width: 45px;
+}
+.profile #timeline_contents_container .friend-request-response-container button{
+  font-size: 11px;
+  padding: 0px 5px;
+}
+#timeline_events li {
+  width: 100%;
+  height: 50px;
+}
+#timeline_col .notification-text {
+  font-size: 10px;
+  line-height: 12px;
+  margin-top: 8px;
+}
 /* Badge Column */
 .profile #badge_col{
-  width:120px;
+  width: 120px;
 }
 .view_all_footer{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
