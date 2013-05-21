@@ -764,6 +764,7 @@ form{
   position: fixed;
   top: 45%;
   cursor: pointer;
+  width: 27px;
 }
 
 /* Scroll up button */
