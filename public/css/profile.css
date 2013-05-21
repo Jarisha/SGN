@@ -250,6 +250,10 @@
 .profile .right_padding > *{
   float:left;
 }
+.profile #message_button {
+  width: 20%;
+  display: inline;
+}
 .profile .profile_pic {
   height:165px;
   width: 165px;
@@ -265,14 +269,13 @@
   vertical-align: middle;
   max-height: 165px;
 }
-.profile .profile_name{
-  width:100%;
+.profile .profile_name {
   color: #99CC00;
   font-size: 30px;
   font-weight: bold;
   padding-bottom: 25px;
   text-shadow: 2px 2px 2px #333333;
-  width: 100%;
+  width: 80%;
 }
 .profile .bio_container{
   width: 100%;
