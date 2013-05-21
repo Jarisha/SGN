@@ -424,10 +424,8 @@ form{
   min-width: 269px;
   top: 42px;
   background: #DCDCDC;
-  
   -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
-  
   border: 2px solid #333333;
 }
 #follower_dropdown li,
@@ -527,7 +525,6 @@ form{
   top:5px;
   border: 2px solid black;
   top: 55px;
-  
   -webkit-border-radius: 5px;
   border-radius: 5px;
   /* CSS3 */
@@ -539,7 +536,6 @@ form{
   top:5px;
   border: 2px solid black;
   top: 50px;
-  
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
@@ -601,6 +597,9 @@ form{
 }
 #nav_right .dropdown-menu.active:before {
   border: none;
+}
+#nav_right a {
+  cursor: pointer;
 }
 
 /************* Subnav ************************/
