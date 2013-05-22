@@ -68,10 +68,12 @@
             <span>{{event.name}}</span>
             <p>is {{event.action}}</p>
           </div>
-          <i ng-show="event.action != 'friend request'" class="icon-flag"></i>
-          <div ng-show="event.action == 'friend request'" class="friend-request-response-container">
-            <button class="btn btn-success accept-friend-button">Accept</button><br>
-            <button class="btn btn-danger ignore-friend-button">Ignore</button>
+          <div class="notification-item-right-box">
+            <i ng-show="event.action != 'friend request'" class="icon-flag"></i>
+            <div ng-show="event.action == 'friend request'">
+              <button class="btn btn-success accept-friend-button">Accept</button><br>
+              <button class="btn btn-danger ignore-friend-button">Ignore</button>
+            </div>
           </div>
         </a>
       </li>
@@ -84,10 +86,12 @@
             <span>{{followerEvent.name}}</span>
             <p>is {{followerEvent.action}}</p>
           </div>
-          <i ng-show="followerEvent.action != 'friend request'" class="icon-flag"></i>
-          <div ng-show="followerEvent.action == 'friend request'" class="friend-request-response-container">
-            <button class="btn btn-success accept-friend-button">Accept</button><br>
-            <button class="btn btn-danger ignore-friend-button">Ignore</button>
+          <div class="notification-item-right-box">
+            <i ng-show="event.action != 'friend request'" class="icon-flag"></i>
+            <div ng-show="event.action == 'friend request'">
+              <button class="btn btn-success accept-friend-button">Accept</button><br>
+              <button class="btn btn-danger ignore-friend-button">Ignore</button>
+            </div>
           </div>
         </a>
       </li>
@@ -100,7 +104,9 @@
             <span>{{tagEvent.name}}</span>
             <p>pinned to {{tagEvent.target}}</p>
           </div>
-          <i class="icon-flag"></i>
+          <div class="notification-item-right-box">
+            <i class="icon-flag"></i>
+          </div>
         </a>
       </li>
     </ul>
@@ -112,7 +118,9 @@
             <span>{{commentEvent.name}}</span>
             <p>commented</p>
           </div>
-          <i class="icon-flag"></i>
+          <div class="notification-item-right-box">
+            <i class="icon-flag"></i>
+          </div>
         </a>
       </li>
     </ul>
