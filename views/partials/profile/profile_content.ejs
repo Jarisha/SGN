@@ -48,9 +48,6 @@
       <a ng-show="people_tab==FOLLOWING && profile.following" ng-repeat="following in profile.following" href="/user/test">
         <img title="test" width="40px" height="40px" ng-src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/>
       </a>
-      <a ng-show="people_tab==FOLLOWING" ng-repeat="following in profileDummyData.following" href="/user/test">
-        <img title="test" width="40px" height="40px" ng-src="{{following.url || '<%= rootPath %>/images/30x30.gif'}}"/>
-      </a>
     </div>
   </div>
   <div id="footer_container">
