@@ -117,6 +117,7 @@ var createEvent = exports.createEvent = function(evtObj, callback){
   var evtId;
   util.generateId(function(id){
     evtId = id;
+    evtObj.id = id;
     next();
   });
   function next(){
@@ -166,6 +167,17 @@ exports.fetchEvent = function(req, res){
   app.riak.bucket('events').objects.get(req.query.eventId, function(err, event_RO){
     if(err) return res.json({ error: err.message });
     return res.json({ event: event_RO.data });
+  });
+}
+exports.deleteEvent = function(req, res){
+  console.log(req.body);
+  app.riak.bucket('events').objects.get(req.body.eventId, function(err, event_RO){
+    if(err) return res.json({ error: err.message });
+    //return res.json({ event: event_RO.data });
+    event_RO.delete(function(err, deleted){
+      if(err) return res.json({ error: err.message });
+      return res.json({ success: 'delete event success!' });
+    });
   });
 }
 
