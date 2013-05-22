@@ -40,7 +40,44 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 // Entry Point
 app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   console.log('app.run()');
-  
+
+  $rootScope.notificationsDummyData = {
+  //The greater the time, the more recent.
+    followersData :
+      [
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10},
+        {name: "John", action: "follow", time: 1},
+        {name:"Narasimtah", action: "friend request", time: 2},
+        {name:"Joe", action: "friend request", time: 10}
+      ],
+    tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
+    messagesData : [{name: "Jill", time: 5}]
+  };
+  $rootScope.profileDummyData = {
+    badges: [
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"}
+    ],
+    followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
+    following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
+  };
+  $rootScope.timelineTabClicked = "none";
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
@@ -212,7 +249,18 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#postModal').modal('hide');
     $('#youtubeModal').modal();
   }
-  
+
+  //Modals for social notifications
+  $rootScope.popFollowerNotifications = function(){
+    $('#followerNotificationsModal').modal();
+  }
+
+  //Modal for badges
+  $rootScope.popBadgeModal = function(){
+    $('#badgeModal').modal();
+  }
+
+
   //$rootScope.popNotify('Test', 'Test Success');
   
   //Pops a Notification. Error or Success

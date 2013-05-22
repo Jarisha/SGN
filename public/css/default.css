@@ -8,6 +8,7 @@
 .background_img {
   background-image: url("../images/UI/dark_dimple.png");
 }
+
 /* global defaults */
 html,
 body,
@@ -394,25 +395,54 @@ form{
 #about_dropdown {
   min-width: 100px;
 }
+
+/* Notifications dropdowns */
+.notifications-count-badge {
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  width: 17px;
+  height: 17px;
+  top: -8px;
+  position: absolute;
+  text-align: center;
+  line-height: 17px;
+  left: 38px;
+}
 #follower_toggle,
 #tag_toggle,
 #message_toggle {
   padding: 0;
   margin: 0;
-  cursor: default;
+  cursor: pointer;
+  cursor: hand;
 }
 #follower_dropdown,
 #tag_dropdown,
 #message_dropdown {
   left: 20px;
-  min-width: 130px;
+  min-width: 269px;
   top: 42px;
   background: #DCDCDC;
-  
   -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
-  
   border: 2px solid #333333;
+}
+#follower_dropdown li,
+#tag_dropdown li,
+#message_dropdown li
+{
+  width: 100%;
+  height: 50px;
+}
+#follower_dropdown {
+  left: -35px;
+}
+#tag_dropdown {
+  left: -104px;
+}
+#message_dropdown {
+  left: -173px;
 }
 #follower_dropdown:after,
 #tag_dropdown:after,
@@ -431,6 +461,46 @@ form{
   border: 10px solid transparent;
   border-bottom-color: black;
 }
+#follower_dropdown:before{
+  left: 59px;
+}
+#tag_dropdown:before {
+  left: 129px;
+}
+#message_dropdown:before {
+  left: 198px;
+}
+#follower_dropdown a,
+#tag_dropdown a,
+#message_dropdown a
+ {
+  padding-left: 9px;
+  height: 44px;
+}
+.icon-flag {
+  float: right;
+  margin-top: 18px;
+}
+.notification-text {
+  float: left;
+}
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
+}
+.friend-request-response-container {
+  width: 60px;
+  float: right;
+}
+.friend-request-response-container button{
+  width: 100%;
+  height: 18px;
+  font-size: 11px;
+  line-height: 11px;
+  margin-top: 0px;
+}
+
 /* Drop down going left */
 #profile_toggle {
   height: 45px;
@@ -455,7 +525,6 @@ form{
   top:5px;
   border: 2px solid black;
   top: 55px;
-  
   -webkit-border-radius: 5px;
   border-radius: 5px;
   /* CSS3 */
@@ -467,7 +536,6 @@ form{
   top:5px;
   border: 2px solid black;
   top: 50px;
-  
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
@@ -530,6 +598,10 @@ form{
 #nav_right .dropdown-menu.active:before {
   border: none;
 }
+#nav_right a {
+  cursor: pointer;
+}
+
 /************* Subnav ************************/
 #subnav {
   background: none;
@@ -685,12 +757,14 @@ form{
 }
 .game_img {
 }
+
 /* Feedback tab */
 #feedback_tab{
   z-index: 1;
   position: fixed;
   top: 45%;
   cursor: pointer;
+  width: 27px;
 }
 
 /* Scroll up button */
@@ -716,7 +790,6 @@ form{
 }
 
 /* Alerts */
-
 .alert{
   background-color: transparent;
   color: black;
