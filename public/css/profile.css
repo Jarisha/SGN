@@ -499,6 +499,7 @@
   cursor: pointer;
 }
 .profile .badge_chest{
+  height: 314px;
   text-align: center;
   padding: 15px;
   margin-left: auto;
@@ -508,13 +509,11 @@
   margin: 5px 3px;
   width: 60px;
 }
-.profile .badge_head{
+.profile .badge_header{
   display:block;
   margin-bottom: 10px;
 }
-.profile .badge_head .badge_title{
-  float:left;
-}
+
 /* friends followers */
 .profile #content #comrades_col{
   float:left;

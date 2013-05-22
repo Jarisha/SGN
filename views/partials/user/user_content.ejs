@@ -55,24 +55,77 @@
     <div id="profile_footer">
       <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div><div
       ng-class="{'active_tab': content_tab==POSTS}" ng-click="content_tab=POSTS;">My Posts</div><div
-      ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div><div
-      ng-class="{'active_tab': content_tab==ACTIVITY}" ng-click="showActivity(); content_tab=ACTIVITY;">Activity</div>
+      ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
     </div>
   </div>
 </div>
-<div id="badge_col">
-  <div id="badge_header">BADGES</div>
-  <div class="badge_chest">
-    <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
+<div id="timeline_col" class="profile-column">
+  <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
+  <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
+    <ul ng-switch-when="none" id="timeline_events" >
+      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{event.name}}</span>
+            <p>is {{event.action}}</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <ul ng-switch-when="followers" id="timeline_events">
+      <li ng-repeat="followerEvent in notificationsDummyData.followersData | limitTo:5">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{followerEvent.name}}</span>
+            <p>is {{followerEvent.action}}</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <ul ng-switch-when="tags" id="timeline_events">
+      <li ng-repeat="tagEvent in notificationsDummyData.tagsData">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{tagEvent.name}}</span>
+            <p>pinned to {{tagEvent.target}}</p>
+        </a>
+      </li>
+    </ul>
+    <ul ng-switch-when="comments" id="timeline_events">
+      <li ng-repeat="commentEvent in notificationsDummyData.messagesData">
+        <a tabindex="-1" href="#">
+          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <div class="notification-text">
+            <span>{{commentEvent.name}}</span>
+            <p>commented</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="timeline_footer_container">
+    <div id="timeline_footer">
+      <div>
+        <img ng-click="timelineTabClicked='followers'" class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
+      </div>
+      <div>
+        <img ng-click="timelineTabClicked='tags'" class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
+      </div>
+      <div>
+        <img ng-click="timelineTabClicked='comments'" class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
+      </div>
+    </div>
   </div>
 </div>
-<div id="following_col">
-  <div id="following_header">{{ profile.following.length }} FOLLOWING</div>
-  <div class="badge_chest">
-    <a ng-repeat="following in user.following" href="/user/{{following.userName}}">
-      <img title="{{following.userName}}" ng-src="{{following.profileImg || '<%= rootPath %>/images/30x30.gif'}}" width="40px" height="40px"/>
-    </a>
-  </div>
+<div id="badge_col" class="profile-column">
+  <div id="badge_header" class="profile-column-header">BADGES</div>
+  <ul class="badge_chest" class="profile-column-contents-container">
+    <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
+  </ul>
+  <div class="view_all_footer"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
 <div id="profile_data">
   <div id="group_bar" class="clearfix" ng-show="displayMode.group">
