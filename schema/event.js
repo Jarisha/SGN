@@ -2,7 +2,7 @@
 * Every possible event must be documented here, and must conform to these examples.
 * 
 * Events YOU DO will show up in your TIMELINE, mostly
-* Events done TO YOU will show up in notification, mostly
+* Events done TO YOU will show up in notification tabs, mostly
 * 
 * PRIVATE events, such as friend -> friend activity will not show up in Timeline
 * 

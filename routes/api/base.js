@@ -16,12 +16,8 @@ var outlog = app.outlog;
 //Save single RO and return it.  Tested - OK!
 //Cases: Error - Success.  callback(Error, Saved)
 var save_RO = exports.save_RO = function(RObject, bucketName, callback){
-  //console.log(RObject);
-  console.log(RObject);
-  console.log(bucketName);
   app.riak.bucket(bucketName).object.save(RObject, function(err, savedRO){
     if(err){
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       console.log(err);
       return callback(new Error('save_RO: ' + bucketName + ' failed: ' + err), null);
     }
@@ -130,7 +126,6 @@ var createEvent = exports.createEvent = function(evtObj, callback){
   }
 }
 
-
 // Given one event Id, return that Event RO
 // callback(err, event_RO)
 var getEvent = exports.getEvent = function(evtId, callback){
@@ -140,37 +135,14 @@ var getEvent = exports.getEvent = function(evtId, callback){
   });
 }
 
-// Given an array of event Ids, return list of Events in the same order the Ids were specified
-// callback(err, event_ROs[])
-var getEvents = exports.getEvents = function(idArray, callback){
-  async.map(idArray, function(id, _callback){
-    app.riak.bucket('events').objects.get(id, function(err, evt_RO){
-      if(err) return _callback(new Error('getEvents error: '+err.message), null);
-      else return _callback(null, evt_RO);
-    });
-  },
-  function(err, results){
-    console.log(results);
-    /*if(err) return callback(err, null);
-    return callback(null, results)*/
-  });
-  /*app.riak.bucket('events').objects.get(idArray, callback(errs, evt_ROs){
-    if(errs) return callback(new Error('getEvents error'), null);
-    
-    
-  });*/
-}
-
 /************************ Level 3 ***********************/
 exports.fetchEvent = function(req, res){
-  console.log(req.query);
   app.riak.bucket('events').objects.get(req.query.eventId, function(err, event_RO){
     if(err) return res.json({ error: err.message });
     return res.json({ event: event_RO.data });
   });
 }
 exports.deleteEvent = function(req, res){
-  console.log(req.body);
   app.riak.bucket('events').objects.get(req.body.eventId, function(err, event_RO){
     if(err) return res.json({ error: err.message });
     //return res.json({ event: event_RO.data });
