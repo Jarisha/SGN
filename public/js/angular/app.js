@@ -318,6 +318,8 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
           $rootScope.userName = data.userName;
           $rootScope.userEmail = data.userId;
           $rootScope.userImg = data.avatarImg || '/images/30x30.gif';
+          $rootScope.userEvents = data.userEvents;
+          $rootScope.pinEvents = data.pinEvents;
           return callback(null, true);
         }
         //logged out

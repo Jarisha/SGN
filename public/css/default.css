@@ -466,6 +466,7 @@ form{
 }
 #tag_dropdown {
   left: -104px;
+  font-size: 12px;
 }
 #message_dropdown {
   left: -173px;

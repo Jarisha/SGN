@@ -4,16 +4,19 @@
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge">
-          {{notificationsDummyData.followersData.length}}
+          {{userEvents.length}}
         </span>
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
-        <li ng-repeat="follower_notification in notificationsDummyData.followersData | limitTo:4">
+        <li ng-repeat="userEvent in userEvents | limitTo:4">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">
-              <span>{{follower_notification.name}}</span>
-              <p>is {{follower_notification.action}}</p>
+              <span>{{userEvent.sourceData.userName}}</span>
+              <p ng-switch on="userEvent.action">
+                <span ng-switch-when="followRecieved">followed you</span>
+                <span ng-switch-when="friendRequest">wants to be your friend</span>
+              </p>
             </div>
             <div class="notification-item-right-box">
               <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
@@ -33,16 +36,16 @@
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge">
-          {{notificationsDummyData.tagsData.length}}
+          {{pinEvents.length}}
         </span>
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
-        <li ng-repeat="tag_notification in notificationsDummyData.tagsData">
+        <li ng-repeat="pinEvent in pinEvents">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">
-              <span>{{tag_notification.name}}</span>
-              <p>tagged you in {{tag_notification.target}}</p>
+              <span>{{pinEvent.sourceData.userName}}</span>
+              <p>commentend on your pin in {{pinEvent.target}}</p>
             </div>
           </a>
         </li>

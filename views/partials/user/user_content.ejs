@@ -63,34 +63,41 @@
   <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
     <ul ng-switch-when="none" id="timeline_events" >
-      <li  ng-repeat="event in notificationsDummyData.followersData.concat(notificationsDummyData.tagsData) | orderBy:'time':true">
+      <li  ng-repeat="event in userEvents.concat(pinEvents) | orderBy:'date':true">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{event.name}}</span>
-            <p>is {{event.action}}</p>
+            <span>{{event.sourceData.userName}}</span>
+            <p ng-switch on="event.action">
+              <span ng-switch-when="followRecieved">followed {{user.userName}}</span>
+              <span ng-switch-when="friendRequest">wants to be your friend</span>
+              <span ng-switch-when="commentRecieved">commented on {{user.userName}}'s pin in {{event.target}}</span>
+            </p>
           </div>
         </a>
       </li>
     </ul>
     <ul ng-switch-when="followers" id="timeline_events">
-      <li ng-repeat="followerEvent in notificationsDummyData.followersData | limitTo:5">
+      <li ng-repeat="userEvent in userEvents | limitTo:5">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{followerEvent.name}}</span>
-            <p>is {{followerEvent.action}}</p>
+            <span>{{userEvent.sourceData.userName}}</span>
+            <p ng-switch on="userEvent.action">
+              <span ng-switch-when="followRecieved">followed {{user.userName}}</span>
+              <span ng-switch-when="friendRequest">wants to be your friend</span>
+            </p>
           </div>
         </a>
       </li>
     </ul>
     <ul ng-switch-when="tags" id="timeline_events">
-      <li ng-repeat="tagEvent in notificationsDummyData.tagsData">
+      <li ng-repeat="pinEvent in pinEvents">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{tagEvent.name}}</span>
-            <p>pinned to {{tagEvent.target}}</p>
+            <span>{{pinEvent.sourceData.userName}}</span>
+            <p>commented on {{user.userName}}'s pin in {{pinEvent.target}}</p>
         </a>
       </li>
     </ul>
