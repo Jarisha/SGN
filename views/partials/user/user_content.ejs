@@ -63,41 +63,40 @@
   <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
   <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
     <ul ng-switch-when="none" id="timeline_events" >
-      <li  ng-repeat="event in userEvents.concat(pinEvents) | orderBy:'date':true">
+      <li  ng-repeat="event in timeline | orderBy:'date':true">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{event.sourceData.userName}}</span>
             <p ng-switch on="event.action">
-              <span ng-switch-when="followRecieved">followed {{user.userName}}</span>
-              <span ng-switch-when="friendRequest">wants to be your friend</span>
-              <span ng-switch-when="commentRecieved">commented on {{user.userName}}'s pin in {{event.target}}</span>
+              <span ng-switch-when="followSent">followed {{event.targetData.userName}}</span>
+              <span ng-switch-when="commentPosted">commented on {{event.target}}</span>
+              <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
             </p>
           </div>
         </a>
       </li>
     </ul>
     <ul ng-switch-when="followers" id="timeline_events">
-      <li ng-repeat="userEvent in userEvents | limitTo:5">
+      <li ng-repeat="event in timeline | filter: event.action = 'followSent'">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{userEvent.sourceData.userName}}</span>
-            <p ng-switch on="userEvent.action">
-              <span ng-switch-when="followRecieved">followed {{user.userName}}</span>
-              <span ng-switch-when="friendRequest">wants to be your friend</span>
+            <p ng-switch on="event.action">
+              <span ng-switch-when="followSent">followed {{event.targetData.userName}}</span>
             </p>
           </div>
         </a>
       </li>
     </ul>
     <ul ng-switch-when="tags" id="timeline_events">
-      <li ng-repeat="pinEvent in pinEvents">
+      <li ng-repeat="event in timeline | filter: event.action = 'Posted'">
         <a tabindex="-1" href="#">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
-            <span>{{pinEvent.sourceData.userName}}</span>
-            <p>commented on {{user.userName}}'s pin in {{pinEvent.target}}</p>
+            <p ng-switch on="event.action">
+              <span ng-switch-when="commentPosted">commented on {{event.target}}</span>
+              <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
+            </p>
         </a>
       </li>
     </ul>

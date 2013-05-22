@@ -609,6 +609,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   
   // get resolve data into view
   $scope.activityPins = resolveUser.activityData;
+  $scope.timeline = resolveUser.timeline;
   $scope.user = resolveUser.profileData;
   $scope.user.bio = $scope.user.bio || null;
                                        /* 'User bio text. Sample user bio text. Sample user bio text staggered.\
