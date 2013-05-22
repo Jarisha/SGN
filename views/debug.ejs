@@ -198,6 +198,27 @@
           });
           return false;
         });
+        $('#delete_event').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/deleteEvent?', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#follow').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/follow', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#unfollow').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/unfollow', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
       });
     </script>
   </head>
@@ -325,6 +346,25 @@
     <p>Fetch Event</p>
     <form id="fetch_event">
       <input type="text" name="eventId" placeholder="eventId" />
+      <input type="submit" />
+    </form>
+    <p>Delete Event</p>
+    <form id="delete_event">
+      <input type="text" name="eventId" placeholder="eventId" />
+      <input type="submit" />
+    </form>
+    <!-- Events -->
+    <h1>Follow</h1>
+    <p>Follow User</p>
+    <form id="follow">
+      <input type="text" name="sourceId" placeholder="sourceId" />
+      <input type="text" name="targetId" placeholder="targetId" />
+      <input type="submit" />
+    </form>
+    <p>Unfollow User</p>
+    <form id="unfollow">
+      <input type="text" name="sourceId" placeholder="sourceId" />
+      <input type="text" name="targetId" placeholder="targetId" />
       <input type="submit" />
     </form>
   </body>

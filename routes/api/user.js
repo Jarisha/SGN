@@ -19,17 +19,15 @@ var outlog = app.outlog;
 /******************************** DB Level - Level 1 *******************************/
 
 var fixProblems = exports.fixProblems = function(req, res){
-  app.riak.bucket('users').objects.get('user3@u.u', function(err, usr){
-    if(err) return res.json({error: 'fixProblems error'});
-    usr.data['version'] = userSchema.userInstance.version;
-    var new_data = new userSchema.user(usr.data);
-    var invalid = new_data.validate();
-    if(invalid) return res.json({ error: 'invalid data or something' });
-    var newUsr = app.riak.bucket('users').object.new('user3@u.u', new_data);
-    newUsr.addToIndex('username', 'user3');
-    newUsr.save(function(err, saved){
-      if(err) return res.json({ error: 'save error' });
-      return res.json({ success: true });
+  console.log('fixProblems');
+  app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
+    if(err) return res.json({ error: err.message });
+    //delete all events in this user
+    console.log(usr.data);
+    util.removeNulls(usr.data.timelineEvents);
+    usr.data.timelineEvents = [];
+    usr.save(function(err, saved){
+      return res.json({ success: 'events cleared' });
     });
   });
 }
@@ -1093,13 +1091,15 @@ exports.follow = function(req, res){
       return res.json({ error: 'Error: cannot follow yourself' });
     }
     async.series([
+      //make timeline Event -> need targetUser userRef data
       function(callback){
-        base.createEvent(followEvent, function(err, eventId){
-          if(err) return callback(err);
+        base.createEvent(followEvent, function(_err, eventId){
+          if(_err) return callback(_err);
           followId = eventId;
           return callback(null);
         });
       },
+      //make notify event -> need sourceUser userRef data
       function(callback){
         base.createEvent(notifyEvent, function(err, eventId){
           if(err) return callback(err);
@@ -1113,7 +1113,7 @@ exports.follow = function(req, res){
     });
   }
   function next2(){
-    //link users together, and save them, pass in events
+    //link users together, and save them, pass in eventIds to add to user objects
     addFollower(sourceId, targetId, followId, notifyId, function(err, sourceRO){
       if(err) return res.json({ error:'follow user error: '+err.message });
       return res.json({ success: sourceId+' following '+targetId+' success', notify: 'Now following '+targetId });
@@ -1231,17 +1231,25 @@ exports.getProfile = function(req, res){
     },
     function(err, events){
       if(err) return res.json({ error: err.message });
-      
+      util.removeNulls(events);
       //if target is User, convert email => {email, userName, profileImg} to show on front end
       async.map(events, function(event, callback){
         if(event.data.action === 'followSent'){
           base.get_userRef(event.data.target, function(err, ref_data){
             if(err) return callback(err, null);
-            event.data.target = { email: event.data.target, userName: ref_data.userName, profileImg: ref_data.profileImg };
+            event.data.targetData = { email: event.data.target, userName: ref_data.userName, profileImg: ref_data.profileImg };
             event.data.targetLink = '/user/'+ref_data.userName;
             return callback(null, event.data);
           });
         }
+        /*else if(event.data.action === 'followRecieved'){
+          base.get_userRef(event.data.sourceUser, function(err, ref_data){
+            if(err) return callback(err, null);
+            event.data.sourceData = { email: event.data.sourceUser, userName: ref_data.userName, profileImg: ref_data.profileImg };
+            event.data.targetLink = '/user/'+ref_data.userName;
+            return callback(null, event.data);
+          });
+        }*/
         else{
           //keep things async in both cases
           process.nextTick(function(){

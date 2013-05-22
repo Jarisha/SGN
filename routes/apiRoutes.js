@@ -16,6 +16,7 @@ module.exports = function(app){
   app.post('/api/user/fetchUser', userApi.fetchUser);
   app.post('/api/user/fetchUsers', userApi.fetchUsers);
   app.get('/api/user/fetchEvent', baseApi.fetchEvent);
+  app.post('/api/user/deleteEvent', baseApi.deleteEvent);
 
   
   app.post('/api/user/getProfile', userApi.getProfile);
@@ -29,6 +30,7 @@ module.exports = function(app){
   //new api calls
   app.post('/api/user/deactivate', userApi.deleteWrap);
   app.post('/api/user/follow', userApi.follow);
+  app.post('/api/user/unfollow', userApi.unfollow);
   
   app.get('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/facebookRegister', userApi.facebookRegister);
@@ -39,13 +41,11 @@ module.exports = function(app){
   app.post('/api/logout', userApi.logout);
   app.post('/api/register', userApi.register);
   app.post('/api/register_2', userApi.register_2);
-  //app.get('/api/checkLogin', userApi.checkLogin);
   app.post('/api/checkLogin', userApi.checkLogin);
   app.post('/api/getSettings', userApi.getSettings);
   app.post('/api/editSettings', userApi.editSettings);
   app.post('/api/deactivate', userApi.deleteWrap);
-  //app.post('/api/follow', userApi.follow);
-  app.post('/api/unfollow', userApi.removeFollowers);
+  
   app.get('/api/getPath', userApi.getPath);
   app.post('/api/getProfile', userApi.getProfile);
   app.post('/api/getFollowers', userApi.getFollowers);
