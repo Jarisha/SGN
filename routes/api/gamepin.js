@@ -44,7 +44,6 @@ var get_RO_gamepin = exports.get_RO_gamepin = function(key, callback){
       return callback(new Error('get_RO_gamepin: '+err.message), null);
     }
     if(!pin.data.version || pin.data.version !== gamepinSchema.gamepinInstance.version){
-      console.log('reindex gamepin');
       reindexGamepin(pin, function(_err, updated_pin){
         if(_err) return callback(_err, null);
         return callback(null, updated_pin);
@@ -620,7 +619,6 @@ exports.addComment = function(req, res){
     next();
   });
   function next(){
-    console.log('next');
     var cmt = app.riak.bucket('comments').objects.new(commentId,
       {pin: pinId, posterId: posterId, posterName: poster,  content: text});
     //save comment
@@ -675,7 +673,6 @@ exports.addComment = function(req, res){
     });
   }
   function next3(postId, notifyId){
-    console.log('next3');
     //post event to timeline
     async.waterfall([
       //get user, add evtId to timeline
@@ -704,7 +701,6 @@ exports.addComment = function(req, res){
   }
   //post notification to pin owner
   function next4(notifyId){
-    console.log('next4');
     async.waterfall([
       function(callback){
         userAPI.get_RO_user(gamepin_owner, function(err, usr){
@@ -785,7 +781,6 @@ exports.editComment = function(req, res){
 //like - link gamepin and user together through love <3
 exports.like = function(req, res){
   outlog.info(req.body);
-  console.log(req.body);
   if(!req.body.pinId) return res.json({ error: 'Post not specified' });
   if(!req.body.email) return res.json({ error: 'User not specified' });
   var email = req.body.email;

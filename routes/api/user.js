@@ -23,7 +23,6 @@ var fixProblems = exports.fixProblems = function(req, res){
   app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
-    console.log(usr.data);
     util.removeNulls(usr.data.timelineEvents);
     usr.data.timelineEvents = [];
     usr.save(function(err, saved){
@@ -48,7 +47,6 @@ var reindexUser = function(ROuser, callback){
   base.save_RO(newUser, 'users', function(err, savedRO){
     console.log(err);
     if(err) return callback(err, null);
-    console.log(savedRO.data);
     return callback(null, savedRO);
   });
 }
@@ -56,16 +54,12 @@ var reindexUser = function(ROuser, callback){
 // Get Riak Object ~ User. Tested - OK!
 // Cases: Error - Out of Date - Success.  callback(error, RO_user)
 var get_RO_user = exports.get_RO_user = function(key, callback){
-  console.log('get_RO_user');
-  //console.log(key);
   app.riak.bucket('users').object.get(key, function(err, usr){
     if(err){
       if(err.status_code === 404) return callback(new E.NotFoundError('get_RO_user: '+err.data+' not found'), null);
       return callback(new Error('get_RO_user: '+err.message), null);
     }
     //reindex if out of date
-    console.log(usr.data.version);
-    console.log(userSchema.userInstance.version);
     if(!usr.data.version || (usr.data.version !== userSchema.userInstance.version)){
       console.log('reindexing '+key);
       reindexUser(usr, function(_err, updated_usr){
@@ -233,7 +227,6 @@ var addPinToUser = exports.addPinToUser = function(userId, pinId, callback){
     //push pinID to end of posts list, then save
     function(usr, _callback){
       if(usr.data.posts.indexOf(pinId) === -1){
-        console.log('pinId added');
         usr.data.posts.push(pinId);
         base.save_RO(usr, 'users', function(err, saved){
           if(err) _callback(err, null);
@@ -356,7 +349,6 @@ function createUser(userInput, callback){
 //Overwrite Valid data from RObject with input. Validate.
 //Return error string on error, false on success
 function updateUser(validData, input, callback){
-  console.log('validData: ');
   var result = util.overwrite(validData, input);
   if(result) callback(result);
   var usr = new userSchema.user(validData);
@@ -711,6 +703,7 @@ exports.testAPI = function(req, res){
 /********************************************** API Level  *************************************/
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
+//returns notification
 exports.checkLogin = function(req, res){
   //util.getDateObj();
   //console.log(util.createEvent());
@@ -720,12 +713,89 @@ exports.checkLogin = function(req, res){
     if(req.session.newUser) req.session.newUser = null;
   }
 	if(req.session.loggedIn){
-		return res.json({
-			loggedIn: true,
-      userId: req.session.loggedIn,
-      userName: req.session.userName,
-      avatarImg: req.session.avatarUrl
-		});
+    var userEventIds;
+    var pinEventIds;
+    var userEvents;
+    var pinEvents;
+    console.log(req.session.loggedIn);
+    get_RO_user(req.session.loggedIn, function(err, usr){
+      if(err) return res.json({ error: err.message });
+      util.removeNulls(usr.data.userEvents);
+      util.removeNulls(usr.data.pinEvents);
+      userEventIds = usr.data.userEvents;
+      pinEventIds = usr.data.pinEvents;
+      next();
+    });
+    //get user notifications
+    function next(){
+      async.map(userEventIds, function(eventId, callback){
+        app.riak.bucket('events').objects.get(eventId, function(err, event_RO){
+          if(err){
+            if(err.status_code === 404) return callback(null, null);
+            return callback(new Error('Get Notification Error: '+err), null);
+          }
+          var event_data = event_RO.data;
+          if(event_data.action === 'followRecieved'){
+            base.get_userRef(event_data.sourceUser, function(_err, ref_data){
+              if(_err) return callback(err, null);
+              event_data.sourceData = { email: event_data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg};
+              event_data.targetLink = '/user/'+ref_data.userName;
+              return callback(null, event_data);
+            });
+          }
+          else{
+            return callback(new Error('Event is not a user event'), null);
+          }
+        });
+      },
+      function(err, events){
+        if(err) return res.json({ error: err.message });
+        util.removeNulls(events);
+        userEvents = events;
+        next2();
+      });
+    }
+    function next2(){
+      async.map(pinEventIds, function(eventId, callback){
+        app.riak.bucket('events').objects.get(eventId, function(err, event_RO){
+          if(err){
+            if(err.status_code === 404) return callback(null, null);
+            return callback(new Error('Get Notification Error: '+err), null);
+          }
+          var event_data = event_RO.data;
+          if(event_data.action === 'commentRecieved' ){
+            base.get_userRef(event_data.sourceUser, function(_err, ref_data){
+              if(_err) return callback(_err, null);
+              event_data.sourceData = { email: event_data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg};
+              return callback(null, event_data);
+            });
+          }
+          else{
+            return callback(new Error('Event is not a pin event'), null);
+          }
+        });
+      },
+      function(err, events){
+        if(err) return res.json({ error: err.message });
+        util.removeNulls(events);
+        pinEvents = events;
+        next3();
+      });
+    }
+    function next3(){
+      return res.json({
+        loggedIn: true,
+        userId: req.session.loggedIn,
+        userName: req.session.userName,
+        avatarImg: req.session.avatarUrl,
+        userEvents: userEvents,
+        pinEvents: pinEvents
+      });
+    }
 	}
 }
 
@@ -988,26 +1058,8 @@ exports.register_2 = function(req, res){
   }
 }
 
-// Get current user settings to prefill My Settings Page
-/*exports.getSettings = function(req, res){
-  console.log('getSettings');
-  get_RO_user(req.session.userEmail, function(err, usr){
-    if(err){
-      errlog.info('getSettings error: '+err.message);
-      return res.json({ error: 'getSettings error: '+err.message});
-    }
-    return res.json({
-      email: usr.data.email,
-      userName: usr.data.userName,
-      gender: usr.data.gender,
-      bio: usr.data.bio
-    });
-  });
-}*/
-
 //get port # from server.  This belongs in a misc.js rather than user.js
 exports.getPath = function(req, res){
-  console.log('getPath');
   return res.json({
     path: app.self.locals.rootPath
   });
@@ -1161,7 +1213,6 @@ exports.getSettings = function(req, res){
 // accepts userEmail OR userName. userEmail preffered.
 // returns timeline data
 exports.getProfile = function(req, res){
-  console.log(req.body);
   //get email via twoi search
   if(!req.body.userName && !req.body.email) return res.json({ error: 'getProfile: no userName or userEmail specified' });
   var user;                 // user RObject
@@ -1242,14 +1293,6 @@ exports.getProfile = function(req, res){
             return callback(null, event.data);
           });
         }
-        /*else if(event.data.action === 'followRecieved'){
-          base.get_userRef(event.data.sourceUser, function(err, ref_data){
-            if(err) return callback(err, null);
-            event.data.sourceData = { email: event.data.sourceUser, userName: ref_data.userName, profileImg: ref_data.profileImg };
-            event.data.targetLink = '/user/'+ref_data.userName;
-            return callback(null, event.data);
-          });
-        }*/
         else{
           //keep things async in both cases
           process.nextTick(function(){
@@ -1702,9 +1745,6 @@ exports.createPending = function(req, res){
   pending_data.userName = req.body.userName;
   pending_data.company = req.body.company || false;
   
-  console.log(pending_data);
-  console.log(pending_data.email);
-  
   //create pending user
   pend_usr = app.riak.bucket('pendingUsers').objects.new(pending_data.email, pending_data);
   pend_usr.addToIndex('username', pending_data.userName);
@@ -1915,19 +1955,6 @@ exports.getGroups = function(req, res){
       //if nodiak gives us a single object, convert that into an array with 1 element
       if(objs && Object.prototype.toString.call( objs ) === '[object Object]')
         objs = [objs];
-        
-      /*base.get_userRef(pin_RO.data.posterId, function(_err, usr_ref){
-        if(_err) return callback(_err, null);
-        pin_RO.data.posterName = usr_ref.userName;
-        pin_RO.data.profileImg = usr_ref.profileImg;
-        return _callback(null, pin_RO.data);
-      });
-        
-      //put the object into its proper place
-      for(var o in objs){
-        groupDataMap[objs[o].data.category][objs[o].key] = objs[o].data;
-        groupDataMap[objs[o].data.category][objs[o].key].id = objs[o].key; //store pinId into object itself
-      }*/
       
       //always must fetch userRef (should think about abstracting this to base API)
       async.each(objs, function(pin_RO, callback){
@@ -1953,24 +1980,4 @@ exports.getGroups = function(req, res){
       });
     });
   }
-}
-
-//take in event ID array, return event object array.  TODO: Fetch user ref data for user based events (which is every event)
-exports.getTimeline = function(req, res){
-  var timelineData = [];
-  if(!req.eventIds) return res.json({ error: 'no ids specified' });
-  base.getEvents(req.eventids, function(err, evt_ROs){
-    if(err) return res.json({ error: err.message });
-    for(var e = 0, len = evt_ROs.length; e < len; e++){
-      console.log(evt_ROs[e].key);
-      console.log(evt_ROs[e].data);
-      /*var temp = evt_ROs[e].data;
-      temp.id = evt_ROs[e].key;
-      timelineData.push(temp);*/
-    }
-  });
-}
-//take in notification ID array,s reutnr event object arrays
-exports.getNotifications = function(req, res){
-  
 }
