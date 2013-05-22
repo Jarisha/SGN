@@ -15,10 +15,12 @@
               <span>{{follower_notification.name}}</span>
               <p>is {{follower_notification.action}}</p>
             </div>
-            <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
-            <div ng-show="follower_notification.action == 'friend request'" class="friend-request-response-container">
-              <button class="btn btn-success accept-friend-button">Accept</button><br>
-              <button class="btn btn-danger ignore-friend-button">Ignore</button>
+            <div class="notification-item-right-box">
+              <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
+              <div ng-show="follower_notification.action == 'friend request'">
+                <button class="btn btn-success accept-friend-button">Accept</button><br>
+                <button class="btn btn-danger ignore-friend-button">Ignore</button>
+              </div>
             </div>
           </a>
         </li>

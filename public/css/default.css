@@ -396,6 +396,41 @@ form{
   min-width: 100px;
 }
 
+/*Generic notification item elements*/
+.notification-text {
+  float: left;
+}
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
+}
+.notification-item-right-box {
+  float: right;
+}
+.friend-request-response-container {
+  width: 60px;
+  float: right;
+}
+.friend-request-response-container button{
+  width: 100%;
+  height: 18px;
+  font-size: 11px;
+  line-height: 11px;
+  margin-top: 0px;
+}
+.notification-item-right-box button{
+  width: 100%;
+  height: 18px;
+  font-size: 11px;
+  line-height: 11px;
+  padding: 0px 5px;
+}
+.icon-flag {
+  margin-left: 23px;
+  margin-top: 18px;
+}
+
 /* Notifications dropdowns */
 .notifications-count-badge {
   background-color: red;
@@ -477,41 +512,8 @@ form{
   padding: 0px 9px;
   height: 44px;
 }
-.icon-flag {
-  margin-left: 23px;
-  margin-top: 18px;
-}
-.notification-text {
-  float: left;
-}
-.notification-profile-image {
-  float: left;
-  width: 40px;
-  padding-right: 10px;
-}
-.notification-item-right-box {
+#follower_dropdown .notification-item-right-box {
   width: 60px;
-  float: right;
-}
-.notification-item-right-box button{
-  width: 100%;
-  height: 18px;
-  font-size: 11px;
-  line-height: 11px;
-  margin-top: 0px;
-  padding: 0px 5px;
-  margin-left: 7px;
-}
-.friend-request-response-container {
-  width: 60px;
-  float: right;
-}
-.friend-request-response-container button{
-  width: 100%;
-  height: 18px;
-  font-size: 11px;
-  line-height: 11px;
-  margin-top: 0px;
 }
 
 /* Drop down going left */
