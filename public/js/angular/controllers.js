@@ -388,7 +388,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   console.log('ProfileController');
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
-  
+  $scope.timeline = resolveProfile.timeline;
   $scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
   
