@@ -434,7 +434,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
   $scope.people_tab = $scope.FOLLOW;
   $scope.content_tab = $scope.ACTIVITY;
-  
+  $scope.timeline_tab = "showAll";
   $scope.bigPin = {};
   $scope.bigFollowBtn = false;
   $scope.changeImage = false;
@@ -644,6 +644,7 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
   $scope.people_tab = $scope.FOLLOW;
   $scope.content_tab = $scope.ACTIVITY;
+  $scope.timeline_tab = "showAll";
   
   // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';

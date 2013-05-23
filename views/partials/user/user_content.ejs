@@ -67,9 +67,9 @@
   </div>
 </div>
 <div id="timeline_col" class="profile-column">
-  <div id="timeline_header" class="profile-column-header" ng-click="timelineTabClicked='none'">TIMELINE</div>
-  <div ng-switch on="timelineTabClicked" id="timeline_contents_container" class="profile-column-contents-container">
-    <ul ng-switch-when="none" id="timeline_events" >
+  <div id="timeline_header" class="profile-column-header" ng-click="timeline_tab='showAll'">TIMELINE</div>
+  <div ng-switch on="timeline_tab" id="timeline_contents_container" class="profile-column-contents-container">
+    <ul ng-switch-when="showAll" id="timeline_events" >
       <li  ng-repeat="event in timeline | orderBy:'date':true">
         <a tabindex="-1" href="{{event.targetLink}}">
           <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
@@ -132,13 +132,13 @@
   <div id="timeline_footer_container">
     <div id="timeline_footer">
       <div>
-        <img ng-click="timelineTabClicked='followers'" class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
+        <img ng-click="timeline_tab='followers'" class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
       </div>
       <div>
-        <img ng-click="timelineTabClicked='tags'" class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <img ng-click="timeline_tab='tags'" class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
       </div>
       <div>
-        <img ng-click="timelineTabClicked='comments'" class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
+        <img ng-click="timeline_tab='comments'" class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
       </div>
     </div>
   </div>

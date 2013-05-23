@@ -77,7 +77,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
     following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
   };
-  $rootScope.timelineTabClicked = "none";
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
