@@ -219,6 +219,64 @@
           });
           return false;
         });
+        $('#friend_request').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/friendRequest', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#get_pending').submit(function(e){
+          var text = $(this).find('input[name="userId"]').val();
+          $('#curr_user').text(text);
+          $.get('/api/user/getPending?'+$(this).serialize(), function(data){
+            if(data.results){
+              for(i = 0, len = data.results.length; i < len; i++){
+                var curr = data.results[i];
+                var str = '<li><p class="pending_user">'+curr.sourceUser+'</p>'+
+                          '<p class="event_id">'+curr.id+'</p>'+
+                          '<button class="accept_request">accept</button>'+
+                          '<button class="ignore_request">ignore</button></li>';
+                $('#request_list').append(str);
+              }
+            }
+            console.log(data);
+          });
+          return false;
+        });
+        //Accept friend request
+        $('#request_list').on('click', '.accept_request', function(e){
+          var source = $(this).siblings('.pending_user').text();
+          var target = $('#curr_user').text();
+          var eventId = $(this).siblings('.event_id').text();
+          console.log(source+' '+target);
+          $.post('/api/user/acceptFriend', { sourceId: source, targetId: target, consumedId: eventId }, function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('.ignore_request').click(function(e){
+          console.log('ignore');
+          var queryString = '';
+          $.post('/api/ignoreRequest', queryString, function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#unfriend').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/unfriend', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#consume_event').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/consumeEvent', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
       });
     </script>
   </head>
@@ -365,6 +423,32 @@
     <form id="unfollow">
       <input type="text" name="sourceId" placeholder="sourceId" />
       <input type="text" name="targetId" placeholder="targetId" />
+      <input type="submit" />
+    </form>
+    <h1>Friend</h1>
+    <p>Send Friend Request</p>
+    <form id="friend_request">
+      <input type="text" name="sourceId" placeholder="sourceId" />
+      <input type="text" name="targetId" placeholder="targetId" />
+      <input type="submit" />
+    </form>
+    <p >Fetch Pending Friend Requests</p>
+    <form id="get_pending" >
+      <input type="text" name="userId" placeholder="userId">
+      <input type="submit">
+    </form>
+    <p id="curr_user">Current User</p>
+    <ul id="request_list">
+    </ul>
+    <p>Unfriend user</p>
+    <form id="unfriend">
+      <input type="text" name="sourceId" placeholder="sourceId" />
+      <input type="text" name="targetId" placeholder="targetId" />
+      <input type="submit" />
+    </form>
+    <p>Consume Event</p>
+    <form id="consume_event">
+      <input type="text" name="eventId" placeholder="eventId" />
       <input type="submit" />
     </form>
   </body>

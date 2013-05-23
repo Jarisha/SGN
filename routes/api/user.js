@@ -20,11 +20,14 @@ var outlog = app.outlog;
 
 var fixProblems = exports.fixProblems = function(req, res){
   console.log('fixProblems');
-  app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
+  app.riak.bucket('users').objects.get('user8@u.u', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
     util.removeNulls(usr.data.timelineEvents);
     usr.data.timelineEvents = [];
+    usr.data.friends = [];
+    usr.data.userEvents = [];
+    usr.data.pinEvents = [];
     usr.save(function(err, saved){
       return res.json({ success: 'events cleared' });
     });
@@ -361,7 +364,7 @@ function repairUser(userInput, callback){
   
 }
 
-/***************************************************** API Level - Level 3 *****************************************/
+/***************************************************** API: Create - Edit - Delete - Fetch -> Level 3 *****************************************/
 
 /** test reindex function **/
 //fetch RObject for user
@@ -700,13 +703,11 @@ exports.testAPI = function(req, res){
   });*/
 }
 
-/********************************************** API Level  *************************************/
+/********************************************** API: Core - Level 3 *************************************/
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
 //returns notification
 exports.checkLogin = function(req, res){
-  //util.getDateObj();
-  //console.log(util.createEvent());
   if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
   if(req.session){
@@ -717,7 +718,6 @@ exports.checkLogin = function(req, res){
     var pinEventIds;
     var userEvents;
     var pinEvents;
-    console.log(req.session.loggedIn);
     get_RO_user(req.session.loggedIn, function(err, usr){
       if(err) return res.json({ error: err.message });
       util.removeNulls(usr.data.userEvents);
@@ -745,8 +745,16 @@ exports.checkLogin = function(req, res){
               return callback(null, event_data);
             });
           }
+          else if(event_data.action === 'friendRequest'){
+            return callback(null, event_data);
+          }
+          else if(event_data.action === 'friendAccepted'){
+            return callback(null, event_data);
+          }
           else{
-            return callback(new Error('Event is not a user event'), null);
+            console.log(event_data.action + ' does not belong in userEvents');
+            return callback(null, null);
+            //return callback(new Error('Event is not a user event'), null);
           }
         });
       },
@@ -775,7 +783,9 @@ exports.checkLogin = function(req, res){
             });
           }
           else{
-            return callback(new Error('Event is not a pin event'), null);
+            console.log(event_data.action + ' does not belong in pinEvents');
+            return callback(null, null);
+            //return callback(new Error('Event is not a pin event'), null);
           }
         });
       },
@@ -797,6 +807,37 @@ exports.checkLogin = function(req, res){
       });
     }
 	}
+}
+
+//consume notification, removing it from user notification area. NOT TESTED
+exports.consumeEvent = function(req, res){
+  console.log(req.body);
+  console.log(req.session.loggedIn);
+  var userId = req.session.loggedIn;
+  var eventId = req.body.eventId;
+  get_RO_user(userId, function(err, usr){
+    if(err) return res.json({ error: err.message });
+    var pinIndex = usr.data.pinEvents.indexOf(eventId);
+    var userIndex = usr.data.userEvents.indexOf(eventId);
+    if(pinIndex !== -1){
+      usr.data.pinEvents.splice(pinIndex, 1);
+      usr.save(function(_err, saved){
+        if(_err) return res.json({ error: 'save user failed' });
+        return res.json({ success: true });
+      });
+    }
+    else if(userIndex !== -1){
+      usr.data.userEvents.splice(userIndex, 1);
+      usr.save(function(_err, saved){
+        if(_err) return res.json({ error: 'save user failed' });
+        return res.json({ success: true });
+      });
+    }
+    else{
+      console.log('event not found');
+      return res.json({ success: true });
+    }
+  });
 }
 
 //If we are registering with facebook, send profile params (stored in req.session.fbUser) to front end
@@ -1186,6 +1227,204 @@ exports.unfollow = function(req, res){
   removeFollower(sourceId, targetId, function(err, sourceRO){
     if(err) return res.json({ error: 'unfollow error: '+err.message });
     return res.json({ success: sourceId+' unfollow '+targetId+' success', notify: 'Unfollowed '+targetId });
+  });
+}
+
+//send friend request from source to target
+exports.friendRequest = function(req, res){
+  console.log(req.body);
+  var sourceId = req.body.sourceId,
+      targetName = req.body.targetName,
+      targetId = req.body.targetId;
+  
+  var requestId;
+  var requestEvent =  { date: util.getDateObj(),
+                        sourceUser: sourceId,
+                        action: 'friendRequest',
+                        target: targetId
+                      };
+  if(!targetId){
+    base.getUserEmail(targetName, function(err, email){
+      if(err) return res.json({ error: err.message });
+      targetId = email;
+      followEvent.target = targetId;
+      notifyEvent.target = targetId;
+      next();
+    });
+  }
+  else next();
+  function next(){
+    if(sourceId === targetId){
+      outlog.info('Error: cannot friend yourself');
+      return res.json({ error: 'Error: cannot friend yourself' });
+    }
+    //create event, fetch targetUser, add request to his notifications
+    async.waterfall([
+      //create event, get event id
+      function(callback){
+        base.createEvent(requestEvent, function(err, id){
+          if(err) return callback(err.message);
+          requestId = id;
+          return callback(null);
+        });
+      },
+      //fetch targetUser
+      function(callback){
+        get_RO_user(targetId, function(err, usr){
+          if(err) return callback(err.message, null);
+          return callback(null, usr);
+        });
+      },
+      //add friend request + save
+      function(usr, callback){
+        usr.data.userEvents.push(requestId);
+        usr.save(function(err, saved){
+          if(err) return callback(err.message, null)
+          return callback(null);
+        });
+      },
+    ],
+    function(err){
+      if(err) return res.json({ error: err.message });
+      return res.json({ success: 'Friend request sent!' });
+    });
+  }
+}
+
+//get all pending friend request notifications for user
+exports.getPending = function(req, res){
+  console.log(req.query);
+  var userId = req.query.userId;
+  var requestIds = [];
+  var friendRequests = [];
+  
+  //get user
+  get_RO_user(userId, function(err, usr){
+    if(err) return res.json();
+    console.log(usr.data);
+    next(usr);
+    //return callback(null, usr);
+  });
+  //find all friend requests
+  function next(usr){
+    async.map(usr.data.userEvents, function(eventId, callback){
+      app.riak.bucket('events').objects.get(eventId, function(err, evt_RO){
+        if(err){
+          if(err.status_code === 404) return callback(null, null);
+          else return callback(new Error('get event error: '+err.message));
+        }
+        if(evt_RO.data.action === 'friendRequest'){
+          //add ref data to event
+          base.get_userRef(evt_RO.data.sourceUser, function(_err, ref_data){
+            if(_err) return callback(_err, null);
+            evt_RO.data.sourceData = {  email: evt_RO.data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg };
+            evt_RO.data.targetLink = '/user/'+ref_data.userName;
+                      return callback(null, evt_RO.data);
+          });
+        }
+        else
+          return callback(null, null);
+      });
+    },
+    function(err, results){
+      if(err) return res.json({ error: err.message });
+      util.removeNulls(results);
+      return res.json({ results: results });
+    });
+  }
+}
+
+//accept friend request, consuming it. Create friendAccepted event and put it into different places.
+exports.acceptFriend = function(req, res){
+  console.log(req.body);
+  var sourceId = req.body.sourceId;
+  var targetId = req.body.targetId;
+  var consumedId = req.body.consumedId;
+  var friendAcceptedEvent = { date: util.getDateObj(),
+                              sourceUser: sourceId,
+                              action: 'friendAccepted',
+                              target: targetId };
+  var eventId;
+  //create friendAccepted event
+  base.createEvent( friendAcceptedEvent, function(err, id){
+    if(err) return res.json({ error: err.message });
+    eventId = id;
+    next();
+  });
+  
+  function next(){
+    //get both users
+    async.parallel([
+      //Fetch sourceUser. Add targetId user to sourceUser's friends. Add event to notifications + timeline.
+      function(callback){
+        get_RO_user(sourceId, function(err, usr){
+          if(err) return callback(err);
+          if(usr.data.friends.indexOf(targetId) === -1) usr.data.friends.push(targetId);
+          else return callback(null);
+          usr.data.userEvents.push(eventId);
+          usr.data.timelineEvents.push(eventId);
+          base.save_RO(usr, 'users', function(_err, saved){
+            if(_err) return callback(_err);
+            return callback(null);
+          });
+        });
+      },
+      //Fetch targetUser. Add sourceId to targetUser's friends. Consume friend request. Add event to timeline.
+      function(callback){
+        get_RO_user(targetId, function(err, usr){
+          if(err) return callback(err);
+          if(usr.data.friends.indexOf(targetId) === -1) usr.data.friends.push(sourceId);
+          else return callback(null);
+          usr.data.timelineEvents.push(eventId);
+          var index = usr.data.userEvents.indexOf(consumedId);
+          if(index !== -1) usr.data.userEvents.splice(index, 1);
+          base.save_RO(usr, 'users', function(_err, saved){
+            if(_err) return callback(_err);
+            return callback(null);
+          });
+        });
+      }
+    ],
+    function(err){
+      if(err) return res.json({ error: 'accept friend error: '+ err.message });
+      return res.json({ success: 'friend request accepted!' });
+    });
+  }
+}
+
+//unfriend
+exports.unfriend = function(req, res){
+  console.log(req.body);
+  var sourceId = req.body.sourceId;
+  var targetId = req.body.targetId;
+  async.parallel([
+    function(callback){
+      get_RO_user(targetId, function(err, usr){
+        if(err) return callback(err, null);
+        var index = usr.data.friends.indexOf(sourceId);
+        if(index !== -1) usr.data.friends.splice(index, 1);
+        base.save_RO(usr, 'users', function(_err, saved){
+          if(_err) return callback(_err);
+          return callback(null);
+        });
+      });
+    },
+    function(callback){
+      get_RO_user(sourceId, function(err, usr){
+        if(err) return callback(err, null);
+        var index = usr.data.friends.indexOf(targetId);
+        if(index !== -1) usr.data.friends.splice(index, 1);
+        base.save_RO(usr, 'users', function(_err, saved){
+          if(_err) return callback(_err);
+          return callback(null);
+        });
+      });
+    }
+  ], function(err){
+    if(err) return res.json({ error: 'unfriend error: '+err.message });
+    return res.json({ success: 'Unfriend successful' });
   });
 }
 

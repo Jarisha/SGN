@@ -135,6 +135,7 @@ var getEvent = exports.getEvent = function(evtId, callback){
   });
 }
 
+
 /************************ Level 3 ***********************/
 exports.fetchEvent = function(req, res){
   app.riak.bucket('events').objects.get(req.query.eventId, function(err, event_RO){

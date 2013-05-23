@@ -31,6 +31,11 @@ module.exports = function(app){
   app.post('/api/user/deactivate', userApi.deleteWrap);
   app.post('/api/user/follow', userApi.follow);
   app.post('/api/user/unfollow', userApi.unfollow);
+  app.post('/api/user/friendRequest', userApi.friendRequest);
+  app.get('/api/user/getPending', userApi.getPending);
+  app.post('/api/user/unfriend', userApi.unfriend);
+  app.post('/api/user/acceptFriend', userApi.acceptFriend);
+  app.post('/api/user/consumeEvent', userApi.consumeEvent)
   
   app.get('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/facebookRegister', userApi.facebookRegister);
