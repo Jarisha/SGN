@@ -9,7 +9,7 @@
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
-          <a tabindex="-1" href="{{userEvent.targetLink}}" ng-click="consume({{userEvent.id}})">
+          <a tabindex="-1" href="{{userEvent.targetLink}}" ng-click="consume(userEvent.id)">
             <img class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
             <div class="notification-text">
               <span>{{userEvent.sourceData.userName}}</span>
@@ -41,7 +41,7 @@
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="pinEvent in pinEvents">
-          <a tabindex="-1" href="{{pinEvent.targetLink}}">
+          <a tabindex="-1" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
             <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
             <div class="notification-text">
               <span>{{pinEvent.sourceData.userName}}</span>
