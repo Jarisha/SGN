@@ -472,11 +472,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   }
 
   $rootScope.consume = function(eventId) {
-    $http({ method: 'post', url:'/api/base/consume', data: {eventId: eventId}})
-      .success(function(data, status, headers, config){
-        $rootScope.popNotify('Success', data.success);
-      })
-    ;
+    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: eventId}});
   }
 
   //view and edit settings
