@@ -9,7 +9,7 @@
       </a>
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
-          <a tabindex="-1" href="#">
+          <a tabindex="-1" href="{{userEvent.targetLink}}">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">
               <span>{{userEvent.sourceData.userName}}</span>
@@ -33,7 +33,7 @@
       </ul>
     </li>
     <li id="tag_tab" ng-show="loggedIn">
-      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge">
           {{pinEvents.length}}
@@ -41,7 +41,7 @@
       </a>
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="pinEvent in pinEvents">
-          <a tabindex="-1" href="#">
+          <a tabindex="-1" href="{{pinEvent.targetLink}}">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">
               <span>{{pinEvent.sourceData.userName}}</span>
