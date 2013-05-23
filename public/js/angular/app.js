@@ -470,7 +470,15 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         $rootScope.popNotify('Error', 'Server Error');
       });
   }
-  
+
+  $rootScope.consume = function(eventId) {
+    $http({ method: 'post', url:'/api/base/consume', data: {eventId: eventId}})
+      .success(function(data, status, headers, config){
+        $rootScope.popNotify('Success', data.success);
+      })
+    ;
+  }
+
   //view and edit settings
   $rootScope.viewSettings = function(){
     var resultData;
