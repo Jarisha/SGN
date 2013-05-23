@@ -62,7 +62,6 @@
     <ul ng-switch-when="none" id="timeline_events" >
       <li  ng-repeat="event in timeline | orderBy:'date':true">
         <a tabindex="-1" href="{{event.targetLink}}">
-          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
           <div class="notification-text">
             <span>{{user.userName}}</span>
             <p ng-switch on="event.action">
@@ -70,6 +69,9 @@
               <span ng-switch-when="commentPosted">commented on {{event.target}}</span>
               <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
             </p>
+          </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
           </div>
         </a>
       </li>
@@ -83,6 +85,9 @@
               <span ng-switch-when="followSent">followed {{event.targetData.userName}}</span>
             </p>
           </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
+          </div>
         </a>
       </li>
     </ul>
@@ -95,6 +100,10 @@
               <span ng-switch-when="commentPosted">commented on {{event.target}}</span>
               <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
             </p>
+          </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
+          </div>
         </a>
       </li>
     </ul>

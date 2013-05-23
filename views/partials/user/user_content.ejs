@@ -80,6 +80,9 @@
               <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
             </p>
           </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
+          </div>
         </a>
       </li>
     </ul>
@@ -91,6 +94,9 @@
             <p ng-switch on="event.action">
               <span ng-switch-when="followSent">followed {{event.targetData.userName}}</span>
             </p>
+          </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
           </div>
         </a>
       </li>
@@ -104,6 +110,10 @@
               <span ng-switch-when="commentPosted">commented on {{event.target}}</span>
               <span ng-switch-when="gamepinPosted">posted a game on {{event.target}}</span>
             </p>
+          </div>
+          <div class="notification-item-right-box">
+            <img class= "notification-profile-image" ng-src="{{event.targetData.profileImg}}">
+          </div>
         </a>
       </li>
     </ul>

@@ -10,7 +10,7 @@
       <ul id="follower_dropdown" class="dropdown-menu">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
           <a tabindex="-1" href="{{userEvent.targetLink}}">
-            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <img class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
             <div class="notification-text">
               <span>{{userEvent.sourceData.userName}}</span>
               <p ng-switch on="userEvent.action">
@@ -42,7 +42,7 @@
       <ul id="tag_dropdown" class="dropdown-menu">
         <li ng-repeat="pinEvent in pinEvents">
           <a tabindex="-1" href="{{pinEvent.targetLink}}">
-            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
             <div class="notification-text">
               <span>{{pinEvent.sourceData.userName}}</span>
               <p>commentend on your pin in {{pinEvent.target}}</p>
