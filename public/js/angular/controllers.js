@@ -290,7 +290,48 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   $scope.content = $rootScope.rootPath + '/partials/store_content';
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
-  
+  $scope.dummyData = [
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png"
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png"
+    },
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png"
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png"
+    },
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png"
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png"
+    },
+    {
+      name: 'Angry Birds Space Premium',
+      price: 'Coming Soon',
+      image: "http://localhost/images/game_images/store_img4.png"
+    },
+    {
+      name: 'Cut the Rope',
+      price: '$0.99',
+      image: "http://localhost/images/game_images/store_img5.png"
+    }
+  ];
   /* temp variables - used only in this controller */
   
   //Setup non AJAX related javascript
