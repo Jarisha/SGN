@@ -20,12 +20,12 @@ var outlog = app.outlog;
 
 var fixProblems = exports.fixProblems = function(req, res){
   console.log('fixProblems');
-  app.riak.bucket('users').objects.get('user8@u.u', function(err, usr){
+  app.riak.bucket('users').objects.get('user1@u.u', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
-    util.removeNulls(usr.data.timelineEvents);
-    usr.data.timelineEvents = [];
-    usr.data.friends = [];
+    //util.removeNulls(usr.data.timelineEvents);
+    ///usr.data.timelineEvents = [];
+    //usr.data.friends = [];
     usr.data.userEvents = [];
     usr.data.pinEvents = [];
     usr.save(function(err, saved){
@@ -65,6 +65,8 @@ var get_RO_user = exports.get_RO_user = function(key, callback){
     //reindex if out of date
     if(!usr.data.version || (usr.data.version !== userSchema.userInstance.version)){
       console.log('reindexing '+key);
+      console.log('user version: '+usr.data.version);
+      console.log('current version: '+userSchema.userInstance.version);
       reindexUser(usr, function(_err, updated_usr){
         if(_err) return callback(_err, null);
         return callback(null, updated_usr);
@@ -735,6 +737,7 @@ exports.checkLogin = function(req, res){
             return callback(new Error('Get Notification Error: '+err), null);
           }
           var event_data = event_RO.data;
+          //sourceUser follows YOU, get sourceUser UI data
           if(event_data.action === 'followRecieved'){
             base.get_userRef(event_data.sourceUser, function(_err, ref_data){
               if(_err) return callback(err, null);
@@ -746,10 +749,24 @@ exports.checkLogin = function(req, res){
             });
           }
           else if(event_data.action === 'friendRequest'){
-            return callback(null, event_data);
+            base.get_userRef(event_data.sourceUser, function(_err, ref_data){
+              if(_err) return callback(err, null);
+              event_data.sourceData = { email: event_data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg };
+              event_data.targetLink = '/user/'+ref_data.userName;
+              return callback(null, event_data);
+            });
           }
           else if(event_data.action === 'friendAccepted'){
-            return callback(null, event_data);
+            base.get_userRef(event_data.sourceUser, function(_err, ref_data){
+              if(_err) return callback(err, null);
+              event_data.sourceData = { email: event_data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg };
+              event_data.targetLink = '/user/'+ref_data.userName;
+              return callback(null, event_data);
+            });
           }
           else{
             console.log(event_data.action + ' does not belong in userEvents');
@@ -809,12 +826,14 @@ exports.checkLogin = function(req, res){
 	}
 }
 
-//consume notification, removing it from user notification area. NOT TESTED
+//consume notification, removing it from user notification area.
+// accepts eventId
 exports.consumeEvent = function(req, res){
   console.log(req.body);
   console.log(req.session.loggedIn);
   var userId = req.session.loggedIn;
   var eventId = req.body.eventId;
+  
   get_RO_user(userId, function(err, usr){
     if(err) return res.json({ error: err.message });
     var pinIndex = usr.data.pinEvents.indexOf(eventId);
@@ -1375,9 +1394,10 @@ exports.acceptFriend = function(req, res){
       function(callback){
         get_RO_user(targetId, function(err, usr){
           if(err) return callback(err);
-          if(usr.data.friends.indexOf(targetId) === -1) usr.data.friends.push(sourceId);
+          if(usr.data.friends.indexOf(sourceId) === -1) usr.data.friends.push(sourceId);
           else return callback(null);
           usr.data.timelineEvents.push(eventId);
+          //target consumes friend request
           var index = usr.data.userEvents.indexOf(consumedId);
           if(index !== -1) usr.data.userEvents.splice(index, 1);
           base.save_RO(usr, 'users', function(_err, saved){

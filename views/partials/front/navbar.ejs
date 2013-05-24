@@ -3,11 +3,11 @@
     <li id="followers_tab" ng-show="loggedIn" class="dropdown">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
+        <span ng-show="userEvents.length != 0" class="notifications-count-badge">
           {{userEvents.length}}
         </span>
       </a>
-      <ul id="follower_dropdown" class="dropdown-menu">
+      <ul id="follower_dropdown" class="dropdown-menu" ng-show="userEvents.length != 0">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
           <a tabindex="-1" href="{{userEvent.targetLink}}" ng-click="consume({{userEvent.id}})">
             <img class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
@@ -27,20 +27,20 @@
             </div>
           </a>
         </li>
-        <div class="view_all_footer">
+        <div ng-show="userEvents.length > 4" class="view_all_footer">
           <p ng-click="popFollowerNotifications()" href="#">View All</p>
         </div>
       </ul>
-    </li>
-    <li id="tag_tab" ng-show="loggedIn">
+    </li><li
+      id="tag_tab" ng-show="loggedIn">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
         <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
+        <span ng-show="pinEvents.length != 0" class="notifications-count-badge">
           {{pinEvents.length}}
         </span>
       </a>
-      <ul id="tag_dropdown" class="dropdown-menu">
-        <li ng-repeat="pinEvent in pinEvents">
+      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
+        <li ng-repeat="pinEvent in pinEvents | limitTo:4">
           <a tabindex="-1" href="{{pinEvent.targetLink}}">
             <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
             <div class="notification-text">
@@ -49,20 +49,20 @@
             </div>
           </a>
         </li>
-        <div class="view_all_footer">
+        <div ng-show="pinEvents.length > 4" class="view_all_footer">
           <p ng-click="popGeneric()" href="#">View All</p>
         </div>
       </ul>
-    </li>
-    <li id="message_tab" ng-show="loggedIn">
+    </li><li
+      id="message_tab" ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
         <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
+        <span ng-show="false" class="notifications-count-badge">
           {{notificationsDummyData.messagesData.length}}
         </span>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu">
-        <li ng-repeat="message_notification in notificationsDummyData.messagesData">
+      <ul ng-show="false" id="message_dropdown" class="dropdown-menu">
+        <li ng-repeat="message_notification in notificationsDummyData.messagesData | limitTo:4">
           <a tabindex="-1" href="#">
             <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
             <div class="notification-text">
@@ -71,7 +71,7 @@
             </div>
           </a>
         </li>
-        <div class="view_all_footer">
+        <div ng-show="false" class="view_all_footer">
           <p ng-click="popGeneric()" href="#">View All</p>
         </div>
       </ul>
