@@ -290,6 +290,11 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   $scope.content = $rootScope.rootPath + '/partials/store_content';
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
+  $scope.masonInit = true;
+  $scope.changeState = function(){
+    $scope.masonInit = false;
+  }
+
   $scope.dummyData = [
     {
       name: 'Minecraft',
