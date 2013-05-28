@@ -144,7 +144,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     console.log('masonry');
     $('img').imagesLoaded(function(){
       $('#content').masonry({
-        itemSelector : '.game_pin',
+        itemSelector : '.game_pin, .store_pin',
         isFitWidth: true
       });
       //hack to fix masonry overlaps. (bad)
