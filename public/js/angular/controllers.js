@@ -300,49 +300,43 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       name: 'Minecraft',
       price: 'Free',
       image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
+      category: 'Strategy',
+      url: 'https://play.google.com/store/apps/details?id=com.mojang.minecraftpe'
     },
     {
       name: 'Great Big War Game',
       price: '$4.99',
       image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Minecraft',
-      price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Great Big War Game',
-      price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Minecraft',
-      price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Great Big War Game',
-      price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
+      category: 'Strategy',
+      url: 'https://play.google.com/store/apps/details?id=com.rubicon.dev.gbwg'
     },
     {
       name: 'Angry Birds Space Premium',
       price: 'Coming Soon',
       image: "http://localhost/images/game_images/store_img4.png",
-      category: 'Puzzle'
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.rovio.angrybirdsspace.premium'
     },
     {
       name: 'Cut the Rope',
       price: '$0.99',
       image: "http://localhost/images/game_images/store_img5.png",
-      category: 'Puzzle'
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.zeptolab.ctr.paid'
+    },
+    {
+      name: 'Move the Box Pro',
+      price: '$0.99',
+      image: "https://lh3.ggpht.com/hhurG5c5QP9dn6AN80mPdkxrK_0BwsRrNaEnXSANenpoFH0nKXkDJLTLIvAG_5vgdA=w124",
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=ua.co.cts.movethebox'
+    },
+    {
+      name: 'Bomba',
+      price: '$0.99',
+      image: 'https://lh3.ggpht.com/dKcPug5YXNwEULvix5WMPGjvEEbAFINvbm8Xbko0NRk4S9bdeTGGBxXWKcyUiIiJ9-Y=w124',
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.GamesLab.Bomba'
     }
   ];
   /* temp variables - used only in this controller */
