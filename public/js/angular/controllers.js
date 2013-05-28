@@ -299,42 +299,50 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
     {
       name: 'Minecraft',
       price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png"
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
     },
     {
       name: 'Great Big War Game',
       price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png"
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
     },
     {
       name: 'Minecraft',
       price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png"
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
     },
     {
       name: 'Great Big War Game',
       price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png"
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
     },
     {
       name: 'Minecraft',
       price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png"
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
     },
     {
       name: 'Great Big War Game',
       price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png"
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
     },
     {
       name: 'Angry Birds Space Premium',
       price: 'Coming Soon',
-      image: "http://localhost/images/game_images/store_img4.png"
+      image: "http://localhost/images/game_images/store_img4.png",
+      category: 'Puzzle'
     },
     {
       name: 'Cut the Rope',
       price: '$0.99',
-      image: "http://localhost/images/game_images/store_img5.png"
+      image: "http://localhost/images/game_images/store_img5.png",
+      category: 'Puzzle'
     }
   ];
   /* temp variables - used only in this controller */
