@@ -1,70 +1,136 @@
-<div id="notifications" ng-show="loggedIn && (css=='front' || css=='profile' || css=='store')">
+<div id="notifications">
   <ul id="notify_list">
     <li id="followers_tab" ng-show="loggedIn" class="dropdown">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
-          {{userEvents.length}}
+        <img class="new_followers" src="/images/UI/Following1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge" ng-show="userEvents.length != 0">
+          {{ userEvents.length }}
         </span>
       </a>
-      <ul id="follower_dropdown" class="dropdown-menu">
+      <ul id="follower_dropdown" class="dropdown-menu" ng-show="userEvents.length != 0">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
-          <a tabindex="-1" href="{{userEvent.targetLink}}" ng-click="consume(userEvent.id)">
+          <a class="clearfix" href="{{userEvent.targetLink}}" ng-click="consume(userEvent.id, $index, userEvents)">
             <img class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
             <div class="notification-text">
-              <span>{{userEvent.sourceData.userName}}</span>
+              <b>{{userEvent.sourceData.userName}}</b>
               <p ng-switch on="userEvent.action">
-                <span ng-switch-when="followRecieved">followed you</span>
-                <span ng-switch-when="friendRequest">wants to be your friend</span>
+                <span ng-switch-when="followRecieved">Followed you</span>
+                <span ng-switch-when="friendRequest">Wants to be your friend</span>
               </p>
             </div>
-            <div class="notification-item-right-box">
-              <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
-              <div ng-show="follower_notification.action == 'friend request'">
-                <button class="btn btn-success accept-friend-button">Accept</button><br>
-                <button class="btn btn-danger ignore-friend-button">Ignore</button>
-              </div>
-            </div>
+            <span ng-switch on="userEvent.action" class="targetThumb" >
+              <img ng-switch-when="followRecieved" ng-src="/images/UI/Circle2.png" />
+              <img ng-switch-when="friendRequest" ng-src="/images/UI/Circle2.png">
+            </span>
           </a>
         </li>
-        <div class="view_all_footer">
+        <div class="view_all_footer" ng-show="userEvents.length > 4">
           <p ng-click="popFollowerNotifications()" href="#">View All</p>
         </div>
       </ul>
     </li>
-    <li id="tag_tab" ng-show="loggedIn">
-      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
-        <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
+    <li id="tag_tab" ng-show="loggedIn" class="dropdown">
+      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown">
+        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
           {{pinEvents.length}}
         </span>
       </a>
-      <ul id="tag_dropdown" class="dropdown-menu">
+      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
+        <li ng-repeat="pinEvent in pinEvents | limitTo:4">
+          <a class="clearfix" href="{{ pinEvent.targetLink }}" ng-click="consume(pinEvent.id, $index, pinEvents)">
+            <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
+            <div class="notification-text">
+              <b>{{pinEvent.sourceData.userName}}</b>
+              <p ng-switch on="pinEvent.action">
+                <span ng-switch-when="commentRecieved">Commented on your post</span>
+              </p>
+            </div>
+            <span ng-switch on="pinEvent.target" class="targetThumb">
+              <img ng-switch-when="Action & Adventure" ng-src="/images/caticon-action22x22.png" />
+              <img ng-switch-when="Arcade" ng-src="/images/caticon-arcade22x22.png" />
+              <img ng-switch-when="Board & Card" ng-src="/images/caticon-card22x22.png" />
+              <img ng-switch-when="Casino & Gambling" ng-src="/images/caticon-casino22x22.png" />
+              <img ng-switch-when="Educational" ng-src="/images/caticon-educational22x22.png" />
+              <img ng-switch-when="Family & Kids" ng-src="/images/caticon-family22x22.png" />
+              <img ng-switch-when="Music & Rhythm" ng-src="/images/caticon-music22x22.png" />
+              <img ng-switch-when="Puzzle" ng-src="/images/caticon-puzzle22x22.png" />
+              <img ng-switch-when="Racing" ng-src="/images/caticon-racing22x22.png" />
+              <img ng-switch-when="Role Playing" ng-src="/images/caticon-rpg22x22.png" />
+              <img ng-switch-when="Simulation" ng-src="/images/caticon-rpg22x22.png" />
+              <img ng-switch-when="Sports" ng-src="/images/caticon-sports22x22.png" />
+              <img ng-switch-when="Strategy" ng-src="/images/caticon-strategy22x22.png" />
+              <img ng-switch-when="Trivia & Word" ng-src="/images/caticon-strategy22x22.png" />
+            </span>
+          </a>
+        </li>
+        <div class="view_all_footer" ng-show="pinEvents.length > 4">
+          <p ng-click="popFollowerNotifications()" href="#">View All</p>
+        </div>
+      </ul>
+    </li>
+    <!--<li id="tag_tab" ng-show="loggedIn" class="dropdown">
+      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown">
+        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
+          {{pinEvents.length}}
+        </span>
+      </a>
+      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
+        <li ng-repeat="pinEvent in notificationsDummyData.followersData | limitTo:4">
+          <a class="clearfix" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
+            <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
+            <div class="notification-text">
+              <b>{{pinEvent.sourceData.userName}}</b>
+              <p ng-switch on="pinEvent.action">
+                <span ng-switch-when="commentReceived">followed you</span>
+              </p>
+            </div>
+            <span ng-switch on="pinEvent.action" class="targetThumb">
+              <img ng-switch-when="commentReceived" ng-src="/images/UI/Circle2.png" />
+            </span>
+          </a>
+        </li><p>test</p>
+        <div class="view_all_footer">
+          <p ng-click="popFollowerNotifications()" href="#">View All</p>
+        </div>
+      </ul>
+    </li>-->
+    <!--
+    <li id="tag_tab" ng-show="loggedIn">
+      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
+        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
+          {{pinEvents.length}}
+        </span>
+      </a>
+      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
         <li ng-repeat="pinEvent in pinEvents">
-          <a tabindex="-1" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
+          <a class="clearfix" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
             <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
             <div class="notification-text">
               <span>{{pinEvent.sourceData.userName}}</span>
               <p>commentend on your pin in {{pinEvent.target}}</p>
             </div>
           </a>
-        </li>
-        <div class="view_all_footer">
+        </li><div
+        class="view_all_footer">
           <p ng-click="popGeneric()" href="#">View All</p>
         </div>
       </ul>
     </li>
+    -->
     <li id="message_tab" ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
-        <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge">
+        <img class="new_messages" src="/images/UI/Comment1_effects.png" width="35" height="35"/>
+        <span class="notifications-count-badge" ng-show="false">
           {{notificationsDummyData.messagesData.length}}
         </span>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu">
+      <ul id="message_dropdown" class="dropdown-menu" ng-show="false">
         <li ng-repeat="message_notification in notificationsDummyData.messagesData">
-          <a tabindex="-1" href="#">
-            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+          <a class="clearfix" href="#">
+            <img class= "notification-profile-image" ng-src="/images/30x30.gif">
             <div class="notification-text">
               <span>{{message_notification.name}}</span>
               <p>messaged you</p>

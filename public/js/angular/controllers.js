@@ -263,7 +263,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   /* code run in front controller */
   //$scope.facebookRegister();
   
-  //affix subnav
+  //affix subnav to top after it is loaded
+  $scope.affix = function(){
+    $('#subnav').affix({ offset: 42 });
+  }
 }
 FrontController.resolve = {
   resolveFront: function($q, $rootScope, gamepinService){
@@ -389,7 +392,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   $scope.timeline = resolveProfile.timeline;
-  $scope.activityPins = resolveProfile.activityData;
+  //$scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
   
   $scope.profile.bio = $scope.profile.bio || null;
@@ -422,7 +425,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
   $scope.groupToggle = false;
   $scope.masonInit = true;
-  console.log('here1');
   
   //$scope.displayMode = 'activity';
   $scope.displayMode = {};
@@ -441,6 +443,116 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   
   $scope.changeState = function(){
     $scope.masonInit = false;
+  }
+  
+  //figure out timeline stuff (too much logic to be done in view)
+  for(var event in $scope.timeline){
+    console.log($scope.timeline[event]);
+    var currEvent = $scope.timeline[event]; 
+    if(currEvent.action === 'commentPosted'){
+      currEvent.message = 'Comment posted to '+currEvent.target;
+      switch(currEvent.target){
+        case 'Action & Adventure':
+          currEvent.sourceImg = '/images/caticon-action22x22.png';
+          break;
+        case 'Arcade':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        case 'Board & Card':
+          currEvent.sourceImg = '/images/caticon-card22x22.png'
+          break;
+        case 'Casino & Gambling':
+          currEvent.sourceImg = '/images/caticon-casino22x22.png'
+          break;
+        case 'Educational':
+          currEvent.sourceImg = '/images/caticon-educational22x22.png'
+          break;
+        case 'Family & Kids':
+          currEvent.sourceImg = '/images/caticon-family22x22.png'
+          break;
+        case 'Music & Rhythm':
+          currEvent.sourceImg = '/images/caticon-music22x22.png'
+          break;
+        case 'Puzzle':
+          currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
+          break;
+        case 'Racing':
+          currEvent.sourceImg = '/images/caticon-racing22x22.png'
+          break;
+        case 'Role Playing':
+          currEvent.sourceImg = '/images/caticon-rpg22x22.png'
+          break;
+        case 'Simulation':
+          currEvent.sourceImg = '/images/caticon-simulation22x22.png'
+          break;
+        case 'Sports':
+          currEvent.sourceImg = '/images/caticon-sports22x22.png'
+          break;
+        case 'Strategy':
+          currEvent.sourceImg = '/images/caticon-strategy22x22.png'
+          break;
+        case 'Trivia & Word':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        default:
+          alert('event image: default case');
+          break;
+      }
+    }
+    else if(currEvent.action === 'gamepinPosted'){
+      currEvent.message = 'Posted to '+currEvent.target;
+      switch(currEvent.target){
+        case 'Action & Adventure':
+          currEvent.sourceImg = '/images/caticon-action22x22.png';
+          break;
+        case 'Arcade':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        case 'Board & Card':
+          currEvent.sourceImg = '/images/caticon-card22x22.png'
+          break;
+        case 'Casino & Gambling':
+          currEvent.sourceImg = '/images/caticon-casino22x22.png'
+          break;
+        case 'Educational':
+          currEvent.sourceImg = '/images/caticon-educational22x22.png'
+          break;
+        case 'Family & Kids':
+          currEvent.sourceImg = '/images/caticon-family22x22.png'
+          break;
+        case 'Music & Rhythm':
+          currEvent.sourceImg = '/images/caticon-music22x22.png'
+          break;
+        case 'Puzzle':
+          currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
+          break;
+        case 'Racing':
+          currEvent.sourceImg = '/images/caticon-racing22x22.png'
+          break;
+        case 'Role Playing':
+          currEvent.sourceImg = '/images/caticon-rpg22x22.png'
+          break;
+        case 'Simulation':
+          currEvent.sourceImg = '/images/caticon-simulation22x22.png'
+          break;
+        case 'Sports':
+          currEvent.sourceImg = '/images/caticon-sports22x22.png'
+          break;
+        case 'Strategy':
+          currEvent.sourceImg = '/images/caticon-strategy22x22.png'
+          break;
+        case 'Trivia & Word':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        default:
+          alert('event image: default case');
+          break;
+      }
+    }
+    else if(currEvent.action === 'followSent'){
+      currEvent.message = 'Following '+currEvent.targetData.userName;
+      currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
+    }
   }
   
   $scope.setup = function(){
@@ -648,11 +760,117 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   
   // confirm the partials we want to load in
   $scope.modals = $rootScope.rootPath + '/partials/modals';
-  /*$scope.modals = $rootScope.rootPath + '/partials/modals';
-  $scope.subnav = null;
-  $scope.nav = $rootScope.rootPath + '/partials/navbar';
-  $scope.content = $rootScope.rootPath + '/partials/user_content';
-  $scope.content = $rootScope.rootPath + '/partials/user_content';*/
+  
+    //figure out timeline stuff (too much logic to be done in view)
+  for(var event in $scope.timeline){
+    console.log($scope.timeline[event]);
+    var currEvent = $scope.timeline[event]; 
+    if(currEvent.action === 'commentPosted'){
+      currEvent.message = 'Comment posted to '+currEvent.target;
+      switch(currEvent.target){
+        case 'Action & Adventure':
+          currEvent.sourceImg = '/images/caticon-action22x22.png';
+          break;
+        case 'Arcade':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        case 'Board & Card':
+          currEvent.sourceImg = '/images/caticon-card22x22.png'
+          break;
+        case 'Casino & Gambling':
+          currEvent.sourceImg = '/images/caticon-casino22x22.png'
+          break;
+        case 'Educational':
+          currEvent.sourceImg = '/images/caticon-educational22x22.png'
+          break;
+        case 'Family & Kids':
+          currEvent.sourceImg = '/images/caticon-family22x22.png'
+          break;
+        case 'Music & Rhythm':
+          currEvent.sourceImg = '/images/caticon-music22x22.png'
+          break;
+        case 'Puzzle':
+          currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
+          break;
+        case 'Racing':
+          currEvent.sourceImg = '/images/caticon-racing22x22.png'
+          break;
+        case 'Role Playing':
+          currEvent.sourceImg = '/images/caticon-rpg22x22.png'
+          break;
+        case 'Simulation':
+          currEvent.sourceImg = '/images/caticon-simulation22x22.png'
+          break;
+        case 'Sports':
+          currEvent.sourceImg = '/images/caticon-sports22x22.png'
+          break;
+        case 'Strategy':
+          currEvent.sourceImg = '/images/caticon-strategy22x22.png'
+          break;
+        case 'Trivia & Word':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        default:
+          alert('event image: default case');
+          break;
+      }
+    }
+    else if(currEvent.action === 'gamepinPosted'){
+      currEvent.message = 'Posted to '+currEvent.target;
+      switch(currEvent.target){
+        case 'Action & Adventure':
+          currEvent.sourceImg = '/images/caticon-action22x22.png';
+          break;
+        case 'Arcade':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        case 'Board & Card':
+          currEvent.sourceImg = '/images/caticon-card22x22.png'
+          break;
+        case 'Casino & Gambling':
+          currEvent.sourceImg = '/images/caticon-casino22x22.png'
+          break;
+        case 'Educational':
+          currEvent.sourceImg = '/images/caticon-educational22x22.png'
+          break;
+        case 'Family & Kids':
+          currEvent.sourceImg = '/images/caticon-family22x22.png'
+          break;
+        case 'Music & Rhythm':
+          currEvent.sourceImg = '/images/caticon-music22x22.png'
+          break;
+        case 'Puzzle':
+          currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
+          break;
+        case 'Racing':
+          currEvent.sourceImg = '/images/caticon-racing22x22.png'
+          break;
+        case 'Role Playing':
+          currEvent.sourceImg = '/images/caticon-rpg22x22.png'
+          break;
+        case 'Simulation':
+          currEvent.sourceImg = '/images/caticon-simulation22x22.png'
+          break;
+        case 'Sports':
+          currEvent.sourceImg = '/images/caticon-sports22x22.png'
+          break;
+        case 'Strategy':
+          currEvent.sourceImg = '/images/caticon-strategy22x22.png'
+          break;
+        case 'Trivia & Word':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        default:
+          alert('event image: default case');
+          break;
+      }
+    }
+    else if(currEvent.action === 'followSent'){
+      currEvent.message = 'Following '+currEvent.targetData.userName;
+      currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
+    }
+  }
+  
   
   // disable following button if already following ( this should be done on backend )
   for(var i = 0, len = $scope.user.followers.length; i < len; i++){

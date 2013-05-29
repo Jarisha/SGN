@@ -45,18 +45,21 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //The greater the time, the more recent.
     followersData :
       [
-        {name: "John", action: "follow", time: 1},
-        {name:"Narasimtah", action: "friend request", time: 2},
-        {name:"Joe", action: "friend request", time: 10},
-        {name: "John", action: "follow", time: 1},
-        {name:"Narasimtah", action: "friend request", time: 2},
-        {name:"Joe", action: "friend request", time: 10},
-        {name: "John", action: "follow", time: 1},
-        {name:"Narasimtah", action: "friend request", time: 2},
-        {name:"Joe", action: "friend request", time: 10},
-        {name: "John", action: "follow", time: 1},
-        {name:"Narasimtah", action: "friend request", time: 2},
-        {name:"Joe", action: "friend request", time: 10}
+        { sourceUser:'user7@u.u', action:'followRecieved', target:'dtonys@gmail.com',
+          sourceData: {email:'user7@u.u', userName:'user7',
+          profileImg:'http://d45c79c0838c7014df33-00861601181b32db2671b5497da6d8c8.r84.cf1.rackcdn.com/GJUhS9F1oZEJaGD26kwOSdtg'}},
+        { sourceUser:'user7@u.u', action:'followRecieved', target:'dtonys@gmail.com',
+        sourceData: {email:'user7@u.u', userName:'user7',
+        profileImg:'http://d45c79c0838c7014df33-00861601181b32db2671b5497da6d8c8.r84.cf1.rackcdn.com/GJUhS9F1oZEJaGD26kwOSdtg'}},
+        { sourceUser:'user7@u.u', action:'followRecieved', target:'dtonys@gmail.com',
+        sourceData: {email:'user7@u.u', userName:'user7',
+        profileImg:'http://d45c79c0838c7014df33-00861601181b32db2671b5497da6d8c8.r84.cf1.rackcdn.com/GJUhS9F1oZEJaGD26kwOSdtg'}},
+        { sourceUser:'user7@u.u', action:'followRecieved', target:'dtonys@gmail.com',
+        sourceData: {email:'user7@u.u', userName:'user7',
+        profileImg:'http://d45c79c0838c7014df33-00861601181b32db2671b5497da6d8c8.r84.cf1.rackcdn.com/GJUhS9F1oZEJaGD26kwOSdtg'}},
+        { sourceUser:'user7@u.u', action:'followRecieved', target:'dtonys@gmail.com',
+        sourceData: {email:'user7@u.u', userName:'user7',
+        profileImg:'http://d45c79c0838c7014df33-00861601181b32db2671b5497da6d8c8.r84.cf1.rackcdn.com/GJUhS9F1oZEJaGD26kwOSdtg'}},
       ],
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
     messagesData : [{name: "Jill", time: 5}]
@@ -195,7 +198,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $rootScope.post.description = null;
     $rootScope.post.url = null;
     $rootScope.post.content = null;
-    //clearModalFields(); TODO UNDO
+    clearModalFields();
     $('#postModal').modal();
   }
   //clear all post gamepin Modals
@@ -223,7 +226,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#imageUrlForm input[type="submit"], \
                   #uploadForm input[type="submit"], \
                   #youtubeUrlForm input[type="submit"]').attr('disabled', 'disabled');
-    
   }
  
   //pop generic placeholder modal
@@ -258,8 +260,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.popBadgeModal = function(){
     $('#badgeModal').modal();
   }
-
-
   //$rootScope.popNotify('Test', 'Test Success');
   
   //Pops a Notification. Error or Success
@@ -470,8 +470,17 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
   }
 
-  $rootScope.consume = function(eventId) {
-    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: eventId}});
+  $rootScope.consume = function(eventId, index, listRef) {
+    //console.log(index);
+    //console.log(listRef);
+    //listRef.splice(index, 1);
+    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: eventId} })
+      .success(function(data, status, headers, config){
+        
+      })
+      .error(function(data, status, headers, config){
+        
+      });
   }
 
   //view and edit settings
@@ -544,7 +553,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
             return;
           }
          // (responseText.gamepin);
-          //$('#fileUploadModal').modal('hide'); TODO UNDO
+          $('#fileUploadModal').modal('hide');
           $rootScope.popNotify('Success' ,'Post Image Success!');
         },
         error: function(responseText, statusText, xhr, $form){
