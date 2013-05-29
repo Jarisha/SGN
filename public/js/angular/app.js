@@ -469,17 +469,59 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         $rootScope.popNotify('Error', 'Server Error');
       });
   }
-
-  $rootScope.consume = function(eventId, index, listRef) {
-    //console.log(index);
-    //console.log(listRef);
-    //listRef.splice(index, 1);
-    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: eventId} })
+  
+  //When the user clicks on a notification, consume that notification and go to target
+  $rootScope.consume = function(userEvent, index, listRef) {
+    console.log('consume + proceed to targetLink');
+    //Keep friend request alive
+    if(userEvent.action === 'friendRequest'){
+      $location.path(userEvent.targetLink);
+      return;
+    }
+    listRef.splice(index, 1);
+    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: userEvent.id} })
       .success(function(data, status, headers, config){
-        
+        $location.path(userEvent.targetLink);
       })
       .error(function(data, status, headers, config){
-        
+        console.log('error');
+      });
+  }
+
+  $rootScope.ignore = function(userEvent, index, listRef){
+    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: userEvent.id} })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          listRef.splice(index, 1);
+          $rootScope.popNotify('Success', 'Request Ignored');
+        }
+        if(data.error){
+          $rootScope.popNotify('Error', data.error);
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+        $rootScope.popNotify('Error', 'Server Error');
+      });
+  }
+  //friends the two users, consuming the event and spawning appropriate followup events
+  $rootScope.acceptFriend = function(userEvent, index, listRef){
+    console.log('sourceId: '+ userEvent.sourceUser + ' targetId: '+$rootScope.userEmail+' consumedId: '+userEvent.id);
+    $http({ method:'post', url:'/api/user/acceptFriend', data: {  sourceId: userEvent.sourceUser,
+                                                                  targetId: userEvent.target,
+                                                                  consumedId: userEvent.id } })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          listRef.splice(index, 1);
+          $rootScope.popNotify('Success', 'Friend Accepted');
+        }
+        if(data.error){
+          $rootScope.popNotify('Error', data.error);
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+        $rootScope.popNotify('Error', 'Server Error');
       });
   }
 

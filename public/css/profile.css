@@ -9,6 +9,9 @@
   float: left;
   width:20%;
 }
+.profile #people_header span{
+  color: white;
+}
 
 #follow_user{
   -moz-box-sizing: border-box;

@@ -431,8 +431,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   
   //figure out timeline stuff (too much logic to be done in view)
   for(var event in $scope.timeline){
-    console.log($scope.timeline[event]);
-    var currEvent = $scope.timeline[event]; 
+    var currEvent = $scope.timeline[event];
     if(currEvent.action === 'commentPosted'){
       currEvent.message = 'Comment posted to '+currEvent.target;
       switch(currEvent.target){
@@ -536,6 +535,18 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
     else if(currEvent.action === 'followSent'){
       currEvent.message = 'Following '+currEvent.targetData.userName;
       currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
+    }
+    else if(currEvent.action === 'friendAccepted'){
+      if(currEvent.targetData.userName !== $scope.profile.userName){
+        currEvent.message = 'Friended '+currEvent.targetData.userName;
+        currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
+        currEvent.targetLink = '/user/'+currEvent.targetData.userName;
+      }
+      else{
+        currEvent.message = 'Friended '+currEvent.sourceData.userName;
+        currEvent.sourceImg = currEvent.sourceData.profileImg || '/images/30x30.gif';
+        currEvent.targetLink = '/user/'+currEvent.sourceData.userName;
+      }
     }
   }
   
@@ -716,16 +727,13 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text staggered.\
-                                        User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text.'; */
   
   $scope.showPins = $scope.activityPins;
   $scope.bigPin = {};
   $scope.bigPin.followBtn = false;
   $scope.isFollowing = false;
+  $scope.isFriend = false;
   
   //$scope.displayMode = 'activity';
   $scope.displayMode = {};
@@ -747,7 +755,6 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   
     //figure out timeline stuff (too much logic to be done in view)
   for(var event in $scope.timeline){
-    console.log($scope.timeline[event]);
     var currEvent = $scope.timeline[event]; 
     if(currEvent.action === 'commentPosted'){
       currEvent.message = 'Comment posted to '+currEvent.target;
@@ -853,14 +860,30 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
       currEvent.message = 'Following '+currEvent.targetData.userName;
       currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
     }
+    else if(currEvent.action === 'friendAccepted'){
+      if(currEvent.targetData.userName !== $scope.user.userName){
+        currEvent.message = 'Friended '+currEvent.targetData.userName;
+        currEvent.sourceImg = currEvent.targetData.profileImg || '/images/30x30.gif';
+        currEvent.targetLink = '/user/'+currEvent.targetData.userName;
+      }
+      else{
+        currEvent.message = 'Friended '+currEvent.sourceData.userName;
+        currEvent.sourceImg = currEvent.sourceData.profileImg || '/images/30x30.gif';
+        currEvent.targetLink = '/user/'+currEvent.sourceData.userName;
+      }
+    }
   }
-  
   
   // disable following button if already following ( this should be done on backend )
   for(var i = 0, len = $scope.user.followers.length; i < len; i++){
-    ($scope.user.followers[i]);
     if($scope.user.followers[i].userName === $rootScope.userName){
       $scope.isFollowing = true;
+      break;
+    }
+  }
+  for(var i = 0, len = $scope.user.friends.length; i < len; i++){
+    if($scope.user.friends[i].userName === $rootScope.userName){
+      $scope.isFriend = true;
       break;
     }
   }
@@ -1008,6 +1031,21 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
     $rootScope.logout( function(res){
       if(res.message) $scope.status = res.message;
     });
+  }
+  
+  $scope.friend = function(){
+    $http({ method: 'post', url:'/api/user/friendRequest', data:{ sourceId:$rootScope.userEmail, targetId: $scope.user.email } })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          $rootScope.popNotify(data.success);
+        }
+        else if(data.error){
+          $rootScope.popNotify('Error', data.error);
+        }
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
+      });
   }
 }
 
