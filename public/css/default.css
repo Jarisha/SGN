@@ -411,6 +411,10 @@ form{
 }
 
 /*Generic notification item elements*/
+.event_link{
+  cursor: pointer;
+}
+
 .notification-text {
   width: 65%;
   float: left;
@@ -438,6 +442,10 @@ form{
 }
 
 /* Notifications dropdowns */
+.friend_buttons{
+  /*margin-left:50px;*/
+}
+
 .targetThumb img{
   width: 30px;
   height: 30px;

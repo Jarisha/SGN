@@ -2,7 +2,7 @@
   <ul id="notify_list">
     <li id="followers_tab" ng-show="loggedIn" class="dropdown">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img class="new_followers" src="<%= rootPath %>/images/UI/Following1_effects.png" width="35" height="35"/>
+        <img class="new_followers" src="/images/UI/Following1_effects.png" width="35" height="35"/>
         <span ng-show="userEvents.length != 0" class="notifications-count-badge">
           {{userEvents.length}}
         </span>
@@ -19,8 +19,8 @@
               </p>
             </div>
             <div class="notification-item-right-box">
-              <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
-              <div ng-show="follower_notification.action == 'friend request'">
+              <i ng-show="follower_notification.action != 'friendRequest'" class="icon-flag"></i>
+              <div ng-show="follower_notification.action == 'friendRequest'">
                 <button class="btn btn-success accept-friend-button">Accept</button><br>
                 <button class="btn btn-danger ignore-friend-button">Ignore</button>
               </div>
@@ -34,7 +34,7 @@
     </li><li
       id="tag_tab" ng-show="loggedIn">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
-        <img class="new_tags" src="<%= rootPath %>/images/UI/Tagged1_effects.png" width="35" height="35"/>
+        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
         <span ng-show="pinEvents.length != 0" class="notifications-count-badge">
           {{pinEvents.length}}
         </span>
@@ -56,7 +56,7 @@
     </li><li
       id="message_tab" ng-show="loggedIn">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
-        <img class="new_messages" src="<%= rootPath %>/images/UI/Comment1_effects.png" width="35" height="35"/>
+        <img class="new_messages" src="/images/UI/Comment1_effects.png" width="35" height="35"/>
         <span ng-show="false" class="notifications-count-badge">
           {{notificationsDummyData.messagesData.length}}
         </span>
@@ -64,7 +64,7 @@
       <ul ng-show="false" id="message_dropdown" class="dropdown-menu">
         <li ng-repeat="message_notification in notificationsDummyData.messagesData | limitTo:4">
           <a tabindex="-1" href="#">
-            <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
+            <img class= "notification-profile-image" ng-src="/images/30x30.gif">
             <div class="notification-text">
               <span>{{message_notification.name}}</span>
               <p>messaged you</p>

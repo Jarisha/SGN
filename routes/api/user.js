@@ -23,7 +23,7 @@ var fixProblems = exports.fixProblems = function(req, res){
   app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
-    util.removeNulls(usr.data.timelineEvents);
+    //util.removeNulls(usr.data.timelineEvents);
     usr.data.timelineEvents = [];
     usr.data.friends = [];
     usr.data.userEvents = [];
@@ -760,13 +760,14 @@ exports.checkLogin = function(req, res){
             });
           }
           else if(event_data.action === 'friendAccepted'){
-            base.get_userRef(event_data.sourceUser, function(_err, ref_data){
+            base.get_userRef(event_data.target, function(_err, ref_data){
               if(_err) return callback(err, null);
-              event_data.sourceData = { email: event_data.sourceUser,
+              event_data.targetData = { email: event_data.target,
                                         userName: ref_data.userName,
                                         profileImg: ref_data.profileImg };
               event_data.targetLink = '/user/'+ref_data.userName;
               return callback(null, event_data);
+              //next();
             });
           }
           else{
@@ -830,8 +831,6 @@ exports.checkLogin = function(req, res){
 //consume notification, removing it from user notification area.
 // accepts eventId
 exports.consumeEvent = function(req, res){
-  console.log(req.body);
-  console.log(req.session.loggedIn);
   var userId = req.session.loggedIn;
   var eventId = req.body.eventId;
   
@@ -1302,7 +1301,7 @@ exports.friendRequest = function(req, res){
           if(err) return callback(err.message, null)
           return callback(null);
         });
-      },
+      }
     ],
     function(err){
       if(err) return res.json({ error: err.message });
@@ -1321,7 +1320,6 @@ exports.getPending = function(req, res){
   //get user
   get_RO_user(userId, function(err, usr){
     if(err) return res.json();
-    console.log(usr.data);
     next(usr);
     //return callback(null, usr);
   });
@@ -1358,10 +1356,11 @@ exports.getPending = function(req, res){
 
 //accept friend request, consuming it. Create friendAccepted event and put it into different places.
 exports.acceptFriend = function(req, res){
-  console.log(req.body);
   var sourceId = req.body.sourceId;
   var targetId = req.body.targetId;
   var consumedId = req.body.consumedId;
+  if(targetId === sourceId) return res.json({ error:'cannot friend yourself' });
+  
   var friendAcceptedEvent = { date: util.getDateObj(),
                               sourceUser: sourceId,
                               action: 'friendAccepted',
@@ -1376,7 +1375,7 @@ exports.acceptFriend = function(req, res){
   
   function next(){
     //get both users
-    async.parallel([
+    async.series([
       //Fetch sourceUser. Add targetId user to sourceUser's friends. Add event to notifications + timeline.
       function(callback){
         get_RO_user(sourceId, function(err, usr){
@@ -1511,7 +1510,7 @@ exports.getProfile = function(req, res){
     });
   }
   function next(){
-    //get {username, imageThumb} for all followers and following, store in displayData
+    //get {username, imageThumb} for all followers, following, friends, store in displayData
     //if userRef is not found, we will return null
     async.map(user.data.followers, base.get_userRef, function(err, results){
       if(err){
@@ -1525,7 +1524,14 @@ exports.getProfile = function(req, res){
         }
         util.removeNulls(_results);    //remove not found elements
         displayData['following'] = _results;
-        next2();
+        async.map(user.data.friends, base.get_userRef, function(__err, __results){
+          if(__err){
+            return res.json({ error: 'getProfile: '+__err.message });
+          }
+          util.removeNulls(__results);
+          displayData['friends'] = __results;
+          next2();
+        });
       });
     });
   }
@@ -1552,6 +1558,26 @@ exports.getProfile = function(req, res){
             event.data.targetLink = '/user/'+ref_data.userName;
             return callback(null, event.data);
           });
+        }
+        else if(event.data.action === 'friendAccepted'){
+          base.get_userRef(event.data.target, function(err, ref_data){
+            if(err) return callback(err, null);
+            event.data.targetData = { email: event.data.target, userName: ref_data.userName, profileImg: ref_data.profileImg };
+            event.data.targetLink = '/user/'+ref_data.userName;
+            next();
+            //return callback(null, event.data);
+          });
+          function next(){
+            base.get_userRef(event.data.sourceUser, function(_err, ref_data){
+              if(_err) return callback(err, null);
+              event.data.sourceData = { email: event.data.sourceUser,
+                                        userName: ref_data.userName,
+                                        profileImg: ref_data.profileImg
+                                      };
+              event.data.sourceLink = '/user/'+ref_data.userName;
+              return callback(null, event.data);
+            });
+          }
         }
         else{
           //keep things async in both cases
