@@ -303,49 +303,65 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       name: 'Minecraft',
       price: 'Free',
       image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
+      category: 'Strategy',
+      url: 'https://play.google.com/store/apps/details?id=com.mojang.minecraftpe',
+      platform: 'Android'
     },
     {
       name: 'Great Big War Game',
       price: '$4.99',
       image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Minecraft',
-      price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Great Big War Game',
-      price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Minecraft',
-      price: 'Free',
-      image: "http://localhost/images/game_images/store_img2.png",
-      category: 'Strategy'
-    },
-    {
-      name: 'Great Big War Game',
-      price: '$4.99',
-      image: "http://localhost/images/game_images/store_img3.png",
-      category: 'Strategy'
+      category: 'Strategy',
+      url: 'https://play.google.com/store/apps/details?id=com.rubicon.dev.gbwg',
+      platform: 'Android'
     },
     {
       name: 'Angry Birds Space Premium',
       price: 'Coming Soon',
       image: "http://localhost/images/game_images/store_img4.png",
-      category: 'Puzzle'
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.rovio.angrybirdsspace.premium',
+      platform: 'Android'
     },
     {
       name: 'Cut the Rope',
       price: '$0.99',
       image: "http://localhost/images/game_images/store_img5.png",
-      category: 'Puzzle'
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.zeptolab.ctr.paid',
+      platform: 'Android'
+    },
+    {
+      name: 'Move the Box Pro',
+      price: '$0.99',
+      image: "https://lh3.ggpht.com/hhurG5c5QP9dn6AN80mPdkxrK_0BwsRrNaEnXSANenpoFH0nKXkDJLTLIvAG_5vgdA=w124",
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=ua.co.cts.movethebox',
+      platform: 'Android'
+    },
+    {
+      name: 'Bomba',
+      price: '$0.99',
+      image: 'https://lh3.ggpht.com/dKcPug5YXNwEULvix5WMPGjvEEbAFINvbm8Xbko0NRk4S9bdeTGGBxXWKcyUiIiJ9-Y=w124',
+      category: 'Puzzle',
+      url: 'https://play.google.com/store/apps/details?id=com.GamesLab.Bomba',
+      platform: 'Android'
+    },
+    {
+      name: 'SpellTower',
+      price: '$1.99',
+      image: 'http://a1.mzstatic.com/us/r1000/092/Purple/v4/49/52/7d/49527d33-52c8-1b0e-7d19-6667853cc697/mza_5638865484617812239.175x175-75.jpg',
+      category: 'Puzzle',
+      url: 'https://itunes.apple.com/us/app/spelltower/id476500832?mt=8',
+      platform: 'iPhone'
+    },
+    {
+      name: 'Jumpy Bird Jump Lite',
+      price: 'Free',
+      image: 'http://appworld.blackberry.com/webstore/servedimages/8931619.png/?t=12',
+      category: 'Platform',
+      url: 'http://appworld.blackberry.com/webstore/content/28648897/?lang=en&countrycode=GB',
+      platform: 'Blackberry'
     }
   ];
   /* temp variables - used only in this controller */

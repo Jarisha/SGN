@@ -43,6 +43,7 @@ only screen and (max-device-width : 890px){
   left: 10px;
   z-index: 99;
 }
+
 /* slideshow */
 .store .carousel{
   margin: 0 -15px 0 -15px;
@@ -74,10 +75,14 @@ only screen and (max-device-width : 890px){
 .store .carousel-inner .item img{
   margin:auto;
 }
+
+/*Game info*/
 .store .game_name{
   font-size: 18px;
   text-align: center;
 }
+
+/*Not using game price right now*/
 .store .game_price{
   font-size:18px;
   position: absolute;
@@ -92,21 +97,39 @@ only screen and (max-device-width : 890px){
   border-radius: 3px; /* CSS3 */
   z-index: 1;
 }
-.store .download_btn{
-  font-size:20px;
-}
 
 .store .store_body{
   position:relative;
 }
-
-.store .store_container{
+.store .link_tip {
+  padding: 10px 0;
+  text-align: center;
+  margin: 0 -15px 0 0px;
+}
+.store .store_container {
   text-align: center;
   padding: 10px 15px;
+  background: #EBEBEB;
   margin: 0 -15px 0 -15px;
   position: relative;
 }
 
+.store .game_img {
+  margin: 20px 10px 0 10px;
+}
+
+.store .source_link {
+  text-align: center;
+  position: absolute;
+  margin: -10px 0 138px -15px;
+  font-size: 16px;
+  background: #EBEBEB;
+  width: 250px;
+}
+
+.store .source_link a:hover {
+  color: black;
+}
 /* View Pin modal */
 .store #storePinModal{
   height: 100%;

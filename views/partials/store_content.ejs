@@ -1,11 +1,17 @@
 <div ng-repeat="pin in dummyData" class="store_pin" masonry>
   <div class="store_container">
     <p class="game_name"><b>{{pin.name}}</b></p>
-    <div class="game_price">{{pin.price}}</div>
   </div>
-  <a class="view_trigger" data-toggle="modal" data-dynamic="true">
+  <a class="view_trigger" data-toggle="modal" data-dynamic="true" href={{pin.url}}>
     <img class="game_img" ng-src="{{pin.image}}" width="200"/>
   </a>
-  <div class="store_container">
+  <div class="link_tip">
+		<div class="source_link hidden">
+			<a href={{pin.url}}>Go to 
+				<span ng-show="pin.platform=='Android'">Play</span>
+				<span ng-show="pin.platform=='iPhone'">App</span>
+				 Store
+			</a>
+		</div>
   </div>
 </div>
