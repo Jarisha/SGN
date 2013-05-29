@@ -265,8 +265,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //Pops a Notification. Error or Success
   var hide = null;
   $rootScope.popNotify = function(status, message){
+    $('#alertContainer').removeClass();
     $('#notify_status').text(status);
     $('#notify_message').text(message);
+    if (status === "Error") {
+      $('#alertContainer').addClass('errorAlert');
+    } else {
+      $('#alertContainer').addClass('successAlert');
+    }
     $('#alertContainer').show();
     hide = $timeout(function() {
       $('#alertContainer').fadeOut(500, function(){
