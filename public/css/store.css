@@ -127,6 +127,9 @@ only screen and (max-device-width : 890px){
   width: 250px;
 }
 
+.store .source_link a:hover {
+  color: black;
+}
 /* View Pin modal */
 .store #storePinModal{
   height: 100%;

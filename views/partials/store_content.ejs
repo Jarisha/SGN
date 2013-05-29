@@ -7,7 +7,11 @@
   </a>
   <div class="link_tip">
 		<div class="source_link hidden">
-			<a href={{pin.url}}>Go to Play Store</a>
+			<a href={{pin.url}}>Go to 
+				<span ng-show="pin.platform=='Android'">Play</span>
+				<span ng-show="pin.platform=='iPhone'">App</span>
+				 Store
+			</a>
 		</div>
   </div>
 </div>

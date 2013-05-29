@@ -343,6 +343,22 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       category: 'Puzzle',
       url: 'https://play.google.com/store/apps/details?id=com.GamesLab.Bomba',
       platform: 'Android'
+    },
+    {
+      name: 'SpellTower',
+      price: '$1.99',
+      image: 'http://a1.mzstatic.com/us/r1000/092/Purple/v4/49/52/7d/49527d33-52c8-1b0e-7d19-6667853cc697/mza_5638865484617812239.175x175-75.jpg',
+      category: 'Puzzle',
+      url: 'https://itunes.apple.com/us/app/spelltower/id476500832?mt=8',
+      platform: 'iPhone'
+    },
+    {
+      name: 'Jumpy Bird Jump Lite',
+      price: 'Free',
+      image: 'http://appworld.blackberry.com/webstore/servedimages/8931619.png/?t=12',
+      category: 'Platform',
+      url: 'http://appworld.blackberry.com/webstore/content/28648897/?lang=en&countrycode=GB',
+      platform: 'Blackberry'
     }
   ];
   /* temp variables - used only in this controller */
