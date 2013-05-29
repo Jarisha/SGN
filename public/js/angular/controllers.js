@@ -293,7 +293,61 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   $scope.content = $rootScope.rootPath + '/partials/store_content';
   $scope.register = {name: null, password: null, confirm: null};
   $scope.login = {name: null, password: null};
-  
+  $scope.masonInit = true;
+  $scope.changeState = function(){
+    $scope.masonInit = false;
+  }
+
+  $scope.dummyData = [
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Minecraft',
+      price: 'Free',
+      image: "http://localhost/images/game_images/store_img2.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Great Big War Game',
+      price: '$4.99',
+      image: "http://localhost/images/game_images/store_img3.png",
+      category: 'Strategy'
+    },
+    {
+      name: 'Angry Birds Space Premium',
+      price: 'Coming Soon',
+      image: "http://localhost/images/game_images/store_img4.png",
+      category: 'Puzzle'
+    },
+    {
+      name: 'Cut the Rope',
+      price: '$0.99',
+      image: "http://localhost/images/game_images/store_img5.png",
+      category: 'Puzzle'
+    }
+  ];
   /* temp variables - used only in this controller */
   
   //Setup non AJAX related javascript
@@ -305,76 +359,6 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
     (playerId);
     ('onYouTubePlayerReady');
   }*/
-  
-  /* AJAX FUNCTIONS */
-  $scope.ajaxLogin = function(){
-    ('rootScope.login()');
-    $http({ method: 'POST', url: '/api/login', data:
-          {"email": $scope.login.email, "password": $scope.login.password }})
-      .success(function(data, status, headers, config){
-        if(data.login){
-          $rootScope.loggedIn = true;
-          $rootScope.userEmail = data.userEmail;
-          $rootScope.userName = data.userName;
-          $rootScope.userEmail = data.userId;
-          $scope.status = 'Login Successful!';
-          $('#loginModal').modal('hide');
-          
-          /* If cached, reload and cache partials effected by login */
-          /* This is a method to force reload subsections of pages */
-          if($templateCache.get('partials/front_subnav')){
-            $templateCache.remove('partials/front_subnav');
-            $http.get('partials/front_subnav', {cache:$templateCache});
-          }
-          if($templateCache.get('partials/navbar')){
-            $templateCache.remove('partials/navbar');
-            $http.get('partials/navbar', {cache:$templateCache});
-          }
-          $rootScope.remason();
-        }
-        else if(!data.login && data.error){
-          $scope.status = 'Login Failed: ' + data.error;
-        }
-        else{
-          $scope.status = 'Login Failed: AJAX error';
-        }
-      })
-      .error(function(data, status, headers, config){
-        $scope.message = 'Server Error: ' + status;
-      });
-  }
-  $scope.ajaxRegister = function(){
-    $http({ method: 'POST', url: '/api/register', data:
-          {"email": $scope.register.email ,"name": $scope.register.name,
-          "password": $scope.register.password, "confirm": $scope.register.confirm }})
-      .success(function(data, status, headers, config){
-        //on success set view vars and log in user
-        if(data.register){
-          $rootScope.loggedIn = true;
-          $rootScope.userEmail = data.userEmail;
-          $rootScope.userName = data.userName;
-          $rootScope.userEmail = data.userId;
-          $scope.status = 'Registration Successful!';
-          
-          $('#registerModal').modal('hide');
-          $location.path('/');
-        }
-        else if(!data.register && data.error){
-          $scope.status = data.error;
-        }
-        else{
-          $scope.status = 'AJAX error';
-        }
-      })
-      .error(function(data, status, headers, config){
-        $scope.status = 'Error: ' + status;
-      });
-  }
-  $scope.ajaxLogout = function(){
-    $rootScope.logout( function(res){
-      if(res.message) $scope.status = res.message;
-    });
-  }
 }
 StoreController.resolve = {
   resolveStore: function($q, $rootScope, $location){

@@ -1,5 +1,6 @@
-<div ng-include="modals" onload="setupPostContent()"></div>
+<div ng-include="'/partials/modals'" onload="setupModals()"></div>
 <div ng-include="nav" id="nav" class="navbar navbar-inverse"></div>
+<div ng-include="'/partials/store_subnav'" id="subnav" onload="affix()" <!--data-spy="affix" data-offset-top="42" --> </div>
 <!-- I GOT 99 PROBLEMS AND JAVASCRIPT AIN'T ONE! -->
 <noscript>
   <style type="text/css">
@@ -9,12 +10,9 @@
     You don't have javascript enabled.  Please Enable javascript to view this site.
   </div>
 </noscript>
+<img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
 <div id="content" class="container" ng-include="content" onload="setup()">
 </div>
 <a href="#" ng-click="scrollup()" id="scrollup">
   <img src="<%= rootPath %>/images/UI/scrollup.png">
 </a>
-<div id="pag_nav">
-  <a href="page_2.html">Page 2</a>
-  <a href="page_3.html">Page 3</a>
-</div>

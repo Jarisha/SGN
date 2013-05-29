@@ -76,7 +76,7 @@ only screen and (max-device-width : 890px){
 }
 .store .game_name{
   font-size: 18px;
-  text-align:left;
+  text-align: center;
 }
 .store .game_price{
   font-size:18px;
@@ -104,8 +104,6 @@ only screen and (max-device-width : 890px){
   text-align: center;
   padding: 10px 15px;
   margin: 0 -15px 0 -15px;
-  border-bottom: 1px solid #DCDCDC;
-  background: #EBEBEB;
   position: relative;
 }
 
