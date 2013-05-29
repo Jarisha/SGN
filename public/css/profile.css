@@ -433,12 +433,35 @@
   height: 345px;
 }
 /*Timeline-specific*/
+.timeline_container{
+  overflow: auto;
+  height: 384px;
+}
+.timelineEvent{
+  -moz-box-sizing: border-box;
+  float: left;
+  background: #EBEBEB;
+  border-bottom: 1px solid #DCDCDC;
+  padding:5px;
+  width: 100%;
+}
+.sourceImg{
+  float: left;
+  width: 40px;
+  margin-right: 10px;
+}
+.timelineText{
+  float: left;
+  width: 60%;
+}
+
 #timeline_col .profile-column-contents-container {
   overflow: auto;
 }
 .profile #timeline_col{
   margin-left: 16px;
   min-width: 240px;
+  width: 280px;
 }
 #timeline_footer > *{
   height: 37px;

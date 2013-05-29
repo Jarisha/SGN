@@ -38,12 +38,6 @@ function frontSetup($scope, $rootScope, $http){
   $scope.scrollup = function(){
     $("html, body").animate({ scrollTop: 0 }, 600);
   }
-  //affix subnav to top after it is loaded
-  $scope.affix = function(){
-    $('#subnav').affix({ offset: 42 });
-  }
-  
-  console.log('!!!!');
   
   /* Front Page & Pin functionality */
   $(document).on('mouseenter', '.game_pin', function(e){

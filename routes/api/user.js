@@ -20,15 +20,16 @@ var outlog = app.outlog;
 
 var fixProblems = exports.fixProblems = function(req, res){
   console.log('fixProblems');
-  app.riak.bucket('users').objects.get('user1@u.u', function(err, usr){
+  app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
-    //util.removeNulls(usr.data.timelineEvents);
-    ///usr.data.timelineEvents = [];
-    //usr.data.friends = [];
+    util.removeNulls(usr.data.timelineEvents);
+    usr.data.timelineEvents = [];
+    usr.data.friends = [];
     usr.data.userEvents = [];
     usr.data.pinEvents = [];
     usr.save(function(err, saved){
+      console.log(saved.data);
       return res.json({ success: 'events cleared' });
     });
   });

@@ -104,6 +104,10 @@ body {
   /*background: -moz-linear-gradient(left,  #DDDDDD,  #F5F5F5);*/
 
 }
+div{
+  margin:0;
+  padding:0;
+}
 textarea {
   resize: none;
 }
@@ -150,9 +154,12 @@ input, textarea { color: #000; }
 .placeholder { color: #aaa; }
 
 /* Bootstrap overrides */
-.dropdown-menu a {
-  padding-left: 20px;
+.dropdown-menu{
+  padding: 0;
 }
+/*.dropdown-menu a {
+  padding: 5px;
+}*/
 
 .img{
   width: none;
@@ -186,6 +193,10 @@ input, textarea { color: #000; }
 form{
   margin: 0;
   padding: 0;
+}
+
+.dropdown-menu a{
+  white-space: normal;
 }
 
 .form-horizontal .control-group {
@@ -401,6 +412,7 @@ form{
 
 /*Generic notification item elements*/
 .notification-text {
+  width: 65%;
   float: left;
 }
 .notification-profile-image {
@@ -426,6 +438,13 @@ form{
 }
 
 /* Notifications dropdowns */
+.targetThumb img{
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
 .notifications-count-badge {
   background-color: red;
   color: white;
@@ -461,14 +480,14 @@ form{
 #message_dropdown li
 {
   width: 100%;
-  height: 50px;
+  border-bottom: 1px solid #EBEBEB;
 }
 #follower_dropdown {
   left: -35px;
 }
 #tag_dropdown {
   left: -104px;
-  font-size: 12px;
+  /*font-size: 12px;*/
 }
 #message_dropdown {
   left: -173px;
@@ -503,8 +522,9 @@ form{
 #tag_dropdown a,
 #message_dropdown a
  {
-  padding: 0px 9px;
-  height: 44px;
+  padding: 5px;
+  /*padding: 0px 9px*/
+  /*height: 44px;*/
 }
 #follower_dropdown .notification-item-right-box {
   width: 60px;
@@ -686,7 +706,7 @@ form{
   position: absolute;
   width: 0;
   left: 35px;
-  top: -22px;
+  top: -20px;
   border: 10px solid transparent;
   border-bottom-color: black;
 }
@@ -711,7 +731,7 @@ form{
 .one_col_dropdown a {
   margin: 0;
   padding: 0;
-  padding: 10px 15px;
+  padding: 5px;
   text-shadow: none;
   cursor: pointer;
 }
