@@ -79,14 +79,12 @@ function storeSetup($scope){
   }
   
   //Show Pin options on hover
-  /*$(document).on('mouseenter', '.store_pin' ,function(e){
-    $(this).find('.fav_game').removeClass('hidden');
-    $(this).find('.fav_friends').removeClass('hidden');
+  $(document).on('mouseenter', '.store_pin' ,function(e){
+    $(this).find('.source_link').removeClass('hidden');
   });
   $(document).on('mouseleave', '.store_pin' , function(e){
-    $(this).find('.fav_game').addClass('hidden');
-    $(this).find('.fav_friends').addClass('hidden');
-  });*/
+    $(this).find('.source_link').addClass('hidden');
+  });
   
   /* Store page enlarged pin */ 
   $('.view_trigger').click(function(e){

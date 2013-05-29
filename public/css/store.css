@@ -101,8 +101,12 @@ only screen and (max-device-width : 890px){
 .store .store_body{
   position:relative;
 }
-
-.store .store_container{
+.store .link_tip {
+  padding: 10px 0;
+  text-align: center;
+  margin: 0 -15px 0 0px;
+}
+.store .store_container {
   text-align: center;
   padding: 10px 15px;
   background: #EBEBEB;
@@ -111,7 +115,16 @@ only screen and (max-device-width : 890px){
 }
 
 .store .game_img {
-  margin: 10px;
+  margin: 20px 10px 0 10px;
+}
+
+.store .source_link {
+  text-align: center;
+  position: absolute;
+  margin: -10px 0 138px -15px;
+  font-size: 16px;
+  background: #EBEBEB;
+  width: 250px;
 }
 
 /* View Pin modal */
