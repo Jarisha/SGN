@@ -404,6 +404,7 @@
 
 /* Big Pin Modal */
 #gamePinModal{
+  border: 0px;
   border-radius:0;
   height: 100%;
   overflow-y: auto;
@@ -420,6 +421,9 @@
 #gamePinModal .poster{
   font-size: 25px;
   margin-left: 60px;
+}
+#gamePinModal .poster a{
+  color: white;
 }
 #gamePinModal .date_posted{
   margin-top: 7px;
@@ -445,9 +449,8 @@
   vertical-align: top;
 }
 #gamePinModal .view_metadata{
-  padding-top:5px;
-  background:grey;
-  height:50px;
+  background:white;
+  height:30px;
   width:100%;
   text-align: center;
 }
@@ -456,9 +459,11 @@
 }
 #gamePinModal .game_title{
   font-size:20px;
+  line-height: 30px;
 }
 #gamePinModal .game_publisher{
   font-size:14px;
+  line-height: 30px;
 }
 #gamePinModal .view_tags{
   height:50px;
@@ -480,6 +485,9 @@
   text-align: center;
   background: grey;
 }
+#gamePinModal .view_img {
+  margin: 10px 0 10px 0;
+}
 #gamePinModal .view_vid{
   height: 341px;
 }
@@ -490,10 +498,11 @@
 }
 #gamePinModal .pin_description{
   margin: 0 -15px;
-  background: #EBEBEB;
+  background: #E7F4C4;
   border-top: 1px solid #FCFAFA;
   padding: 5px;
   text-align: center;
+  font-weight: bold;
 }
 #gamePinModal .view_comment *{
   display:inline-block;
