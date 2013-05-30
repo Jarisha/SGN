@@ -866,8 +866,7 @@ form{
 }
 
 #notify_status {
-  font-weight: normal;
-  font-style: italic;
+  font-weight: bold;
 }
 
 /* Enlarged Gamepin */
