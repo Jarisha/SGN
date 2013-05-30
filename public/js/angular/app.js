@@ -64,22 +64,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
     messagesData : [{name: "Jill", time: 5}]
   };
-  $rootScope.profileDummyData = {
-    badges: [
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"}
-    ],
-    followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
-    following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
-  };
+
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
  
@@ -300,8 +285,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //Pops a Notification. Error or Success
   var hide = null;
   $rootScope.popNotify = function(status, message){
+    $('#alertContainer').removeClass();
     $('#notify_status').text(status);
     $('#notify_message').text(message);
+    if (status === "Error") {
+      $('#alertContainer').addClass('errorAlert');
+    } else {
+      $('#alertContainer').addClass('successAlert');
+    }
     $('#alertContainer').show();
     hide = $timeout(function() {
       $('#alertContainer').fadeOut(500, function(){

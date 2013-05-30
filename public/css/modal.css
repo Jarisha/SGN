@@ -111,6 +111,17 @@
   background: #F39494;
   /* margin-bottom: 20px; */
 }
+.successAlert {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00');
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+}
+.errorAlert {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#FF0000');
+  background: -webkit-gradient(linear, left bottom, left top, from(#A80000), to(#FF0000));
+  background: -moz-linear-gradient(bottom, #A80000, #FF0000);
+  color: white;
+}
 
 /* File Upload Modal */
 #fileUploadModal{

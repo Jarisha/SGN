@@ -410,6 +410,23 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text.'; */
   
+  $scope.dummyData = {
+    badges: [
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"}
+    ],
+    followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
+    following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
+  };
+
   $scope.showPins = $scope.activityPins;
   console.log('here');
   

@@ -846,15 +846,21 @@ form{
 
 #alertContainer{
   position:fixed;
+  z-index: 200;
   bottom:25px;
   left:25px;
-  z-index: 200;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00');
-  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   -webkit-border-radius: 10px;
   border-radius: 10px;
   border: solid 2px black;
+}
+
+#notify_status, #notify_message {
+  color: white;
+}
+
+#notify_status {
+  font-weight: normal;
+  font-style: italic;
 }
 
 /* Enlarged Gamepin */
