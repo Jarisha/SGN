@@ -356,6 +356,9 @@ form{
 .caret {
   margin-top: 7px;
 }
+#profile_caret {
+
+}
 #search_bar {
   float: left;
   margin-top: 10px;
@@ -548,9 +551,13 @@ form{
   color: white;
 }
 #profile_toggle .caret{
-  top: 10px;
   border-top-color: white;
   border-bottom-color: white;
+  display: block;
+  margin: -11px 0 0 79px;
+}
+.profile_tab_right span{
+  color: white;
 }
 #profile_tab{
   position: relative;
