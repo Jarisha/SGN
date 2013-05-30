@@ -82,6 +82,8 @@
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
   padding-bottom: 15px;
+  padding-top: 10px;
+  height: 50px;
 }
 
 .for_users{
@@ -91,6 +93,7 @@
   font-size: 30px;
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
+  height: 50px;
 }
 
 /* TOS Area */

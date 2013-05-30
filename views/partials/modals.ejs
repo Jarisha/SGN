@@ -595,6 +595,41 @@
   </div>
 </div>
 
+<!-- View Conversation Modal -->
+<div class="modal hide" id="conversationModal" >
+  <div class="modal-body">
+    <!--<div class="modal_slice convo_left">
+      <ul class="clearfix">
+        <li ng-repeat="convo in conversations" class="modal_stack">
+          content
+        </li>
+      </ul>
+    </div>-->
+    <div class="modal_stack convo_right">
+      <ul class="clearfix">
+        <li ng-repeat="msg in messageList" class="modal_stack message_item">
+          <div class="modal_slice msg_left">
+            <img ng-src="{{msg.sourceImg}}">
+          </div>
+          <div class="modal_slice msg_right">
+            <b>{{msg.userName}}</b>
+            <p>{{msg.message}}</p>
+          </div>
+        </li>
+        <div class="modal_stack message_respond">
+          <div class="modal_slice msg_left">
+            <img ng-src="{{userImg}}">
+          </div>
+          <div class="modal_slice msg_right">
+            <textarea id="respond_message"></textarea>
+          </div>
+          <button type="button" id="respond_button" >respond</button>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- Feedback Modal -->
 <div class="modal hide" id="feedbackModal" >
   <div class="modal-header">
