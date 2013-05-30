@@ -692,6 +692,9 @@ form{
   margin: 0 10px;
   padding: 3px 10px 0;
 }
+#store_link {
+  cursor: pointer;
+}
 #subnav_content .dropdown_tab {
   position: relative;
   display: inline-block;
