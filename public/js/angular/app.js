@@ -82,6 +82,33 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   };
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
+ 
+  $rootScope.newConvos = 3;
+  $rootScope.conversations = [
+    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like turtles', newFlag: true },
+    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like tortoise', newFlag: true },
+    { sourceUser: 'testUser3@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like adamantoises', newFlag: true },
+    { sourceUser: 'testUser4@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like blastoises', newFlag: false },
+    { sourceUser: 'testUser5@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like warturtle', newFlag: false }
+  ];
+  $rootScope.messageList = [
+    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'Hey how is it going??' },
+    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'It is going good Im just shooting hoops passing the time waiting for another one of these starfalls to come down \
+                and rock my world heading downtown getting rich on the city streets another day in the life of a huster it aint easy makin \
+                a living but we all gotta get by somehow' },
+    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'Sorry bro did I say too much?' },
+    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'Its all good dog I just wanna play some mobile games on my favorite social networking site for mobile games' },
+    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'Dog I be Q-ing every time.  I go up to random people on the street and I Q them right in the face' },
+    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'I like turtles' },
+    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
+      message: 'Quyay representing downtown in this house' }
+  ];
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
@@ -235,6 +262,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //pop feedback modal
   $rootScope.popFeedback = function(){
     $('#feedbackModal').modal();
+  }
+ 
+  //pop conversation modal
+  $rootScope.popConversation = function(){
+    $('#conversationModal').modal();
+    $('#respond_message').focus();
+    var height = $('.convo_right')[0].scrollHeight;
+    $('.convo_right').scrollTop(height);
   }
  
   //post gamepin modal progression

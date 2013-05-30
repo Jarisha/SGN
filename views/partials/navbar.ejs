@@ -77,76 +77,29 @@
         </div>
       </ul>
     </li>
-    <!--<li id="tag_tab" ng-show="loggedIn" class="dropdown">
-      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
-          {{pinEvents.length}}
-        </span>
-      </a>
-      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
-        <li ng-repeat="pinEvent in notificationsDummyData.followersData | limitTo:4">
-          <a class="clearfix" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
-            <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
-            <div class="notification-text">
-              <b>{{pinEvent.sourceData.userName}}</b>
-              <p ng-switch on="pinEvent.action">
-                <span ng-switch-when="commentReceived">followed you</span>
-              </p>
-            </div>
-            <span ng-switch on="pinEvent.action" class="targetThumb">
-              <img ng-switch-when="commentReceived" ng-src="/images/UI/Circle2.png" />
-            </span>
-          </a>
-        </li><p>test</p>
-        <div class="view_all_footer">
-          <p ng-click="popFollowerNotifications()" href="#">View All</p>
-        </div>
-      </ul>
-    </li>-->
-    <!--
-    <li id="tag_tab" ng-show="loggedIn">
-      <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown" href="">
-        <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
-          {{pinEvents.length}}
-        </span>
-      </a>
-      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
-        <li ng-repeat="pinEvent in pinEvents">
-          <a class="clearfix" href="{{pinEvent.targetLink}}" ng-click="consume(pinEvent.id)">
-            <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
-            <div class="notification-text">
-              <span>{{pinEvent.sourceData.userName}}</span>
-              <p>commentend on your pin in {{pinEvent.target}}</p>
-            </div>
-          </a>
-        </li><div
-        class="view_all_footer">
-          <p ng-click="popGeneric()" href="#">View All</p>
-        </div>
-      </ul>
-    </li>
-    -->
+    
+    <!-- Messages -->
     <li id="message_tab" ng-show="loggedIn">
-      <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown" href="/about">
+      <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_messages" src="/images/UI/Comment1_effects.png" width="35" height="35"/>
-        <span class="notifications-count-badge" ng-show="false">
-          {{notificationsDummyData.messagesData.length}}
+        <span class="notifications-count-badge" ng-show="newConvos != 0">
+          {{newConvos}}
         </span>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu" ng-show="false">
-        <li ng-repeat="message_notification in notificationsDummyData.messagesData">
-          <a class="clearfix" href="#">
+      <ul id="message_dropdown" class="dropdown-menu" ng-show="true">
+        <li ng-repeat="convo in conversations">
+          <a class="clearfix event_link" ng-click="popConversation()">
             <img class= "notification-profile-image" ng-src="/images/30x30.gif">
             <div class="notification-text">
-              <span>{{message_notification.name}}</span>
-              <p>messaged you</p>
+              <span ng-show="convo.newFlag" class="new_message">new</span>
+              <span>{{convo.userName}}</span><br>
+              <i>"{{convo.message}}"</i>
             </div>
+            &nbsp;
           </a>
         </li>
         <div class="view_all_footer">
-          <p ng-click="popGeneric()" href="#">View All</p>
+          <p ng-click="popConversation()" href="#">View All</p>
         </div>
       </ul>
     </li>

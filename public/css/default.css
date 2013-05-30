@@ -411,6 +411,15 @@ form{
 }
 
 /*Generic notification item elements*/
+.new_message{
+  position: absolute;
+  right: 3px;
+  padding: 2px;
+  font-weight: bold;
+  background: red;
+  color: white;
+  border-radius: 4px 4px 4px 4px;
+}
 .event_link{
   cursor: pointer;
 }
@@ -454,11 +463,11 @@ form{
 }
 
 .notifications-count-badge {
+  padding-right: 2px;
   background-color: red;
   color: white;
   border-radius: 4px;
-  width: 17px;
-  height: 17px;
+  min-width: 17px;
   top: -5px;
   position: absolute;
   text-align: center;
