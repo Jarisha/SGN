@@ -64,22 +64,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     tagsData : [{name: "Bertha", target: "pin", time: 3}, {name: "Joan", target: "comment", time: 4}],
     messagesData : [{name: "Jill", time: 5}]
   };
-  $rootScope.profileDummyData = {
-    badges: [
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"}
-    ],
-    followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
-    following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
-  };
+
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
   
