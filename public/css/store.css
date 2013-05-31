@@ -127,18 +127,26 @@ only screen and (max-device-width : 890px){
 .store .modal-header button{
   float:right;
 }
-.store .poster{
-  font-size: 25px;
-  margin-left: 60px;
+.store .game_title{
+  font-size: 27px;
   text-align: center;
-}
-.store .poster a{
   color: white;
+  margin-left: 125px;
+  margin-top: 10px;
+  float: left;
 }
-.store .date_posted{
-  margin-top: 7px;
-  margin-left: 60px;
+
+.store .publisher{
+  color: #FEFBB1;
+  float: left;
+  text-align: center;
+  margin-left: 20px;
 }
+
+.store .publisher a {
+  color: #FEFBB1;
+}
+
 .store .modal-header .profile_img{
   float:left;
 }
@@ -155,12 +163,7 @@ only screen and (max-device-width : 890px){
 .store .view_metadata > *{
   margin-left:10px;
 }
-.store .game_title{
-  font-size:20px;
-}
-.store .game_publisher{
-  font-size:14px;
-}
+
 .store .view_tags{
   width:50%;
 }
