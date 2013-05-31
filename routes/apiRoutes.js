@@ -17,7 +17,9 @@ module.exports = function(app){
   app.post('/api/user/fetchUsers', userApi.fetchUsers);
   app.get('/api/user/fetchEvent', baseApi.fetchEvent);
   app.post('/api/user/deleteEvent', baseApi.deleteEvent);
-
+  
+  app.post('/api/user/getMessage', baseApi.getMessage);
+  app.post('/api/user/getConversation', baseApi.getConversation);
   
   app.post('/api/user/getProfile', userApi.getProfile);
   app.post('/api/user/getGroups', userApi.getGroups);
@@ -35,7 +37,9 @@ module.exports = function(app){
   app.get('/api/user/getPending', userApi.getPending);
   app.post('/api/user/unfriend', userApi.unfriend);
   app.post('/api/user/acceptFriend', userApi.acceptFriend);
-  app.post('/api/user/consumeEvent', userApi.consumeEvent)
+  app.post('/api/user/consumeEvent', userApi.consumeEvent);
+  //send message with deal with
+  app.post('/api/user/message', userApi.message);
   
   app.get('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/facebookRegister', userApi.facebookRegister);

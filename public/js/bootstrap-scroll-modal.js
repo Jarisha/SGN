@@ -54,7 +54,7 @@
         if (this.isShown || e.isDefaultPrevented()) return
 
         $('body').addClass('modal-open')
-
+        
         this.isShown = true
 
         escape.call(this)
@@ -84,9 +84,14 @@
 
     , hide: function ( e ) {
         e && e.preventDefault()
-
+        
+        console.log('close modal');
+        //hide 2ndary modals
+        $('#convo_sidebar').css('display', 'none');
+        //$('#convo_sidebar').css('display', 'block');
+        
         var that = this
-
+          
         e = $.Event('hide')
 
         this.$element.trigger(e)
@@ -128,7 +133,7 @@
 
   function hideModal(that) {
     //unbind click handler for youtube video
-    $('html *:not(.vid_container)').unbind('click', videoHandler);
+    //$('html *:not(.vid_container)').unbind('click', videoHandler);
     this.$element
       .hide()
       .trigger('hidden')

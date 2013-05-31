@@ -56,7 +56,6 @@ else{
 
   //Create server and export it to others who need it
   var app = exports.self = express();
-  
   var nodeflake_host;
   
   //configure settings & middleware

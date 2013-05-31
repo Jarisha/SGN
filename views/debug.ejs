@@ -277,6 +277,27 @@
           });
           return false;
         });
+        $('#send_message').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/message', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#get_message').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/getMessage', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
+        $('#get_conversation').submit(function(e){
+          console.log($(this).serialize());
+          $.post('/api/user/getConversation', $(this).serialize(), function(data){
+            console.log(data);
+          });
+          return false;
+        });
       });
     </script>
   </head>
@@ -448,6 +469,25 @@
     <p>Consume Event</p>
     <form id="consume_event">
       <input type="text" name="eventId" placeholder="eventId" />
+      <input type="submit" />
+    </form>
+    <h1>Message / Conversation</h1>
+    <p>Send Message</p>
+    <form id="send_message">
+      <input type="text" name="sourceId" placeholder="sourceUser" />
+      <input type="text" name="targetId" placeholder="targetUser" />
+      <br><br>
+      <textarea name="content" placeholder="message content"></textarea>
+      <input type="submit" />
+    </form>
+    <p>Get Message</p>
+    <form id="get_message">
+      <input type="text" name="messageId" placeholder="messageId" />
+      <input type="submit" />
+    </form>
+    <p>Get Conversation</p>
+    <form id="get_conversation">
+      <input type="text" name="convoId" placeholder="convoId" />
       <input type="submit" />
     </form>
   </body>

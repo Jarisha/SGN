@@ -251,6 +251,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
  
   //pop conversation modal
   $rootScope.popConversation = function(){
+    $('#convo_sidebar').css('display', 'block');
     $('#conversationModal').modal();
     $('#respond_message').focus();
     var height = $('.convo_right')[0].scrollHeight;

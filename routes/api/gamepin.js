@@ -469,6 +469,7 @@ function postGamePin(post_data, callback){
         return callback('Save gamepin failed', null);
       }
       outlog.info('Gamepin ' + saved.key + ' created');
+      console.log(saved);
       base.createEvent(postEvent, function(err, eventId){
         if(err) return res.json('wtf');
         console.log('eventId: ' + eventId);

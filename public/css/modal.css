@@ -661,4 +661,16 @@
   font-size: 14px;
   width: 50%;
 }
+#conversationModal .modal_body{
+  float:left;
+}
+
+#convo_sidebar{
+  z-index: 2000;
+  display: none;
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  background: red;
+}
 

@@ -135,6 +135,55 @@ var getEvent = exports.getEvent = function(evtId, callback){
   });
 }
 
+// create new conversation with initial message, and save both into DB 
+// callback(err, convo_RO)
+var createConversation = exports.createConversation = function(convObject, messageObject, callback){
+  //get and set nodeflake IDs for conversation and message object
+  util.generateId(function(id){
+    convObject.id = id;
+    setTimeout(function(){          //create short delay to reduce possibility of duplicate ID
+      util.generateId(function(_id){
+        messageObject.id = _id;
+        next();
+      });
+    }, 1);
+  });
+  //add conversation ID to message, save message
+  function next(){
+    messageObject.conversation = convObject.id;
+    var message_RO = app.riak.bucket('messages').objects.new(messageObject.id, messageObject);
+    message_RO.save(function(err, saved){
+      if(err) return callback(new Error('createMessage error: '+ err.message), null);
+      next2();
+    });
+  }
+  //add message ID to conversation, save conversation
+  function next2(){
+    convObject.messageIds.push(messageObject.id);
+    var convo_RO = app.riak.bucket('conversations').objects.new(convObject.id, convObject);
+    convo_RO.save(function(err, saved){
+      if(err) return callback(new Error('createConversation error:'+ err.message), null);
+      return callback(null, saved);
+    });
+  }
+}
+// given message object, save into DB
+// callback(err, message_RO)
+var createMessage = exports.createMessage = function(messageObject, callback){
+  //generate Nodeflake ID
+  util.generateId(function(id){
+    messageObject.id = id;
+    next();
+  });
+  function next(){
+    var convo_RO = app.riak.bucket('messages').objects.new(messageObject.id, messageObject);
+    convo_RO.save(function(err, saved){
+      if(err) return callback(new Error('createMessage error: '+err.message), null);
+      return callback(null, saved);
+    });
+  }
+}
+
 
 /************************ Level 3 ***********************/
 exports.fetchEvent = function(req, res){
@@ -151,6 +200,21 @@ exports.deleteEvent = function(req, res){
       if(err) return res.json({ error: err.message });
       return res.json({ success: 'delete event success!' });
     });
+  });
+}
+
+exports.getMessage = function(req, res){
+  var msgId = req.body.messageId;
+  app.riak.bucket('messages').objects.get(msgId, function(err, msg_RO){
+    if(err) return res.json('getMesssage error: '+err.message);
+    return res.json({ success: msg_RO.data });
+  });
+}
+exports.getConversation = function(req, res){
+  var convoId = req.body.convoId;
+  app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+    if(err) return res.json('getConversation error: '+err.message);
+    return res.json({ success: convo_RO.data });
   });
 }
 
