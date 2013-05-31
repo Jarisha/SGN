@@ -130,6 +130,10 @@ only screen and (max-device-width : 890px){
 .store .poster{
   font-size: 25px;
   margin-left: 60px;
+  text-align: center;
+}
+.store .poster a{
+  color: white;
 }
 .store .date_posted{
   margin-top: 7px;
@@ -158,7 +162,6 @@ only screen and (max-device-width : 890px){
   font-size:14px;
 }
 .store .view_tags{
-  height:50px;
   width:50%;
 }
 .store .view_tags p span{

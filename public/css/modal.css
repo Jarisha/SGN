@@ -403,12 +403,13 @@
 }
 
 /* Big Pin Modal */
-#gamePinModal{
+#gamePinModal, #storePinModal{
   border: 0px;
   border-radius:0;
   height: 100%;
   overflow-y: auto;
 }
+
 #gamePinModal .modal-body{
   overflow:hidden;
   padding:0;
