@@ -303,6 +303,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       price: 'Free',
       publisher: 'Mojang',
       image: "http://localhost/images/game_images/store_img2.png",
+      screenshot: "https://minecraft.net/images/mobile/desktop_screen4.png",
       video: 'http://youtu.be/FaMTedT6P0I',
       description: "We're extremely happy to finally roll out Minecraft – Pocket Edition on most devices running Android or iOS in the Solar System. Now no matter where you are there's always time to place blocks and build whatever your heart can imagine.",
       category: 'Strategy',
@@ -368,7 +369,8 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   ];
   $scope.bigPin = $scope.dummyData[0];
   $scope.viewStorePin = function(index){
-    $('#storePinModal').modal({ dynamic: true });
+    console.log('hi');
+    //$('#storePinModal').modal({ dynamic: true });
   }
   /* temp variables - used only in this controller */
   

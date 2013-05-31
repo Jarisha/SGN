@@ -46,7 +46,6 @@
   <div class="modal-header clearfix">
     <div class="publisher">by <br>{{bigPin.publisher}}</div>
     <div class="game_title">{{bigPin.name}}</div>
-    <a ng-href="{{bigPin.url}}"><button class="follow" type="button">Download</button></a>
   </div>
   <hr>
   <div class="modal-body">
@@ -67,14 +66,15 @@
       <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
     </ul> -->
     <div class="tab-content img_container">
-      <div class="tab-pane active" id="video_content">
+      <img class="screenshot" ng-src="{{bigPin.screenshot}}">
+<!--       <div class="tab-pane active" id="video_content">
         <div class="vid_container">
           <embed id="playerid" width="500px" height="400px" allowfullscreen="true"
             allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style=""
-            src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer"
+            src="http://www.youtube.com/FaMTedT6P0I"
             type="application/x-shockwave-flash">
-        </div>
-      </div>
+        </div> -->
+    </div>
 <!--       <div class="tab-pane" id="pin_content">
         <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
         <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>

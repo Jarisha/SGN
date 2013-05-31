@@ -60,9 +60,6 @@ function storeSetup($scope){
   $scope.postGamePin = function(){
     $('#pinModal_1').modal();
   }
-  $scope.viewStorePin = function(){
-    $('#storePinModal').modal({dynamic: true});
-  }
   // "Scroll to Top" button
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
