@@ -58,8 +58,16 @@
   </div>
   <hr>
   <ul class="store_link_container">
-      <li><img ng-show="bigPin.platform == 'iPhone'" src="/images/UI/appstorebadges/Download_App_Store.png"></li>
-      <li><img ng-show="bigPin.platform == 'Android'" src="/images/UI/appstorebadges/Download_Play_Store.png"></li>
+    <li ng-show="bigPin.platform == 'iPhone'">
+      <a ng-href="{{bigPin.appStoreUrl}}">
+        <img src="/images/UI/appstorebadges/Download_App_Store.png">
+      </a>
+    </li>
+    <li ng-show="bigPin.platform == 'Android'">
+      <a ng-href="{{bigPin.playStoreUrl}}">
+        <img src="/images/UI/appstorebadges/Download_Play_Store.png">
+      </a>
+    </li>
   </ul>
 </div>
 
