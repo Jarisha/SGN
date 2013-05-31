@@ -297,7 +297,6 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
   $scope.changeState = function(){
     $scope.masonInit = false;
   }
-
   $scope.dummyData = [
     {
       name: 'Minecraft',
@@ -364,6 +363,10 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
       platform: 'Blackberry'
     }
   ];
+  $scope.bigPin = $scope.dummyData[0];
+  $scope.viewStorePin = function(index){
+    $('#storePinModal').modal({ dynamic: true });
+  }
   /* temp variables - used only in this controller */
   
   //Setup non AJAX related javascript
