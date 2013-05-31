@@ -264,6 +264,9 @@ only screen and (max-device-width : 890px){
 .store .store_pin hr {
   margin: 0 10px;
 }
-.store #storePinModal hr {
+.store #storePinModal #topHr {
   margin: 0;
+}
+.store #storePinModal hr {
+  margin: 0 10px;
 }
