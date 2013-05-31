@@ -44,7 +44,7 @@
 <!-- Store Pin Modal -->
 <div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">
-    <div class="publisher">by <br>{{bigPin.publisher}}</div>
+    <div ng-show="bigPin.publisher" class="publisher">by <br>{{bigPin.publisher}}</div>
     <div class="game_title">{{bigPin.name}}</div>
   </div>
   <hr>
@@ -55,7 +55,7 @@
       <a href="#"><span>#cooking</span></a></p>
     </div> -->
     <div class="view_comment_container">
-      <p>{{bigPin.description}}</p>
+      <p>{{bigPin.description || "No description available"}}</p>
     </div>
     <hr>
   </div>
@@ -66,7 +66,7 @@
       <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
     </ul> -->
     <div class="tab-content img_container">
-      <img class="screenshot" ng-src="{{bigPin.screenshot}}">
+      <img class="screenshot" ng-src="{{bigPin.screenshot || bigPin.image}}">
 <!--       <div class="tab-pane active" id="video_content">
         <div class="vid_container">
           <embed id="playerid" width="500px" height="400px" allowfullscreen="true"

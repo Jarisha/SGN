@@ -131,12 +131,11 @@ only screen and (max-device-width : 890px){
   font-size: 27px;
   text-align: center;
   color: white;
-  margin-left: 125px;
-  margin-top: 10px;
-  float: left;
+  margin: 10px 0 10px 0;
 }
 
 .store .publisher{
+  position: absolute;
   color: #FEFBB1;
   float: left;
   text-align: center;
