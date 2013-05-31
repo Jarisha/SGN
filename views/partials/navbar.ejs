@@ -138,7 +138,11 @@
     <!--<li ng-show="!loggedIn"><a ng-click="promptRegister()"> Register </a></li>-->
     <li ng-show="loggedIn" id="profile_tab" class="dropdown">
       <a href="#" id="profile_toggle" class="dropdown-toggle" data-toggle="dropdown">
-        <img id="profile_small" ng-src="{{userImg}}" height="22" width="22" />{{userName}}<b class="caret"></b>
+        <img id="profile_small" ng-src="{{userImg}}" height="22" width="22" />
+        <span class="profile_tab_right">
+          <span>{{userName}}</span>
+          <b id="profile_caret" class="caret"></b>
+        </span>
       </a>
       <ul id="profile_dropdown" class="dropdown-menu active">
         <li><a href="/profile">My Profile</a></li>
