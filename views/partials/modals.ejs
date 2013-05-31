@@ -44,29 +44,28 @@
 <!-- Store Pin Modal -->
 <div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">
-    <div class="publisher">by <br><a href="">Gameloft</a></div>
+    <div class="publisher">by <br>{{bigPin.publisher}}</div>
     <div class="game_title">{{bigPin.name}}</div>
-    <button class="follow" type="button">Download</button>
+    <a ng-href="{{bigPin.url}}"><button class="follow" type="button">Download</button></a>
   </div>
   <hr>
   <div class="modal-body">
-      <div class="view_tags">
+<!--     <div class="view_tags">
       <p><a href="#"><span>#simulation</span></a>
       <a href="#"><span>#food</span></a>
       <a href="#"><span>#cooking</span></a></p>
-    </div>
+    </div> -->
     <div class="view_comment_container">
-      <p> Risen from the ashes, the Dark Knight returns in this action packed sequel to destroy
-       the criminals that threaten Gotham City.  Play as Batman, Catwoman, and even the villain Bane himself</p>
+      <p>{{bigPin.description}}</p>
     </div>
     <hr>
   </div>
   <div class="tabbable">
-    <ul class="nav nav-tabs">
+<!--     <ul class="nav nav-tabs">
       <li class="active video_tab"><a target="_self" href="#video_content" data-toggle="tab">Videos</a></li>
       <li class="pin_tab"><a target="_self" href="#pin_content" data-toggle="tab">Pins</a></li>
       <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
-    </ul>
+    </ul> -->
     <div class="tab-content img_container">
       <div class="tab-pane active" id="video_content">
         <div class="vid_container">
@@ -76,7 +75,7 @@
             type="application/x-shockwave-flash">
         </div>
       </div>
-      <div class="tab-pane" id="pin_content">
+<!--       <div class="tab-pane" id="pin_content">
         <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
         <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
         <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
@@ -84,7 +83,7 @@
       </div>
       <div class="tab-pane" id="friends_content">
         <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
