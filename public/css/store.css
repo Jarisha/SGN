@@ -178,6 +178,9 @@ only screen and (max-device-width : 890px){
 .store .view_comment_container{
   padding: 10px 15px;
 }
+.store .view_comment_container .notAvailable {
+  text-align: center;
+}
 .store .view_img_container{
   text-align: center;
   background: grey;

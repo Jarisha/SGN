@@ -47,7 +47,8 @@
   <hr>
   <div class="modal-body">
     <div class="view_comment_container">
-      <p>{{bigPin.description || "No description available"}}</p>
+      <p ng-show="bigPin.description">{{bigPin.description}}</p>
+      <p ng-show="!bigPin.description" class="notAvailable">Description not available.</p>
     </div>
     <hr>
   </div>
