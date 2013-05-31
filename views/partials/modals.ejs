@@ -14,9 +14,6 @@
       <span ng-show="bigPin.publisher" class="game_publisher">by <a href="#">{{ bigPin.publisher }}</a></span>
     </div>
     <div class="view_img_container">
-      <!--<div ng-show="bigPin.videoEmbed" class="view_vid">
-      </div>
-      <a ng-show="!bigPin.videoEmbed" href="#"><img class="view_img" ng-src="{{bigPin.imageUrl}}"/></a>-->
       <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed" href="#">
         <img class="view_img" ng-src="{{bigPin.imageUrl || bigPin.sourceUrl}}"/>
       </a>
@@ -49,43 +46,21 @@
   </div>
   <hr>
   <div class="modal-body">
-<!--     <div class="view_tags">
-      <p><a href="#"><span>#simulation</span></a>
-      <a href="#"><span>#food</span></a>
-      <a href="#"><span>#cooking</span></a></p>
-    </div> -->
     <div class="view_comment_container">
       <p>{{bigPin.description || "No description available"}}</p>
     </div>
     <hr>
   </div>
   <div class="tabbable">
-<!--     <ul class="nav nav-tabs">
-      <li class="active video_tab"><a target="_self" href="#video_content" data-toggle="tab">Videos</a></li>
-      <li class="pin_tab"><a target="_self" href="#pin_content" data-toggle="tab">Pins</a></li>
-      <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
-    </ul> -->
     <div class="tab-content img_container">
       <img class="screenshot" ng-src="{{bigPin.screenshot || bigPin.image}}">
-<!--       <div class="tab-pane active" id="video_content">
-        <div class="vid_container">
-          <embed id="playerid" width="500px" height="400px" allowfullscreen="true"
-            allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style=""
-            src="http://www.youtube.com/FaMTedT6P0I"
-            type="application/x-shockwave-flash">
-        </div> -->
-    </div>
-<!--       <div class="tab-pane" id="pin_content">
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-      </div>
-      <div class="tab-pane" id="friends_content">
-        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
-      </div> -->
     </div>
   </div>
+  <hr>
+  <ul class="store_link_container">
+      <li><img ng-show="bigPin.platform == 'iPhone'" src="/images/UI/appstorebadges/Download_App_Store.png"></li>
+      <li><img ng-show="bigPin.platform == 'Android'" src="/images/UI/appstorebadges/Download_Play_Store.png"></li>
+  </ul>
 </div>
 
 <!-- Log In Modal -->

@@ -186,6 +186,18 @@ only screen and (max-device-width : 890px){
   display: block;
   margin: auto;
 }
+.store_link_container {
+  text-align: center;
+  margin: 0 auto 0 auto;
+  padding: 10px 0 10px 0;
+}
+.store_link_container li {
+  display: inline;
+}
+.store_link_container img {
+  height: 40px;
+  padding: 0 4px 0 4px;
+}
 .store .view_comment{
   padding: 10px 15px 0;
   margin: 0 -15px;
