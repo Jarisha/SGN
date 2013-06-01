@@ -285,4 +285,5 @@ only screen and (max-device-width : 890px){
   color: white;
   text-align: center;
   width: 93px;
+  cursor: default;
 }
