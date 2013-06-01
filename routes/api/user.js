@@ -709,6 +709,26 @@ exports.testAPI = function(req, res){
 
 /********************************************** API: Core - Level 3 *************************************/
 
+exports.submitFeedback = function(req, res){
+  console.log(req.body);
+  var feedback_RO;
+  feedbackData = { date: util.getDate(),
+                   content: req.body.content,
+                   email: req.body.sourceUser
+                  };
+  util.generateId(function(id){
+    feedbackData.id = id;
+    next();
+  });
+  function next(){
+    feedback_RO = app.riak.bucket('feedback').objects.new(feedbackData.id, feedbackData);
+    feedback_RO.save(function(err, saved){
+      if(err) return res.json({ error: err });
+      return res.json({ success: 'submit feedback success!' });
+    });
+  }  
+}
+
 //Send message to friend
 exports.message = function(req, res){
   console.log(req.body);

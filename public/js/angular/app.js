@@ -315,7 +315,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
     }, 5000);
   }
-
   
   $rootScope.hideNotify = function(){
     $timeout.cancel(hide);
@@ -516,6 +515,20 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       })
       .error(function(data, status, headers, config){
         $rootScope.popNotify('Error', 'Server Error');
+      });
+  }
+  
+  $rootScope.sendFeedback = function(text){
+    $http({ method:'post', url:'/api/user/submitFeedback', data:{sourceUser: $rootScope.userEmail, content: text }})
+      .success(function(data, status, headers, config){
+        if(data.success){
+          $('#feedbackModal').modal('hide');
+          alert(data.success);
+        }
+        if(data.error) alert(data.error);
+      })
+      .error(function(data, status, headers, config){
+        if(data) alert(data);
       });
   }
   

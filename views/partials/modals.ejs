@@ -626,16 +626,10 @@
   <div class="modal-body">
     <div class="modal_stack intro_text"> Let us hear what you have to say! </div>
     <div class="modal_stack text_content">
-      <!--<div class="modal_slice content_opts">
-        <input class="subject" placeholder="topic" type="text">
-      </div>
-      <div class="modal_slice content_opts">
-        <button class="submit" disabled>Submit</button>
-      </div>-->
       <div class="modal_stack content_txt">
-        <textarea class="modal_stack" placeholder="feedback"></textarea>
+        <textarea ng-model="feedbackText" class="modal_stack" placeholder="feedback"></textarea>
       </div>
-      <button id="feedback_submit" type="button">Submit</button>
+      <button ng-click="sendFeedback(feedbackText); feedbackText=''" id="feedback_submit" type="button">Submit</button>
     </div>
   </div>
 </div>

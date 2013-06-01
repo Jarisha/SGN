@@ -44,6 +44,9 @@ module.exports = function(app){
   //send message with deal with
   app.post('/api/user/message', userApi.message);
   
+  //send user feedback to bucket
+  app.post('/api/user/submitFeedback', userApi.submitFeedback);
+  
   app.get('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/facebookRegister', userApi.facebookRegister);
   app.post('/api/login', userApi.login);
