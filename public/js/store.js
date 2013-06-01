@@ -57,9 +57,7 @@ function storeSetup($scope){
     $scope.register.confirm = null;
     $('#registerModal').modal();
   }
-  $scope.postGamePin = function(){
-    $('#pinModal_1').modal();
-  }
+
   // "Scroll to Top" button
   $(window).scroll(function(){
       if ($(this).scrollTop() > 200) {
@@ -74,21 +72,7 @@ function storeSetup($scope){
   $scope.affix = function(){
     $('#subnav').affix({ offset: 42 });
   }
-  
-  //Show Pin options on hover
-  $(document).on('mouseenter', '.game_img' ,function(e){
-    $(this).parent().parent().find('.source_link').removeClass('hidden');
-  });
-  $(document).on('mouseleave', '.game_img' , function(e){
-    $(this).parent().parent().find('.source_link').addClass('hidden');
-  });
-  $(document).on('mouseenter', '.link_tip' ,function(e){
-    $(this).parent().find('.source_link').removeClass('hidden');
-  });
-  $(document).on('mouseleave', '.link_tip' , function(e){
-    $(this).parent().find('.source_link').addClass('hidden');
-  });
-  
+
   /* Store page enlarged pin */ 
   $('.view_trigger').click(function(e){
     var img_src;
