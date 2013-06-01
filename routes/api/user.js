@@ -729,7 +729,9 @@ exports.message = function(req, res){
       get_RO_user(sourceId, function(err, usr){
         if(err) return callback(err);
         sourceUser = usr;
+        console.log(usr.data.conversations);
         for(i = 0, len = usr.data.conversations.length; i < len; i++){
+          if(!usr.data.conversations[i]) continue;
           if(usr.data.conversations[i].target === targetId)
             sourceConvo = usr.data.conversations[i].id;
         }
@@ -741,7 +743,8 @@ exports.message = function(req, res){
         if(err) return callback(err);
         targetUser = usr;
         for(i = 0, len = usr.data.conversations.length; i < len; i++){
-          if(usr.data.conversations[i].target = sourceId)
+          if(!usr.data.conversations[i]) continue;
+          if(usr.data.conversations[i].target === sourceId)
             targetConvo = usr.data.conversations[i].id;
         }
         return callback(null);
@@ -860,7 +863,7 @@ exports.message = function(req, res){
 }
 
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
-//returns notifications + messages
+//returns notifications + messages + conversations
 exports.checkLogin = function(req, res){
   if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
@@ -870,14 +873,21 @@ exports.checkLogin = function(req, res){
 	if(req.session.loggedIn){
     var userEventIds;
     var pinEventIds;
+    var convoIds = [];
     var userEvents;
     var pinEvents;
+    var convoData;
     get_RO_user(req.session.loggedIn, function(err, usr){
       if(err) return res.json({ error: err.message });
       util.removeNulls(usr.data.userEvents);
       util.removeNulls(usr.data.pinEvents);
       userEventIds = usr.data.userEvents;
       pinEventIds = usr.data.pinEvents;
+      for(i = 0, len = usr.data.conversations.length; i < len; i++){ 
+        var curr_convo = usr.data.conversations[i];
+        if(!curr_convo) continue;
+        convoIds.push(curr_convo.id);
+      }
       next();
     });
     //get user notifications
@@ -918,7 +928,6 @@ exports.checkLogin = function(req, res){
                                         profileImg: ref_data.profileImg };
               event_data.targetLink = '/user/'+ref_data.userName;
               return callback(null, event_data);
-              //next();
             });
           }
           else{
@@ -935,6 +944,7 @@ exports.checkLogin = function(req, res){
         next2();
       });
     }
+    //get pin events
     function next2(){
       async.map(pinEventIds, function(eventId, callback){
         app.riak.bucket('events').objects.get(eventId, function(err, event_RO){
@@ -966,14 +976,51 @@ exports.checkLogin = function(req, res){
         next3();
       });
     }
+    //get converesations
     function next3(){
+      async.map(convoIds, function(convoId, callback){
+        app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+          if(err){
+            if(err.status_code === 404) return callback(null, null);
+            return callback(new Error('Get Notification Error: '+err), null);
+          }
+          //get username + avatarImg of the 'other' user, 'other' being user that is not logged in
+          if(convo_RO.data.sourceUser === req.session.userEmail){
+            base.get_userRef(convo_RO.data.targetUser, function(err, ref_data){
+              if(err) return callback(err, null);
+              convo_RO.data.showUser = { userName: ref_data.userName,
+                                         profileImg: ref_data.profileImg,
+                                         email: convo_RO.data.targetUser};
+              return callback(null, convo_RO.data);
+            });
+          }
+          else if(convo_RO.data.targetUser === req.session.userEmail){
+            base.get_userRef(convo_RO.data.sourceUser, function(err, ref_data){
+              if(err) return callback(err, null);
+              convo_RO.data.showUser = {  userName: ref_data.userName,
+                                          profileImg: ref_data.profileImg,
+                                          email: convo_RO.data.sourceUser };
+              return callback(null, convo_RO.data);
+            });
+          }
+          else return callback('Neither source nor target user are logged in', null);
+        });
+      },
+      function(err, results){
+        if(err) return res.json({ error: err.message });
+        convoData = results;
+        next4();
+      });
+    }
+    function next4(){
       return res.json({
         loggedIn: true,
         userId: req.session.loggedIn,
         userName: req.session.userName,
         avatarImg: req.session.avatarUrl,
         userEvents: userEvents,
-        pinEvents: pinEvents
+        pinEvents: pinEvents,
+        convoData: convoData
       });
     }
 	}
@@ -1008,6 +1055,50 @@ exports.consumeEvent = function(req, res){
       return res.json({ success: true });
     }
   });
+}
+
+exports.consumeMessage = function(req, res){
+  var convoId = req.body.convoId;
+  app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+    if(err) return res.json({ error: 'consumeMessage error: '+err.message });
+    convo_RO.data.notify = null;
+    convo_RO.save(function(_err, saved){
+      if(err) return res.json({ error:'save conversations error: '+ _err.message });
+      return res.json({ success: 'conversation no longer set as new' });
+    });
+  });
+}
+
+//called when we want to see a conversation
+//given a conversation, get a list of messages (in order)
+exports.getMessages = function(req, res){
+  var convoId = req.body.convoId;
+  var messageIds;
+  
+  //get messageIds
+  app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+    if(err) return res.json({ error: 'fetch conversation failed' });
+    messageIds = convo_RO.data.messageIds;
+    next();
+  });
+  function next(){
+    //fetch messages and return them to view
+    async.map(messageIds, function(messageId, callback){
+      app.riak.bucket('messages').objects.get(messageId ,function(err, message_RO){
+        if(err) return callback(new Error('get message error:'+err.message), null);
+        base.get_userRef(message_RO.data.sourceUser, function(err, ref_data){
+          if(err) return callback(new Error('get user_ref error: '+err.message), null);
+          message_RO.data.sourceData = { userName: ref_data.userName, profileImg: ref_data.profileImg };
+          return callback(null, message_RO.data);
+        });
+      });
+    },
+    function(err, results){
+      if(err) return res.json({ error: err.message });
+      //console.log(results);
+      return res.json({ messages: results });
+    });
+  }
 }
 
 //If we are registering with facebook, send profile params (stored in req.session.fbUser) to front end

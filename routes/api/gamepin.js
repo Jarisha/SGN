@@ -393,7 +393,7 @@ exports.postImageUrl = function(req, res){
   //stream url for image directly into rackspace...rackmagic!
   http.get(req.body.url, function(resp){
     app.rackit.add(resp, function(err, cloudpath){
-      if(err) return errlog.info('Rackspcae url stream error ' + err);
+      if(err) return errlog.info('Rackspace url stream error ' + err);
       post_data.sourceUrl = app.rackit.getURI(cloudpath);
       post_data.cloudPath = cloudpath;
       postGamePin(post_data, function(err, data){

@@ -38,6 +38,9 @@ module.exports = function(app){
   app.post('/api/user/unfriend', userApi.unfriend);
   app.post('/api/user/acceptFriend', userApi.acceptFriend);
   app.post('/api/user/consumeEvent', userApi.consumeEvent);
+  app.post('/api/user/consumeMessage', userApi.consumeMessage);
+  app.post('/api/user/getMessages', userApi.getMessages);
+  
   //send message with deal with
   app.post('/api/user/message', userApi.message);
   

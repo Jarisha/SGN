@@ -87,18 +87,18 @@
         </span>
       </a>
       <ul id="message_dropdown" class="dropdown-menu" ng-show="true">
-        <li ng-repeat="convo in conversations">
-          <a class="clearfix event_link" ng-click="popConversation()">
-            <img class= "notification-profile-image" ng-src="/images/30x30.gif">
+        <li ng-repeat="convo in convoData">
+          <a class="clearfix event_link" ng-click="popConversation(convo); consumeMessage(convo)">
+            <img class= "notification-profile-image" ng-src="{{convo.showUser.profileImg}}">
             <div class="notification-text">
               <span ng-show="convo.newFlag" class="new_message">new</span>
-              <span>{{convo.userName}}</span><br>
-              <i>"{{convo.message}}"</i>
+              <span>{{convo.showUser.userName}}</span><br>
+              <i>"{{convo.messagePreview}}"</i>
             </div>
             &nbsp;
           </a>
         </li>
-        <div class="view_all_footer">
+        <div class="view_all_footer" ng-show="convoData.length > 4">
           <p ng-click="popConversation()" href="#">View All</p>
         </div>
       </ul>

@@ -110,7 +110,6 @@
           hideWithTransition.call(this) :
           hideModal.call(this)
       }
-
   }
 
 

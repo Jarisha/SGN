@@ -14,9 +14,6 @@
       <span ng-show="bigPin.publisher" class="game_publisher">by <a href="#">{{ bigPin.publisher }}</a></span>
     </div>
     <div class="view_img_container">
-      <!--<div ng-show="bigPin.videoEmbed" class="view_vid">
-      </div>
-      <a ng-show="!bigPin.videoEmbed" href="#"><img class="view_img" ng-src="{{bigPin.imageUrl}}"/></a>-->
       <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed" href="#">
         <img class="view_img" ng-src="{{bigPin.imageUrl || bigPin.sourceUrl}}"/>
       </a>
@@ -595,11 +592,8 @@
   </div>
 </div>
 
-<!-- View Conversation Modal -->
+<!-- View Conversation Modal + Sidebar -->
 <div class="modal hide" id="conversationModal" >
-  <div class="modal-body" id="conversation_sidebar">
-    test
-  </div>
   <div class="modal-body">
     <!--<div class="modal_slice convo_left">
       <ul class="clearfix">
@@ -612,11 +606,11 @@
       <ul class="clearfix">
         <li ng-repeat="msg in messageList" class="modal_stack message_item">
           <div class="modal_slice msg_left">
-            <img ng-src="{{msg.sourceImg}}">
+            <img ng-src="{{msg.sourceData.profileImg}}">
           </div>
           <div class="modal_slice msg_right">
-            <b>{{msg.userName}}</b>
-            <p>{{msg.message}}</p>
+            <b>{{msg.sourceData.userName}}</b>
+            <p>{{msg.content}}</p>
           </div>
         </li>
         <div class="modal_stack message_respond">
@@ -624,17 +618,28 @@
             <img ng-src="{{userImg}}">
           </div>
           <div class="modal_slice msg_right">
-            <textarea id="respond_message"></textarea>
+            <textarea ng-model="messageText" id="respond_message"></textarea>
           </div>
-          <button type="button" id="respond_button" >respond</button>
+          <button ng-click="respond(messageText); messageText=''" type="button" id="respond_button" >respond</button>
         </div>
       </ul>
     </div>
   </div>
 </div>
-
 <div id="convo_sidebar">
-  hello
+  <ul>
+    <li ng-repeat="convo in convoData" ng-class="{'selected_convo' : convo == selectedConvo}">
+      <a class="clearfix event_link" ng-click="popConversation(); consumeMessage(convo)">
+        <img class= "notification-profile-image" ng-src="{{convo.showUser.profileImg}}">
+        <div class="notification-text">
+          <span ng-show="convo.newFlag" class="new_message">new</span>
+          <span>{{convo.showUser.userName}}</span><br>
+          <i>"{{convo.messagePreview}}"</i>
+        </div>
+        &nbsp;
+      </a>
+    </li>
+  </ul>
 </div>
 
 <!-- Feedback Modal -->
@@ -646,16 +651,16 @@
   <div class="modal-body">
     <div class="modal_stack intro_text"> Let us hear what you have to say! </div>
     <div class="modal_stack text_content">
-      <div class="modal_slice content_opts">
+      <!--<div class="modal_slice content_opts">
         <input class="subject" placeholder="topic" type="text">
       </div>
       <div class="modal_slice content_opts">
         <button class="submit" disabled>Submit</button>
-      </div>
+      </div>-->
       <div class="modal_stack content_txt">
         <textarea class="modal_stack" placeholder="feedback"></textarea>
       </div>
-      <!-- <textarea class="modal_stack"></textarea>-->
+      <button id="feedback_submit" type="button">Submit</button>
     </div>
   </div>
 </div>

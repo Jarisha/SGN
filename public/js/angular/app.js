@@ -68,15 +68,19 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.badInput = false;
   if(!Modernizr.input.placeholder) $rootScope.badInput = true;
  
-  $rootScope.newConvos = 3;
-  $rootScope.conversations = [
+  $rootScope.newConvos = 0;
+  $rootScope.convoData = [];
+  $rootScope.selectedConvo;
+  //$rootScope.messageText;
+  /*$rootScope.conversations = [
     { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like turtles', newFlag: true },
     { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like tortoise', newFlag: true },
     { sourceUser: 'testUser3@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like adamantoises', newFlag: true },
     { sourceUser: 'testUser4@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like blastoises', newFlag: false },
     { sourceUser: 'testUser5@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like warturtle', newFlag: false }
-  ];
-  $rootScope.messageList = [
+  ];*/
+  $rootScope.messageList;
+  /*$rootScope.messageList = [
     { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
       message: 'Hey how is it going??' },
     { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
@@ -93,7 +97,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       message: 'I like turtles' },
     { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
       message: 'Quyay representing downtown in this house' }
-  ];
+  ];*/
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
@@ -249,8 +253,18 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#feedbackModal').modal();
   }
  
-  //pop conversation modal
-  $rootScope.popConversation = function(){
+  //fetch all message and then pop conversation modal
+  $rootScope.popConversation = function(convo){
+    //fetch array of messages, select and highlight current conversation
+    $http({ method:'post', url:'/api/user/getMessages', data: {convoId: convo.id} })
+      .success(function(data, status, headers, config){
+        if(data.messages){
+          $rootScope.messageList = data.messages;
+          $rootScope.selectedConvo = convo;
+        }
+      })
+      .error(function(data, status, headers, config){
+      });
     $('#convo_sidebar').css('display', 'block');
     $('#conversationModal').modal();
     $('#respond_message').focus();
@@ -346,6 +360,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
           $rootScope.userImg = data.avatarImg || '/images/30x30.gif';
           $rootScope.userEvents = data.userEvents;
           $rootScope.pinEvents = data.pinEvents;
+          $rootScope.convoData = data.convoData;
+          //If a conversation is new, mark it as new
+          for(i = 0, len = $rootScope.convoData.length; i < len; i++){
+            if($rootScope.convoData[i].notify === data.userId){
+              $rootScope.newConvos++;
+              $rootScope.convoData[i].newFlag = true;
+            }
+          }
           return callback(null, true);
         }
         //logged out
@@ -497,6 +519,28 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
   }
   
+  //send message to targetUser, without knowledge of if conversation exists
+  $rootScope.sendMessage = function(targetId){
+    alert('send message to '+ targetId);
+  }
+  //send message to targetUser within the context of a conversation
+  $rootScope.respond = function(text){
+    //find out which user is the 'other'
+    
+    //send text to conversation from sourceUser to targetUser
+    $http({ method:'post', url:'/api/user/message', data:{  sourceId:$rootScope.userEmail,
+                                                                targetId: $rootScope.selectedConvo.showUser.email,
+                                                                content: text} })
+      .success(function(data, status, headers, config){
+        if(data.success) alert(JSON.stringify(data.success));
+        if(data.error) alert(JSON.stringify(data.error));
+      })
+      .error(function(data, status, headers, config){
+        if(data) alert(data);
+      });
+    //alert('respond to convo '+convoId+' to targetUser: '+targetId);
+  }
+  
   //When the user clicks on a notification, consume that notification and go to target
   $rootScope.consume = function(userEvent, index, listRef) {
     console.log('consume + proceed to targetLink');
@@ -514,7 +558,26 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         console.log('error');
       });
   }
-
+  
+  //When the user clicks on a conversation, decrement newConvos counter, un-New the conversation, and send request to change notify to null
+  $rootScope.consumeMessage = function(convo){
+    if($rootScope.newConvos <= 0) return;
+    $rootScope.newConvos--;
+    convo.newFlag = false;
+    $http({ method:'post', url:'/api/user/consumeMessage', data: {convoId: convo.id} })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          alert(JSON.stringify(data.success));
+        }
+        else if(data.error){
+          alert(data.error)
+        }
+      })
+      .error(function(data, status, headers, config){
+        alert(data);
+      });
+  }
+  
   $rootScope.ignore = function(userEvent, index, listRef){
     $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: userEvent.id} })
       .success(function(data, status, headers, config){
