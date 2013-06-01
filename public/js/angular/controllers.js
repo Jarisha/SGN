@@ -334,7 +334,7 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
     },
     {
       name: 'Angry Birds Space Premium',
-      price: 'Coming Soon',
+      price: 'N/A',
       image: "http://localhost/images/game_images/store_img4.png",
       category: 'Puzzle',
       playStoreUrl: 'https://play.google.com/store/apps/details?id=com.rovio.angrybirdsspace.premium',

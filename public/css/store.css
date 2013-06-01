@@ -270,3 +270,20 @@ only screen and (max-device-width : 890px){
 .store #storePinModal hr {
   margin: 0 10px;
 }
+.store .price_tag {
+  height: 96px;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
+.store .price {
+  position: absolute;
+  top: 20px;
+  right: -17px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  width: 93px;
+  cursor: default;
+}
