@@ -39,63 +39,38 @@
 </div>
 
 <!-- Store Pin Modal -->
-<!--<div class="modal hide fade" id="storePinModal">
+<div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img" src="<%= rootPath %>/images/game_images/gameloft_logo.jpg" width="50"/></a>
-    <button class="follow" type="button">Download</button>
-    <p class="poster"><a href="#">The Dark Knight Rises</a></p>
-    <p class="date_posted">By <a href="">Gameloft</a></p>
+    <div ng-show="bigPin.publisher" class="publisher">by <br>{{bigPin.publisher}}</div>
+    <div class="game_title">{{bigPin.name}}</div>
   </div>
-  <hr>
+  <hr id="topHr">
   <div class="modal-body">
-      <div class="view_tags">
-      <p><a href="#"><span>#simulation</span></a>
-      <a href="#"><span>#food</span></a>
-      <a href="#"><span>#cooking</span></a></p>
-    </div>
-    <div class="view_img_container">
-      <a href="#"><img class="view_img" src="<%= rootPath %>/images/game_images/Gun-Bros-screenshot.png"/></a>
-    </div>
     <div class="view_comment_container">
-      <p> Risen from the ashes, the Dark Knight returns in this action packed sequel to destroy
-       the criminals that threaten Gotham City.  Play as Batman, Catwoman, and even the villain Bane himself</p>
+      <p ng-show="bigPin.description">{{bigPin.description}}</p>
+      <p ng-show="!bigPin.description" class="notAvailable">Description not available.</p>
     </div>
     <hr>
   </div>
-  <ul class="share_list">
-    <li class="share_element"><button type="button">Facebook</button></li>
-    <li class="share_element"><button type="button">Twitter</button></li>
-    <li class="share_element"><button type="button">Share</button></li>
-    <li class="share_element"><button type="button">G+</button></li>
-    <li class="share_element"><button type="button">Report Pin</button></li>
-  </ul>
   <div class="tabbable">
-    <ul class="nav nav-tabs">
-      <li class="active video_tab"><a target="_self" href="#video_content" data-toggle="tab">Videos</a></li>
-      <li class="pin_tab"><a target="_self" href="#pin_content" data-toggle="tab">Pins</a></li>
-      <li class="friends_tab"><a target="_self" href="#friends_content" data-toggle="tab">Friends playing</a></li>
-    </ul>
     <div class="tab-content img_container">
-      <div class="tab-pane active" id="video_content">
-        <div class="vid_container">
-          <embed id="playerid" width="500px" height="400px" allowfullscreen="true"
-            allowscriptaccess="always" quality="high" bgcolor="#000000" name="playerid" style=""
-            src="http://www.youtube.com/v/WqlPgRMmS9U?enablejsapi=1&version=3&playerapiid=ytplayer"
-            type="application/x-shockwave-flash">
-        </div>
-      </div>
-      <div class="tab-pane" id="pin_content">
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-        <a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a><a href=""><img src="<%= rootPath %>/images/50x50.gif"/></a>
-      </div>
-      <div class="tab-pane" id="friends_content">
-        <a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a><a><img src="<%= rootPath %>/images/50x50.gif"/></a>
-      </div>
+      <img class="screenshot" ng-src="{{bigPin.screenshot || bigPin.image}}">
     </div>
   </div>
-</div>-->
+  <hr>
+  <ul class="store_link_container">
+    <li ng-show="bigPin.platform == 'iPhone'">
+      <a ng-href="{{bigPin.appStoreUrl}}">
+        <img src="/images/UI/appstorebadges/Download_App_Store.png">
+      </a>
+    </li>
+    <li ng-show="bigPin.platform == 'Android'">
+      <a ng-href="{{bigPin.playStoreUrl}}">
+        <img src="/images/UI/appstorebadges/Download_Play_Store.png">
+      </a>
+    </li>
+  </ul>
+</div>
 
 <!-- Log In Modal -->
 <div class="modal hide" id="loginModal" >

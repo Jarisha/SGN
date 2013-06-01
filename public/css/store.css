@@ -78,7 +78,7 @@ only screen and (max-device-width : 890px){
 
 /*Game info*/
 .store .game_name{
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
 }
 
@@ -101,35 +101,19 @@ only screen and (max-device-width : 890px){
 .store .store_body{
   position:relative;
 }
-.store .link_tip {
-  padding: 10px 0;
-  text-align: center;
-  margin: 0 -15px 0 0px;
-}
+
 .store .store_container {
   text-align: center;
-  padding: 10px 15px;
-  background: #EBEBEB;
+  padding: 5px;
+  background: white;
   margin: 0 -15px 0 -15px;
   position: relative;
 }
 
 .store .game_img {
-  margin: 20px 10px 0 10px;
+  margin: 10px 10px 10px 10px;
 }
 
-.store .source_link {
-  text-align: center;
-  position: absolute;
-  margin: -10px 0 138px -15px;
-  font-size: 16px;
-  background: #EBEBEB;
-  width: 250px;
-}
-
-.store .source_link a:hover {
-  color: black;
-}
 /* View Pin modal */
 .store #storePinModal{
   height: 100%;
@@ -142,14 +126,25 @@ only screen and (max-device-width : 890px){
 .store .modal-header button{
   float:right;
 }
-.store .poster{
-  font-size: 25px;
-  margin-left: 60px;
+.store .game_title{
+  font-size: 27px;
+  text-align: center;
+  color: white;
+  margin: 10px 0 10px 0;
 }
-.store .date_posted{
-  margin-top: 7px;
-  margin-left: 60px;
+
+.store .publisher{
+  position: absolute;
+  color: #FEFBB1;
+  float: left;
+  text-align: center;
+  margin-left: 20px;
 }
+
+.store .publisher a {
+  color: #FEFBB1;
+}
+
 .store .modal-header .profile_img{
   float:left;
 }
@@ -166,14 +161,8 @@ only screen and (max-device-width : 890px){
 .store .view_metadata > *{
   margin-left:10px;
 }
-.store .game_title{
-  font-size:20px;
-}
-.store .game_publisher{
-  font-size:14px;
-}
+
 .store .view_tags{
-  height:50px;
   width:50%;
 }
 .store .view_tags p span{
@@ -188,9 +177,28 @@ only screen and (max-device-width : 890px){
 .store .view_comment_container{
   padding: 10px 15px;
 }
+.store .view_comment_container .notAvailable {
+  text-align: center;
+}
 .store .view_img_container{
   text-align: center;
   background: grey;
+}
+.store .screenshot {
+  display: block;
+  margin: auto;
+}
+.store_link_container {
+  text-align: center;
+  margin: 0 auto 0 auto;
+  padding: 10px 0 10px 0;
+}
+.store_link_container li {
+  display: inline;
+}
+.store_link_container img {
+  height: 40px;
+  padding: 0 4px 0 4px;
 }
 .store .view_comment{
   padding: 10px 15px 0;
@@ -252,4 +260,13 @@ only screen and (max-device-width : 890px){
 }
 .store .share_element button{
   white-space:nowrap;  /*huzzah!*/
+}
+.store .store_pin hr {
+  margin: 0 10px;
+}
+.store #storePinModal #topHr {
+  margin: 0;
+}
+.store #storePinModal hr {
+  margin: 0 10px;
 }
