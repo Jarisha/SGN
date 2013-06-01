@@ -38,6 +38,20 @@
   </div>
 </div>
 
+<!-- Recommmended Gamepins -->
+<div id="recommend_sidebar">
+  <div id="recommended_posts">
+    <img src="/images/30x30.gif" />
+    <ul>
+      <a ng-repeat="rec in recommendedPins" href="{{rec.link}}">
+        <li><img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}"></li>
+      </a>
+    </ul>
+  </div>
+  <img src="/images/facebook_logo.png" />
+  <button type="button">Report</button>
+</div>
+
 <!-- Store Pin Modal -->
 <div class="modal hide fade" id="storePinModal">
   <div class="modal-header clearfix">

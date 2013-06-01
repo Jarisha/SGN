@@ -684,7 +684,6 @@
 
 #conversationModal, #convo_sidebar{
   left:60%;
-  
 }
 
 #convo_sidebar{
@@ -709,3 +708,19 @@
   background: white;
 }
 
+#recommend_sidebar{
+  z-index: 2000;
+  left: 50%;
+  top: 278px;
+  margin-top: -228px;
+  margin-left: 300px;
+  width: 269px;
+  display: none;
+  position: fixed;
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  border-right: none;
+  background: red;
+}
+#recommended_posts li{
+  display: inline-block;
+}

@@ -11,7 +11,9 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   /**** Resolve Data ***/
   $scope.showPins = [];
   $scope.gamePins = resolveFront;
-
+  
+  $scope.recommendedPins = [];
+  
   /**** Scope Variables - Variables shared with View ****/
   $rootScope.css = 'front';
   $scope.modals = $rootScope.rootPath + '/partials/modals';
@@ -120,7 +122,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     //($scope.showPins[index]);
     
     console.log($scope.showPins[index].poster);
-    
+       
     $('.view_vid').empty();
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
@@ -139,6 +141,15 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
         videoIframe[0].height = "341";
         $('.view_vid').append(videoIframe);
       }
+      $scope.recommendedPins = [];
+      //populate recommended sidebar and pop modal
+      for(i = 0, len = $scope.showPins.length; i < len; i++){
+        if(($scope.showPins[i].category === $scope.bigPin.category) && $scope.showPins[i].id !== $scope.bigPin.id){
+          $scope.recommendedPins.push({ image: $scope.showPins[i].imageUrl || $scope.showPins[i].sourceUrl,
+                                        link: '/post/'+$scope.showPins[i].id });
+        }
+      }
+      $('#recommend_sidebar').css('display', 'block');
       $('#gamePinModal').modal({ dynamic: true });
       $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
         .success(function(data, status, headers, config){

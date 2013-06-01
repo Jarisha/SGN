@@ -87,6 +87,7 @@
         
         console.log('close modal');
         //hide 2ndary modals
+        $('#recommend_sidebar').css('display', 'none');
         $('#convo_sidebar').css('display', 'none');
         //$('#convo_sidebar').css('display', 'block');
         
