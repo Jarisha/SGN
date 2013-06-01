@@ -562,6 +562,7 @@
 }
 #feedbackModal textarea{
   text-align: left;
+  height: 100px;
   background: white;
   margin: 0;
 }
@@ -582,8 +583,13 @@
   line-height: 0;
 }
 #feedbackModal .content_txt{
-  padding: 10px 10px 0 10px;
+  /*padding: 10px 10px 0 10px;*/
   border: none;
+}
+#feedback_submit{
+  float: right;
+  margin-top: 10px;
+  width: 100%;
 }
 
 /*Social Notifications Modals*/
@@ -618,6 +624,7 @@
 #conversationModal{
   width: 600px;
   font-size: 12px;
+  border-radius: 0;
 }
 #conversationModal *{
   background: #EBEBEB;
@@ -670,5 +677,35 @@
   height: 30px;
   font-size: 14px;
   width: 50%;
+}
+#conversationModal .modal_body{
+  float:left;
+}
+
+#conversationModal, #convo_sidebar{
+  left:60%;
+  
+}
+
+#convo_sidebar{
+  z-index: 2000;
+  top: 50%;
+  margin-left: -558px;
+  margin-top: -250px;
+  width: 269px;
+  display: none;
+  position: fixed;
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  border-right: none;
+}
+#convo_sidebar ul{
+  padding: 0;
+  margin: 0;
+}
+#convo_sidebar li{
+  background: #EBEBEB;
+}
+#convo_sidebar .selected_convo{
+  background: white;
 }
 

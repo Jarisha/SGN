@@ -20,14 +20,15 @@ var outlog = app.outlog;
 
 var fixProblems = exports.fixProblems = function(req, res){
   console.log('fixProblems');
-  app.riak.bucket('users').objects.get('dtonys@gmail.com', function(err, usr){
+  app.riak.bucket('users').objects.get('user4@u.u', function(err, usr){
     if(err) return res.json({ error: err.message });
     //delete all events in this user
     //util.removeNulls(usr.data.timelineEvents);
-    usr.data.timelineEvents = [];
-    usr.data.friends = [];
-    usr.data.userEvents = [];
-    usr.data.pinEvents = [];
+    //usr.data.timelineEvents = [];
+    //usr.data.friends = [];
+    //usr.data.userEvents = [];
+    //usr.data.pinEvents = [];
+    usr.data.conversations = [];
     usr.save(function(err, saved){
       console.log(saved.data);
       return res.json({ success: 'events cleared' });
@@ -708,8 +709,181 @@ exports.testAPI = function(req, res){
 
 /********************************************** API: Core - Level 3 *************************************/
 
+exports.submitFeedback = function(req, res){
+  console.log(req.body);
+  var feedback_RO;
+  feedbackData = { date: util.getDate(),
+                   content: req.body.content,
+                   email: req.body.sourceUser
+                  };
+  util.generateId(function(id){
+    feedbackData.id = id;
+    next();
+  });
+  function next(){
+    feedback_RO = app.riak.bucket('feedback').objects.new(feedbackData.id, feedbackData);
+    feedback_RO.save(function(err, saved){
+      if(err) return res.json({ error: err });
+      return res.json({ success: 'submit feedback success!' });
+    });
+  }  
+}
+
+//Send message to friend
+exports.message = function(req, res){
+  console.log(req.body);
+  var sourceId = req.body.sourceId;
+  var targetId = req.body.targetId;
+  var content = req.body.content;
+  var sourceUser;
+  var targetUser;
+  var sourceConvo = null;
+  var targetConvo = null;
+  //cant send message to self
+  if(sourceId === targetId) return res.json({ error: 'Can\'t send message to yourself' })
+  
+  //get both users. If either has a conversation with the other, break out to continueConversation
+  async.parallel([
+    function(callback){
+      console.log('get source');
+      get_RO_user(sourceId, function(err, usr){
+        if(err) return callback(err);
+        sourceUser = usr;
+        console.log(usr.data.conversations);
+        for(i = 0, len = usr.data.conversations.length; i < len; i++){
+          if(!usr.data.conversations[i]) continue;
+          if(usr.data.conversations[i].target === targetId)
+            sourceConvo = usr.data.conversations[i].id;
+        }
+        return callback(null);
+      });
+    },
+    function(callback){
+      get_RO_user(targetId, function(err, usr){
+        if(err) return callback(err);
+        targetUser = usr;
+        for(i = 0, len = usr.data.conversations.length; i < len; i++){
+          if(!usr.data.conversations[i]) continue;
+          if(usr.data.conversations[i].target === sourceId)
+            targetConvo = usr.data.conversations[i].id;
+        }
+        return callback(null);
+      });
+    }
+  ],
+  function(err){
+    if(err) return res.json({ error: err.message });
+    //if users are not friends, prompt error
+    if((sourceUser.data.friends.indexOf(targetId) === -1) ||
+       (targetUser.data.friends.indexOf(sourceId) === -1)){
+      return res.json({ error: 'Must be friends with user to message' });
+    }
+    //if users are already engagd in conversation, continue it, else make a new one
+    if(sourceConvo && sourceConvo === targetConvo)
+      continueConversation();
+    else if(sourceConvo != targetConvo)     //logical XOR
+      return res.json({ error: 'Error: Only one user has reference to conversation'});
+    else
+      newConversation();
+  });
+  //create new conversation object, create message, add message, save convo to riak, save message to riak, add convo to both users
+  function newConversation(){
+    console.log('newConversation');
+    //create new conversation object with message
+    var convo = {
+      sourceUser: sourceId,
+      targetUser: targetId,
+      updated: util.getDate(),
+      messageIds: [],
+      messagePreview: content,
+      notify: targetId,
+      dateCreated: util.getDate()
+    };
+    var message = {
+      sourceUser: sourceId,
+      targetUser: targetId,
+      content: content,
+      dateCreated: util.getDate()
+    };
+    //save convo, get back key, save convo into both users, save users
+    base.createConversation(convo, message, function(err, saved){
+      if(err) return res.json({ error: 'createConversation error: '+err.message });
+      sourceUser.data.conversations.unshift({ id: saved.key, target: targetId });
+      targetUser.data.conversations.unshift({ id: saved.key, target: sourceId });
+      sourceUser.save(function(_err, _saved){
+        if(_err) return res.json({ error: 'save user error'+_err.message });
+        targetUser.save(function(__err, __saved){
+          if(__err) return res.json({ error: 'save user error'+__err.message })
+          return res.json({success: 'message sent and conversation created'});
+        });
+      });
+    });
+  }
+  //fetch convo, create and add message, update convo
+  function continueConversation(){
+    console.log('continueConversation');
+    var message = {
+      sourceUser: sourceId,
+      targetUser: targetId,
+      content: content,
+      dateCreated: util.getDate()
+    };
+    var convo_RO;
+    var message_RO;
+    //fetch convo
+    app.riak.bucket('conversations').objects.get(sourceConvo, function(err, convo_obj){
+      if(err) return res.json({ error: 'get conversation error: '+err.message });
+      convo_RO = convo_obj;
+      next();
+    });
+    //create message
+    function next(){
+      message.conversation = convo_RO.key;
+      base.createMessage(message, function(err, msg_RO){
+        if(err) return res.json({ error: err.message });
+        next2(msg_RO);
+      });
+    }
+    //update convo, save convo
+    function next2(msg_RO){
+      convo_RO.data.messageIds.push(msg_RO.key);
+      convo_RO.data.updatedDate = util.getDateObj();
+      convo_RO.data.messagePreview = message.content;
+      convo_RO.data.notify = message.targetUser;
+      convo_RO.save(function(err, saved){
+        if(err) return res.json({ err: 'conversation save error: '+ err.message });
+        next3();
+      });
+    }
+    //move this convo up to the top of convo list, but only for the recepient user (targetUser)
+    function next3(){
+      var index = convo_RO.key;
+      var moveUp = targetUser.data.conversations[index];
+      targetUser.data.conversations.splice(index, 1);
+      targetUser.data.conversations.unshift(moveUp);
+      targetUser.save(function(err, saved){
+        if(err) return res.json({ error: 'save target user error: '+err.message });
+        return res.json({ success: 'message added to conversation' });
+      });
+    }
+  }
+  /* SEND MESSAGE:   
+    if conversation exists
+  *    - Add Message
+  *    - Mark as new, move conversation to front of list
+  *    - If not marked as new, mark as new and send notification to target
+  *  else
+  *    - Create new Conversation
+  *    - Add message
+  *    - Notify targetUser
+  *    - 
+  *  consumeMessage - set newFlag to false
+  *  
+  */
+}
+
 //Checks if session data is set (if user is logged in). Called on every angularjs infused page.
-//returns notification
+//returns notifications + messages + conversations
 exports.checkLogin = function(req, res){
   if(!req.session || !req.session.loggedIn) return res.json({ loggedIn: false });
   //Clear newUser which stores register data
@@ -719,14 +893,21 @@ exports.checkLogin = function(req, res){
 	if(req.session.loggedIn){
     var userEventIds;
     var pinEventIds;
+    var convoIds = [];
     var userEvents;
     var pinEvents;
+    var convoData;
     get_RO_user(req.session.loggedIn, function(err, usr){
       if(err) return res.json({ error: err.message });
       util.removeNulls(usr.data.userEvents);
       util.removeNulls(usr.data.pinEvents);
       userEventIds = usr.data.userEvents;
       pinEventIds = usr.data.pinEvents;
+      for(i = 0, len = usr.data.conversations.length; i < len; i++){ 
+        var curr_convo = usr.data.conversations[i];
+        if(!curr_convo) continue;
+        convoIds.push(curr_convo.id);
+      }
       next();
     });
     //get user notifications
@@ -767,7 +948,6 @@ exports.checkLogin = function(req, res){
                                         profileImg: ref_data.profileImg };
               event_data.targetLink = '/user/'+ref_data.userName;
               return callback(null, event_data);
-              //next();
             });
           }
           else{
@@ -784,6 +964,7 @@ exports.checkLogin = function(req, res){
         next2();
       });
     }
+    //get pin events
     function next2(){
       async.map(pinEventIds, function(eventId, callback){
         app.riak.bucket('events').objects.get(eventId, function(err, event_RO){
@@ -815,14 +996,51 @@ exports.checkLogin = function(req, res){
         next3();
       });
     }
+    //get converesations
     function next3(){
+      async.map(convoIds, function(convoId, callback){
+        app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+          if(err){
+            if(err.status_code === 404) return callback(null, null);
+            return callback(new Error('Get Notification Error: '+err), null);
+          }
+          //get username + avatarImg of the 'other' user, 'other' being user that is not logged in
+          if(convo_RO.data.sourceUser === req.session.userEmail){
+            base.get_userRef(convo_RO.data.targetUser, function(err, ref_data){
+              if(err) return callback(err, null);
+              convo_RO.data.showUser = { userName: ref_data.userName,
+                                         profileImg: ref_data.profileImg,
+                                         email: convo_RO.data.targetUser};
+              return callback(null, convo_RO.data);
+            });
+          }
+          else if(convo_RO.data.targetUser === req.session.userEmail){
+            base.get_userRef(convo_RO.data.sourceUser, function(err, ref_data){
+              if(err) return callback(err, null);
+              convo_RO.data.showUser = {  userName: ref_data.userName,
+                                          profileImg: ref_data.profileImg,
+                                          email: convo_RO.data.sourceUser };
+              return callback(null, convo_RO.data);
+            });
+          }
+          else return callback('Neither source nor target user are logged in', null);
+        });
+      },
+      function(err, results){
+        if(err) return res.json({ error: err.message });
+        convoData = results;
+        next4();
+      });
+    }
+    function next4(){
       return res.json({
         loggedIn: true,
         userId: req.session.loggedIn,
         userName: req.session.userName,
         avatarImg: req.session.avatarUrl,
         userEvents: userEvents,
-        pinEvents: pinEvents
+        pinEvents: pinEvents,
+        convoData: convoData
       });
     }
 	}
@@ -857,6 +1075,50 @@ exports.consumeEvent = function(req, res){
       return res.json({ success: true });
     }
   });
+}
+
+exports.consumeMessage = function(req, res){
+  var convoId = req.body.convoId;
+  app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+    if(err) return res.json({ error: 'consumeMessage error: '+err.message });
+    convo_RO.data.notify = null;
+    convo_RO.save(function(_err, saved){
+      if(err) return res.json({ error:'save conversations error: '+ _err.message });
+      return res.json({ success: 'conversation no longer set as new' });
+    });
+  });
+}
+
+//called when we want to see a conversation
+//given a conversation, get a list of messages (in order)
+exports.getMessages = function(req, res){
+  var convoId = req.body.convoId;
+  var messageIds;
+  
+  //get messageIds
+  app.riak.bucket('conversations').objects.get(convoId, function(err, convo_RO){
+    if(err) return res.json({ error: 'fetch conversation failed' });
+    messageIds = convo_RO.data.messageIds;
+    next();
+  });
+  function next(){
+    //fetch messages and return them to view
+    async.map(messageIds, function(messageId, callback){
+      app.riak.bucket('messages').objects.get(messageId ,function(err, message_RO){
+        if(err) return callback(new Error('get message error:'+err.message), null);
+        base.get_userRef(message_RO.data.sourceUser, function(err, ref_data){
+          if(err) return callback(new Error('get user_ref error: '+err.message), null);
+          message_RO.data.sourceData = { userName: ref_data.userName, profileImg: ref_data.profileImg };
+          return callback(null, message_RO.data);
+        });
+      });
+    },
+    function(err, results){
+      if(err) return res.json({ error: err.message });
+      //console.log(results);
+      return res.json({ messages: results });
+    });
+  }
 }
 
 //If we are registering with facebook, send profile params (stored in req.session.fbUser) to front end
