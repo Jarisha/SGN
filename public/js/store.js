@@ -72,24 +72,4 @@ function storeSetup($scope){
   $scope.affix = function(){
     $('#subnav').affix({ offset: 42 });
   }
-
-  /* Store page enlarged pin */ 
-  $('.view_trigger').click(function(e){
-    var img_src;
-    //load carousel img if there is carousel
-    img_src = $(this).find('.carousel-inner .item:first-child img').attr('src');
-    $('#storePinModal').find('.view_img').attr('src', img_src);
-    //load pin image otherwise
-    img_src = $(this).children('.game_img').attr('src');
-    $('#storePinModal').find('.view_img').attr('src', img_src);
-  });
-  //Enable store pin slides
-  $('.carousel').carousel({interval: false});
-  $(document).on('mouseenter', '.carousel', function(){
-    $(this).children('.carousel-control').removeClass('hidden');
-  });
-  $(document).on('mouseleave', '.carousel', function(){
-    $(this).children('.carousel-control').addClass('hidden');
-  });
-  
 }
