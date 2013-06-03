@@ -12,11 +12,10 @@ var outlog = app.outlog;
 var gamepin = function gamepin(input){
   if(Object.keys(arguments).length === 0) input = {};
   
-  this.version = input.version            || '0.0.2';
+  this.version = input.version            || '0.0.3';
   this.posterId = input.posterId          || null;
   this.posterName = input.posterName      || null;
   this.likedBy = input.likedBy            || [];
-  this.repinVia = input.repinVia          || null;
   this.category = input.category          || null;
   this.sourceUrl = input.sourceUrl        || null;
   this.videoEmbed = input.videoEmbed      || null;
@@ -27,6 +26,10 @@ var gamepin = function gamepin(input){
   this.datePosted = input.datePosted      || null;
   this.returnAll = 'y';                   //used so that we can do an ambiguous search
   this.comments = input.comments          || [];
+  
+  this.dateEdited = input.dateEdited      || null;
+  this.repostVia = input.repostVia        || null;
+  this.originUrl = input.originUrl        || null;
 }
 
 gamepin.prototype.validate = function(){
