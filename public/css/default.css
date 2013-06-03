@@ -507,7 +507,6 @@ form{
 }
 #tag_dropdown {
   left: -104px;
-  /*font-size: 12px;*/
 }
 #message_dropdown {
   left: -173px;
@@ -557,7 +556,6 @@ form{
   min-width: 130px;
   margin: 5px 0 0 0;
   padding: 0;
-  color: white;
 }
 #profile_toggle .caret{
   border-top-color: white;
@@ -570,6 +568,7 @@ form{
 }
 .profile_tab_right {
   display: inline;
+  color: white;
 }
 #profile_tab{
   position: relative;
