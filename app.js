@@ -88,6 +88,61 @@ else{
     next();
   }
   
+  app.configure('coleman', function(){
+    //setup riak and express
+    var riak = exports.riak = require('nodiak').getClient('http', '127.0.0.1', 8091);
+    var nodeflake_host = exports.nodeflake_host = '127.0.0.1';
+    var temp_path = exports.temp_path = config.dev_temp_path;
+    app.use(express.session({ secret: "tazazaz",
+                            store : new RedisStore({
+                              host : '127.0.0.1',
+                              //host : config.dev_redis_host,
+                            }),
+                            cookie: { maxAge: 86400000
+                                      }
+                            }));
+    //express global
+    app.locals.host = 'localhost';
+    app.locals.rootPath =  "http://" + 'localhost';
+
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+
+    //only use log files in production
+    outlog = exports.outlog = {
+      info: function(){}
+    }
+    errlog = exports.errlog = {
+      info: function(){}
+    }
+    evtlog = exports.evtlog = {
+      info: function(){}
+    }
+    apiRoutes = require('./routes/apiRoutes');
+    //passConfig = require('./pass_config');
+    riakConfig = require('./riak_config');
+    util = require('./utility');
+
+    //app.use(passConfig.passport.initialize());
+    //ping riak and nodeflake
+    riakConfig.init();
+
+    //SSL options
+    var options = {
+      key: fs.readFileSync('quyay.com.key'),
+      cert: fs.readFileSync('quyay.com.crt'),
+      ca: [fs.readFileSync('gd_bundle.crt')]
+    }
+
+    http.createServer(app).listen(80, function(){
+      outlog.info('HTTP Express server listening on port ? in dev mode');
+      console.log('HTTP Express server listening on port ? in dev mode');
+    });
+    https.createServer(options, app).listen(443, function(){
+      outlog.info('HTTPS Express server listening on port 443 in dev mode');
+      console.log('HTTPS Express server listening on port 443 in dev mode');
+    });
+  });
+
   app.configure('dev', function(){
     //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
@@ -104,7 +159,7 @@ else{
     app.locals.host = config.dev_host;
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    
+
     //only use log files in production
     outlog = exports.outlog = {
       info: function(){}
@@ -119,11 +174,11 @@ else{
     //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     util = require('./utility');
-    
+
     //app.use(passConfig.passport.initialize());
     //ping riak and nodeflake
     riakConfig.init();
-    
+
     //SSL options
     var options = {
       key: fs.readFileSync('quyay.com.key'),
@@ -142,7 +197,7 @@ else{
     /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
     outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
-  
+
   app.configure('staging', function(){
     //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.production_db_host, config.staging_db_port);
