@@ -102,9 +102,11 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
     console.log('Route Change Started!');
+    $('body').css('cursor', 'wait');
   });
   $rootScope.$on("$routeChangeSuccess", function(event, next, current){
    // ('Route Change Success!');
+   $('body').css('cursor', 'default');
   });
   $rootScope.$on("$routeChangeError", function(event, next, current, rejection){
    // ('Route Change Error: ' + rejection);
