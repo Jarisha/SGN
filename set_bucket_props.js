@@ -4,7 +4,7 @@
  */
 
 var config = require('./config');
-var riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
+var riak = require('nodiak').getClient('http', '127.0.0.1', 8091);
 
 riak.ping(function(err, response){
   console.log('Connection to riak db: ' + response);
