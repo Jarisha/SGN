@@ -548,7 +548,10 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
                                                                 targetId: $rootScope.selectedConvo.showUser.email,
                                                                 content: text} })
       .success(function(data, status, headers, config){
-        if(data.success) alert(JSON.stringify(data.success));
+        if(data.success){
+          $rootScope.messageList.push({ sourceData:{ userName: $rootScope.userName, profileImg: $rootScope.userImg }, content: text });
+          //alert(JSON.stringify(data.success));
+        }
         if(data.error) alert(JSON.stringify(data.error));
       })
       .error(function(data, status, headers, config){
