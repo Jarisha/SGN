@@ -40,7 +40,7 @@ gamepin.prototype.validate = function(){
   if(!this.sourceUrl && !this.videoEmbed) return new E.InvalidError('gamepin content missing');
 
   //logical validations
-  if(this.sourceUrl && this.videoEmbed) return new E.InvalidError('gamepin content cannot be both video and image');
+  //if(this.sourceUrl && this.videoEmbed) return new E.InvalidError('gamepin content cannot be both video and image');
   return false;
 }
 
