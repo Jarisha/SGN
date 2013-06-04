@@ -274,6 +274,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   }
   //$rootScope.popNotify('Test', 'Test Success');
   
+  $rootScope.closeModal = function(rec){
+    console.log('close gamePinModal');
+    $('#gamePinModal').modal('hide');
+    $timeout(function(){
+      $location.path(rec.link);
+    }, 10);
+    //$location.path('hello World');
+  }
   
   //Pops a Notification. Error or Success
   var hide = null;

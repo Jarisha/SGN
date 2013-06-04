@@ -1,5 +1,5 @@
 <!-- Front Pin Enlarged Modal -->
-<div class="modal hide fade" id="gamePinModal">
+<div class="modal hide" id="gamePinModal">
   <div class="modal-header clearfix">
     <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.profileImg }}"/></a>
     <button ng-show="bigPin.followBtn" ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
@@ -45,8 +45,11 @@
   </div>
   <div id="recommended_posts">
     <ul>
-      <a ng-repeat="rec in recommendedPins" href="{{rec.link}}">
-        <li><img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}"></li>
+      <!--<a ng-repeat="rec in recommendedPins" href="{{rec.link}}" ng-click="$('#gamePinModal').modal('hide');">-->
+      <a ng-repeat="rec in recommendedPins" ng-click="closeModal(rec);">
+        <li>
+          <img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}">
+        </li>
       </a>
     </ul>
   </div>
