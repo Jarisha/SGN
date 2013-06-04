@@ -71,33 +71,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.newConvos = 0;
   $rootScope.convoData = [];
   $rootScope.selectedConvo;
-  //$rootScope.messageText;
-  /*$rootScope.conversations = [
-    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like turtles', newFlag: true },
-    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like tortoise', newFlag: true },
-    { sourceUser: 'testUser3@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like adamantoises', newFlag: true },
-    { sourceUser: 'testUser4@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like blastoises', newFlag: false },
-    { sourceUser: 'testUser5@u.u', sourceImg: '/images/30x30.gif', userName:'testUser', message: 'I like warturtle', newFlag: false }
-  ];*/
   $rootScope.messageList;
-  /*$rootScope.messageList = [
-    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'Hey how is it going??' },
-    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'It is going good Im just shooting hoops passing the time waiting for another one of these starfalls to come down \
-                and rock my world heading downtown getting rich on the city streets another day in the life of a huster it aint easy makin \
-                a living but we all gotta get by somehow' },
-    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'Sorry bro did I say too much?' },
-    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'Its all good dog I just wanna play some mobile games on my favorite social networking site for mobile games' },
-    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'Dog I be Q-ing every time.  I go up to random people on the street and I Q them right in the face' },
-    { sourceUser: 'testUser1@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'I like turtles' },
-    { sourceUser: 'testUser2@u.u', sourceImg: '/images/30x30.gif', userName:'testUser',
-      message: 'Quyay representing downtown in this house' }
-  ];*/
   
   //detect routeChanges
   $rootScope.$on("$routeChangeStart", function(event, next, current){
@@ -252,6 +226,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   }
   //pop feedback modal
   $rootScope.popFeedback = function(){
+    $('#feedbackModal form')[0].reset();
     $('#feedbackModal').modal();
   }
  
@@ -298,6 +273,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#badgeModal').modal();
   }
   //$rootScope.popNotify('Test', 'Test Success');
+  
   
   //Pops a Notification. Error or Success
   var hide = null;
@@ -534,10 +510,27 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
   }
   
-  //send message to targetUser, without knowledge of if conversation exists
-  $rootScope.sendMessage = function(targetId){
-    alert('send message to '+ targetId);
+  //send message via user page.  Only for a first message that initiates a conversation
+  //callback(errMessage, successMessage)
+  $rootScope.message = function(text, sourceId, targetId, callback){
+    $http({ method: 'post', url:'/api/user/message', data:{  sourceId: /* $rootScope.userEmail, */ sourceId,
+                                                                targetId: /* $rootScope.selectedConvo.showUser.email, */ targetId,
+                                                                content: text} })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          alert(JSON.stringify(data.success));
+          return callback(null, JSON.stringify(data.success));
+        }
+        if(data.error){
+          alert(JSON.stringify(data.error));
+          return callback(JSON.stringify(data.error), null);
+        }
+      })
+      .error(function(data, status, headers, config){
+        if(data) alert(data);
+      });
   }
+  
   //send message to targetUser within the context of a conversation
   $rootScope.respond = function(text){
     //find out which user is the 'other'

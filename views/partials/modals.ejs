@@ -40,16 +40,16 @@
 
 <!-- Recommmended Gamepins -->
 <div id="recommend_sidebar">
+  <div id="recommended_header">
+    <p>Recommended</p>
+  </div>
   <div id="recommended_posts">
-    <img src="/images/30x30.gif" />
     <ul>
       <a ng-repeat="rec in recommendedPins" href="{{rec.link}}">
         <li><img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}"></li>
       </a>
     </ul>
   </div>
-  <img src="/images/facebook_logo.png" />
-  <button type="button">Report</button>
 </div>
 
 <!-- Store Pin Modal -->
@@ -583,6 +583,22 @@
   </div>
 </div>
 
+
+<!-- Send Message -->
+<div class="modal hide" id="messageModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Send {{user.userName}} a message!</h3>
+  </div>
+  <div class="modal-body">
+    <form ng-submit="sendMessage(feedbackText); $('#messageModal').modal('hide');" >
+    <!-- <form ng-submit="log('send initial messag')"> -->
+      <textarea ng-model="feedbackText" required></textarea>
+      <button type="button" data-dismiss="modal">Cancel</button><button>Send</button>
+    </form>
+  </div>
+</div>
+
 <!-- View Conversation Modal + Sidebar -->
 <div class="modal hide" id="conversationModal" >
   <div class="modal-body">
@@ -642,10 +658,13 @@
   <div class="modal-body">
     <div class="modal_stack intro_text"> Let us hear what you have to say! </div>
     <div class="modal_stack text_content">
-      <div class="modal_stack content_txt">
-        <textarea ng-model="feedbackText" class="modal_stack" placeholder="feedback"></textarea>
-      </div>
-      <button ng-click="sendFeedback(feedbackText); feedbackText=''" id="feedback_submit" type="button">Submit</button>
+      <form ng-submit="sendFeedback(feedbackText); feedbackText=''">
+        <div class="modal_stack content_txt">
+          <textarea ng-model="feedbackText" class="modal_stack" placeholder="feedback" required></textarea>
+        </div>
+        <!--<button ng-click="sendFeedback(feedbackText); feedbackText=''" id="feedback_submit" type="button">Submit</button>-->
+        <button id="feedback_submit">Submit</button>
+      </form>
     </div>
   </div>
 </div>

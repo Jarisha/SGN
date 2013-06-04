@@ -24,6 +24,7 @@ var outlog, evtlog, errlog;
 var apiRoutes;
 var riakConfig;
 
+//enables '/debug' page which has super user Create / Edit / Delete functionality for all objects
 var god_mode = true;
 
 //create rackspace image, define name of container we will push images to
