@@ -603,9 +603,9 @@ form{
   left: 90px;
   top: -20px;
   border: 10px solid transparent;
-  border-bottom-color: black;
+  border-bottom-color: #DCDCDC;
 }
-#nav_right .dropdown-menu.active#profile_dropdown:before {
+#nav_right #profile_tab .dropdown-menu :before {
   content: ' ';
   height: 0;
   position: absolute;
@@ -613,7 +613,7 @@ form{
   left: 5px;
   top: -20px;
   border: 10px solid transparent;
-  border-bottom-color: black;
+  border-bottom-color: #DCDCDC;
 }
 #nav_right .dropdown-menu.active#profile_dropdown:before li{
   height:50px;
