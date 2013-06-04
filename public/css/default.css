@@ -584,14 +584,8 @@ form{
 }
 
 /*Profile tab*/
-#profile_tab{
-  position: relative;
-}
 #profile_toggle {
-  height: 45px;
-  position: relative;
-  min-width: 130px;
-  margin: 5px 0 0 0;
+  margin: 5px 15px 0 0;
   padding: 0;
 }
 #profile_toggle .caret{
@@ -608,10 +602,9 @@ form{
   color: white;
 }
 #nav_right .dropdown-menu.active#profile_dropdown, .dropdown-menu {
-  min-width: 0;
   position: absolute;
   right: 0;
-  top:5px;
+  top: 5px;
   top: 55px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -627,9 +620,7 @@ form{
   border: 10px solid transparent;
   border-bottom-color: #DCDCDC;
 }
-#nav_right .dropdown-menu.active#profile_dropdown:before li{
-  height:50px;
-}
+
 #profile_small {
   padding-right: 5px;
   width: 40px;
