@@ -20,7 +20,7 @@
   </div>
   <div class="right_container">
     <button ng-show="!isFriend" id="message_user" class="btn" disabled>Send Message</button>
-    <button ng-show="isFriend" id="message_user" class="btn">Send Message</button>
+    <button ng-show="isFriend" id="message_user" class="btn" ng-click="popMessage();">Send Message</button>
     <div class="right_padding">
       <p class="profile_name">{{user.userName}}</p>
       <p class="bio_text">{{user.bio}}</p>

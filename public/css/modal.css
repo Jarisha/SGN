@@ -718,9 +718,51 @@
   display: none;
   position: fixed;
   border: 10px solid rgba(153, 204, 0, 0.5);
-  border-right: none;
-  background: red;
+  background: #EBEBEB;
+				
+	-moz-background-clip: padding;     
+	-webkit-background-clip: padding;  
+	background-clip: padding-box;
+}
+#recommended_header{
+  background: -moz-linear-gradient(center bottom , #6D9100, #99CC00);
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+}
+#recommended_posts{
+  padding: 10px;
+}
+#recommended_posts ul{
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 #recommended_posts li{
   display: inline-block;
+  margin: 5px;
+  border: 5px solid rgba(153, 204, 0, 0.5);
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+}
+#recommended_posts li:hover{
+  border: 5px solid rgba(153, 204, 0, 1.0);
+  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  box-shadow: 10px 10px 5px -2px #777777;
+}
+
+#messageModal{
+}
+#messageModal .modal-body{
+  padding: 10px;
+}
+#messageModal textarea{
+  -moz-box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  height: 100px;
+  margin: 0;
+}
+#messageModal .modal-body button{
+  width: 50%;
 }

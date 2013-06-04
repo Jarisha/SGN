@@ -1013,6 +1013,66 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
     });
   }
   
+  //popMessageModal
+  $scope.popMessage = function(){
+    var sourceId = $rootScope.userEmail;
+    var targetId = $scope.user.email;
+    
+    var userData;
+    // Fetch logged in user and view conversations to determine if these two users are engaged in conversation
+    $http({ method: 'post', url:'/api/user/getProfile', data: { email: sourceId } })
+      .success(function(data, status, headers, config){
+        if(data.error) return $rootScope.popNotify('Error', 'Server Error');
+        userData = data.profileData;
+        next();
+      })
+      .error(function(data, status, headers, config){
+        $rootScope.popNotify('Error', 'Server Error');
+      });
+    //check if users have each other in conversation list
+    function next(){
+      var flag1 = false;
+      var flag2 = false;
+      for(var a in userData.conversations){
+        if(userData.conversations[a] && userData.conversations[a].target === targetId){
+          flag1= true;
+          break;
+        }
+      }
+      for(var b in $scope.user.conversations){
+        if($scope.user.conversations[b] && $scope.user.conversations[b].target === sourceId){
+          flag2 = true;
+          break;
+        }
+      }
+      console.log(flag1 && flag2);
+      //if so, pop conversation dialogue
+      if(flag1 && flag2){
+        for(var c in $rootScope.convoData){
+          if($rootScope.convoData[c].targetUser === targetId){
+            $rootScope.popConversation($rootScope.convoData[c]);
+          }
+        }
+      }
+      //else, pop message box
+      else{
+        $('#messageModal form')[0].reset();
+        $('#messageModal').modal();
+      }
+    }
+    /*$('#messageModal form')[0].reset();
+    $('#messageModal').modal();*/
+  }
+  // send message, only used for initial message
+  $scope.sendMessage = function(text){
+    var sourceId = $rootScope.userEmail;
+    var targetId = $scope.user.email;
+    $rootScope.message(text, sourceId, targetId, function(errMessage, successMessage){
+      if(errMessage) $rootScope.popNotify(errMessage);
+      else if(successMessage) $rootScope.popNotify(successMessage);
+    });
+  }
+  
   /*$scope.toggleCategories = function(){
     ('showCategories');
     if(!$scope.groupToggle){
