@@ -549,7 +549,7 @@ form{
   width: 60px;
 }
 
-/* Drop down going left */
+/* Nav Right */
 #profile_toggle {
   height: 45px;
   position: relative;
@@ -573,12 +573,14 @@ form{
 #profile_tab{
   position: relative;
 }
+#nav_right .dropdown-menu .active :before {
+  border: 0px;
+}
 #nav_right .dropdown-menu.active#profile_dropdown, .dropdown-menu {
   min-width: 0;
   position: absolute;
   right: 0;
   top:5px;
-  border: 2px solid black;
   top: 55px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -589,7 +591,6 @@ form{
   position: absolute;
   right: 0;
   top:5px;
-  border: 2px solid black;
   top: 50px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
