@@ -274,6 +274,14 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   }
   //$rootScope.popNotify('Test', 'Test Success');
   
+  $rootScope.closeModal = function(rec){
+    console.log('close gamePinModal');
+    $('#gamePinModal').modal('hide');
+    $timeout(function(){
+      $location.path(rec.link);
+    }, 10);
+    //$location.path('hello World');
+  }
   
   //Pops a Notification. Error or Success
   var hide = null;
@@ -501,7 +509,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       .success(function(data, status, headers, config){
         if(data.success){
           $('#feedbackModal').modal('hide');
-          alert(data.success);
+          //alert(data.success);
         }
         if(data.error) alert(data.error);
       })
@@ -518,11 +526,11 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
                                                                 content: text} })
       .success(function(data, status, headers, config){
         if(data.success){
-          alert(JSON.stringify(data.success));
+          //alert(JSON.stringify(data.success));
           return callback(null, JSON.stringify(data.success));
         }
         if(data.error){
-          alert(JSON.stringify(data.error));
+          //alert(JSON.stringify(data.error));
           return callback(JSON.stringify(data.error), null);
         }
       })
@@ -540,7 +548,10 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
                                                                 targetId: $rootScope.selectedConvo.showUser.email,
                                                                 content: text} })
       .success(function(data, status, headers, config){
-        if(data.success) alert(JSON.stringify(data.success));
+        if(data.success){
+          $rootScope.messageList.push({ sourceData:{ userName: $rootScope.userName, profileImg: $rootScope.userImg }, content: text });
+          //alert(JSON.stringify(data.success));
+        }
         if(data.error) alert(JSON.stringify(data.error));
       })
       .error(function(data, status, headers, config){
@@ -575,7 +586,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $http({ method:'post', url:'/api/user/consumeMessage', data: {convoId: convo.id} })
       .success(function(data, status, headers, config){
         if(data.success){
-          alert(JSON.stringify(data.success));
+          //alert(JSON.stringify(data.success));
         }
         else if(data.error){
           alert(data.error)

@@ -27,6 +27,9 @@ var riakConfig;
 //enables '/debug' page which has super user Create / Edit / Delete functionality for all objects
 var god_mode = true;
 
+//only admin users have access to our content management systems located at '/debug'
+var adminUsers = ['dtonys@gmail.com','colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
+
 //create rackspace image, define name of container we will push images to
 rackit.init({
   user: 'happyspace',
@@ -355,8 +358,11 @@ else{
   });
   
   app.get('/debug', function(req, res){
-    if(!god_mode) res.render('base');
-    else res.render('debug');
+    for(var i = 0, len = adminUsers.length; i < len; i++){
+      if(req.session.userEmail === adminUsers[i])
+        return res.render('debug');
+    }
+    res.render('base');
   });
   
   app.get('/', auth, function(req, res){
