@@ -226,6 +226,10 @@ form{
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
 }
 
+.navbar .nav > li > .dropdown-menu:after {
+  border-bottom: 0px;
+}
+
 .dropdown-toggle {
   background: none !important;
 }
@@ -248,6 +252,7 @@ form{
 #nav * {
   font-family: 'Nobile', arial, serif;
 }
+
 #metal {
   position: absolute;
 }
@@ -550,6 +555,39 @@ form{
 }
 
 /* Nav Right */
+
+#nav_right {
+  font-size: 1em;
+}
+#nav_right a {
+  cursor: pointer;
+}
+#nav_right ul.dropdown-menu {
+  padding: 0;
+  margin: 0;
+}
+#nav_right .dropdown-menu.active {
+  margin: 0;
+  border: 1px solid #CFCACA;
+  background: #DCDCDC;
+  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+  border-bottom: 0px;
+}
+#nav_right .dropdown-menu .active :before {
+  border: 0px;
+}
+#nav_right .dropdown-menu .active :after {
+  border: none;
+}
+#nav_right .dropdown-menu .active :before {
+  border: none;
+}
+
+#profile_tab{
+  position: relative;
+}
 #profile_toggle {
   height: 45px;
   position: relative;
@@ -563,19 +601,14 @@ form{
   margin-left: 1px;
   margin-top: 17px;
 }
-.profile_tab_right span{
-  color: white;
-}
 .profile_tab_right {
   display: inline;
   color: white;
 }
-#profile_tab{
-  position: relative;
+.profile_tab_right span{
+  color: white;
 }
-#nav_right .dropdown-menu .active :before {
-  border: 0px;
-}
+
 #nav_right .dropdown-menu.active#profile_dropdown, .dropdown-menu {
   min-width: 0;
   position: absolute;
@@ -631,31 +664,6 @@ form{
 }
 #login_btn {
   width: 100px;
-}
-#nav_right {
-  font-size: 1em;
-}
-#nav_right ul.dropdown-menu {
-  padding: 0;
-  margin: 0;
-}
-#nav_right .dropdown-menu.active {
-  margin: 0;
-  border: 1px solid #CFCACA;
-  background: #DCDCDC;
-  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-
-}
-#nav_right .dropdown-menu.active:after {
-  border: none;
-}
-#nav_right .dropdown-menu.active:before {
-  border: none;
-}
-#nav_right a {
-  cursor: pointer;
 }
 
 /************* Subnav ************************/
