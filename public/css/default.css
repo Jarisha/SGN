@@ -555,7 +555,6 @@ form{
 }
 
 /* Nav Right */
-
 #nav_right {
   font-size: 1em;
 }
@@ -585,6 +584,7 @@ form{
   border: none;
 }
 
+/*Profile tab*/
 #profile_tab{
   position: relative;
 }
@@ -608,7 +608,6 @@ form{
 .profile_tab_right span{
   color: white;
 }
-
 #nav_right .dropdown-menu.active#profile_dropdown, .dropdown-menu {
   min-width: 0;
   position: absolute;
@@ -618,25 +617,6 @@ form{
   -webkit-border-radius: 5px;
   border-radius: 5px;
   /* CSS3 */
-}
-#nav_right #about_tab .dropdown-menu{
-  width: 140px;
-  position: absolute;
-  right: 0;
-  top:5px;
-  top: 50px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-#nav_right #about_tab .dropdown-menu:before{
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  left: 90px;
-  top: -20px;
-  border: 10px solid transparent;
-  border-bottom-color: #DCDCDC;
 }
 #nav_right #profile_tab .dropdown-menu :before {
   content: ' ';
@@ -664,6 +644,27 @@ form{
 }
 #login_btn {
   width: 100px;
+}
+
+/*About tab*/
+#nav_right #about_tab .dropdown-menu{
+  width: 140px;
+  position: absolute;
+  right: 0;
+  top:5px;
+  top: 50px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+#nav_right #about_tab .dropdown-menu:before{
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 90px;
+  top: -20px;
+  border: 10px solid transparent;
+  border-bottom-color: #DCDCDC;
 }
 
 /************* Subnav ************************/
