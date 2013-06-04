@@ -44,58 +44,10 @@ only screen and (max-device-width : 890px){
   z-index: 99;
 }
 
-/* slideshow */
-.store .carousel{
-  margin: 0 -15px 0 -15px;
-}
-.store .carousel-control {
-    background: none repeat scroll 0 0 #E3C8AC;
-    border: 3px solid black;
-    -moz-border-radius: 0 0 0 0; /* Firefox */
-    -webkit-border-radius: 0 0 0 0; /* Safari, Chrome */
-    border-radius: 0 0 0 0; /* CSS3 */
-    color: #FFFFFF;
-    font-size: 30px;
-    font-weight: 100;
-    height: 20px;
-    line-height: 10px;
-    margin-top: -20px;
-    opacity: 0.5;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 20px;
-}
-.store .carousel-control.right {
-  right: 0;
-}
-.store .carousel-control.left{
-  left: 0;
-}
-.store .carousel-inner .item img{
-  margin:auto;
-}
-
 /*Game info*/
 .store .game_name{
   font-size: 20px;
   text-align: center;
-}
-
-/*Not using game price right now*/
-.store .game_price{
-  font-size:18px;
-  position: absolute;
-  /* float:right could work */
-  background: /*#42879B;*/ #DCDCDC;
-  border: 1px solid black;
-  color: black;
-  right: 15px;
-  padding:2px;
-  -moz-border-radius: 3px; /* Firefox */
-  -webkit-border-radius: 3px; /* Safari, Chrome */
-  border-radius: 3px; /* CSS3 */
-  z-index: 1;
 }
 
 .store .store_body{
@@ -123,6 +75,7 @@ only screen and (max-device-width : 890px){
   overflow:hidden;
   padding:0;
 }
+
 .store .modal-header button{
   float:right;
 }
@@ -165,14 +118,14 @@ only screen and (max-device-width : 890px){
 .store .view_tags{
   width:50%;
 }
-.store .view_tags p span{
-  background:yellow;
-  margin-left:10px;
-}
 .store .view_tags > p{
   margin-left:10px;
   margin-top:10px;
   font-size:18px;
+}
+.store .view_tags p span{
+  background:yellow;
+  margin-left:10px;
 }
 .store .view_comment_container{
   padding: 10px 15px;
@@ -188,6 +141,11 @@ only screen and (max-device-width : 890px){
   display: block;
   margin: auto;
 }
+.store .img_container{
+  padding:10px;
+}
+
+/*App store buttons area*/
 .store_link_container {
   text-align: center;
   margin: 0 auto 0 auto;
@@ -200,6 +158,27 @@ only screen and (max-device-width : 890px){
   height: 40px;
   padding: 0 4px 0 4px;
 }
+
+/*Price tag*/
+.store .price_tag {
+  height: 96px;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
+.store .price {
+  position: absolute;
+  top: 20px;
+  right: -17px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  width: 93px;
+  cursor: default;
+}
+
+/*Not being used right now*/
 .store .view_comment{
   padding: 10px 15px 0;
   margin: 0 -15px;
@@ -240,50 +219,9 @@ only screen and (max-device-width : 890px){
   font-size: 20px;
   text-align: center;
 }
-
 .store .vid_container{
   text-align: center;
 }
 .store #pin_content img, .store #friends_content img {
   margin:5px;
-}
-.store .img_container{
-  padding:10px;
-}
-.store .share_list{
-  left: 550px;
-  position: absolute;
-  top: 60px;
-}
-.store .share_element{
-  margin-top:20px;
-}
-.store .share_element button{
-  white-space:nowrap;  /*huzzah!*/
-}
-.store .store_pin hr {
-  margin: 0 10px;
-}
-.store #storePinModal #topHr {
-  margin: 0;
-}
-.store #storePinModal hr {
-  margin: 0 10px;
-}
-.store .price_tag {
-  height: 96px;
-  position: absolute;
-  top: -20px;
-  right: -20px;
-}
-
-.store .price {
-  position: absolute;
-  top: 20px;
-  right: -17px;
-  font-size: 18px;
-  color: white;
-  text-align: center;
-  width: 93px;
-  cursor: default;
 }
