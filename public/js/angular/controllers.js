@@ -630,12 +630,12 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData(pin.id, function(data){
       $scope.bigPin = pin; //category, comments, description, id, imageUrl, imgPath, poster, posterImg
-      //$scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
       $scope.bigPin.comments = data.comments;
+      $scope.bigPin.profileImg = data.profileImg || $rootScope.rootPath + '/images/30x30.gif';
       if($scope.bigPin.videoEmbed){
         var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
         videoIframe[0].width = "560";
@@ -962,13 +962,12 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   $scope.viewBigPin = function(pin){
     gamepinService.getPinData(pin.id, function(data){
       $scope.bigPin = pin;
-      //$scope.bigPin = $scope.showPins[index];  //category, comments, description, id, imageUrl, imgPath, poster, posterImg
-      //$scope.bigPin.posterImg = $scope.bigPin.posterImg || $rootScope.rootPath + '/images/30x30.gif';
       $scope.bigPin.gameName = data.gameName;
       $scope.bigPin.publisher = data.publisher;
       $scope.bigPin.datePosted = data.datePosted;
       $scope.bigPin.videoEmbed = data.videoEmbed;
       $scope.bigPin.comments = data.comments;
+      $scope.bigPin.profileImg = data.profileImg || $rootScope.rootPath + '/images/30x30.gif';
       if($scope.bigPin.videoEmbed){
         var videoIframe = $.parseHTML($scope.bigPin.videoEmbed);
         videoIframe[0].width = "560";
