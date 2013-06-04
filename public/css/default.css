@@ -733,6 +733,9 @@ form{
   /* CSS3 */
 
 }
+#subnav_content .dropdown-menu {
+  border: none;
+}
 .two_col_dropdown {
   margin: 0;
   padding: 0;
@@ -751,7 +754,7 @@ form{
   left: 35px;
   top: -20px;
   border: 10px solid transparent;
-  border-bottom-color: black;
+  border-bottom-color: #DCDCDC;
 }
 .one_col_dropdown {
   margin: 0;
