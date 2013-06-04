@@ -714,6 +714,10 @@ form{
 #subnav_content .dropdown_tab .dropdown-toggle {
   color: white;
 }
+#subnav_content .caret {
+  border-bottom-color: white;
+  border-top-color: white;
+}
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret{
   margin-top:15px;
   border-bottom-color: black;
