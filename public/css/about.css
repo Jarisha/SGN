@@ -13,6 +13,7 @@
   border:solid #99CC00 4px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  margin-top: 110px
 }
 
 .about_slice{
@@ -81,19 +82,20 @@
   font-size: 30px;
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
-  padding-bottom: 15px;
-  padding-top: 10px;
-  height: 50px;
+  padding-bottom: 20px;
 }
 
 .for_users{
   background: #FDFDFD;
-  padding-top: 0px;
+  padding-bottom: 20px;
   color: #99CC00;
   font-size: 30px;
   font-weight: bold;
   text-shadow: 1px 1px 1px #333333;
-  height: 50px;
+}
+
+.for_developers {
+  padding-top: 20px;
 }
 
 /* TOS Area */
@@ -236,9 +238,9 @@ only screen and (max-device-width : 1074px){
   border: 1px solid red;
 }
 #about_nav_container{
-  height: 80px;
+  height: 60px;
   width: 100%;
-  padding-top: 20px;
+  padding: 20px 0px;
   background: white;
 }
 
