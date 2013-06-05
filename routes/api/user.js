@@ -1870,79 +1870,57 @@ exports.getFollowers = function(req, res){
   });
 }
 
-//Return front page list of pins with comments
-//Search index data is not deleted alongside DB entires, so we must filter out deleted entries.
-exports.getPinList = function(req, res){
+//return callback with error or list of gamepins with comments attached
+function fetchPinAndComments(gamepins, req, callback){
   var returnList = [];
   //javascript objects are maps. So ordered series KV pairs, iterable via insertion order.
   var indexMap = {};
   var pinMap = {};
   //feed comment ids into nodiak
   var commentIds = [];
-  var gamepins;
   
-  //do generic query, will get 200 most recent posts
-  var query = {
-    q: 'returnAll:y',
-    start: 0,
-    rows: 200,
-    presort: 'key'
-  };
-  //get list of pins in sorted order
-  app.riak.bucket('gamepins').search.solr(query, function(err, response){
-    if(err){
-      errlog.info('search.solr error: ' + err);
-      return res.json({error: err});
+  var posterArray = [];
+  var posterObj = {};
+  
+  var gamepinIds = [];
+  var indexMap = {};
+  
+  for(g = 0, glen = gamepins.length; g < glen; g++){
+    //fill idList and id => index map
+    gamepinIds.push(gamepins[g].id);
+    indexMap[gamepins[g].id] = g;
+  }
+  
+  //Remove all gamepins that do not exist
+  base.RO_exists(gamepinIds, 'gamepins', function(err, not_found, found){
+    if(err) return callback(err.message, null); //return res.json({ error: err.message });
+    for(f = 0, flen = not_found.length; f < flen; f++){
+      gamepins.splice(indexMap[not_found[f]], 1);
     }
-    if(response.response.numFound === 0){
-      outlog.info('search.solr: none found');
-      return res.json({ objects: returnList });
-    }                                           //Hope this example helps, b/c I can't explain this in words
-    gamepins = response.response.docs; // [ {posterId: user1}, {posterId: user2}, {posterId: user1}, {posterId: user1},
-                                           //   {posterId: user3}, {posterId: user1}, {posterId: user1}, {posterId: user3} ]
-    var posterArray = [];                  //[user1, user2, user5] => [user, user]
-    var posterObj = {};                    //{user1: [0,3,5,2], user2:[1], user3:[4,6]} => user: [index, index]
-    
-    var gamepinIds = [];
-    var indexMap = {};
-    
-    for(g = 0, glen = gamepins.length; g < glen; g++){
-      //fill idList and id => index map
-      gamepinIds.push(gamepins[g].id);
-      indexMap[gamepins[g].id] = g;
-    }
-    
-    //Remove all gamepins that do not exist
-    base.RO_exists(gamepinIds, 'gamepins', function(err, not_found, found){
-      if(err) return res.json({ error: err.message });
-      for(f = 0, flen = not_found.length; f < flen; f++){
-        gamepins.splice(indexMap[not_found[f]], 1);
-      }
-      next();
-    });
-    //Remove all gamepins who's owners do not exist
-    function next(){
-      for(g = 0, glen = gamepins.length; g < glen; g++){
-        //fill posters and poster => pinIds[]
-        var pinData = gamepins[g].fields;
-        if(posterArray.indexOf(pinData.posterId) === -1) posterArray.push(pinData.posterId);
-        if(!posterObj[pinData.posterId]) posterObj[pinData.posterId] = [g];
-        else posterObj[pinData.posterId].push(g);
-      }
-      base.RO_exists(posterArray, 'users', function(err, not_found, found){
-        if(err) return res.json({ error: err.message });
-        for(f = 0, flen = not_found.length; f < flen; f++){
-          nullUser = not_found[f];
-          for(g = 0, glen = posterObj[nullUser].length; g < glen; g++){
-            gamepins[posterObj[nullUser][g]] = null;
-          }
-        }
-        util.removeNulls(gamepins);
-        next2();
-      });
-    }
+    next();
   });
-  /* *** **** *** *** *** *** *** *** *** *** *** *** *** */
+  //Remove all gamepins who's owners do not exist
+  function next(){
+    for(g = 0, glen = gamepins.length; g < glen; g++){
+      //fill posters and poster => pinIds[]
+      var pinData = gamepins[g].fields;
+      if(posterArray.indexOf(pinData.posterId) === -1) posterArray.push(pinData.posterId);
+      if(!posterObj[pinData.posterId]) posterObj[pinData.posterId] = [g];
+      else posterObj[pinData.posterId].push(g);
+    }
+    base.RO_exists(posterArray, 'users', function(err, not_found, found){
+      if(err) return callback(err.message, null); //return res.json({ error: err.message });
+      for(f = 0, flen = not_found.length; f < flen; f++){
+        nullUser = not_found[f];
+        for(g = 0, glen = posterObj[nullUser].length; g < glen; g++){
+          gamepins[posterObj[nullUser][g]] = null;
+        }
+      }
+      util.removeNulls(gamepins);
+      next2();
+    });
+  }
+  
   function next2(){
     var count = 0;
     for(var o = 0; o < gamepins.length; o++){
@@ -1958,7 +1936,7 @@ exports.getPinList = function(req, res){
           var likedBy = [];
           if(err){
             errlog.info('error:' + err);
-            return res.json({error: err});
+            return callback(err, null); //res.json({error: err});
           }
           //convert commments + likes from string to array
           if(pin.fields.comments)
@@ -1974,8 +1952,8 @@ exports.getPinList = function(req, res){
           pinMap[pinId].likedBy = likedBy;
           pinMap[pinId].likedFlag = false;                  //set likedflag for front page
           if(likedBy.indexOf(req.session.userEmail) !== -1) pinMap[pinId].likedFlag = true;
-          //pinMap[pinId].likeFlag = false;
-          //if(req.session.likes.indexOf(pinId) !== -1) pinMap[pinId].likeFlag = true;
+          // pinMap[pinId].likeFlag = false;
+          // if(req.session.likes.indexOf(pinId) !== -1) pinMap[pinId].likeFlag = true;
           
           // Push comment IDs into array, so we can send them to nodiak. [<nodeflakeId>, <nodeflakeId>, <nodeflakeId>]
           // CommmentMap KV = { <nodeflakeId>: <commentIndex>, nodeflakeId>: <commentIndex>, }
@@ -2037,10 +2015,46 @@ exports.getPinList = function(req, res){
           util.removeNulls(pinMap[pin].comments);  //get rid of not found comments
           returnList.push(pinMap[pin]);
         }
-        return res.json({ objects: returnList });
+        return callback(null, returnList);
       }
     });
   }
+}
+
+//Return front page list of pins with comments
+//Search index data is not deleted alongside DB entires, so we must filter out deleted entries.
+exports.getPinList = function(req, res){
+  var returnList = [];
+  //javascript objects are maps. So ordered series KV pairs, iterable via insertion order.
+  var indexMap = {};
+  var pinMap = {};
+  //feed comment ids into nodiak
+  var commentIds = [];
+  var gamepins;
+  
+  //do generic query, will get 200 most recent posts
+  var query = {
+    q: 'returnAll:y',
+    start: 0,
+    rows: 200,
+    presort: 'key'
+  };
+  
+  //get list of pins in sorted order
+  app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      errlog.info('search.solr error: ' + err);
+      return res.json({error: err});
+    }
+    if(response.response.numFound === 0){
+      outlog.info('search.solr: none found');
+      return res.json({ objects: returnList });
+    }
+    fetchPinAndComments(response.response.docs, req, function(err, objsList){
+      if(err) return res.json({ error: err });
+      return res.json({ objects: objsList });
+    });
+  });
 }
 
 //return list of gamepin-with-comment objs of given category
@@ -2052,7 +2066,8 @@ exports.categorySearch = function(req, res){
   var category = req.body.category;
   
   outlog.info(req.body.category);
-  if(req.body.category === 'Action & Adventure') category = 'Action \& Adventure';
+  //Riak has issues with the & sign, convert it to special encoding
+  if(category.indexOf('&') !== -1) category = category.replace("&", "%5C%26");
   
   var query = {
     q: 'category:'+category,
@@ -2060,55 +2075,22 @@ exports.categorySearch = function(req, res){
     rows: 1000,
     presort: 'key'
   };
-  outlog.info(query);
-  //get list of pins in sorted order
+  console.log(query);
+  
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
-      outlog.info(err);
+      errlog.info('search.solr error: ' + err);
       return res.json({error: err});
     }
-    objs = response.response.docs;
-    outlog.info(objs);
-    for(obj in objs){
-      var cmts = [];
-      if(objs[obj].fields.comments)
-        cmts = objs[obj].fields.comments.split(" ");
-      pinMap[objs[obj].id] = {  id: objs[obj].id,
-                                category: objs[obj].fields.category,
-                                description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterName,
-                                comments: []
-                              };
-      //keep track of the comment's index so we dont have to sort later
-      for(c in cmts){
-        commentIds.push(cmts[c]);
-        commentMap[cmts[c]] = c;
-      }
-    }
-    next();
-  });
-  function next(){
-    app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
-      if(err){
-        return res.json({error: 'get comments failure or no comments'});
-      }
-      //if nodiak gives us a single object, convert that into an array with 1 element
-      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
-        cmt_objs = [cmt_objs];
-      for(c in cmt_objs){
-        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
-                                                          id: cmt_objs[c].key,
-                                                          pin: cmt_objs[c].data.pin,
-                                                          poster: cmt_objs[c].data.poster,
-                                                          content: cmt_objs[c].data.content,
-                                                          posterImg: cmt_objs[c].data.imgUrl};
-      }
-      for(pin in pinMap){
-        returnList.push(pinMap[pin]);
-      }
+    if(response.response.numFound === 0){
+      outlog.info('search.solr: none found');
       return res.json({ objects: returnList });
+    }
+    fetchPinAndComments(response.response.docs, req, function(err, objsList){
+      if(err) return res.json({ error: err });
+      return res.json({ objects: objsList });
     });
-  }
+  });
 }
 //return list of gamepin-with-comment objs with matching text in gamepin.description
 exports.textSearch = function(req, res){
@@ -2116,14 +2098,32 @@ exports.textSearch = function(req, res){
   var commentMap = {};
   var pinMap = {};
   var commentIds = [];
+  var text = req.body.text;
   
   var query = {
-    q: 'description:'+req.body.text,
+    q: 'gameName:'+text+' OR '+'description:'+text+' OR publisher:'+text,
+    //q: 'description:'+text+' OR gameName:'+text,
     start: 0,
     rows: 1000,
     presort: 'key'
   };
+  
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
+    if(err){
+      errlog.info('search.solr error: ' + err);
+      return res.json({ error: err });
+    }
+    if(response.response.numFound === 0){
+      outlog.info('search.solr: none found');
+      return res.json({ objects: returnList });
+    }
+    fetchPinAndComments(response.response.docs, req, function(err, objsList){
+      if(err) return res.json({ error: err });
+      return res.json({ objects: objsList });
+    });
+  });
+  
+  /*app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){
       outlog.info(err);
       return res.json({error: err});
@@ -2134,17 +2134,6 @@ exports.textSearch = function(req, res){
       var cmts = [];
       if(objs[obj].fields.comments)
         cmts = objs[obj].fields.comments.split(" ");
-      /*pinMap[objs[obj].id] = {  id: objs[obj].id,
-                                category: objs[obj].fields.category,
-                                description: objs[obj].fields.description,
-                                poster: objs[obj].fields.posterName,
-                                datePosted: objs[obj].fields.datePosted,
-                                gameName: objs[obj].fields.gameName,
-                                posterId: objs[obj].fields.posterId,
-                                posterName: objs[obj].fields.posterName,
-                                publisher: objs[obj].fields.publisher,
-                                comments: []
-                              };*/
       pinMap[objs[obj].id] = objs[obj].fields;
       pinMap[objs[obj].id]['id'] = objs[obj].id;
       pinMap[objs[obj].id]['comments'] = [];
@@ -2177,7 +2166,7 @@ exports.textSearch = function(req, res){
       outlog.info('text search success');
       return res.json({ objects: returnList });
     });
-  }
+  }*/
 }
 
 //given username, see if user exists and return email if so
@@ -2285,8 +2274,6 @@ exports.createPending = function(req, res){
   //validation
   if(!req.body.email || !req.body.userName)
     return res.send('');
-  
-  console.log(req.body);
   
   var pending_data = new userSchema.pendingUser();
   pending_data.email = req.body.email;
