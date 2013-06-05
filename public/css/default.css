@@ -130,9 +130,7 @@ a:hover {
 .col1 li a:hover, .col2 li a:hover{
   background: #14A9E3;
 }
-#profile_dropdown li a:hover{
-  background: #14A9E3;
-}
+
 .dropdown-menu li a:hover{
   background: #14A9E3;
 }
@@ -361,9 +359,6 @@ form{
 .caret {
   margin-top: 7px;
 }
-#profile_caret {
-
-}
 #search_bar {
   float: left;
   margin-top: 10px;
@@ -414,9 +409,6 @@ form{
   margin-top:5px;
   width: 120px;
 }
-#about_dropdown {
-  min-width: 100px;
-}
 
 /*Generic notification item elements*/
 .new_message{
@@ -452,10 +444,6 @@ form{
   font-size: 11px;
   line-height: 11px;
   padding: 0px 5px;
-}
-.icon-flag {
-  margin-left: 23px;
-  margin-top: 18px;
 }
 
 /* Notifications dropdowns */
@@ -546,8 +534,6 @@ form{
 #message_dropdown a
  {
   padding: 5px;
-  /*padding: 0px 9px*/
-  /*height: 44px;*/
 }
 #follower_dropdown .notification-item-right-box {
   width: 60px;
@@ -624,7 +610,7 @@ form{
 #profile_small {
   padding-right: 5px;
   width: 40px;
-  max-height: 165px;
+  max-height: 40px;
 }
 #profile_post {
   width: 120px;
