@@ -79,17 +79,19 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     });
   }
   //getPinList
-  //If doing facebook register, spawn modal with fb data prefilled
+  //cat search and text search are currently just filtering the front page content
   $scope.catSearch = function(cat){
     var categoryList = [];
-    gamepinService.getPinList(function(data){
+    gamepinService.categorySearch(cat, function(data){
       $scope.gamePins = data.objects;
       next();
     });
     function next(){
-      for(var pin in $scope.gamePins){
+      categoryList = $scope.gamePins;
+      //console.log();
+      /*for(var pin in $scope.gamePins){
         if($scope.gamePins[pin].category === cat) categoryList.push($scope.gamePins[pin]);
-      }
+      }*/
       pinIndex = 0;
       pinLimit = 20;
       pinStop = 0;
@@ -100,14 +102,13 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   $scope.textsearch = function(txt){
     var textList = [];
-    gamepinService.getPinList(function(data){
+    //TODO: Do real text search here.
+    gamepinService.textSearch(txt, function(data){
       $scope.gamePins = data.objects;
       next();
     });
     function next(){
-      for(var pin in $scope.gamePins){
-        if($scope.gamePins[pin].description.indexOf(txt) !== -1) textList.push($scope.gamePins[pin]);
-      }
+      textList = $scope.gamePins;
       pinIndex = 0;
       pinLimit = 20;
       pinStop = 0;
