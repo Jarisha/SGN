@@ -29,7 +29,8 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
                       resolve: UserController.resolve
                     })
     .when('/post/:postId',{ templateUrl: '/partials/post/post',
-                      controller: TempController
+                      controller: TempController,
+                      resolve: TempController.resolve
                     })
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});

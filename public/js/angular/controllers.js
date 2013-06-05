@@ -207,7 +207,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
   }
   //add comment via the big Pin
   $scope.addBigComment = function(text, index){
-    ($rootScope.userImg);
     $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
     $http({ method:'post', url:'/api/gamepin/addComment',
       data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
@@ -282,6 +281,10 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
 FrontController.resolve = {
   resolveFront: function($q, $rootScope, gamepinService){
     var deferred = $q.defer();
+
+    //hack to deal with links from modal windows
+    $('#gamePinModal').modal('hide');
+    
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       gamepinService.getPinList(function(data){
@@ -393,6 +396,10 @@ function StoreController($scope, $rootScope, $http, $location, $templateCache, r
 StoreController.resolve = {
   resolveStore: function($q, $rootScope, $location){
     var deferred = $q.defer();
+    
+    //hack to deal with links from modal windows
+    $('#gamePinModal').modal('hide');
+    
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
@@ -1161,6 +1168,9 @@ UserController.resolve = {
     var user = $route.current.params.username;
     if(user === $rootScope.userName) $location.path('/profile');
     
+    //hack to deal with links from modal windows
+    $('#gamePinModal').modal('hide');
+    
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject();
       else if(!login) $location.path('/');
@@ -1251,6 +1261,10 @@ function AboutController($scope, $rootScope, $http, $location, resolveAbout, $ro
 AboutController.resolve = {
   resolveAbout: function($q, $rootScope, $location){
     var deferred = $q.defer();
+    
+    //hack to deal with links from modal windows
+    $('#gamePinModal').modal('hide');
+    
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
       else if(!login) $location.path('/');
@@ -1261,7 +1275,7 @@ AboutController.resolve = {
 }
 
 
-function TempController($scope, $rootScope, $http, $location, $routeParams, $route, gamepinService){
+function TempController($scope, $rootScope, $http, $location, $routeParams, $route, gamepinService, resolveTemp){
   var id = $route.current.params.postId;
   console.log($rootScope.loggedIn);
   console.log('TempController');
@@ -1273,7 +1287,14 @@ function TempController($scope, $rootScope, $http, $location, $routeParams, $rou
     $scope.pagePin = data;
     console.log(data);
   });
-  
-  $rootScope.checkLogin(function(err, res){
-  });
+}
+
+TempController.resolve = {
+  resolveTemp: function($q, $rootScope, $location){
+    var deferred = $q.defer();
+    //hack to deal with links from modal windows
+    $('#gamePinModal').modal('hide');
+    deferred.resolve();
+    return deferred.promise;
+  }
 }
