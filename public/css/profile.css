@@ -9,9 +9,6 @@
   float: left;
   width: 20%;
 }
-.profile #people_header span{
-  color: white;
-}
 
 #follow_user{
   -moz-box-sizing: border-box;
@@ -177,8 +174,6 @@
   margin-top: 5px;
   margin-bottom: 0px;
 }
-.profile .game_description{
-}
 .profile .game_attributes{
   margin-bottom:5px;
 }
@@ -191,10 +186,6 @@
 .profile .posted_by img, .profile .posted_by p, .profile .comment img, .profile .comment p{
   display:inline-block;
   vertical-align: top;
-}
-.profile .posted_by p{
-}
-.profile .profile_img{
 }
 .profile .post_text, .profile .respond_txtarea{
   max-width: 170px;
@@ -260,11 +251,6 @@
   padding-bottom: 25px;
   text-shadow: 2px 2px 2px #333333;
   width: 80%;
-}
-.profile .bio_container{
-  width: 100%;
-  background: cyan;
-  margin-right:15px;
 }
 .profile .bio_textarea, .bio_text{
   height:110px;
@@ -371,6 +357,9 @@
   color: white;
   cursor: pointer;
 }
+.profile #people_header span{
+  color: white;
+}
 .profile .comrade_tabs{
   margin-right: 20px;
   width: 170px;
@@ -441,7 +430,6 @@
   float: left;
   width: 60%;
 }
-
 #timeline_col .profile-column-contents-container {
   overflow: auto;
 }

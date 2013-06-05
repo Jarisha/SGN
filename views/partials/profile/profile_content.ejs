@@ -1,3 +1,4 @@
+<!-- MAIN PROFILE AREA -->
 <div id="profile_col">
   <div id="profile_header">PROFILE</div>
   <div class="left_container">
@@ -84,6 +85,8 @@
     </ul>
   </div>
 </div>
+
+<!-- BADGE COLUMN -->
 <div id="badge_col" class="profile-column">
   <div id="badge_header" class="profile-column-header">BADGES</div>
   <ul class="badge_chest" class="profile-column-contents-container">
@@ -93,6 +96,8 @@
   </ul>
   <div class="view_all_footer"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
+
+<!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
 <div id="profile_data">
   <div id="group_bar" class="clearfix" ng-show="displayMode.group">
     <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
