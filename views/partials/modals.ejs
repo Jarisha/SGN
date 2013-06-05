@@ -1,20 +1,19 @@
 <!-- Front Pin Enlarged Modal -->
 <div class="modal hide" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="#"><img class="profile_img_top" ng-src="{{ bigPin.profileImg }}"/></a>
+    <a href="/user/{{bigPin.posterName}}"><img class="profile_img_top" ng-src="{{ bigPin.profileImg }}"/></a>
     <button ng-show="bigPin.followBtn" ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
-    <p class="poster"><a href="#">{{bigPin.posterName}}</a></p>
+    <p class="poster"><a href="/user/{{bigPin.posterName}}">{{bigPin.posterName}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
   </div>
-  <!-- test -->
   <hr>
   <div class="modal-body">
     <div class="view_metadata">
-      <span class="game_title"><a href="#">{{ bigPin.gameName }}</a></span>
-      <span ng-show="bigPin.publisher" class="game_publisher">by <a href="#">{{ bigPin.publisher }}</a></span>
+      <span class="game_title">{{ bigPin.gameName }}</span>
+      <span ng-show="bigPin.publisher" class="game_publisher">by {{bigPin.publisher}}</span>
     </div>
     <div class="view_img_container">
-      <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed" href="#">
+      <a ng-show="(bigPin.imageUrl || bigPin.sourceUrl) && !bigPin.videoEmbed">
         <img class="view_img" ng-src="{{bigPin.imageUrl || bigPin.sourceUrl}}"/>
       </a>
       <div ng-show="bigPin.videoEmbed && bigPin.sourceUrl" class="view_vid">
@@ -25,8 +24,16 @@
         <p> {{bigPin.description}} </p>
       </div>
       <div ng-repeat="cmt in bigPin.comments" class="view_comment">
-        <a href="#"><img ng-src="{{cmt.posterImg || '/images/30x30.gif' }}" class="profile_img"/></a><p 
-        class="view_post_text"><b>{{cmt.posterName}}</b><br/>{{cmt.content}}</p>
+        <a href="/user/{{cmt.posterName}}">
+          <img ng-src="{{cmt.posterImg || '/images/30x30.gif' }}" class="profile_img"/>
+        </a>
+        <p class="view_post_text">
+          <a href="/user/{{cmt.posterName}}">
+            <b>{{cmt.posterName}}</b>
+          </a>
+          <br/>
+          {{cmt.content}}
+        </p>
       </div>
       <div class="view_respond clearfix">
         <a href="#"><img ng-src="{{userImg}}" class="profile_img"/></a>
@@ -45,12 +52,10 @@
   </div>
   <div id="recommended_posts">
     <ul>
-      <!--<a ng-repeat="rec in recommendedPins" href="{{rec.link}}" ng-click="$('#gamePinModal').modal('hide');">-->
-      <a ng-repeat="rec in recommendedPins" ng-click="closeModal(rec);">
-        <li>
-          <img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}">
-        </li>
-      </a>
+      <a ng-repeat="rec in recommendedPins" href="{{rec.link}}" >
+      <li>
+        <img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}">
+      </li>
     </ul>
   </div>
 </div>
