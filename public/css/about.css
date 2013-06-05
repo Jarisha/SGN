@@ -74,7 +74,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
-.faq_A
+
 .for_users, .for_developers{
   background: #FDFDFD;
   border-bottom: none;
@@ -85,15 +85,6 @@
   padding-bottom: 20px;
 }
 
-.for_users{
-  background: #FDFDFD;
-  padding-bottom: 20px;
-  color: #99CC00;
-  font-size: 30px;
-  font-weight: bold;
-  text-shadow: 1px 1px 1px #333333;
-}
-
 .for_developers {
   padding-top: 20px;
 }
@@ -102,7 +93,7 @@
 .tos_stack{
   background: white;
   padding: 20px 10px;
-  padding-top: 0px;  
+  padding-top: 0px;
 }
 .tos_stack b{
   font-size:18px;
@@ -151,13 +142,10 @@
   -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-  
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 100;
-}
-.about #nav_content{
 }
 
 @media only screen and (max-width : 1074px),
@@ -165,10 +153,6 @@ only screen and (max-device-width : 1074px){
   .about #main_logo:link, .about #main_logo:visited, .about #main_logo:active, .about #main_logo:hover{
     left: 535px;
   }
-}
-
-/* Nav Bar */
-.about  .navbar-inner{
 }
 
 /* Pin Modal_1 and Pin Modal_2 */
@@ -180,14 +164,6 @@ only screen and (max-device-width : 1074px){
 }
 .about .media_type, .about .media_source{
   float:left;
-}
-.about #myCarousel, .about .post_metadata{
-  display:inline-block;
-  vertical-align:top;
-}
-.about #myCarousel{
-  height:200px;
-  width:200px;
 }
 .about .post_metadata{
   width:300px;
@@ -206,7 +182,6 @@ only screen and (max-device-width : 1074px){
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
   -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Safari, Chrome */
   box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* CSS3 */
-  
   border: 1px solid LightSteelBlue;
   width:300px;
   float:left;
@@ -234,9 +209,7 @@ only screen and (max-device-width : 1074px){
 .about .about_right b{
   font-size: 22px;
 }
-.about .active_tab{
-  border: 1px solid red;
-}
+
 #about_nav_container{
   height: 60px;
   width: 100%;
