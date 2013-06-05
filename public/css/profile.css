@@ -523,7 +523,6 @@
   background: #E9DBCC;
   width: 800px;
 }
-
 /* post navbar */
 .profile .post_bar{
   float:left;
@@ -546,4 +545,22 @@
 
 .profile #profile_data_inner{
   margin-right: 21px;
+}
+
+.profile_options{
+  position:absolute;
+  margin: -7px 0 0 -5px;
+}
+.profile_options *{
+  background: white;
+  display: inline-block;
+  text-align: center;
+  width: 72px;
+  height: 20px;
+  font-size: 15px;
+  margin-left: 5px;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  color: #808080;
+  cursor: pointer;
 }

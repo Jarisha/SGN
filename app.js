@@ -35,7 +35,7 @@ rackit.init({
   user: 'happyspace',
   key: '1b5a100b899c44633dbda1aa93ea6237',
   prefix: 'gamepin',
-  tempURLKey : null, // A secret for generating temporary URLs
+  tempURLKey : null,
   useSNET : false,
   useCDN : true,
   useSSL : false, // Specifies whether to use SSL (https) for CDN links
@@ -46,8 +46,6 @@ rackit.init({
 });
 
 exports.rackit = rackit;
-
-// ADD CLUSTER BACK IN BEFORE PUSH TO PRODUCTION
 
 //node cluster encapsulates web server creation
 if(cluster.isMaster){
@@ -146,7 +144,7 @@ else{
       console.log('HTTPS Express server listening on port 443 in dev mode');
     });
   });
-
+  
   app.configure('dev', function(){
     //setup riak and express
     var riak = exports.riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
