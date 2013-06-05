@@ -480,7 +480,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);
         else if(data.success){
-          $rootScope.popNotify('Success', data.success);
           pin.likedFlag = !pin.likedFlag;
           pin.likedBy.length++;
         }
@@ -495,7 +494,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);
         else if(data.success){
-          $rootScope.popNotify('Success', data.success);
           pin.likedFlag = !pin.likedFlag;
           pin.likedBy.length--;
         }
