@@ -1,8 +1,12 @@
 <!-- loop through all gamepins on screen -->
 <div ng-repeat="pin in showPins" class="game_pin" masonry>
   <div class="game_options hidden">
-    <a ng-show="!pin.likedFlag" class="like_btn" ng-click="like(pin)" >Like</a>
-    <a ng-show="pin.likedFlag" class="like_btn" ng-click="unlike(pin)" >Unlike</a>
+    <a ng-show="!pin.likedFlag" class="like_btn" ng-click="like(pin)" >
+      <img src="/images/UI/Circle7.png"> Like
+    </a>
+    <a ng-show="pin.likedFlag" class="like_btn" ng-click="unlike(pin)" >
+      Unlike
+    </a>
     <!--<a class="pin_btn">Repin</a>
     <a class="comment_btn" href="#c1">Comment</a>-->
   </div>

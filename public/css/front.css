@@ -19,14 +19,22 @@
 .front .game_options *{
   background: white;
   display: inline-block;
-  text-align:center;
-  width: 100px;
+  text-align: center;
+  width: 72px;
   height: 20px;
   font-size: 15px;
-  margin-left:5px;
-  border:2px solid black;
+  margin-left: 5px;
+  border: 1px solid #808080;
   border-radius: 4px;
+  color: #808080;
   cursor: pointer;
+}
+.front .game_options img {
+  width: 20px;
+  border: none;
+  position: relative;
+  top: -1px;
+  margin-left: 0px;
 }
 .front .game_description{
   font-size: 14px;
