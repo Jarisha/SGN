@@ -1,5 +1,5 @@
 /*************************************** Gamepin ***************************************/
-var http = require('http')
+var http = require('http');
 
 var httpGet = require('http-get');
 var async = require('async');
@@ -28,7 +28,7 @@ var reindexGamepin = function(ROgamepin, callback){
   var invalid = new_gamepin.validate();
   if(invalid) return callback(invalid, null);
   ROgamepin.data = new_gamepin;
-  console.log('reindexGamepin');
+  //console.log('reindexGamepin');
   base.save_RO(ROgamepin, 'gamepins', function(err, savedRO){
     if(err) return callback(err, null);
     return callback(null, savedRO);
@@ -295,6 +295,31 @@ exports.deleteWrap = function(req, res){
 
 /********************************************** API Level - Redacted  *************************************/
 
+exports.authenticateCDN = function(req, res){
+  console.log('authenticate CDN');
+  console.log(app.rackit);
+  
+  app.rackit.reAuth(function(err){
+    if(err) console.log(err);
+    console.log('reAuth was a success?'); 
+  });
+  
+  /*app.rackit.init({
+    user: 'happyspace',
+    key: '1b5a100b899c44633dbda1aa93ea6237',
+    prefix: 'gamepin',
+    tempURLKey : null,
+    useSNET : false,
+    useCDN : true,
+    useSSL : false, // Specifies whether to use SSL (https) for CDN links
+    verbose : false, // If set to true, log messages will be generated
+    logger : console.log // Function to receive log messages
+    }, function(err){
+      if(err) return res.json({ error: err.message });
+      else return res.json({ success: 'Rackspace authentication success' });
+  });*/
+}
+
 //Create gamepin and "post" to relevant areas
 exports.postImageUpload = function(req, res){
   //validate data
@@ -318,37 +343,55 @@ exports.postImageUpload = function(req, res){
   post_data.datePosted = util.getDate();
   
   //Push content onto rackspace CDN, retreive URL
-  app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
-    if(err){
-      errlog.info('rackspace error:' + err);
-      if(IE){
-        res.contentType('text/plain');
-        return res.send(JSON.stringify({error: "CDN error"}));
-      }
-      return res.json({error: err});
-    }
-    var viewUrl = app.rackit.getURI(cloudpath);
-    post_data.sourceUrl = viewUrl;
-    post_data.cloudPath = cloudpath;
-    postGamePin(post_data, function(err, data){
+  
+  tryThis();
+  
+  //need to retry the CDN request in case we get a 401
+  function tryThis(){
+    app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
       if(err){
-        errlog.info('postGamePin error: ' + err);
+        errlog.info('rackspace error:' + err);
+        //reset rackit when it dares to give me a 401, and fricking call the function again (recursive strategy)
+        if(err.indexOf('401') !== -1){
+          app.rackit.reAuth(function(err){
+            if(err){
+              console.log('reAuth failure: ');
+              console.log(err);
+            }
+            console.log('reAuth was a success, hopefully. calling this action again');
+            errlog.info('trying again');
+            return tryThis();
+          });
+        }
         if(IE){
           res.contentType('text/plain');
-          return res.send(JSON.stringify({ error: "Fetch user error" }));
+          return res.send(JSON.stringify({error: "CDN error"}));
         }
         return res.json({error: err});
       }
-      outlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
-      evtlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
-      
-      if(IE){
-       res.contentType('text/plain');
-       return res.send(JSON.stringify(data));
-      }
-      return res.json(data);
+      var viewUrl = app.rackit.getURI(cloudpath);
+      post_data.sourceUrl = viewUrl;
+      post_data.cloudPath = cloudpath;
+      postGamePin(post_data, function(err, data){
+        if(err){
+          errlog.info('postGamePin error: ' + err);
+          if(IE){
+            res.contentType('text/plain');
+            return res.send(JSON.stringify({ error: "Fetch user error" }));
+          }
+          return res.json({error: err});
+        }
+        outlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
+        evtlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
+        
+        if(IE){
+         res.contentType('text/plain');
+         return res.send(JSON.stringify(data));
+        }
+        return res.json(data);
+      });
     });
-  });
+  }
 }
 
 exports.postImageUrl = function(req, res){
@@ -392,21 +435,36 @@ exports.postImageUrl = function(req, res){
   
   //stream url for image directly into rackspace...rackmagic!
   http.get(req.body.url, function(resp){
-    app.rackit.add(resp, function(err, cloudpath){
-      if(err) return errlog.info('Rackspace url stream error ' + err);
-      post_data.sourceUrl = app.rackit.getURI(cloudpath);
-      post_data.cloudPath = cloudpath;
-      postGamePin(post_data, function(err, data){
-        if(err){
-          errlog.info('postGamePin error' + err);
-          return res.json({error: err});
-        }
-        outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
-        evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
-        
-        return res.json(data);
+    
+    tryThis();
+    
+    function tryThis(){
+      app.rackit.add(resp, function(err, cloudpath){
+        if(err) return errlog.info('Rackspace url stream error ' + err);
+        post_data.sourceUrl = app.rackit.getURI(cloudpath);
+        post_data.cloudPath = cloudpath;
+        postGamePin(post_data, function(err, data){
+          if(err){
+            errlog.info('postGamePin error' + err);
+            if(err.indexOf('401') !== -1){
+              app.rackit.reAuth(function(err){
+                if(err){
+                  console.log('reAuth failure: ');
+                  console.log(err);
+                }
+                console.log('reAuth was a success, hopefully. calling this action again');
+                errlog.info('trying again');
+                return tryThis();
+              });
+            }
+            return res.json({error: err});
+          }
+          outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+          evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+          return res.json(data);
+        });
       });
-    });
+    }
   });
 }
 

@@ -46,13 +46,14 @@
 </div>
 
 <!-- Recommmended Gamepins -->
-<div id="recommend_sidebar">
+<div id="recommend_sidebar" ng-show="recommendedPins.length != 0">
   <div id="recommended_header">
     <p>Recommended</p>
   </div>
   <div id="recommended_posts">
     <ul>
-      <a ng-repeat="rec in recommendedPins" href="{{rec.link}}" >
+      <!-- <a ng-repeat="rec in recommendedPins" href="{{rec.link}}" > -->
+      <a ng-repeat="rec in recommendedPins" ng-click="popRecommended(rec.index)" >
       <li>
         <img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}">
       </li>

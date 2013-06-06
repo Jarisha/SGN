@@ -86,7 +86,7 @@
           {{newConvos}}
         </span>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu" ng-show="true">
+      <ul id="message_dropdown" class="dropdown-menu" ng-show="convoData.length != 0">
         <li ng-repeat="convo in convoData">
           <a class="clearfix event_link" ng-click="popConversation(convo); consumeMessage(convo)">
             <img class= "notification-profile-image" ng-src="{{convo.showUser.profileImg}}">

@@ -298,11 +298,17 @@
           });
           return false;
         });
+        $('#authenticateCDN').click(function(e){
+          $.post('/api/gamepin/authenticateCDN', function(data){
+            alert(JSON.stringify(data));
+          });
+        });
       });
     </script>
   </head>
   <body>
     <button id="fix_problems" style="position: fixed; right:100px;" >Fix Problems</button>
+    <button id="authenticateCDN" style="position: fixed; right:200px;" >Authenticate CDN</button>
     <!-- Name must match schema -->
     <h1>User</h1>
     <p>Create User</p>
