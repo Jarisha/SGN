@@ -118,6 +118,12 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     }
   }
   
+  //popRecommended
+  $rootScope.popRecommended = function(index){
+    $('#gamePinModal').modal('hide');
+    $scope.viewBigPin(index);
+  }
+  
   //trigger enlarged Gamepin
   $scope.viewBigPin = function(index){
     //($scope.showPins[index]);
@@ -146,7 +152,8 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       //populate recommended sidebar and pop modal
       for(i = 0, len = $scope.showPins.length; i < len; i++){
         if(($scope.showPins[i].category === $scope.bigPin.category) && $scope.showPins[i].id !== $scope.bigPin.id){
-          $scope.recommendedPins.push({ image: $scope.showPins[i].imageUrl || $scope.showPins[i].sourceUrl,
+          $scope.recommendedPins.push({ index: i,
+                                        image: $scope.showPins[i].imageUrl || $scope.showPins[i].sourceUrl,
                                         link: '/post/'+$scope.showPins[i].id });
         }
       }
