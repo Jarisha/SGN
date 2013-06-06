@@ -88,10 +88,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     });
     function next(){
       categoryList = $scope.gamePins;
-      //console.log();
-      /*for(var pin in $scope.gamePins){
-        if($scope.gamePins[pin].category === cat) categoryList.push($scope.gamePins[pin]);
-      }*/
       pinIndex = 0;
       pinLimit = 20;
       pinStop = 0;
@@ -118,6 +114,90 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     }
   }
   
+  //simply remove all gamepins that do not match a follower in the list
+  $scope.getFollowing = function(){
+    var followingHash = {};
+    var following;
+    $scope.showPins = [];
+    $rootScope.destroyMason();
+    $http({ method: 'post', url:'/api/user/getProfile', data: {email: $rootScope.userEmail} })
+      .success(function(data, status, headers, config){
+        following = data.profileData.following;
+        for(i = 0, len = following.length; i < len; i++)
+          followingHash[following[i].userName] = true;
+        next();
+      })
+      .error(function(data, status, headers, config){
+        alert(data);
+      });
+      
+    function next(){
+      var temp = $scope.gamePins.slice();
+      var remove = [];
+      for(i = 0; i < temp.length; i++){
+        if(!followingHash[temp[i].poster]){
+          temp.splice(i, 1);
+          i--;
+        }
+      }
+      $scope.gamePins = temp;
+      pinIndex = 0;
+      pinLimit = 20;
+      pinStop = 0;
+      loadFirst();
+      $rootScope.masonry();
+    }
+  }
+  
+  
+  
+  //reorder (sort) gamepins list in order of sum of comments + likes
+  $scope.getPopular = function(){
+    $scope.showPins = [];
+    $rootScope.destroyMason();
+    var sortedList = $scope.gamePins.slice();
+    sortedList.sort(popularSort);
+    $scope.gamePins = sortedList;
+    pinIndex = 0;
+    pinLimit = 20;
+    pinStop = 0;
+    loadFirst();
+    $rootScope.masonry();
+    //console.log(sortedList.length);
+    //console.log($scope.gamePins.length);
+    //for(i = 0, len = sortedList.length;  i < len; i++){
+    // console.log(sortedList[i].comments.length + sortedList[i].likedBy.length);
+    //}
+    /* sortedList.sort(popularSort);
+    $scope.gamePins = [];
+    $scope.showPins = [];
+    $scope.gamePins = sortedList;
+    loadFirst(); */
+    
+    function popularSort(a, b){
+      if((a.comments.length + a.likedBy.length) < (b.comments.length + b.likedBy.length))
+        return 1;
+      else
+        return -1;
+    }
+    
+    /*$rootScope.destroyMason();
+    $scope.gamePins.sort(popularSort);
+    var sorted_temp = $scope.gamePins;
+    $scope.gamePins = [];
+    $scope.gamePins = sorted_temp;
+    loadFirst();
+    
+    console.log('hello world where is the beach?');
+    
+    /*temp = $scope.gamePins;
+    $scope.gamePins = [];
+    $scope.gamePins = temp;
+    for(i = 0, len = $scope.gamePins.length;  i < len; i++){
+      console.log($scope.gamePins[i].comments.length + $scope.gamePins[i].likedBy.length);
+    }*/
+  }
+  
   //popRecommended
   $rootScope.popRecommended = function(index){
     $('#gamePinModal').modal('hide');
@@ -129,7 +209,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     //($scope.showPins[index]);
     
     console.log($scope.showPins[index].poster);
-       
+    
     $('.view_vid').empty();
     //pass in ID, get pin obj data.  Access via Angular service.
     gamepinService.getPinData($scope.showPins[index].id, function(data){
@@ -1183,7 +1263,6 @@ UserController.resolve = {
       if(err) deferred.reject();
       else if(!login) $location.path('/');
       else{
-        (user);
         //get User Profile data + activity pins
         $http({ method: 'post', url:'/api/user/getProfile', data: {userName: user} })
           .success(function(data, status, headers, config){

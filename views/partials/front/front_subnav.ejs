@@ -1,5 +1,5 @@
 <div id="subnav_content">
-  <a>Following</a>
+  <a id="filter_following" ng-click="getFollowing()" >Following</a>
   <div class="dropdown_tab">
     <a class="dropdown-toggle" data-toggle="dropdown" href="About.html">
       Categories
@@ -54,7 +54,7 @@
         </div>
     </ul>
   </div>
-  <a>Popular</a>
+  <a id="filter_popular" ng-click="getPopular()">Popular</a>
   <a id="store_link" href="/store">Store</a>
 </div>
 <!--<div class="register_now" ng-show="!loggedIn">

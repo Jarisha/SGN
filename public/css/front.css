@@ -95,3 +95,10 @@
 .front .post_tags{
   width:300px;
 }
+.front #filter_following{
+  cursor: pointer;
+}
+
+.front #filter_popular{
+  cursor: pointer;
+}

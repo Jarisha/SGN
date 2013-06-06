@@ -143,8 +143,9 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         itemSelector : '.game_pin, .store_pin',
         isFitWidth: true
       });
-      //hack to fix masonry overlaps. (bad)
+      //hack to fix masonry overlaps. (badge)
       $timeout(function(){
+        console.log('time');
         $('#content').masonry('reload');
       }, 1000);
     });
@@ -273,7 +274,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.popBadgeModal = function(){
     $('#badgeModal').modal();
   }
-  //$rootScope.popNotify('Test', 'Test Success');
   
   $rootScope.closeModal = function(rec){
     console.log('close gamePinModal');
@@ -281,7 +281,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $timeout(function(){
       $location.path(rec.link);
     }, 10);
-    //$location.path('hello World');
   }
   
   //Pops a Notification. Error or Success

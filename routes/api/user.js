@@ -22,12 +22,6 @@ var fixProblems = exports.fixProblems = function(req, res){
   console.log('fixProblems');
   app.riak.bucket('users').objects.get('user4@u.u', function(err, usr){
     if(err) return res.json({ error: err.message });
-    //delete all events in this user
-    //util.removeNulls(usr.data.timelineEvents);
-    //usr.data.timelineEvents = [];
-    //usr.data.friends = [];
-    //usr.data.userEvents = [];
-    //usr.data.pinEvents = [];
     usr.data.conversations = [];
     usr.save(function(err, saved){
       console.log(saved.data);
@@ -40,12 +34,10 @@ var fixProblems = exports.fixProblems = function(req, res){
 // Cases: Error - Success. callback(error, RO_usr)
 var reindexUser = function(ROuser, callback){
   ROuser.data['version'] = userSchema.userInstance.version;
-  //hard code data transfers
   if(ROuser.data['username']) ROuser.data['userName'] = ROuser.data['username'];
   var new_usr = new userSchema.user(ROuser.data);
   var invalid = new_usr.validate();
   if(invalid) return callback(invalid, null);
-  //ROuser.data = new_usr;
   console.log('reindexUser');
   var newUser = app.riak.bucket('users').object.new(ROuser.data.email, new_usr);
   newUser.addToIndex('username', ROuser.data.userName);
@@ -2102,7 +2094,6 @@ exports.textSearch = function(req, res){
   
   var query = {
     q: 'gameName:'+text+' OR '+'description:'+text+' OR publisher:'+text,
-    //q: 'description:'+text+' OR gameName:'+text,
     start: 0,
     rows: 1000,
     presort: 'key'
@@ -2122,51 +2113,6 @@ exports.textSearch = function(req, res){
       return res.json({ objects: objsList });
     });
   });
-  
-  /*app.riak.bucket('gamepins').search.solr(query, function(err, response){
-    if(err){
-      outlog.info(err);
-      return res.json({error: err});
-    }
-    objs = response.response.docs;
-    outlog.info(objs);
-    for(obj in objs){
-      var cmts = [];
-      if(objs[obj].fields.comments)
-        cmts = objs[obj].fields.comments.split(" ");
-      pinMap[objs[obj].id] = objs[obj].fields;
-      pinMap[objs[obj].id]['id'] = objs[obj].id;
-      pinMap[objs[obj].id]['comments'] = [];
-      for(c in cmts){
-        commentIds.push(cmts[c]);
-        commentMap[cmts[c]] = c;
-      }
-    }
-    next();
-  });
-  function next(){
-    app.riak.bucket('comments').objects.get(commentIds, function(err, cmt_objs){
-      if(err){
-        errlog.info('get comments error: ' + err);
-        return res.json({error: 'get comments failure or no comments'});
-      }
-      if(cmt_objs && Object.prototype.toString.call( cmt_objs ) === '[object Object]')
-        cmt_objs = [cmt_objs];
-      for(c in cmt_objs){
-        pinMap[cmt_objs[c].data.pin].comments[commentMap[cmt_objs[c].key]] = {
-                                                          id: cmt_objs[c].key,
-                                                          pin: cmt_objs[c].data.pin,
-                                                          poster: cmt_objs[c].data.poster,
-                                                          content: cmt_objs[c].data.content,
-                                                          posterImg: cmt_objs[c].data.imgUrl};
-      }
-      for(pin in pinMap){
-        returnList.push(pinMap[pin]);
-      }
-      outlog.info('text search success');
-      return res.json({ objects: returnList });
-    });
-  }*/
 }
 
 //given username, see if user exists and return email if so
