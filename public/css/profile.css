@@ -110,11 +110,6 @@
 }
 
 /* Nav Bar */
-.profile .view_all{
-  float: right;
-  color: white;
-  cursor: pointer;
-}
 
 /* Pin Modal_1 and Pin Modal_2 */
 .profile #pinModal_2{
@@ -332,6 +327,9 @@
   display:inline-block;
   margin-bottom: 20px;
 }
+.profile .bot_container img {
+  max-height: 40px;
+}
 .profile .bot_container .comrade tabs{
   padding:5px;
   -moz-box-sizing: border-box;
@@ -478,23 +476,7 @@
 .profile #badge_col{
   width: 90px;
 }
-.view_all_footer{
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
-  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
-  color: white;
-  font-weight: bold;
-  padding: 0 15px;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-}
-.view_all_footer p{
-  margin-right: auto;
-  margin-left: auto;
-  color: white;
-  cursor: pointer;
-}
+
 .profile .badge_chest{
   height: 314px;
   padding: 15px;
