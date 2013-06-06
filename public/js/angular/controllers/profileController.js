@@ -53,9 +53,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.groupToggle = false;
   $scope.masonInit = true;
   
-  $scope.displayMode = {};
-  $scope.displayMode.group = false;
-  
+  $scope.showGroups = false;
   //tab state
   $scope.FOLLOW = 1; $scope.FRIEND = 2;
   $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
@@ -276,7 +274,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   }
   
   $scope.getGroupData = function(){
-    $scope.displayMode.group = true;
+    $scope.showGroups = true;
     $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
       .success(function(data, status, headers, config){
         $scope.groupList = [];
@@ -295,6 +293,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   }
 
   $scope.showLikes = function(){
+    $scope.showGroups = false;
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);
