@@ -3,7 +3,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   $scope.timeline = resolveProfile.timeline;
-  //$scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
   
   $scope.profile.bio = $scope.profile.bio || null;
@@ -54,16 +53,13 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.groupToggle = false;
   $scope.masonInit = true;
   
-  //$scope.displayMode = 'activity';
   $scope.displayMode = {};
-  $scope.displayMode.activity = true;
   $scope.displayMode.group = false;
   
   //tab state
   $scope.FOLLOW = 1; $scope.FRIEND = 2;
   $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
   $scope.people_tab = $scope.FOLLOW;
-  $scope.content_tab = $scope.ACTIVITY;
   $scope.timeline_tab = "showAll";
   $scope.bigPin = {};
   $scope.bigFollowBtn = false;
@@ -280,7 +276,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   }
   
   $scope.getGroupData = function(){
-    $scope.displayMode.activity = false;
     $scope.displayMode.group = true;
     $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
       .success(function(data, status, headers, config){
@@ -298,11 +293,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.showGroup = function(group){
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
   }
-  $scope.showActivity = function(){
-    $scope.displayMode.activity = true;
-    $scope.displayMode.group = false;
-    $scope.showPins = $scope.activityPins;
-  }
+
   $scope.showLikes = function(){
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
       .success(function(data, status, headers, config){
