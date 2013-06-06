@@ -1,18 +1,4 @@
-<div id="about_nav_container">
-  <div id="about_nav_buttons_container">
-    <div ng-click="viewFAQ()" class="modal_slice faq_slice">
-      FAQ
-    </div>
-    <div ng-click="viewToS()" class="modal_slice tos_slice  about_selected">
-      Terms of Service
-    </div>
-    <div ng-click="viewPrivacy()" class="modal_slice privacy_slice">
-      Privacy Policy
-    </div>
-    <div ng-click="viewAcceptable()" class="modal_slice view_slice">
-      Acceptable Use
-    </div>
-  </div>
+<div id="about_nav_container" ng-include="'/partials/about/about_nav_container'">
 </div>
 <div class="modal_stack tos_stack">
   <b>Thank you for using Quyay! By doing so, you're making the world a better place, somehow.</b><br/><br/>
