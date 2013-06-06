@@ -9,9 +9,6 @@
   float: left;
   width: 20%;
 }
-.profile #people_header span{
-  color: white;
-}
 
 #follow_user{
   -moz-box-sizing: border-box;
@@ -97,10 +94,11 @@
   width: 165px;
 }
 .profile #profile_footer > *:hover{
-  color: white;
-  padding: 0 10px;
   background: #6d9100;
-  display: inline-block;
+  cursor: pointer;
+}
+.profile #people_header > *:hover{
+  background: #6d9100;
   cursor: pointer;
 }
 .profile .active_tab{
@@ -112,11 +110,6 @@
 }
 
 /* Nav Bar */
-.profile .view_all{
-  float: right;
-  color: white;
-  cursor: pointer;
-}
 
 /* Pin Modal_1 and Pin Modal_2 */
 .profile #pinModal_2{
@@ -177,8 +170,6 @@
   margin-top: 5px;
   margin-bottom: 0px;
 }
-.profile .game_description{
-}
 .profile .game_attributes{
   margin-bottom:5px;
 }
@@ -191,10 +182,6 @@
 .profile .posted_by img, .profile .posted_by p, .profile .comment img, .profile .comment p{
   display:inline-block;
   vertical-align: top;
-}
-.profile .posted_by p{
-}
-.profile .profile_img{
 }
 .profile .post_text, .profile .respond_txtarea{
   max-width: 170px;
@@ -260,11 +247,6 @@
   padding-bottom: 25px;
   text-shadow: 2px 2px 2px #333333;
   width: 80%;
-}
-.profile .bio_container{
-  width: 100%;
-  background: cyan;
-  margin-right:15px;
 }
 .profile .bio_textarea, .bio_text{
   height:110px;
@@ -345,6 +327,9 @@
   display:inline-block;
   margin-bottom: 20px;
 }
+.profile .bot_container img {
+  max-height: 40px;
+}
 .profile .bot_container .comrade tabs{
   padding:5px;
   -moz-box-sizing: border-box;
@@ -360,16 +345,19 @@
   background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
   color: white;
   font-weight: bold;
+  margin: 0px;
 }
 .profile #people_header > *{
-  padding: 0 15px;
-  width: 19%;
+  width: 24.5%;
   text-align: center;
   display:inline-block;
   height: 30px;
   line-height: 30px;
   color: white;
   cursor: pointer;
+}
+.profile #people_header span{
+  color: white;
 }
 .profile .comrade_tabs{
   margin-right: 20px;
@@ -441,7 +429,6 @@
   float: left;
   width: 60%;
 }
-
 #timeline_col .profile-column-contents-container {
   overflow: auto;
 }
@@ -489,23 +476,7 @@
 .profile #badge_col{
   width: 90px;
 }
-.view_all_footer{
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
-  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
-  color: white;
-  font-weight: bold;
-  padding: 0 15px;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-}
-.view_all_footer p{
-  margin-right: auto;
-  margin-left: auto;
-  color: white;
-  cursor: pointer;
-}
+
 .profile .badge_chest{
   height: 314px;
   padding: 15px;

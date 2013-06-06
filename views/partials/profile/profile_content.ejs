@@ -1,3 +1,4 @@
+<!-- MAIN PROFILE AREA -->
 <div id="profile_col">
   <div id="profile_header">PROFILE</div>
   <div class="left_container">
@@ -34,21 +35,20 @@
     </div>
   </div>
   <div id="people_container">
-    <!-- -->
-    <div id="people_header">
-      <div ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >
+    <ul id="people_header">
+      <li ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >
         {{profile.followers.length}} FOLLOWER<span ng-show="profile.followers.length != 1" >S</span>
-      </div>
-      <div ng-class="{'active_tab': people_tab==FOLLOWING}" ng-click="people_tab=FOLLOWING;" >
+      </li>
+      <li ng-class="{'active_tab': people_tab==FOLLOWING}" ng-click="people_tab=FOLLOWING;" >
         {{ profile.following.length }} FOLLOWING
-      </div>
-      <div ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND;" >
+      </li>
+      <li ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND;" >
         {{profile.friends.length}} FRIEND<span ng-show="profile.friends.length != 1">S</span>
-      </div>
-      <div class="view_all">
+      </li>
+      <li class="view_all">
         <p class="view_all" ng-click="popGeneric()" href="#">View All</p>
-      </div>
-    </div>
+      </li>
+    </ul>
     <div class="bot_container">
       <a ng-show="people_tab==FOLLOW" ng-repeat="follower in profile.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" width="40px" height="40px" ng-src="{{follower.profileImg || '/images/30x30.gif'}}"/>
@@ -85,6 +85,8 @@
     </ul>
   </div>
 </div>
+
+<!-- BADGE COLUMN -->
 <div id="badge_col" class="profile-column">
   <div id="badge_header" class="profile-column-header">BADGES</div>
   <ul class="badge_chest" class="profile-column-contents-container">
@@ -92,8 +94,10 @@
       <img ng-src="{{badge.url}}">
     </li>
   </ul>
-  <div class="view_all_footer"><p ng-click="popBadgeModal()" href="#">View All</p></div>
+  <div class="view_all_footer view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
+
+<!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
 <div id="profile_data">
   <div id="group_bar" class="clearfix" ng-show="displayMode.group">
     <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>

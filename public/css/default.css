@@ -238,7 +238,27 @@ form{
   z-index: -1;
   bottom: 20px;
 }
-
+.view_all {
+  color: white;
+  cursor: pointer;
+}
+.view_all :hover {
+  background: #6d9100;
+}
+.view_all_footer {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.view_all_footer p{
+  color: white;
+}
 /****************** Top Nav Bar ************************/
 #nav {
   /*background: yellow;*/
