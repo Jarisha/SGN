@@ -10,5 +10,6 @@
   </div>
 </noscript>
 <img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
-<div id="content" class="container" ng-include="content" onload="setup()" >
+<div id="content" class="container" onload="setup()" >
+	<div ng-include="section"></div>
 </div>

@@ -83,14 +83,6 @@
 .front .media_type, .front .media_source{
   float:left;
 }
-.front #myCarousel, .front .post_metadata{
-  display:inline-block;
-  vertical-align:top;
-}
-.front #myCarousel{
-  height:200px;
-  width:200px;
-}
 .front .post_metadata{
   width:300px;
 }
