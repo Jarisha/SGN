@@ -38,7 +38,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   };
 
   $scope.showPins = $scope.activityPins;
-  console.log('here');
   
   $scope.groupList = [];
   $scope.groupData = {};
@@ -50,18 +49,17 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/profile_content';
   //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
-  $scope.groupToggle = false;
   $scope.masonInit = true;
   
-  $scope.showGroups = false;
   //tab state
   $scope.FOLLOW = 1; $scope.FRIEND = 2;
-  $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
+  $scope.GROUPS = 1; $scope.LIKES = 3;
   $scope.people_tab = $scope.FOLLOW;
   $scope.timeline_tab = "showAll";
   $scope.bigPin = {};
   $scope.bigFollowBtn = false;
   $scope.changeImage = false;
+  $scope.showGroups = false;
   
   $scope.changeState = function(){
     $scope.masonInit = false;
