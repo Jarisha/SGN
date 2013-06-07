@@ -260,19 +260,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       .error(function(data, status, headers, config){
       });
   }
-  
-  $scope.toggleCategories = function(){
-    if(!$scope.groupToggle){
-      $('#view_groups .dropdown-menu').css('display', 'block');
-      $scope.groupToggle = true;
-    }
-    else{
-      ('hide');
-      $('#view_groups .dropdown-menu').css('display', 'none');
-      $scope.groupToggle = false;
-    }
-  }
-  
+
   $scope.getGroupData = function(){
     $scope.showGroups = true;
     $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
