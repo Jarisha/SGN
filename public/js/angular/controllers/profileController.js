@@ -3,7 +3,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   $scope.timeline = resolveProfile.timeline;
-  //$scope.activityPins = resolveProfile.activityData;
   $scope.profile = resolveProfile.profileData;
   
   $scope.profile.bio = $scope.profile.bio || null;
@@ -39,7 +38,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   };
 
   $scope.showPins = $scope.activityPins;
-  console.log('here');
   
   $scope.groupList = [];
   $scope.groupData = {};
@@ -51,23 +49,17 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
   $scope.content = $rootScope.rootPath + '/partials/profile_content';
   //$scope.settings = {email: null, username: $scope.userName, gender: null, bio: null};
-  $scope.groupToggle = false;
   $scope.masonInit = true;
-  
-  //$scope.displayMode = 'activity';
-  $scope.displayMode = {};
-  $scope.displayMode.activity = true;
-  $scope.displayMode.group = false;
   
   //tab state
   $scope.FOLLOW = 1; $scope.FRIEND = 2;
-  $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
+  $scope.GROUPS = 1; $scope.LIKES = 3;
   $scope.people_tab = $scope.FOLLOW;
-  $scope.content_tab = $scope.ACTIVITY;
   $scope.timeline_tab = "showAll";
   $scope.bigPin = {};
   $scope.bigFollowBtn = false;
   $scope.changeImage = false;
+  $scope.showGroups = false;
   
   $scope.changeState = function(){
     $scope.masonInit = false;
@@ -266,22 +258,9 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       .error(function(data, status, headers, config){
       });
   }
-  
-  $scope.toggleCategories = function(){
-    if(!$scope.groupToggle){
-      $('#view_groups .dropdown-menu').css('display', 'block');
-      $scope.groupToggle = true;
-    }
-    else{
-      ('hide');
-      $('#view_groups .dropdown-menu').css('display', 'none');
-      $scope.groupToggle = false;
-    }
-  }
-  
+
   $scope.getGroupData = function(){
-    $scope.displayMode.activity = false;
-    $scope.displayMode.group = true;
+    $scope.showGroups = true;
     $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
       .success(function(data, status, headers, config){
         $scope.groupList = [];
@@ -298,12 +277,9 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.showGroup = function(group){
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
   }
-  $scope.showActivity = function(){
-    $scope.displayMode.activity = true;
-    $scope.displayMode.group = false;
-    $scope.showPins = $scope.activityPins;
-  }
+
   $scope.showLikes = function(){
+    $scope.showGroups = false;
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);
