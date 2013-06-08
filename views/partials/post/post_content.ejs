@@ -1,7 +1,9 @@
 <div class="page_pin">
   <div class="page_header clearfix">
-    <img style="float: left; height: 50px; width: 50px;" ng-src="{{pagePin.profileImg}}"/>
-    <p style="font-size: 25px; margin-left: 60px;" >{{pagePin.userName}}</p>
+    <a href="/user/{{pagePin.poster || pagePin.posterName}}">
+      <img style="float: left; height: 50px; width: 50px;" ng-src="{{pagePin.profileImg || '/images/30x30.gif'}}"/>
+        <p style="font-size: 25px; margin-left: 60px;" >{{pagePin.userName}}</p>
+    </a>
     <p style="font-size: 14px; line-height: 20px; margin-left: 60px; margin-top: 7px;" >posted onto {{pagePin.category}}</p>
   </div>
   <div class="page_body">
