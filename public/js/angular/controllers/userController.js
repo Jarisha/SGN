@@ -19,22 +19,17 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
                                         User bio text. Sample user bio text. Sample user bio text.'; */
   
   $scope.showPins = $scope.activityPins;
+  $scope.groupList = [];
+  $scope.groupData = {};
   $scope.bigPin = {};
   $scope.bigPin.followBtn = false;
   $scope.isFollowing = false;
   $scope.isFriend = false;
-  
-  //$scope.displayMode = 'activity';
-  $scope.displayMode = {};
-  $scope.displayMode.activity = true;
-  $scope.displayMode.group = false;
-  
-  $scope.groupList = [];
-  $scope.groupData = {};
-  $scope.showGroup = null;
-  
+
+  //Tab state
   $scope.FOLLOW = 1; $scope.FRIEND = 2;
-  $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
+  $scope.GROUPS = 1; $scope.LIKES = 3;
+  $scope.showGroups = false;
   $scope.people_tab = $scope.FOLLOW;
   $scope.content_tab = $scope.ACTIVITY;
   $scope.timeline_tab = "showAll";
@@ -314,25 +309,9 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
       else if(successMessage) $rootScope.popNotify(successMessage);
     });
   }
-  
-  /*$scope.toggleCategories = function(){
-    ('showCategories');
-    if(!$scope.groupToggle){
-      ('show');
-      $('#view_groups .dropdown-menu').css('display', 'block');
-      $scope.groupToggle = true;
-    }
-    else{
-      ('hide');
-      $('#view_groups .dropdown-menu').css('display', 'none');
-      $scope.groupToggle = false;
-    }
-  }*/
-  
+
   $scope.getGroupData = function(){
-    //$scope.displayMode = 'group';
-    $scope.displayMode.activity = false;
-    $scope.displayMode.group = true;
+    $scope.showGroups = true;
     $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
       .success(function(data, status, headers, config){
         $scope.groupList = [];
@@ -348,20 +327,11 @@ function UserController($scope, $rootScope, $http, $location, $routeParams, reso
   }
   
   $scope.showGroup = function(group){
-    $rootScope.destroyProfileMason();
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-    //$rootScope.profileReload();
   }
-  $scope.showActivity = function(){
-    $rootScope.destroyProfileMason();
-    $scope.displayMode.activity = true;
-    $scope.displayMode.group = false;
-    $scope.showPins = $scope.activityPins;
-    $rootScope.profileMasonry();
-    //$rootScope.profileReload();
-  }  
+
   $scope.showLikes = function(){
-    $rootScope.destroyProfileMason();
+    $scope.showGroups = false;
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);
