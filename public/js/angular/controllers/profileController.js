@@ -1,10 +1,12 @@
 function ProfileController($scope, $rootScope, $http, $location, $timeout, resolveProfile, gamepinService){
   console.log('ProfileController');
+  $rootScope.css = 'profile';
+  $rootScope.title = 'profile';
+
   //read resolveData into $scope variables
   $scope.R_Data = resolveProfile;
   $scope.timeline = resolveProfile.timeline;
   $scope.profile = resolveProfile.profileData;
-  
   $scope.profile.bio = $scope.profile.bio || null;
                                        /*'User bio text. Sample user bio text. Sample user bio text staggered.\
                                         User bio text. Sample user bio text. Sample user bio text staggered.\
@@ -38,12 +40,9 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   };
 
   $scope.showPins = $scope.activityPins;
-  
   $scope.groupList = [];
   $scope.groupData = {};
-  
-  $rootScope.css = 'profile';
-  $rootScope.title = 'profile';
+
   $scope.modals = $rootScope.rootPath + '/partials/modals';
   $scope.subnav = null;
   $scope.nav = $rootScope.rootPath + '/partials/navbar';
