@@ -88,9 +88,9 @@
 .modal_slice.post_option{
   width: 33%;
 }
-.modal_slice.post_option img, .modal_slice.post_option_end img{
-  height: 60px;
-  width: 60px;
+.modal_slice.post_option i, .modal_slice.post_option_end i{
+  display: block;
+  margin: 12px 0px 6px 0px;
 }
 .modal_slice.post_option:hover{
   background: #B8B8B8;

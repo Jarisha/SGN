@@ -33,8 +33,7 @@
 .front .game_options i {
   width: 20px;
   border: none;
-  margin-left: 0px;
-  margin: 1px -8px 0px 0px;
+  margin: -9px -3px 0px 0px;
 }
 .front .game_description{
   font-size: 14px;
