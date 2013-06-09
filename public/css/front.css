@@ -69,8 +69,8 @@
   line-height: 1em; 
 }
 .front .respond_btn{
-  margin-top:10px;
-  float:right;
+  position: relative;
+  right: -141px;
 }
 
 /* Pin Modal_1 and Pin Modal_2 */
