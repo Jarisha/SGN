@@ -30,6 +30,9 @@
 .front .game_options a {
   background: white;
 }
+.front .game_options a:hover {
+  color: black;
+}
 .front .game_options i {
   width: 20px;
   border: none;
