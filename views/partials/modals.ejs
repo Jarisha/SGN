@@ -67,7 +67,7 @@
   <div class="modal-header clearfix">
     <div ng-show="bigPin.publisher" class="publisher">by <br>{{bigPin.publisher}}</div>
     <div class="game_title">{{bigPin.name}}</div>
-    <img class="price_tag" src="images/UI/storePRICE_2.png">
+    <img class="price_tag" onerror='this.style.display = "none"' src="images/UI/storePRICE_2.png">
     <span class="price">{{bigPin.price}}</span>
   </div>
   <hr id="topHr">
