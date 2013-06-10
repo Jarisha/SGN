@@ -558,6 +558,7 @@
 /* User Feedback modal */
 #feedbackModal .intro_text{
   font-size: 20px;
+  padding: 10px;
 }
 #feedbackModal .text_content{
   padding: 10px;
