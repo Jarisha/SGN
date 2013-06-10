@@ -892,3 +892,6 @@ form{
   cursor: pointer;
   /*cursor: url("../images/UI/qicon.png");*/
 }
+/*Prevents dotted border from appearing on clicking "Comment" in Firefox*/
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
