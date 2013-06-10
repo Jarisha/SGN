@@ -446,7 +446,7 @@ exports.postImageUrl = function(req, res){
         postGamePin(post_data, function(err, data){
           if(err){
             errlog.info('postGamePin error' + err);
-            if(err.message.indexOf.indexOf('401') !== -1){
+            if(err.message.indexOf('401') !== -1){
               app.rackit.reAuth(function(err){
                 if(err){
                   console.log('reAuth failure: ');
