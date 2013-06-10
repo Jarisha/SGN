@@ -428,7 +428,7 @@
     <h3 id="myModalLabel">Edit Settings</h3>
   </div>
   <div class="modal-body">
-    <form id="editSettings">
+    <form id="editSettings" name="settingsForm">
       <p class="error hidden" >Error: Somewhat set us up the bomb!</p>
        <!--<div class="modal_stack edit_field">
         <div class="modal_slice reset_password">
@@ -448,7 +448,7 @@
         <label>Email</label><input type="text" placeholder="Email" ng-model="userEmail" disabled>
       </div>
       <div class="modal_stack edit_field">
-        <label>Username</label><input type="text" placeholder="Email" ng-model="set.userName">
+        <label>Username</label><input type="text" placeholder="Email" ng-model="set.userName" ng-pattern="/[a-zA-Z]*/">
       </div>
       <div class="modal_stack edit_field">
         <label>Gender</label>

@@ -654,21 +654,27 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
   }
   $rootScope.editSettings = function(){
-    $http({ method: 'POST', url: '/api/editSettings', data:
-          { email: $rootScope.userEmail, settings: $rootScope.set }})
-      .success(function(data, status, headers, config){
-        if(data.error){
-          $rootScope.popNotify('Error', data.error);
-        }
-        if(data.success){
-          if(data.userName) $rootScope.userName = data.userName;
-          $rootScope.popNotify('Success', data.notify);
-        }
-        $rootScope.set.password = null;
-        $rootScope.set.confirm = null;
-      })
-      .error(function(data, status, headers, config){
-      });
+    if (($rootScope.set.password) && ($rootScope.set.password.indexOf('&') > -1)) {
+      alert('The & character is not allowed.');
+    } else if (($rootScope.set.userName) && ($rootScope.set.userName.indexOf('&') > -1)) {
+      alert('The & character is not allowed.');
+    } else {
+      $http({ method: 'POST', url: '/api/editSettings', data:
+            { email: $rootScope.userEmail, settings: $rootScope.set }})
+        .success(function(data, status, headers, config){
+          if(data.error){
+            $rootScope.popNotify('Error', data.error);
+          }
+          if(data.success){
+            if(data.userName) $rootScope.userName = data.userName;
+            $rootScope.popNotify('Success', data.notify);
+          }
+          $rootScope.set.password = null;
+          $rootScope.set.confirm = null;
+        })
+        .error(function(data, status, headers, config){
+        });
+      }
   }
   
   //Setup
