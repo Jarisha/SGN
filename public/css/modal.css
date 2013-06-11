@@ -597,7 +597,6 @@
 
 /*Social Notifications Modals*/
 #followerNotificationsModal {
-  background: #DCDCDC;
   width: 269px;
   margin: 50px 0 0 40%;
   position: static;
@@ -609,7 +608,6 @@
   margin: 0px;
 }
 #followerNotificationsModal li {
-  border-bottom: 1px solid #EBEBEB;
   padding: 5px;
 }
 #followerNotificationsModal button {

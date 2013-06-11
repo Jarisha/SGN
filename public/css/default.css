@@ -309,9 +309,6 @@ form{
   position: relative;
 }
 #notify {
-  /* position: absolute; 
-  top: 50px; */
-
   width: 270px;
   height: 40px;
   z-index: 2;
@@ -450,7 +447,14 @@ form{
   width: 40px;
   padding-right: 10px;
 }
-
+.notification-list {
+  min-width: 269px;
+  background: #DCDCDC;
+}
+.notification-list li {
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+}
 /* Notifications dropdowns */
 .targetThumb img{
   width: 30px;
@@ -458,7 +462,6 @@ form{
   margin-left: 5px;
   margin-top: 5px;
 }
-
 .notifications-count-badge {
   padding-right: 2px;
   background-color: red;
@@ -482,18 +485,9 @@ form{
 #tag_dropdown,
 #message_dropdown {
   left: 20px;
-  min-width: 269px;
   top: 42px;
-  background: #DCDCDC;
   -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
-}
-#follower_dropdown li,
-#tag_dropdown li,
-#message_dropdown li
-{
-  width: 100%;
-  border-bottom: 1px solid #EBEBEB;
 }
 #follower_dropdown {
   left: -35px;

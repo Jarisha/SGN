@@ -8,7 +8,7 @@
         </span>
       </a>
       <!-- this is too messy, need to move logic to controller -->
-      <ul id="follower_dropdown" class="dropdown-menu" ng-show="userEvents.length != 0">
+      <ul id="follower_dropdown" class="dropdown-menu notification-list" ng-show="userEvents.length != 0">
         <li ng-repeat="userEvent in userEvents | limitTo:4">
           <a class="clearfix event_link" ng-click="consume(userEvent, $index, userEvents)">
             <img ng-show="userEvent.action != 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
@@ -44,7 +44,7 @@
           {{pinEvents.length}}
         </span>
       </a>
-      <ul id="tag_dropdown" class="dropdown-menu" ng-show="pinEvents.length != 0">
+      <ul id="tag_dropdown" class="dropdown-menu notification-list" ng-show="pinEvents.length != 0">
         <li ng-repeat="pinEvent in pinEvents | limitTo:4">
           <a class="clearfix event_link" ng-click="consume(pinEvent, $index, pinEvents)">
             <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
@@ -86,7 +86,7 @@
           {{newConvos}}
         </span>
       </a>
-      <ul id="message_dropdown" class="dropdown-menu" ng-show="convoData.length != 0">
+      <ul id="message_dropdown" class="dropdown-menu notification-list" ng-show="convoData.length != 0">
         <li ng-repeat="convo in convoData">
           <a class="clearfix event_link" ng-click="popConversation(convo); consumeMessage(convo)">
             <img class= "notification-profile-image" ng-src="{{convo.showUser.profileImg}}">

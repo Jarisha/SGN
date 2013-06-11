@@ -474,7 +474,7 @@
     <h3 id="myModalLabel">Follower Notifications</h3>
   </div>
   <div class="modal-body">
-    <ul>
+    <ul class="notification-list">
         <li ng-repeat="userEvent in userEvents">
           <a class="clearfix event_link" ng-click="consume(userEvent, $index, userEvents)">
             <img ng-show="userEvent.action != 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
