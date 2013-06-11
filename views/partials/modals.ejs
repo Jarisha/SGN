@@ -67,7 +67,7 @@
   <div class="modal-header clearfix">
     <div ng-show="bigPin.publisher" class="publisher">by <br>{{bigPin.publisher}}</div>
     <div class="game_title">{{bigPin.name}}</div>
-    <img class="price_tag" src="images/UI/storePRICE_2.png">
+    <img class="price_tag" src="images/UI/StorePRICE_2.png">
     <span class="price">{{bigPin.price}}</span>
   </div>
   <hr id="topHr">
@@ -474,21 +474,30 @@
     <h3 id="myModalLabel">Follower Notifications</h3>
   </div>
   <div class="modal-body">
-    <ul>
-      <li ng-repeat="follower_notification in notificationsDummyData.followersData">
-        <a tabindex="-1" href="#">
-          <img class= "notification-profile-image" ng-src="<%= rootPath %>/images/30x30.gif">
-          <div class="notification-text">
-            <span>{{follower_notification.name}}</span>
-            <p>is {{follower_notification.action}}</p>
-          </div>
-          <i ng-show="follower_notification.action != 'friend request'" class="icon-flag"></i>
-          <div ng-show="follower_notification.action == 'friend request'" class="friend-request-response-container">
-            <button class="btn btn-success accept-friend-button">Accept</button><br>
-            <button class="btn btn-danger ignore-friend-button">Ignore</button>
-          </div>
-        </a>
-      </li>
+    <ul class="notification-list">
+        <li ng-repeat="userEvent in userEvents">
+          <a class="clearfix event_link" ng-click="consume(userEvent, $index, userEvents)">
+            <img ng-show="userEvent.action != 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
+            <img ng-show="userEvent.action == 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.targetData.profileImg}}">  
+            <div class="notification-text">
+              <b ng-show="userEvent.action != 'friendAccepted'">{{userEvent.sourceData.userName}}</b>
+              <b ng-show="userEvent.action == 'friendAccepted'">{{userEvent.targetData.userName}}</b>
+              <p ng-switch on="userEvent.action">
+                <span ng-switch-when="followRecieved">Followed you</span>
+                <span ng-switch-when="friendRequest">Wants to be your friend</span>
+                <span ng-switch-when="friendAccepted">Accepted your friend request</span>
+              </p>
+            </div>
+            <span ng-switch on="userEvent.action" class="targetThumb" >
+              <img ng-switch-when="followRecieved" ng-src="/images/UI/Circle2.png" />
+              <span ng-switch-when="friendRequest" class="friend_buttons">
+                <button type="button" ng-click="$event.stopPropagation(); acceptFriend(userEvent, $index, userEvents); " >Accept</button>
+                <button type="button" ng-click="$event.stopPropagation(); ignore(userEvent, $index, userEvents); " >Ignore</button>
+              </span>
+              <img ng-switch-when="friendAccepted" ng-src="/images/UI/Circle2.png" />
+            </span>
+          </a>
+        </li>
     </ul>
   </div>
 </div>

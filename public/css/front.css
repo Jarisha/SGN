@@ -30,6 +30,9 @@
 .front .game_options a {
   background: white;
 }
+.front .game_options a:hover {
+  color: black;
+}
 .front .game_options i {
   width: 20px;
   border: none;
@@ -69,8 +72,8 @@
   line-height: 1em; 
 }
 .front .respond_btn{
-  margin-top:10px;
-  float:right;
+  position: relative;
+  right: -141px;
 }
 
 /* Pin Modal_1 and Pin Modal_2 */

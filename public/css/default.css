@@ -305,9 +305,6 @@ form{
   position: relative;
 }
 #notify {
-  /* position: absolute; 
-  top: 50px; */
-
   width: 270px;
   height: 40px;
   z-index: 2;
@@ -446,31 +443,21 @@ form{
   width: 40px;
   padding-right: 10px;
 }
-.notification-item-right-box {
-  float: right;
-  width: 60px;
+.notification-list {
+  min-width: 269px;
+  background: #DCDCDC;
 }
-
-.notification-item-right-box button{
+.notification-list li {
   width: 100%;
-  height: 18px;
-  font-size: 11px;
-  line-height: 11px;
-  padding: 0px 5px;
+  border-bottom: 1px solid #EBEBEB;
 }
-
 /* Notifications dropdowns */
-.friend_buttons{
-  /*margin-left:50px;*/
-}
-
 .targetThumb img{
   width: 30px;
   height: 30px;
   margin-left: 5px;
   margin-top: 5px;
 }
-
 .notifications-count-badge {
   padding-right: 2px;
   background-color: red;
@@ -494,18 +481,9 @@ form{
 #tag_dropdown,
 #message_dropdown {
   left: 20px;
-  min-width: 269px;
   top: 42px;
-  background: #DCDCDC;
   -webkit-border-radius: 6px;
   border-radius: 6px 6px 6px 6px;
-}
-#follower_dropdown li,
-#tag_dropdown li,
-#message_dropdown li
-{
-  width: 100%;
-  border-bottom: 1px solid #EBEBEB;
 }
 #follower_dropdown {
   left: -35px;
@@ -515,11 +493,6 @@ form{
 }
 #message_dropdown {
   left: -173px;
-}
-#follower_dropdown:after,
-#tag_dropdown:after,
-#message_dropdown:after {
-  border: none;
 }
 #follower_dropdown:before,
 #tag_dropdown:before,
@@ -547,9 +520,6 @@ form{
 #message_dropdown a
  {
   padding: 5px;
-}
-#follower_dropdown .notification-item-right-box {
-  width: 60px;
 }
 
 /* Nav Right */
@@ -888,3 +858,6 @@ form{
   cursor: pointer;
   /*cursor: url("../images/UI/qicon.png");*/
 }
+/*Prevents dotted border from appearing on clicking "Comment" in Firefox*/
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}

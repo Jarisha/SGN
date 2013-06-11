@@ -71,9 +71,8 @@
   </div>
   <div id="footer_container">
     <div id="profile_footer">
-      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div><div
-      ng-class="{'active_tab': content_tab==POSTS}" ng-click="content_tab=POSTS;">My Posts</div><div
-      ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
+      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div>
+      <div ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
     </div>
   </div>
 </div>
@@ -103,9 +102,9 @@
   <div class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
 <div id="profile_data">
-  <div id="group_bar" class="clearfix" ng-show="displayMode.group">
-    <span class="group_slice" ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</span>
-  </div>
+  <ul id="group_bar" class="clearfix" ng-show="showGroups">
+    <li  ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</li>
+  </ul>
   <div id="profile_data_inner" class="clearfix">
     <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
       <a class="view_trigger" ng-click="viewBigPin(pin)">

@@ -558,6 +558,7 @@
 /* User Feedback modal */
 #feedbackModal .intro_text{
   font-size: 20px;
+  padding: 10px;
 }
 #feedbackModal .text_content{
   padding: 10px;
@@ -596,27 +597,26 @@
 
 /*Social Notifications Modals*/
 #followerNotificationsModal {
-  background: #DCDCDC;
-  width: 334px;
-  height: 400px;
+  width: 269px;
+  margin: 50px 0 0 40%;
+  position: static;
+}
+#followerNotificationsModal .modal-body{
+  overflow-y: auto;
 }
 #followerNotificationsModal ul {
-  min-width: 273px;
-  height: 300px;
+  margin: 0px;
 }
 #followerNotificationsModal li {
-  height: 50px;
+  padding: 5px;
 }
-#followerNotificationsModal .friend-request-response-container {
-  width: 60px;
+#followerNotificationsModal button {
+  font-size: 14px;
+  height: 100%;
 }
-#followerNotificationsModal .friend-request-response-container button {
-  width: 100%;
-  height: 18px;
-  line-height: 11px;
-  font-size: 11px;
+#followerNotificationsModal .friend_buttons {
+  display: inline-block;
 }
-
 /*Badge modal*/
 #badgeModal li {
   display: inline;

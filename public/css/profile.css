@@ -31,15 +31,28 @@
   top: 10px;
 }
 
-#group_bar{
-  width: 1024px;
+/*Group Bar*/
+.profile #group_bar{
+  width: 600px;
   background: -moz-linear-gradient(center bottom , #6D9100, #99CC00) repeat scroll 0 0 transparent;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
   color: white;
   font-weight: bold;
-  padding: 0 15px;
-  margin-bottom: 15px;
+  margin: 0px 0px 15px 0px;
   text-align: center;
   line-height: 30px;
+}
+
+.profile #group_bar li {
+  display: inline-block;
+  color: white;
+  padding: 0 10px;
+  cursor: pointer;
+  line-height: 30px;
+  height: 30px;
+}
+.profile #group_bar li:hover{
+  background: #6d9100;
 }
 
 /* General Layout */
@@ -457,13 +470,6 @@
   margin: 0px;
 }
 
-.profile #timeline_contents_container .friend-request-response-container {
-  width: 45px;
-}
-.profile #timeline_contents_container .friend-request-response-container button{
-  font-size: 11px;
-  padding: 0px 5px;
-}
 #timeline_events li {
   width: 100%;
   height: 50px;

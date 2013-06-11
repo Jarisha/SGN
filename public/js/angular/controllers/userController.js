@@ -1,100 +1,93 @@
-var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParams', 'resolveUser', 'gamepinService',
-  function($scope, $rootScope, $http, $location, $routeParams, resolveUser, gamepinService){
-    console.log('UserController');
-    $rootScope.css = 'profile';
-    $rootScope.title = 'user';
-    
-    // get resolve data into view
-    $scope.activityPins = resolveUser.activityData;
-    $scope.timeline = resolveUser.timeline;
-    $scope.user = resolveUser.profileData;
-    $scope.user.bio = $scope.user.bio || null;
-                                         /* 'User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text staggered.\
-                                          User bio text. Sample user bio text. Sample user bio text.'; */
-    
-    $scope.showPins = $scope.activityPins;
-    $scope.bigPin = {};
-    $scope.bigPin.followBtn = false;
-    $scope.isFollowing = false;
-    $scope.isFriend = false;
-    
-    //$scope.displayMode = 'activity';
-    $scope.displayMode = {};
-    $scope.displayMode.activity = true;
-    $scope.displayMode.group = false;
-    
-    $scope.groupList = [];
-    $scope.groupData = {};
-    $scope.showGroup = null;
-    
-    $scope.FOLLOW = 1; $scope.FRIEND = 2;
-    $scope.GROUPS = 1; $scope.POSTS = 2; $scope.LIKES = 3; $scope.ACTIVITY = 4;
-    $scope.people_tab = $scope.FOLLOW;
-    $scope.content_tab = $scope.ACTIVITY;
-    $scope.timeline_tab = "showAll";
-    
-    // confirm the partials we want to load in
-    $scope.modals = $rootScope.rootPath + '/partials/modals';
-    
-      //figure out timeline stuff (too much logic to be done in view)
-    for(var event in $scope.timeline){
-      var currEvent = $scope.timeline[event]; 
-      if(currEvent.action === 'commentPosted'){
-        currEvent.message = 'Comment posted to '+currEvent.target;
-        switch(currEvent.target){
-          case 'Action & Adventure':
-            currEvent.sourceImg = '/images/caticon-action22x22.png';
-            break;
-          case 'Arcade':
-            currEvent.sourceImg = '/images/caticon-arcade22x22.png'
-            break;
-          case 'Board & Card':
-            currEvent.sourceImg = '/images/caticon-card22x22.png'
-            break;
-          case 'Casino & Gambling':
-            currEvent.sourceImg = '/images/caticon-casino22x22.png'
-            break;
-          case 'Educational':
-            currEvent.sourceImg = '/images/caticon-educational22x22.png'
-            break;
-          case 'Family & Kids':
-            currEvent.sourceImg = '/images/caticon-family22x22.png'
-            break;
-          case 'Music & Rhythm':
-            currEvent.sourceImg = '/images/caticon-music22x22.png'
-            break;
-          case 'Puzzle':
-            currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
-            break;
-          case 'Racing':
-            currEvent.sourceImg = '/images/caticon-racing22x22.png'
-            break;
-          case 'Role Playing':
-            currEvent.sourceImg = '/images/caticon-rpg22x22.png'
-            break;
-          case 'Simulation':
-            currEvent.sourceImg = '/images/caticon-simulation22x22.png'
-            break;
-          case 'Sports':
-            currEvent.sourceImg = '/images/caticon-sports22x22.png'
-            break;
-          case 'Strategy':
-            currEvent.sourceImg = '/images/caticon-strategy22x22.png'
-            break;
-          case 'Trivia & Word':
-            currEvent.sourceImg = '/images/caticon-arcade22x22.png'
-            break;
-          default:
-            alert('event image: default case');
-            break;
-        }
+function UserController($scope, $rootScope, $http, $location, $routeParams, resolveUser, gamepinService){
+  console.log('UserController');
+  $rootScope.css = 'profile';
+  $rootScope.title = 'user';
+  
+  // get resolve data into view
+  $scope.activityPins = resolveUser.activityData;
+  $scope.timeline = resolveUser.timeline;
+  $scope.user = resolveUser.profileData;
+  $scope.user.bio = $scope.user.bio || null;
+                                       /* 'User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text staggered.\
+                                        User bio text. Sample user bio text. Sample user bio text.'; */
+  
+  $scope.showPins = $scope.activityPins;
+  $scope.groupList = [];
+  $scope.groupData = {};
+  $scope.bigPin = {};
+  $scope.bigPin.followBtn = false;
+  $scope.isFollowing = false;
+  $scope.isFriend = false;
+
+  //Tab state
+  $scope.FOLLOW = 1; $scope.FRIEND = 2;
+  $scope.GROUPS = 1; $scope.LIKES = 3;
+  $scope.showGroups = false;
+  $scope.people_tab = $scope.FOLLOW;
+  $scope.content_tab = $scope.ACTIVITY;
+  $scope.timeline_tab = "showAll";
+  
+  // confirm the partials we want to load in
+  $scope.modals = $rootScope.rootPath + '/partials/modals';
+  
+    //figure out timeline stuff (too much logic to be done in view)
+  for(var event in $scope.timeline){
+    var currEvent = $scope.timeline[event]; 
+    if(currEvent.action === 'commentPosted'){
+      currEvent.message = 'Comment posted to '+currEvent.target;
+      switch(currEvent.target){
+        case 'Action & Adventure':
+          currEvent.sourceImg = '/images/caticon-action22x22.png';
+          break;
+        case 'Arcade':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        case 'Board & Card':
+          currEvent.sourceImg = '/images/caticon-card22x22.png'
+          break;
+        case 'Casino & Gambling':
+          currEvent.sourceImg = '/images/caticon-casino22x22.png'
+          break;
+        case 'Educational':
+          currEvent.sourceImg = '/images/caticon-educational22x22.png'
+          break;
+        case 'Family & Kids':
+          currEvent.sourceImg = '/images/caticon-family22x22.png'
+          break;
+        case 'Music & Rhythm':
+          currEvent.sourceImg = '/images/caticon-music22x22.png'
+          break;
+        case 'Puzzle':
+          currEvent.sourceImg = '/images/caticon-puzzle22x22.png'
+          break;
+        case 'Racing':
+          currEvent.sourceImg = '/images/caticon-racing22x22.png'
+          break;
+        case 'Role Playing':
+          currEvent.sourceImg = '/images/caticon-rpg22x22.png'
+          break;
+        case 'Simulation':
+          currEvent.sourceImg = '/images/caticon-simulation22x22.png'
+          break;
+        case 'Sports':
+          currEvent.sourceImg = '/images/caticon-sports22x22.png'
+          break;
+        case 'Strategy':
+          currEvent.sourceImg = '/images/caticon-strategy22x22.png'
+          break;
+        case 'Trivia & Word':
+          currEvent.sourceImg = '/images/caticon-arcade22x22.png'
+          break;
+        default:
+          alert('event image: default case');
+          break;
       }
       else if(currEvent.action === 'gamepinPosted'){
         currEvent.message = 'Posted to '+currEvent.target;
@@ -347,38 +340,32 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
           console.log(data);
         });
     }
-    
-    $scope.showGroup = function(group){
-      $rootScope.destroyProfileMason();
-      $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-      //$rootScope.profileReload();
-    }
-    $scope.showActivity = function(){
-      $rootScope.destroyProfileMason();
-      $scope.displayMode.activity = true;
-      $scope.displayMode.group = false;
-      $scope.showPins = $scope.activityPins;
-      $rootScope.profileMasonry();
-      //$rootScope.profileReload();
-    }  
-    $scope.showLikes = function(){
-      $rootScope.destroyProfileMason();
-      $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
-        .success(function(data, status, headers, config){
-          if(data.error) $rootScope.popNotify('Error', data.error);
-          else if(data.likedPins){
-            //$rootScope.popNotify('Success', data.success);
-            $scope.showPins = data.likedPins;
-          }
-        })
-        .error(function(data, status, headers, config){
-          console.log(data);
-        });
-    }
-    
-    $scope.ajaxLogout = function(){
-      $rootScope.logout( function(res){
-        if(res.message) $scope.status = res.message;
+    /*$('#messageModal form')[0].reset();
+    $('#messageModal').modal();*/
+  }
+  // send message, only used for initial message
+  $scope.sendMessage = function(text){
+    var sourceId = $rootScope.userEmail;
+    var targetId = $scope.user.email;
+    $rootScope.message(text, sourceId, targetId, function(errMessage, successMessage){
+      if(errMessage) $rootScope.popNotify(errMessage);
+      else if(successMessage) $rootScope.popNotify(successMessage);
+    });
+  }
+
+  $scope.getGroupData = function(){
+    $scope.showGroups = true;
+    $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
+      .success(function(data, status, headers, config){
+        $scope.groupList = [];
+        $scope.groupData = data.groups;
+        for(var g in data.groups){
+          $scope.groupList.push(g);
+        }
+        $scope.showPins = null;
+      })
+      .error(function(data, status, headers, config){
+        console.log(data);
       });
     }
     
@@ -397,33 +384,22 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
         });
     }
   }
-];
+  
+  $scope.showGroup = function(group){
+    $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
+  }
 
-UserController.resolve = {
-  resolveUser: ['$q', '$route', '$rootScope', '$location', '$http', '$routeParams', '$window',
-    function($q, $route, $rootScope, $location, $http, $routeParams, $window){
-      var deferred = $q.defer();
-      var user = $route.current.params.username;
-      if(user === $rootScope.userName) $location.path('/profile');
-      
-      //hack to deal with links from modal windows
-      $('#gamePinModal').modal('hide');
-      
-      $rootScope.checkLogin(function(err, login){
-        if(err) deferred.reject();
-        else if(!login) $location.path('/');
-        else{
-          //get User Profile data + activity pins
-          $http({ method: 'post', url:'/api/user/getProfile', data: {userName: user} })
-            .success(function(data, status, headers, config){
-              if(data.error) deferred.reject();
-              deferred.resolve(data);
-            })
-            .error(function(data, status, headers, config){
-              deferred.reject(data);
-            });
+  $scope.showLikes = function(){
+    $scope.showGroups = false;
+    $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
+      .success(function(data, status, headers, config){
+        if(data.error) $rootScope.popNotify('Error', data.error);
+        else if(data.likedPins){
+          //$rootScope.popNotify('Success', data.success);
+          $scope.showPins = data.likedPins;
         }
       });
       return deferred.promise;
   }]
+}
 }
