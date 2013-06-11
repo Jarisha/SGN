@@ -452,10 +452,6 @@ form{
 }
 
 /* Notifications dropdowns */
-.friend_buttons{
-  /*margin-left:50px;*/
-}
-
 .targetThumb img{
   width: 30px;
   height: 30px;
@@ -507,11 +503,6 @@ form{
 }
 #message_dropdown {
   left: -173px;
-}
-#follower_dropdown:after,
-#tag_dropdown:after,
-#message_dropdown:after {
-  border: none;
 }
 #follower_dropdown:before,
 #tag_dropdown:before,
