@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']);
+var app = angular.module('myApp', ['myApp.services', 'myApp.directives', 'myApp.filters']);
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
@@ -6,31 +6,32 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'
-                  controller: FrontController,
-                  resolve: FrontController.resolve
+                  controller: FrontController
+                  , resolve: FrontController.resolve
                 })
     .when('/store', { templateUrl: '/partials/store',
-                      controller: StoreController,
-                      resolve: StoreController.resolve
+                      controller: StoreController
+                      , resolve: StoreController.resolve
                     })
     .when('/profile', { templateUrl: '/partials/profile/profile', // templateUrl: '/partials/profile/profile'
-                      controller: ProfileController,
-                      resolve: ProfileController.resolve
+                      controller: ProfileController
+                      , resolve: ProfileController.resolve
                     })
     .when('/about', { templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
-                      controller: AboutController,
-                      resolve: AboutController.resolve
+                      controller: AboutController
+                      , resolve: AboutController.resolve
                     })
     .when('/about/:area', {templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
-                      controller: AboutController,
-                      resolve: AboutController.resolve})
+                      controller: AboutController
+                      , resolve: AboutController.resolve
+                    })
     .when('/user/:username', {   templateUrl: '/partials/user/user', //  templateUrl: '/partials/profile/profile',
-                      controller: UserController,
-                      resolve: UserController.resolve
+                      controller: UserController
+                      , resolve: UserController.resolve
                     })
     .when('/post/:postId',{ templateUrl: '/partials/post/post',
-                      controller: TempController,
-                      resolve: TempController.resolve
+                      controller: TempController
+                      , resolve: TempController.resolve
                     })
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});
@@ -39,7 +40,9 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 }]);
 
 // Entry Point
-app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
+app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
+  function($rootScope, $http, $templateCache, $location, $timeout, $q){
+  
   console.log('app.run()');
 
   $rootScope.notificationsDummyData = {
@@ -308,25 +311,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       $('#notify_message').text('');
     });
   }
-
-  //register and login modals, on hold. TODO: Replace gateway register / login with modal progression.
-  /*
-  $rootScope.promptLogin = function(){
-    //clear modal
-    $rootScope.login.email = null;
-    $rootScope.login.password = null;
-    $('#loginModal').modal();
-  }
-  $rootScope.promptRegister = function(){
-    //clear modal
-    $rootScope.register.email = null;
-    $rootScope.register.name = null;
-    $rootScope.register.password = null;
-    $rootScope.register.confirm = null;
-    $rootScope.register.fbConnect = false;
-    $('#registerModal').modal();
-  }
-  */
   
   /********* AJAX API ***************/
   //Global AJAX. Interacts with API backend. Called from controller, returns to controller to perform controller specified logic.
@@ -888,4 +872,4 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
     }
   }
-});
+}]);
