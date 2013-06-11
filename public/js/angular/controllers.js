@@ -163,16 +163,6 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
     pinStop = 0;
     loadFirst();
     $rootScope.masonry();
-    //console.log(sortedList.length);
-    //console.log($scope.gamePins.length);
-    //for(i = 0, len = sortedList.length;  i < len; i++){
-    // console.log(sortedList[i].comments.length + sortedList[i].likedBy.length);
-    //}
-    /* sortedList.sort(popularSort);
-    $scope.gamePins = [];
-    $scope.showPins = [];
-    $scope.gamePins = sortedList;
-    loadFirst(); */
     
     function popularSort(a, b){
       if((a.comments.length + a.likedBy.length) < (b.comments.length + b.likedBy.length))
@@ -180,22 +170,7 @@ function FrontController($scope, $rootScope, $http, $location, $templateCache, $
       else
         return -1;
     }
-    
-    /*$rootScope.destroyMason();
-    $scope.gamePins.sort(popularSort);
-    var sorted_temp = $scope.gamePins;
-    $scope.gamePins = [];
-    $scope.gamePins = sorted_temp;
-    loadFirst();
-    
     console.log('hello world where is the beach?');
-    
-    /*temp = $scope.gamePins;
-    $scope.gamePins = [];
-    $scope.gamePins = temp;
-    for(i = 0, len = $scope.gamePins.length;  i < len; i++){
-      console.log($scope.gamePins[i].comments.length + $scope.gamePins[i].likedBy.length);
-    }*/
   }
   
   //popRecommended
