@@ -27,12 +27,6 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
-      {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"}
     ],
     followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
@@ -281,6 +275,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
 
   $scope.showLikes = function(){
     $scope.showGroups = false;
+    $scope.group_tab = null;
     $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
       .success(function(data, status, headers, config){
         if(data.error) $rootScope.popNotify('Error', data.error);

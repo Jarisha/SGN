@@ -90,11 +90,11 @@
 <div id="badge_col" class="profile-column">
   <div id="badge_header" class="profile-column-header">BADGES</div>
   <ul class="badge_chest" class="profile-column-contents-container">
-    <li ng-repeat="badge in dummyData.badges | limitTo:4">
+    <li ng-repeat="badge in dummyData.badges | limitTo: 1">
       <img ng-src="{{badge.url}}">
     </li>
   </ul>
-  <div class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
+  <div ng-show="dummyData.badges.length > 4" class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
 </div>
 
 <!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
