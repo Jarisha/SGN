@@ -450,18 +450,6 @@ form{
   width: 40px;
   padding-right: 10px;
 }
-.notification-item-right-box {
-  float: right;
-  width: 60px;
-}
-
-.notification-item-right-box button{
-  width: 100%;
-  height: 18px;
-  font-size: 11px;
-  line-height: 11px;
-  padding: 0px 5px;
-}
 
 /* Notifications dropdowns */
 .friend_buttons{
@@ -551,9 +539,6 @@ form{
 #message_dropdown a
  {
   padding: 5px;
-}
-#follower_dropdown .notification-item-right-box {
-  width: 60px;
 }
 
 /* Nav Right */
