@@ -600,10 +600,19 @@
   background: #DCDCDC;
   width: 334px;
 }
+#followerNotificationsModal ul {
+  margin: 0px;
+}
 #followerNotificationsModal li {
   border-bottom: 1px solid #EBEBEB;
 }
-
+#followerNotificationsModal button {
+  font-size: 14px;
+  height: 100%;
+}
+#followerNotificationsModal .friend_buttons {
+  display: inline-block;
+}
 /*Badge modal*/
 #badgeModal li {
   display: inline;
