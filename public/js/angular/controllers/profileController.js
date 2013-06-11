@@ -55,6 +55,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
   $scope.GROUPS = 1; $scope.LIKES = 3;
   $scope.people_tab = $scope.FOLLOW;
   $scope.timeline_tab = "showAll";
+  $scope.group_tab = null;
   $scope.bigPin = {};
   $scope.bigFollowBtn = false;
   $scope.changeImage = false;
@@ -274,6 +275,7 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       });
   }
   $scope.showGroup = function(group){
+    $scope.group_tab = group;
     $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
   }
 
