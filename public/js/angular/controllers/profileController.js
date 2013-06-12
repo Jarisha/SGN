@@ -385,6 +385,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
           for(var g in data.groups){
             $scope.groupList.push(g);
           }
+          $scope.showPins = null;
         });
     }
     $scope.showGroup = function(group){
