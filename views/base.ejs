@@ -40,7 +40,7 @@
     if (window.location.hash == '#_=_') window.location.hash = '';
     </script>
     
-    <!-- MINIFIED JS LIBRARIES & PLUGINS -->
+    <!-- JS LIBRARIES & PLUGINS -->
     <!-- Modernizr -->
     <script type="text/javascript" src="/js/modernizr.custom.89496.js"></script>
     <!-- JQuery -->
@@ -59,26 +59,28 @@
     <script type="text/javascript" src="/js/bootstrap-fileupload.js"></script>
     <script type="text/javascript" src="/js/lib/angular/angular.min.js"></script>
     
-    <!-- PRODUCTION JS -->
-    <!--<script type="text/javascript" src="/js/everything.min.js"></script>-->
-    
-    <!-- DEVELOPMENT JS -->
-    <!-- Angular -->
-    <script type="text/javascript" src="/js/angular/app.js"></script>
-    <script type="text/javascript" src="/js/angular/services.js"></script>
-		<script type="text/javascript" src="/js/angular/directives.js"></script>
-    <script type="text/javascript" src="/js/angular/filters.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/frontController.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/storeController.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/profileController.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/userController.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/aboutController.js"></script>
-    <script type="text/javascript" src="/js/angular/controllers/tempController.js"></script>
-    
-		<script type="text/javascript" src="/js/front.js"></script>
-    <script type="text/javascript" src="/js/store.js"></script>
-    <script type="text/javascript" src="/js/about.js"></script>
-    <script type="text/javascript" src="/js/settings.js"></script>
+    <% if(env === 'production'){ %>
+      <!-- PRODUCTION JS -->
+      <script type="text/javascript" src="/js/everything.min.js"></script>
+    <% } else { %>
+      <!-- DEVELOPMENT JS -->
+      <!-- Angular -->
+      <script type="text/javascript" src="/js/angular/app.js"></script>
+      <script type="text/javascript" src="/js/angular/services.js"></script>
+      <script type="text/javascript" src="/js/angular/directives.js"></script>
+      <script type="text/javascript" src="/js/angular/filters.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/frontController.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/storeController.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/profileController.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/userController.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/aboutController.js"></script>
+      <script type="text/javascript" src="/js/angular/controllers/tempController.js"></script>
+      
+      <script type="text/javascript" src="/js/front.js"></script>
+      <script type="text/javascript" src="/js/store.js"></script>
+      <script type="text/javascript" src="/js/about.js"></script>
+      <script type="text/javascript" src="/js/settings.js"></script>
+    <% } %>
     <!-- END DEVELOPMENT -->
     
     <!-- Google Analytics -->
