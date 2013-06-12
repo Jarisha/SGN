@@ -3,6 +3,7 @@ var app = angular.module('myApp', ['myApp.services', 'myApp.directives', 'myApp.
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
   console.log('app.config()');
+  console.log('test livereload again');
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'

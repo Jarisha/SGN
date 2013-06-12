@@ -1,0 +1,263 @@
+/***** Main Layout *****/
+
+.store #content {
+  width: 1340px;
+}
+
+/* media queries to resize masonry content to fit screen */
+
+@media only screen and (max-width: 1339px), only screen and (max-device-width: 1339px) {
+  .store #content {
+    width: 1075px;
+  }
+}
+
+@media only screen and (max-width: 1074px), only screen and (max-device-width: 1074px) {
+  .store #content {
+    width: 810px;
+  }
+}
+
+@media only screen and (max-width: 809px), only screen and (max-device-width: 890px) {
+  .store #main_logo:link,
+  .store #main_logo:visited,
+  .store #main_logo:active,
+  .store #main_logo:hover {
+    left: 405px;
+  }
+}
+
+/*************************** STORE CONTENT ******************************/
+
+.store .store_pin {
+  padding: 0 15px 0 15px;
+}
+
+.store .fav_game {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  z-index: 99;
+  background: grey;
+}
+
+.store .fav_friends {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  z-index: 99;
+  background: grey;
+}
+
+/*Game info*/
+
+.store .game_name {
+  font-size: 20px;
+  text-align: center;
+}
+
+.store .store_body {
+  position: relative;
+}
+
+.store .store_container {
+  position: relative;
+  padding: 5px;
+  margin: 0 -15px 0 -15px;
+  text-align: center;
+  background: white;
+}
+
+.store .game_img {
+  margin: 10px 10px 10px 10px;
+}
+
+/* View Pin modal */
+
+.store #storePinModal {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.store #storePinModal .modal-body {
+  padding: 0;
+  overflow: hidden;
+}
+
+.store .modal-header button {
+  float: right;
+}
+
+.store .game_title {
+  margin: 10px 0 10px 0;
+  font-size: 27px;
+  color: white;
+  text-align: center;
+}
+
+.store .publisher {
+  position: absolute;
+  float: left;
+  margin-left: 20px;
+  color: #FEFBB1;
+  text-align: center;
+}
+
+.store .publisher a {
+  color: #FEFBB1;
+}
+
+.store .modal-header .profile_img {
+  float: left;
+}
+
+.store .view_metadata,
+.store .view_tags {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.store .view_metadata {
+  width: 50%;
+  height: 50px;
+  padding-top: 5px;
+  background: grey;
+}
+
+.store .view_metadata > * {
+  margin-left: 10px;
+}
+
+.store .view_tags {
+  width: 50%;
+}
+
+.store .view_tags > p {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.store .view_tags p span {
+  margin-left: 10px;
+  background: yellow;
+}
+
+.store .view_comment_container {
+  padding: 10px 15px;
+}
+
+.store .view_comment_container .notAvailable {
+  text-align: center;
+}
+
+.store .view_img_container {
+  text-align: center;
+  background: grey;
+}
+
+.store .screenshot {
+  display: block;
+  margin: auto;
+}
+
+.store .img_container {
+  padding: 10px;
+}
+
+/*App store buttons area*/
+
+.store_link_container {
+  padding: 10px 0 10px 0;
+  margin: 0 auto 0 auto;
+  text-align: center;
+}
+
+.store_link_container li {
+  display: inline;
+}
+
+.store_link_container img {
+  height: 40px;
+  padding: 0 4px 0 4px;
+}
+
+/*Price tag*/
+
+.store .price_tag {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  height: 96px;
+}
+
+.store .price {
+  position: absolute;
+  top: 20px;
+  right: -17px;
+  width: 93px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  cursor: default;
+}
+
+/*Not being used right now*/
+
+.store .view_comment {
+  padding: 10px 15px 0;
+  margin: 0 -15px;
+  border-top: 1px solid #FCFAFA;
+}
+
+.store .view_comment * {
+  display: inline-block;
+}
+
+.store .view_post_text {
+  width: 450px;
+  margin-left: 10px;
+  vertical-align: top;
+}
+
+.store .view_respond {
+  padding-top: 15px;
+}
+
+.store .view_respond_txtarea {
+  width: 450px;
+  height: 40px;
+  margin-left: 15px;
+}
+
+.store .view_respond_btn {
+  float: right;
+  margin-top: 10px;
+}
+
+.store .video_tab {
+  width: 33%;
+  font-size: 20px;
+  text-align: center;
+}
+
+.store .pin_tab {
+  width: 33%;
+  font-size: 20px;
+  text-align: center;
+}
+
+.store .friends_tab {
+  width: 33%;
+  font-size: 20px;
+  text-align: center;
+}
+
+.store .vid_container {
+  text-align: center;
+}
+
+.store #pin_content img,
+.store #friends_content img {
+  margin: 5px;
+}

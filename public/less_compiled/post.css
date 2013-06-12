@@ -1,0 +1,86 @@
+.post #content {
+  width: 1075px;
+  margin: 20px auto;
+}
+
+.page_pin {
+  width: 560px;
+  margin: auto;
+  box-shadow: 10px 10px 5px -2px #777777;
+}
+
+.page_header {
+  padding: 10px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+  -moz-box-sizing: border-box;
+}
+
+.post .poster {
+  color: white;
+}
+
+.page_body {
+  background: blue;
+}
+
+.page_content,
+.page_desc {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.page_content {
+  background: #FBFBFA;
+}
+
+.page_content p {
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+.page_desc {
+  background: yellow;
+  background: #EBEBEB;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+.page_footer {
+  background: #EBEBEB;
+  -moz-box-sizing: border-box;
+}
+
+.page_comments {
+  padding: 10px;
+  background: #EBEBEB;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+.page_comments * {
+  display: inline-block;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.view_respond {
+  padding: 10px;
+}
+
+.view_respond img {
+  float: left;
+  width: 40px;
+  height: 40px;
+}
+
+.view_respond textarea {
+  width: 450px;
+  height: 30px;
+  margin-left: 15px;
+  font-size: 20px;
+}
+
+.view_respond button {
+  float: right;
+  margin-top: 10px;
+}

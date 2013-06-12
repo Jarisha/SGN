@@ -20,26 +20,45 @@ module.exports = function(grunt){
 				}
 			}
     },
-    cssmin: {
-      combine: {
+    recess: {
+      //generates concatted & minifed CSS. Run once before push to production.
+      dist: {
+        options: {
+          compile: true,
+          compress: true
+        },
         files: {
-          'public/css/output.min.css': [  'public/css/default.css',
-                                          'public/css/modal.css',
-                                          'public/css/front.css',
-                                          'public/css/store.css',
-                                          'public/css/profile.css',
-                                          'public/css/about.css',
-                                          'public/css/settings.css',
-                                          'public/css/post.css'
-                                        ]
+          'public/less_compiled/compiled.min.css': [  'public/less/default.less',
+                                                      'public/less/modal.less',
+                                                      'public/less/front.less',
+                                                      'public/less/store.less',
+                                                      'public/less/profile.less',
+                                                      'public/less/about.less',
+                                                      'public/less/settings.less',
+                                                      'public/less/post.less'
+                                                    ]
+        }
+      },
+      //compiles each LESS file into corresonding CSS file. Run in dev cycles.
+      dev: {
+        options: {
+          compile: true,              // Compiles CSS or LESS. Fixes white space and sort order.
+        },
+        files: {
+          'public/less_compiled/default.css': ['public/less/default.less'],
+          'public/less_compiled/modal.css': ['public/less/modal.less'],
+          'public/less_compiled/front.css': ['public/less/front.less'],
+          'public/less_compiled/store.css': ['public/less/store.less'],
+          'public/less_compiled/profile.css': ['public/less/profile.less'],
+          'public/less_compiled/about.css': ['public/less/about.less'],
+          'public/less_compiled/settings.css': ['public/less/settings.less'],
+          'public/less_compiled/post.css': ['public/less/post.less'],
         }
       }
     },
     uglify: {
       my_target: {
         files: {
-          //js for Banner Page
-          
           //js for main Quyay App
           'public/js/everything.min.js': [  'public/js/angular/app.js',
                                             'public/js/angular/directives.js',
@@ -58,15 +77,28 @@ module.exports = function(grunt){
                                           ]
         }
       }
+    },
+    //if change less or JS files, recompile all and reload. For Dev.
+    watch: {
+      options: { livereload: true },
+      css: {
+        files:  [ 'public/less/*.less'],
+        tasks:  [ 'recess:dev' ]
+      },
+      js: {
+        files:  [ 'public/js/*.js',
+                  'public/js/angular/*.js',
+                  'public/js/angular/controllers/*.js'
+                ],
+        tasks: []
+      }
     }
   });
   
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('default', ['uglify', 'jshint']);
-  grunt.registerTask('custom', 'log stuff', function(){
-    console.log('custom tasks executed');
-  });
+  grunt.registerTask('default', ['uglify', 'recess:dev']);
 }

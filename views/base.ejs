@@ -9,26 +9,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base href="<%=rootPath%>" target="_blank">
-    <!-- CSS -->
+    <!-- CSS + LESS -->
+    
     <!--<link href='http://fonts.googleapis.com/css?family=Nobile:400,700,regular,bold' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>-->
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen" >
     <link href="/css/bootstrap-scroll-modal.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap-fileupload.css" rel="stylesheet" media="screen">
-    
     <% if(env === 'production'){ %>
-      <link href="/css/output.min.css" rel="stylesheet" media="screen">
-    <% } else {%>
-      <link href="/css/default.css" rel="stylesheet" media="screen">
-      <link href="/css/modal.css" rel="stylesheet" media="screen">
-      <link href="/css/front.css" rel="stylesheet" media="screen">
-      <link href="/css/store.css" rel="stylesheet" media="screen">
-      <link href="/css/profile.css" rel="stylesheet" media="screen">
-      <link href="/css/about.css" rel="stylesheet" media="screen">
-      <link href="/css/settings.css" rel="stylesheet" media="screen">
-      <link href="/css/post.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/compiled.min.css" rel="stylesheet" media="screen">
+    <% } else { %>
+      <link href="/less_compiled/default.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/modal.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/front.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/store.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/profile.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/about.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/settings.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/post.css" rel="stylesheet" media="screen">
     <% } %>
-
       
     <!-- JAVASCRIPT -->
     
@@ -43,6 +42,10 @@
     </script>
     
     <!-- JS LIBRARIES & PLUGINS -->
+    <!-- Client Less compiler -->
+    <!--<script type="text/javascript" src="/js/less-1.3.3.min.js"></script>-->
+    <!-- liveReload -->
+    <script src="http://localhost:35729/livereload.js"></script>
     <!-- Modernizr -->
     <script type="text/javascript" src="/js/modernizr.custom.89496.js"></script>
     <!-- JQuery -->
