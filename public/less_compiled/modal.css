@@ -94,10 +94,10 @@
   width: 33%;
 }
 
-.modal_slice.post_option img,
-.modal_slice.post_option_end img {
-  width: 60px;
-  height: 60px;
+.modal_slice.post_option i,
+.modal_slice.post_option_end i {
+  display: block;
+  margin: 12px 0 6px 0px;
 }
 
 .modal_slice.post_option:hover {

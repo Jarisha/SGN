@@ -11,7 +11,7 @@ var userAPI = require('./user');
 var base = require('./base.js');
 var E = require('../../customErrors');
 
-var errlog = app.errlog;
+var errlog = app.errlog;  
 var evtlog = app.evtlog;
 var outlog = app.outlog;
 
