@@ -27,6 +27,12 @@ function ProfileController($scope, $rootScope, $http, $location, $timeout, resol
       {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
+      {url: "http://localhost/images/misc_images/badge1.png"},
       {url: "http://localhost/images/misc_images/badge1.png"}
     ],
     followers: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}],
