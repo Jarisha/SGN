@@ -1,5 +1,3 @@
-'use strict';
-
 /* Services & Factories
  * Services are functions that Angular recognizes.  Think of them as utility functions visible
  * anywhere they are injected.

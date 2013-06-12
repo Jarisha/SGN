@@ -102,6 +102,7 @@ else{
                                       }
                             }));
     //express global
+    app.locals.env = 'coleman';
     app.locals.host = 'localhost';
     app.locals.rootPath =  "http://" + 'localhost';
 
@@ -155,6 +156,7 @@ else{
                                       }
                             }));
     //express global
+    app.locals.env = 'dev';
     app.locals.host = config.dev_host;
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -209,6 +211,7 @@ else{
                             }));
     
     //express globals
+    app.locals.env = 'staging';
     app.locals.host = config.staging_host;
     app.locals.rootPath =  "http://" + config.staging_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -285,6 +288,7 @@ else{
                             }));
     
     //express globals
+    app.locals.env = 'production';
     app.locals.host = config.production_host;
     app.locals.rootPath =  "http://" + config.production_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));

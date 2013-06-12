@@ -1,5 +1,3 @@
-'use strict';
-
 /* Directives */
 /* NOTE: directives must be lowercase letters ONLY. '_' and '-' chars will screw them up as well. */
 
