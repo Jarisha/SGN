@@ -83,12 +83,11 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       $scope.bigPin = $scope.dummyData[index];
       $('#storePinModal').modal({ dynamic: true });
     }
-    /* temp variables - used only in this controller */
-    
+
     //Setup non AJAX related javascript
     $scope.setup = function(){
       storeSetup($scope);
-    } 
+    }
   }
 ];
 
