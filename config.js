@@ -8,7 +8,6 @@ exports.CDN = 'http://1d0cd4fe9d04a622c153-67a9c5f20077a0cbea40c22fb907467d.r89.
 //Riak
 exports.dev_db_host = dev_ip;
 exports.dev_db_port = 8100;
-//exports.dev_ssl_path = 'C:/node/Q_SSL/';
 
 exports.dev_temp_path = 'C:/Users/Tony/AppData/Local/Temp/';
 exports.dev_log_path = 'C:/node/Q_LOG/';

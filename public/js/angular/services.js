@@ -45,7 +45,7 @@ angular.module('myApp.services', []).
       return obj;
     }
   })
-  .factory('gamepinService', function($http, $rootScope){
+  .factory('gamepinService', ['$http', '$rootScope', function($http, $rootScope){
     return {
       getPinList: function(callback){
         $http({ method: 'POST', url: $rootScope.rootPath +'/api/getPinList' })
@@ -110,8 +110,8 @@ angular.module('myApp.services', []).
           });
       }
     }
-  })
-  .service('loadContent', function($q, gamepinService){
+  }])
+  .service('loadContent', ['$q', 'gamepinService', function($q, gamepinService){
     ('bunnies!');
     this.loadPins = function(){
       var deferred = $q.defer();
@@ -123,7 +123,7 @@ angular.module('myApp.services', []).
       });
       return deferred.promise;
     }
-  });
+  }]);
   /*.service('debugService', function(){
     this.log = function(variable) {
       (variable);

@@ -9,7 +9,6 @@ var numCores = require('os').cpus().length;
 //External modules, read in from node_modules
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
-var socket = require('socket.io');
 var httpGet = require('http-get');
 var request = require('request');
 var bcrypt = require('bcrypt-nodejs');
@@ -49,7 +48,6 @@ exports.rackit = rackit;
 
 //node cluster encapsulates web server creation
 if(cluster.isMaster){
-
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
@@ -120,7 +118,6 @@ else{
       info: function(){}
     }
     apiRoutes = require('./routes/apiRoutes');
-    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     util = require('./utility');
 
@@ -196,8 +193,6 @@ else{
       outlog.info('HTTPS Express server listening on port 443 in dev mode');
       console.log('HTTPS Express server listening on port 443 in dev mode');
     });
-    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
 
   app.configure('staging', function(){
@@ -350,9 +345,6 @@ else{
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443');
     });
-    
-    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
   
   app.get('/debug', function(req, res){
@@ -382,31 +374,6 @@ else{
   app.get('/about/:about', auth, function(req, res){
     res.render('base');
   });
-  /*app.get('/fbfail', function(req, res){
-    res.send('facebook login failure');
-  });
-  app.get('/auth/facebook',
-    //passConfig.passport.authenticate('facebook', { scope: ['email'] })
-  );
-  app.get('/auth/facebook/callback',
-    //passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
-    function(req, res) {
-      //if we need to register this facebook user, store user params into req.session.fbUser
-      if(req.user.registerMe){
-        req.session.fbUser = req.user;
-        res.redirect('/');
-      }
-      //if logging in, set fb flag and log in
-      else{
-        console.log('Login via facebook success!');
-        req.session.loggedIn = req.user.data.email;
-        req.session.userEmail = req.user.data.email;
-        req.session.userName = req.user.data.name;
-        res.redirect('/');
-      }
-    }
-  );
-  */
   app.get('/user/:user', auth, function(req, res){
     return res.render('base');
   });

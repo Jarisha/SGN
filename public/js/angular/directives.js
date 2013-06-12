@@ -11,11 +11,11 @@ angular.module('myApp.directives', [])
   }])
   
   //apply JQuery masonry once last ng-repeat has loaded
-  .directive('masonry', function(version) {
+  .directive('masonry', function() {
     return {
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.
-      link: function(scope, element, attrs, $timeout){
+      link: function(scope){
         //once the last element has loaded, fire masonry
         if(scope.$last){
           console.log('last');
@@ -24,11 +24,11 @@ angular.module('myApp.directives', [])
       }
     };
   })
-  .directive('profileMasonry', function(version) {
+  .directive('profileMasonry', function() {
     return {
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.
-      link: function(scope, element, attrs){
+      link:function(scope){
         //Whenever we extend our pinList array, we trigger a new $last event
         if(scope.$last){
           console.log('profile last');
