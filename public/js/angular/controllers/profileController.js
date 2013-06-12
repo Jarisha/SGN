@@ -40,7 +40,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
       following: [{url: "http://localhost/images/30x30.gif"}, {url: "http://localhost/images/30x30.gif"}]
     };
   
-    $scope.showPins = $scope.activityPins;
+    $scope.showPins = null;
     $scope.groupList = [];
     $scope.groupData = {};
   
@@ -56,11 +56,11 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     $scope.GROUPS = 1; $scope.LIKES = 3;
     $scope.people_tab = $scope.FOLLOW;
     $scope.timeline_tab = "showAll";
+    $scope.showGroups = false;
     $scope.group_tab = null;
     $scope.bigPin = {};
     $scope.bigFollowBtn = false;
     $scope.changeImage = false;
-    $scope.showGroups = false;
     
     $scope.changeState = function(){
       $scope.masonInit = false;
@@ -313,56 +313,11 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
           .error(function(data, status, headers, config){
           });
       }
-      
-      $scope.toggleCategories = function(){
-        if(!$scope.groupToggle){
-          $('#view_groups .dropdown-menu').css('display', 'block');
-          $scope.groupToggle = true;
-        }
-        else{
-          ('hide');
-          $('#view_groups .dropdown-menu').css('display', 'none');
-          $scope.groupToggle = false;
-        }
-      }
-      
-      $scope.getGroupData = function(){
-        $scope.displayMode.activity = false;
-        $scope.displayMode.group = true;
-        $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
-          .success(function(data, status, headers, config){
-            $scope.groupList = [];
-            $scope.groupData = data.groups;
-            for(var g in data.groups){
-              $scope.groupList.push(g);
-            }
-            $scope.showPins = null;
-          })
-          .error(function(data, status, headers, config){
-            console.log(data);
-          });
-      }
+
       $scope.showGroup = function(group){
         $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
       }
-      $scope.showActivity = function(){
-        $scope.displayMode.activity = true;
-        $scope.displayMode.group = false;
-        $scope.showPins = $scope.activityPins;
-      }
-      $scope.showLikes = function(){
-        $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
-          .success(function(data, status, headers, config){
-            if(data.error) $rootScope.popNotify('Error', data.error);
-            else if(data.likedPins){
-              //$rootScope.popNotify('Success', data.success);
-              $scope.showPins = data.likedPins;
-            }
-          })
-          .error(function(data, status, headers, config){
-            console.log(data);
-          });
-      }
+
     }
     
     $scope.addBigComment = function(text, index){
