@@ -2356,7 +2356,7 @@ exports.getLikedPins = function(req, res){
     pinAPI.get_RO_gamepin(pinId, function(err, RO_pin){
       if(err){
         console.log(err);
-        if(err instanceof E.NotFoundError) return callback(null, null);
+        if(err.status_code === 404) return callback(null, null);
         else return callback(err, null);
       }
       return callback(null, RO_pin);

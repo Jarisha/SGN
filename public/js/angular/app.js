@@ -141,23 +141,25 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   //Masonry calls
   $rootScope.masonry = function(){
     console.log('masonry');
-    $('img').imagesLoaded(function(){
-      $('#content').masonry({
-        itemSelector : '.game_pin, .store_pin',
-        isFitWidth: true
+    $('#content').imagesLoaded()
+      .always(function(instance){
+        $('#content').masonry({
+          itemSelector : '.game_pin, .store_pin',
+          isFitWidth: true
+        });
+        //hack to fix masonry overlaps. (badge)
+        $timeout(function(){
+          console.log('time');
+          $('#content').masonry('reload');
+        }, 1000);
       });
-      //hack to fix masonry overlaps. (badge)
-      $timeout(function(){
-        console.log('time');
-        $('#content').masonry('reload');
-      }, 1000);
-    });
   }
   $rootScope.reload = function(){
     console.log('appendMason');
-    $('img').imagesLoaded(function(){
-      $('#content').masonry('reload');
-    });
+    $('#content').imagesLoaded()
+      .always(function(instance){
+        $('#content').masonry('reload');
+      });
   }
   $rootScope.remason = function(){
     $('#content').masonry('reload');
@@ -166,21 +168,23 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
     $('#content').masonry('destroy');
   }
   $rootScope.profileMasonry = function(){
-    $('#profile_data_inner').imagesLoaded(function(){
-      $('#profile_data_inner').masonry({
-        itemSelector : '.game_pin',
-        isFitWidth: true
+    $('#profile_data_inner').imagesLoaded()
+      .always(function(instance){
+        $('#profile_data_inner').masonry({
+          itemSelector : '.game_pin',
+          isFitWidth: true
+        });
+        $timeout(function(){
+          $('#profile_data_inner').masonry('reload');
+        }, 1000);
       });
-      $timeout(function(){
-        $('#profile_data_inner').masonry('reload');
-      }, 1000);
-    });
   }
   $rootScope.profileReload = function(){
     console.log('reload profile masonry');
-    $('#profile_data_inner').imagesLoaded(function(){
-      $('#profile_data_inner').masonry('reload');
-    });
+    $('#profile_data_inner').imagesLoaded()
+      .always(function(instance){
+        $('#profile_data_inner').masonry('reload');
+      });
   }
   $rootScope.destroyProfileMason = function(){
     $('#profile_data_inner').masonry('destroy');

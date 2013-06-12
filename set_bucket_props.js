@@ -4,7 +4,16 @@
  */
 
 var config = require('./config');
-var riak = require('nodiak').getClient('http', '127.0.0.1', 8091);
+
+console.log('mode: '+process.env.NODE_ENV);
+
+if(process.env.NODE_ENV === 'dev')
+  var riak = require('nodiak').getClient('http', config.dev_db_host, config.dev_db_port);
+else if(process.env.NODE_ENV === 'coleman')
+  var riak = require('nodiak').getClient('http', '127.0.0.1', 8091);
+else if(process.env.NODE_ENV === 'production')
+  var riak = require('nodiak').getClient('http', config.production_db_host, config.production_db_port);
+
 
 riak.ping(function(err, response){
   console.log('Connection to riak db: ' + response);

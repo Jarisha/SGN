@@ -422,7 +422,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
 ];
 
 ProfileController.resolve = {
-  resolveProfile: function($q, $rootScope, $location, $http, $timeout){
+  resolveProfile: ['$q', '$rootScope', '$location', '$http', '$timeout', function($q, $rootScope, $location, $http, $timeout){
     var deferred = $q.defer();
     
     //get session data + login state
@@ -443,5 +443,5 @@ ProfileController.resolve = {
       }
     });
     return deferred.promise;
-  }
+  }]
 }
