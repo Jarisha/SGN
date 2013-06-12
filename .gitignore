@@ -17,4 +17,3 @@ coverage.html
 doc
 *.komodoproject
 node_modules/
-public/css/font-awesome/
