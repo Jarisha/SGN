@@ -260,10 +260,6 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
         });
     }
 
-    $scope.showGroup = function(group){
-      $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-    }
-
     $scope.addBigComment = function(text, index){
       $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
       $http({ method:'post', url:'/api/gamepin/addComment',
@@ -294,6 +290,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     }
 
     $scope.showLikes = function(){
+      $scope.group_tab = null;
       $scope.showGroups = false;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
         .success(function(data, status, headers, config){
