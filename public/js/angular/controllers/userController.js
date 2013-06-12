@@ -310,21 +310,7 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
         else if(successMessage) $rootScope.popNotify(successMessage);
       });
     }
-    
-    /*$scope.toggleCategories = function(){
-      ('showCategories');
-      if(!$scope.groupToggle){
-        ('show');
-        $('#view_groups .dropdown-menu').css('display', 'block');
-        $scope.groupToggle = true;
-      }
-      else{
-        ('hide');
-        $('#view_groups .dropdown-menu').css('display', 'none');
-        $scope.groupToggle = false;
-      }
-    }*/
-    
+
     $scope.getGroupData = function(){
       //$scope.displayMode = 'group';
       $scope.displayMode.activity = false;
@@ -383,7 +369,7 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
           .error(function(data, status, headers, config){
             console.log(data);
           });
-      }
+    }
     
     $scope.showGroup = function(group){
       $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
