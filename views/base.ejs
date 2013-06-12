@@ -15,18 +15,20 @@
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen" >
     <link href="/css/bootstrap-scroll-modal.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap-fileupload.css" rel="stylesheet" media="screen">
-    <!--<link href="/less_compiled/default.css" rel="stylesheet" media="screen">-->
     
-    <link href="/css/default.css" rel="stylesheet" media="screen">
-      
-    <link href="/css/modal.css" rel="stylesheet" media="screen">
-    <!--<link href="<%= rootPath %>/css/default.css" rel="stylesheet">-->
-    <link href="/css/front.css" rel="stylesheet" media="screen">
-    <link href="/css/store.css" rel="stylesheet" media="screen">
-    <link href="/css/profile.css" rel="stylesheet" media="screen">
-    <link href="/css/about.css" rel="stylesheet" media="screen">
-    <link href="/css/settings.css" rel="stylesheet" media="screen">
-    <link href="/css/post.css" rel="stylesheet" media="screen">
+    <% if(env === 'production'){ %>
+      <link href="/css/output.min.css" rel="stylesheet" media="screen">
+    <% } else {%>
+      <link href="/css/default.css" rel="stylesheet" media="screen">
+      <link href="/css/modal.css" rel="stylesheet" media="screen">
+      <link href="/css/front.css" rel="stylesheet" media="screen">
+      <link href="/css/store.css" rel="stylesheet" media="screen">
+      <link href="/css/profile.css" rel="stylesheet" media="screen">
+      <link href="/css/about.css" rel="stylesheet" media="screen">
+      <link href="/css/settings.css" rel="stylesheet" media="screen">
+      <link href="/css/post.css" rel="stylesheet" media="screen">
+    <% } %>
+
       
     <!-- JAVASCRIPT -->
     
@@ -63,7 +65,7 @@
       <!-- PRODUCTION JS -->
       <script type="text/javascript" src="/js/everything.min.js"></script>
     <% } else { %>
-      <!-- DEVELOPMENT JS -->
+      <!-- DEVELOPMENT JS-->
       <!-- Angular -->
       <script type="text/javascript" src="/js/angular/app.js"></script>
       <script type="text/javascript" src="/js/angular/services.js"></script>

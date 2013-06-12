@@ -20,6 +20,21 @@ module.exports = function(grunt){
 				}
 			}
     },
+    cssmin: {
+      combine: {
+        files: {
+          'public/css/output.min.css': [  'public/css/default.css',
+                                          'public/css/modal.css',
+                                          'public/css/front.css',
+                                          'public/css/store.css',
+                                          'public/css/profile.css',
+                                          'public/css/about.css',
+                                          'public/css/settings.css',
+                                          'public/css/post.css'
+                                        ]
+        }
+      }
+    },
     uglify: {
       my_target: {
         files: {
@@ -48,6 +63,7 @@ module.exports = function(grunt){
   
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   
   grunt.registerTask('default', ['uglify', 'jshint']);
   grunt.registerTask('custom', 'log stuff', function(){
