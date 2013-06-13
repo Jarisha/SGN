@@ -99,8 +99,17 @@ html {
   background-size: 100% auto;
   padding-bottom: 100px;
 }
+@media only screen and (max-width: 1180px){
+  html {
+    background-image: url("../images/UI/Q_gradient.png");
+    background-size: 1180px auto;
+    padding-bottom: 100px;
+  }
+}
+
 body {
   background: none;
+  overflow-x: hidden;
 }
 div{
   margin:0;
@@ -630,7 +639,7 @@ form{
   border-top: 1px solid #CFCACA;
   margin: auto;
   width: 100%;
-  min-width: 800px;
+  min-width: 1180px;
   z-index: 2;
 }
 #subnav_filler {
