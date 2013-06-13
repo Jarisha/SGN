@@ -588,7 +588,7 @@
 
 .profile .badge_chest img {
   width: 60px;
-  margin: 5px 3px;
+  margin: 5px auto;
 }
 
 /* friends followers */

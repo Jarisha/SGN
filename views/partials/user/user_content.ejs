@@ -65,7 +65,6 @@
       <a ng-show="people_tab==FRIEND" ng-repeat="friend in user.friends" href="/user/{{friend.userName}}">
         <img title="{{friend.userName}}" width="40px" height="40px" ng-src="{{friend.profileImg || '/images/30x30.gif'}}"/>
       </a>
-      
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
@@ -76,17 +75,9 @@
     </div>
   </div>
 </div>
-
-<!-- TIMELINE -->
-<div id="timeline_col" class="profile-column" ng-include="'/partials/timeline'"></div>
-
-<div id="badge_col" class="profile-column">
-  <div id="badge_header" class="profile-column-header">BADGES</div>
-  <ul class="badge_chest" class="profile-column-contents-container">
-    <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
-  </ul>
-  <div class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
-</div>
+<!-- Timeline column and badge column -->
+<div id="timeline-badges-columns" ng-include="'partials/profile-user-columns'"></div>
+<!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
 <div id="profile_data">
   <ul id="group_bar" class="clearfix" ng-show="showGroups">
     <li  ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</li>
