@@ -89,7 +89,8 @@
 }
 
 .front .respond_btn {
-  float: right;
+  position: relative;
+  left: 141px;
   margin-top: 10px;
 }
 
