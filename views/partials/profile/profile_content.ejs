@@ -61,63 +61,9 @@
       </a>
     </div>
   </div>
-  <div id="footer_container">
-    <div id="profile_footer">
-      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS">Groups</div>
-      <div ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
-    </div>
-  </div>
+  <div id="footer_container" ng-include="'partials/profile_footer'"></div>
 </div>
-
-<!-- TIMELINE -->
-<div id="timeline_col" class="profile-column">
-  <div id="timeline_header" class="profile-column-header" >TIMELINE</div>
-  <div class="timeline_container">
-    <ul style="margin:0; padding:0;">
-      <li class="timelineEvent" ng-repeat="event in timeline | reverse"> <!-- order from newest to eldest -->
-        <a href="{{event.targetLink}}">
-          <img class="sourceImg" ng-src="{{event.sourceImg}}" />
-          <div class="timelineText">
-            {{ event.message }}
-          </div>
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- BADGE COLUMN -->
-<div id="badge_col" class="profile-column">
-  <div id="badge_header" class="profile-column-header">BADGES</div>
-  <ul class="badge_chest" class="profile-column-contents-container">
-    <li ng-repeat="badge in dummyData.badges | limitTo: 1">
-      <img ng-src="{{badge.url}}">
-    </li>
-  </ul>
-  <!-- Disabling view all button because showing a badge modal is just confusing when there is no badge system set up. -->
-<!--   <div ng-show="dummyData.badges.length > 4" class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div> -->
-</div>
-
+<!-- Timeline column and badge column -->
+<div id="timeline-badges-columns" ng-include="'partials/profile-user-columns'"></div>
 <!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
-<div id="profile_data">
-  <ul id="group_bar" class="clearfix" ng-show="showGroups">
-    <li ng-repeat="group in groupList" ng-click="showGroup(group)" ng-class="{'active_tab': group_tab==group}">{{group}}</li>
-  </ul>
-  <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
-      <div class="profile_options hidden">
-        <a> Edit </a>
-        <a> Delete </a>
-      </div>
-      <a class="view_trigger" ng-click="viewBigPin(pin)">
-        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
-      </a>
-      <div class="pin_footer">
-        <p class="game_description">{{pin.description}}</p>
-        <p class="game_attributes">
-          <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="profile_data" ng-include="'partials/profile_data'"></div>
