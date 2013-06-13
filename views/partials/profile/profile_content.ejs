@@ -71,25 +71,4 @@
 <!-- Timeline column and badge column -->
 <div id="timeline-badges-columns" ng-include="'partials/profile-user-columns'"></div>
 <!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
-<div id="profile_data">
-  <ul id="group_bar" class="clearfix" ng-show="showGroups">
-    <li ng-repeat="group in groupList" ng-click="showGroup(group)" ng-class="{'active_tab': group_tab==group}">{{group}}</li>
-  </ul>
-  <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
-      <div class="profile_options hidden">
-        <a> Edit </a>
-        <a> Delete </a>
-      </div>
-      <a class="view_trigger" ng-click="viewBigPin(pin)">
-        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220"/>
-      </a>
-      <div class="pin_footer">
-        <p class="game_description">{{pin.description}}</p>
-        <p class="game_attributes">
-          <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="profile_data" ng-include="'partials/profile_data'"></div>
