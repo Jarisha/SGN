@@ -78,21 +78,7 @@
 </div>
 
 <!-- TIMELINE -->
-<div id="timeline_col" class="profile-column">
-  <div id="timeline_header" class="profile-column-header" >TIMELINE</div>
-  <div class="timeline_container">
-    <ul style="margin:0; padding:0;">
-      <li class="timelineEvent" ng-repeat="event in timeline | reverse">
-        <a href="{{event.targetLink}}">
-          <img class="sourceImg" ng-src="{{event.sourceImg}}" />
-          <div class="timelineText">
-            {{event.message}}
-          </div>
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
+<div id="timeline_col" class="profile-column" ng-include="'/partials/timeline'"></div>
 
 <div id="badge_col" class="profile-column">
   <div id="badge_header" class="profile-column-header">BADGES</div>
