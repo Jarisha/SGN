@@ -68,12 +68,7 @@
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
-  <div id="footer_container">
-    <div id="profile_footer">
-      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div>
-      <div ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
-    </div>
-  </div>
+  <div id="footer_container" ng-include="'partials/profile_footer'"></div>
 </div>
 <!-- Timeline column and badge column -->
 <div id="timeline-badges-columns" ng-include="'partials/profile-user-columns'"></div>
