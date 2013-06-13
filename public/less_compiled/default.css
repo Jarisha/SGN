@@ -969,6 +969,10 @@ form {
   font-weight: bold;
 }
 
+.targetThumb .friend_buttons {
+  float: right;
+}
+
 /* Enlarged Gamepin */
 
 .profile_img {
@@ -979,6 +983,10 @@ form {
   cursor: pointer;
   /*cursor: url("../images/UI/qicon.png");*/
 
+}
+
+.icon-heart {
+  top: 5px;
 }
 
 /*Prevents dotted border from appearing on clicking "Comment" in Firefox*/

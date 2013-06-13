@@ -1505,11 +1505,14 @@ exports.unfollow = function(req, res){
 
 //send friend request from source to target
 exports.friendRequest = function(req, res){
-  console.log(req.body);
   var sourceId = req.body.sourceId,
       targetName = req.body.targetName,
       targetId = req.body.targetId;
-  
+      
+  if(sourceId === targetId){
+    outlog.info('Error: cannot friend yourself');
+    return res.json({ error: 'Error: cannot friend yourself' });
+  }
   var requestId;
   var requestEvent =  { date: util.getDateObj(),
                         sourceUser: sourceId,
@@ -1527,10 +1530,6 @@ exports.friendRequest = function(req, res){
   }
   else next();
   function next(){
-    if(sourceId === targetId){
-      outlog.info('Error: cannot friend yourself');
-      return res.json({ error: 'Error: cannot friend yourself' });
-    }
     //create event, fetch targetUser, add request to his notifications
     async.waterfall([
       //create event, get event id
@@ -1942,7 +1941,8 @@ function fetchPinAndComments(gamepins, req, callback){
           pinMap[pinId].profileImg = ref_obj.data.profileImg;
           pinMap[pinId].comments = [];
           pinMap[pinId].likedBy = likedBy;
-          pinMap[pinId].likedFlag = false;                  //set likedflag for front page
+          pinMap[pinId].likedFlag = false;           //set likedflag for front page
+          
           if(likedBy.indexOf(req.session.userEmail) !== -1) pinMap[pinId].likedFlag = true;
           // pinMap[pinId].likeFlag = false;
           // if(req.session.likes.indexOf(pinId) !== -1) pinMap[pinId].likeFlag = true;
