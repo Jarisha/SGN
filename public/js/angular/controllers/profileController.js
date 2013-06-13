@@ -57,7 +57,6 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     $scope.people_tab = $scope.FOLLOW;
     $scope.timeline_tab = "showAll";
     $scope.content_tab = 0;
-    $scope.showGroups = false;
     $scope.group_tab = null;
     $scope.bigPin = {};
     $scope.bigFollowBtn = false;
@@ -263,7 +262,6 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
 
     $scope.getGroupData = function(){
       $scope.content_tab = $scope.GROUPS;
-      $scope.showGroups = true;
       $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
         .success(function(data, status, headers, config){
           $scope.groupList = [];
@@ -283,7 +281,6 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     $scope.showLikes = function(){
       $scope.content_tab = $scope.LIKES;
       $scope.group_tab = null;
-      $scope.showGroups = false;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
         .success(function(data, status, headers, config){
           if(data.error) $rootScope.popNotify('Error', data.error);

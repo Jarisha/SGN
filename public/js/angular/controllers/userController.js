@@ -27,7 +27,6 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     $scope.isFriend = false;
   
     //Tab state
-
     $scope.FOLLOW = 1; $scope.FRIEND = 2;
     $scope.GROUPS = 1; $scope.LIKES = 3;
     $scope.content_tab = "none";
@@ -327,7 +326,6 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
 
     $scope.getGroupData = function(){
       $scope.content_tab = $scope.GROUPS;
-      $scope.showGroups = true;
       $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
         .success(function(data, status, headers, config){
           $scope.groupList = [];
@@ -350,7 +348,6 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     $scope.showLikes = function(){
       $scope.content_tab = $scope.LIKES;
       $scope.group_tab = null;
-      $scope.showGroups = false;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
         .success(function(data, status, headers, config){
           if(data.error) $rootScope.popNotify('Error', data.error);
