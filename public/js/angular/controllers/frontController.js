@@ -205,6 +205,8 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         $scope.bigPin.publisher = data.publisher;
         $scope.bigPin.datePosted = data.datePosted;
         $scope.bigPin.videoEmbed = data.videoEmbed;
+        $scope.bigPin.likedBy = data.likedBy;
+        console.log(data.likedBy);
         $scope.bigPin.comments = data.comments;
         console.log($scope.bigPin.posterName + ' === ' + $rootScope.userName);
         if($scope.bigPin.videoEmbed){

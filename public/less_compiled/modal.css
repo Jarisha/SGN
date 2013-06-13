@@ -736,6 +736,7 @@
 
 #followerNotificationsModal .friend_buttons {
   display: inline-block;
+  float: right;
 }
 
 /*Badge modal*/
