@@ -260,21 +260,6 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
         });
     }
 
-    $scope.showGroup = function(group){
-      $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
-    }
-
-    $scope.addBigComment = function(text, index){
-      $scope.bigPin.comments.push({ posterName: $rootScope.userName, content: text, posterImg: $rootScope.userImg });
-      $http({ method:'post', url:'/api/gamepin/addComment',
-        data:{pinId:  $scope.bigPin.id, posterId: $rootScope.userEmail, posterName: $rootScope.userName, content: text} })
-        .success(function(data, status, headers, config){
-          $('textarea.view_respond_txtarea').val('');
-        })
-        .error(function(data, status, headers, config){
-        });
-    }
-
     $scope.getGroupData = function(){
       $scope.showGroups = true;
       $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.profile.userName} })
@@ -294,6 +279,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     }
 
     $scope.showLikes = function(){
+      $scope.group_tab = null;
       $scope.showGroups = false;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
         .success(function(data, status, headers, config){
