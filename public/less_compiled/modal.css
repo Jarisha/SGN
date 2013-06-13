@@ -711,21 +711,21 @@
 
 /*Social Notifications Modals*/
 
-#followerNotificationsModal {
+.notificationsModal {
   position: static;
   width: 269px;
   margin: 50px 0 0 40%;
 }
 
-#followerNotificationsModal .modal-body {
+.notificationsModal .modal-body {
   overflow-y: auto;
 }
 
-#followerNotificationsModal ul {
+.notificationsModal ul {
   margin: 0;
 }
 
-#followerNotificationsModal li {
+.notificationsModal li {
   padding: 5px;
 }
 
