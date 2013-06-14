@@ -27,7 +27,7 @@ var riakConfig;
 var god_mode = true;
 
 //only admin users have access to our content management systems located at '/debug'
-var adminUsers = ['dtonys@gmail.com','colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
+var adminUsers = ['dtonys@gmail.com', 'colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -357,6 +357,11 @@ else{
         return res.render('debug');
     }
     res.render('base');
+  });
+  
+  //case for blitz.io
+  app.get('/mu-1234-cafe-5678-babe', function(req, res){
+    return res.send('42');
   });
   
   app.get('/', auth, function(req, res){

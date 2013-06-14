@@ -14,7 +14,6 @@
     "winston": "0.6.2",
     "http-get": "0.5.9",
     "passport-facebook": "0.1.4",
-    "rackit": "0.1.0",
     "request": "2.16.6",
     "node-mandrill": "1.0.1",
     "toobusy": "0.2.3",

@@ -2136,19 +2136,45 @@ exports.changeAvatar = function(req, res){
     return res.json({error: 'No image recieved by server'});
   }
   var url;
-  app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
-    if(err){
-      if(IE){
-        errlog.info('File upload error');
-        res.contentType('text/plain'); 
-        return res.send(JSON.stringify({error: 'File upload error'}));
+  
+  tryThis();
+	//need to retry the CDN request in case we get a 401
+	function tryThis(){
+		app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
+			if(err){
+				errlog.info('rackspace add error: ' + err);
+				//if rackit sends 401, reauthenticate, then try again via recursive strategy
+				if(err.message.indexOf('401') !== -1){
+          errlog.info('recieved 401 from rackspace CDN, calling reAuth');
+					app.rackit.reAuth(function(err){
+						if(err){
+              errlog.info('reAuth failed: ' + err.message)
+              if(IE){
+                res.contentType('text/plain');
+                return res.send(JSON.stringify({error: 'server error: reAuth error'+err.message }));
+              }
+              else return res.json({ error: 'server error: reAuth error'+err.message });
+						}
+            errlog.info('reAuth success. Retrying changeAvatar.')
+						return tryThis();
+					});
+				}
+        //if error is not 401 related, we have a problem.
+        else{
+          if(IE){
+            res.contentType('text/plain');
+            return res.send(JSON.stringify({error: 'Rackspace add error' + err.message}));
+          }
+          else return res.json({ error: 'Rackspace add error' + err.message });
+        }
+			}
+      else{
+        url = app.rackit.getURI(cloudpath);
+        req.session.avatarUrl = url;
+        next();
       }
-      return res.json({error: err});
-    }
-    url = app.rackit.getURI(cloudpath);
-    req.session.avatarUrl = url;
-    next();
-  });
+		});
+	}
   //update the user
   function next(){
     app.riak.bucket('users').objects.get(req.session.loggedIn, util.user_resolve, function(err, obj){

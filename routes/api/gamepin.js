@@ -349,46 +349,54 @@ exports.postImageUpload = function(req, res){
 	function tryThis(){
 		app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
 			if(err){
-				errlog.info('rackspace error:' + err);
-				//reset rackit when it dares to give me a 401, and fricking call the function again (recursive strategy)
+				errlog.info('rackspace add error: ' + err);
+				//if rackit sends 401, reauthenticate, then try again via recursive strategy
 				if(err.message.indexOf('401') !== -1){
+          errlog.info('recieved 401 from rackspace CDN, calling reAuth');
 					app.rackit.reAuth(function(err){
 						if(err){
-							console.log('reAuth failure: ');
-							console.log(err);
+              errlog.info('reAuth failed: ' + err.message)
+              if(IE){
+                res.contentType('text/plain');
+                return res.send(JSON.stringify({error: 'server error: reAuth error'+err.message }));
+              }
+              else return res.json({ error: 'server error: reAuth error'+err.message });
 						}
-						console.log('reAuth was a success, hopefully. calling this action again');
-						errlog.info('trying again');
+            errlog.info('reAuth success. Retrying postImageUpload.')
 						return tryThis();
 					});
 				}
-				if(IE){
-					res.contentType('text/plain');
-					return res.send(JSON.stringify({error: "CDN error"}));
-				}
-				return res.json({error: err});
+        //if error is not 401 related, we have a problem.
+        else{
+          if(IE){
+            res.contentType('text/plain');
+            return res.send(JSON.stringify({error: 'Rackspace add error' + err.message}));
+          }
+          else return res.json({ error: 'Rackspace add error' + err.message });
+        }
 			}
-			var viewUrl = app.rackit.getURI(cloudpath);
-			post_data.sourceUrl = viewUrl;
-			post_data.cloudPath = cloudpath;
-			postGamePin(post_data, function(err, data){
-				if(err){
-					errlog.info('postGamePin error: ' + err);
-					if(IE){
-						res.contentType('text/plain');
-						return res.send(JSON.stringify({ error: "Fetch user error" }));
-					}
-					return res.json({error: err});
-				}
-				outlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
-				evtlog.info(post_data.posterName + ' uploaded image onto ' + post_data.category);
-				
-				if(IE){
-				 res.contentType('text/plain');
-				 return res.send(JSON.stringify(data));
-				}
-				return res.json(data);
-			});
+      else{
+        post_data.sourceUrl = app.rackit.getURI(cloudpath);;
+        post_data.cloudPath = cloudpath;
+        postGamePin(post_data, function(err, data){
+          if(err){
+            errlog.info('postGamePin error: ' + err.message);
+            if(IE){
+              res.contentType('text/plain');
+              return res.send(JSON.stringify({ error: 'postGamePin error: '+err.message }));
+            }
+            return res.json({error: 'postGamePin error: '+err.message});
+          }
+          outlog.info(post_data.posterName+' uploaded image onto '+post_data.category);
+          evtlog.info(post_data.posterName+' uploaded image onto '+post_data.category);
+          
+          if(IE){
+           res.contentType('text/plain');
+           return res.send(JSON.stringify(data));
+          }
+          return res.json(data);
+        });
+      }
 		});
 	}
 }
@@ -433,35 +441,60 @@ exports.postImageUrl = function(req, res){
 	};
 	
 	//stream url for image directly into rackspace...rackmagic!
-	http.get(req.body.url, function(resp){
-		
+	http.get(req.body.url, function(err, resp){
+		if(err) return res.json({ error: 'GET url error: '+ err.message });
 		tryThis();
-		
+    
 		function tryThis(){
 			app.rackit.add(resp, function(err, cloudpath){
-				if(err) return errlog.info('Rackspace url stream error ' + err);
-				post_data.sourceUrl = app.rackit.getURI(cloudpath);
-				post_data.cloudPath = cloudpath;
-				postGamePin(post_data, function(err, data){
-					if(err){
-						errlog.info('postGamePin error' + err);
-						if(err.message.indexOf('401') !== -1){
-							app.rackit.reAuth(function(err){
-								if(err){
-									console.log('reAuth failure: ');
-									console.log(err);
-								}
-								console.log('reAuth was a success, hopefully. calling this action again');
-								errlog.info('trying again');
-								return tryThis();
-							});
-						}
-						return res.json({error: err});
-					}
-					outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
-					evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
-					return res.json(data);
-				});
+				if(err){
+          errlog.info('rackspace add url stream error: ' + err);
+          //if rackit sends 401, reauthenticate, then try again via recursive strategy
+          if(err.message.indexOf('401') !== -1){
+            errlog.info('recieved 401 from rackspace CDN, calling reAuth');
+            app.rackit.reAuth(function(err){
+              if(err){
+                errlog.info('reAuth failed: ' + err.message)
+                if(IE){
+                  res.contentType('text/plain');
+                  return res.send(JSON.stringify({error: 'server error: reAuth error'+err.message }));
+                }
+                else return res.json({ error: 'server error: reAuth error'+err.message });
+              }
+              errlog.info('reAuth success. Retrying postImageUrl.')
+              return tryThis();
+            });
+          }
+          //if error is not 401 related, we have a problem.
+          else{
+            if(IE){
+              res.contentType('text/plain');
+              return res.send(JSON.stringify({error: 'Rackspace add error' + err.message}));
+            }
+            else return res.json({ error: 'Rackspace add error' + err.message });
+          }
+        }
+        else{
+          post_data.sourceUrl = app.rackit.getURI(cloudpath);
+          post_data.cloudPath = cloudpath;
+          postGamePin(post_data, function(err, data){
+            if(err){
+              errlog.info('postGamePin error: ' + err.message);
+              if(IE){
+                res.contentType('text/plain');
+                return res.send(JSON.stringify({ error: 'postGamePin error: '+err.message }));
+              }
+              return res.json({error: 'postGamePin error: '+err.message});
+            }
+            outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+            evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
+            if(IE){
+              res.contentType('text/plain');
+              return res.send(JSON.stringify(data));
+            }
+            return res.json(data);
+          });
+        }
 			});
 		}
 	});
