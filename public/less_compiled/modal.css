@@ -725,18 +725,17 @@
   margin: 0;
 }
 
-.notificationsModal li {
-  padding: 5px;
+.notificationsModal a {
+  display: block;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  color: #333333;
 }
 
-#followerNotificationsModal button {
+#followerNotificationsModal .friend_buttons button {
   height: 100%;
   font-size: 14px;
-}
-
-#followerNotificationsModal .friend_buttons {
-  display: inline-block;
-  float: right;
 }
 
 /*Badge modal*/

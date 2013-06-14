@@ -276,6 +276,9 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   $rootScope.popFollowerNotifications = function(){
     $('#followerNotificationsModal').modal();
   }
+  $rootScope.popTagNotifications = function(){
+    $('#tagNotificationsModal').modal();
+  }
 
   //Modal for badges
   $rootScope.popBadgeModal = function(){

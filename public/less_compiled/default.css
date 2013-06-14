@@ -528,6 +528,10 @@ form {
   border-bottom: 1px solid #EBEBEB;
 }
 
+.notification-list a {
+  padding: 5px;
+}
+
 /* Notifications dropdowns */
 
 .targetThumb img {
@@ -602,12 +606,6 @@ form {
 
 #message_dropdown:before {
   left: 198px;
-}
-
-#follower_dropdown a,
-#tag_dropdown a,
-#message_dropdown a {
-  padding: 5px;
 }
 
 /* Nav Right */

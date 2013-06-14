@@ -478,7 +478,7 @@
         <li ng-repeat="userEvent in userEvents">
           <a class="clearfix event_link" ng-click="consume(userEvent, $index, userEvents)">
             <img ng-show="userEvent.action != 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.sourceData.profileImg}}">
-            <img ng-show="userEvent.action == 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.targetData.profileImg}}">  
+            <img ng-show="userEvent.action == 'friendAccepted'" class= "notification-profile-image" ng-src="{{userEvent.targetData.profileImg}}">
             <div class="notification-text">
               <b ng-show="userEvent.action != 'friendAccepted'">{{userEvent.sourceData.userName}}</b>
               <b ng-show="userEvent.action == 'friendAccepted'">{{userEvent.targetData.userName}}</b>
@@ -498,6 +498,44 @@
             </span>
           </a>
         </li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal hide notificationsModal" id="tagNotificationsModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Tag Notifications</h3>
+  </div>
+  <div class="modal-body">
+    <ul class="notification-list">
+      <li ng-repeat="pinEvent in pinEvents">
+        <a class="clearfix event_link" ng-click="consume(pinEvent, $index, pinEvents)">
+          <img class= "notification-profile-image" ng-src="{{pinEvent.sourceData.profileImg}}">
+          <div class="notification-text">
+            <b>{{pinEvent.sourceData.userName}}</b>
+            <p ng-switch on="pinEvent.action">
+              <span ng-switch-when="commentRecieved">Commented on your post</span>
+            </p>
+          </div>
+          <span ng-switch on="pinEvent.target" class="targetThumb">
+            <img ng-switch-when="Action & Adventure" ng-src="/images/caticon-action22x22.png" />
+            <img ng-switch-when="Arcade" ng-src="/images/caticon-arcade22x22.png" />
+            <img ng-switch-when="Board & Card" ng-src="/images/caticon-card22x22.png" />
+            <img ng-switch-when="Casino & Gambling" ng-src="/images/caticon-casino22x22.png" />
+            <img ng-switch-when="Educational" ng-src="/images/caticon-educational22x22.png" />
+            <img ng-switch-when="Family & Kids" ng-src="/images/caticon-family22x22.png" />
+            <img ng-switch-when="Music & Rhythm" ng-src="/images/caticon-music22x22.png" />
+            <img ng-switch-when="Puzzle" ng-src="/images/caticon-puzzle22x22.png" />
+            <img ng-switch-when="Racing" ng-src="/images/caticon-racing22x22.png" />
+            <img ng-switch-when="Role Playing" ng-src="/images/caticon-rpg22x22.png" />
+            <img ng-switch-when="Simulation" ng-src="/images/caticon-rpg22x22.png" />
+            <img ng-switch-when="Sports" ng-src="/images/caticon-sports22x22.png" />
+            <img ng-switch-when="Strategy" ng-src="/images/caticon-strategy22x22.png" />
+            <img ng-switch-when="Trivia & Word" ng-src="/images/caticon-strategy22x22.png" />
+          </span>
+        </a>
+      </li>
     </ul>
   </div>
 </div>
