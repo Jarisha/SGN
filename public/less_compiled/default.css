@@ -380,10 +380,12 @@ form {
 }
 
 #notify_triangle {
-  left: 268px;
-  z-index: 2;
-  width: 34px;
-  height: 40px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: -4px;
+  border-top: 40px solid #99cc00;
+  border-right: 40px solid transparent;
 }
 
 #nav_content {
