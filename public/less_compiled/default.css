@@ -906,6 +906,7 @@ form {
 .store_pin {
   float: left;
   width: 220px;
+  padding: 15px 15px 0 15px;
   margin: 0 0 15px 15px;
   font-size: 12px;
   background: #FBFBFA;
