@@ -44,4 +44,14 @@ angular.module('myApp.directives', [])
         });
       }
     };
+  })
+  .directive('scrollBottom', function() {
+    return {
+      link: function(scope){
+        if(scope.$last){
+          console.log('last conversation');
+          
+        }
+      }
+    }
   });

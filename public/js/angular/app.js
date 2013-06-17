@@ -108,6 +108,11 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   $rootScope.userName = null;
   $rootScope.userEmail = null;
   $rootScope.userImg = '/images/30x30.gif';
+  $rootScope.userEvents = [];
+  $rootScope.pinEvents = [];
+  $rootScope.convoData = [];
+  $rootScope.pendingRequests = {};
+  
   //settings
   $rootScope.set =  { password: null,
                       confirm: null,
@@ -247,15 +252,20 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         if(data.messages){
           $rootScope.messageList = data.messages;
           $rootScope.selectedConvo = convo;
+          $('#convo_sidebar').css('display', 'block');
+          $('#conversationModal').modal();
+          
+          // hacky $timeout solution
+          $timeout(function(){
+            $('#respond_message').focus();
+            var height = $('.convo_right')[0].scrollHeight;
+            $('.convo_right').scrollTop(height);
+          }, 50);
         }
       })
       .error(function(data, status, headers, config){
       });
-    $('#convo_sidebar').css('display', 'block');
-    $('#conversationModal').modal();
-    $('#respond_message').focus();
-    var height = $('.convo_right')[0].scrollHeight;
-    $('.convo_right').scrollTop(height);
+
   }
  
   //post gamepin modal progression
@@ -334,6 +344,7 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
           $rootScope.userEvents = data.userEvents;
           $rootScope.pinEvents = data.pinEvents;
           $rootScope.convoData = data.convoData;
+          $rootScope.pendingRequests = data.pendingRequests;
           //If a conversation is new, mark it as new
           for(i = 0, len = $rootScope.convoData.length; i < len; i++){
             if($rootScope.convoData[i].notify === data.userId){
@@ -585,15 +596,15 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
       });
   }
   
-  $rootScope.ignore = function(userEvent, index, listRef){
-    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: userEvent.id} })
+  //decline a friend request, removes the pending request from sourceUser, consumes event
+  $rootScope.ignoreFriendRequest = function(userEvent, index, listRef){
+    $http({ method: 'post', url: '/api/user/ignoreFriendRequest', data: {eventId: userEvent.id,
+                                                            sourceId: userEvent.sourceUser,
+                                                            targetId: userEvent.target } })
       .success(function(data, status, headers, config){
         if(data.success){
-          listRef.splice(index, 1);
-          $rootScope.popNotify('Success', 'Request Ignored');
-        }
-        if(data.error){
-          $rootScope.popNotify('Error', data.error);
+          $rootScope.userEvents.splice(index, 1);
+          $rootScope.popNotify('Success', data.success);
         }
       })
       .error(function(data, status, headers, config){
@@ -621,7 +632,7 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         $rootScope.popNotify('Error', 'Server Error');
       });
   }
-
+  
   //view and edit settings
   $rootScope.viewSettings = function(){
     var resultData;

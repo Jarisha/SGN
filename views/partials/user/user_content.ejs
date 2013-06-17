@@ -6,7 +6,7 @@
       <div class="profile_pic">
         <img ng-src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
-      <div class="profile_xp">
+      <!--<div class="profile_xp">
         <span class="curr_level">Level {{user.level || 1}}</span>
         <span class="to_level">{{user.nextXP || 99}}XP to level</span>
       </div>
@@ -15,7 +15,7 @@
         </span>
         <span class="xp_remaining">
         </span>
-      </div>
+      </div>-->
     </div>
   </div>
   <div class="right_container">
@@ -53,8 +53,8 @@
       <div class="comrade_tabs">
         <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
-        <button ng-show="!isFriend" id="friend_user" ng-click="friend(user.email)">Friend</button>
-        <button ng-show="isFriend" id="friend_user" disabled>Friend</button>
+        <button ng-show="!isFriend && !pendingFriend" id="friend_user" ng-click="friend(user.email)">Friend</button>
+        <button ng-show="isFriend || pendingFriend" id="friend_user" disabled>Friend</button>
       </div>
       <a ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>
