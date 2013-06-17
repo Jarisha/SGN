@@ -100,5 +100,5 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('default', ['uglify', 'recess:dev']);
+  grunt.registerTask('default', ['uglify', 'recess']);
 }

@@ -251,8 +251,10 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
     $http({ method:'post', url:'/api/user/getMessages', data: {convoId: convo.id} })
       .success(function(data, status, headers, config){
         if(data.messages){
+          //load message data and selected convo
           $rootScope.messageList = data.messages;
           $rootScope.selectedConvo = convo;
+          //pop modal and sidebar
           $('#convo_sidebar').css('display', 'block');
           $('#conversationModal').modal();
           
@@ -261,12 +263,30 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
             $('#respond_message').focus();
             var height = $('.convo_right')[0].scrollHeight;
             $('.convo_right').scrollTop(height);
-          }, 50);
+          }, 100);
         }
       })
       .error(function(data, status, headers, config){
       });
 
+  }
+  $rootScope.chooseConversation = function(convo){
+    console.log('chooseConversation');
+    $http({ method:'post', url:'/api/user/getMessages', data: {convoId: convo.id} })
+      .success(function(data, status, headers, config){
+        if(data.messages){
+          $rootScope.messageList = data.messages;
+          $rootScope.selectedConvo = convo;
+          // hacky $timeout solution
+          $timeout(function(){
+            $('#respond_message').focus();
+            var height = $('.convo_right')[0].scrollHeight;
+            $('.convo_right').scrollTop(height);
+          }, 100);
+        }
+      })
+      .error(function(data, status, headers, config){
+      });
   }
  
   //post gamepin modal progression

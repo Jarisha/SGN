@@ -659,13 +659,6 @@
 <!-- View Conversation Modal + Sidebar -->
 <div class="modal hide" id="conversationModal" >
   <div class="modal-body">
-    <!--<div class="modal_slice convo_left">
-      <ul class="clearfix">
-        <li ng-repeat="convo in conversations" class="modal_stack">
-          content
-        </li>
-      </ul>
-    </div>-->
     <div class="modal_stack convo_right">
       <ul class="clearfix">
         <li ng-repeat="msg in messageList" class="modal_stack message_item">
@@ -693,7 +686,7 @@
 <div id="convo_sidebar">
   <ul>
     <li ng-repeat="convo in convoData" ng-class="{'selected_convo' : convo == selectedConvo}">
-      <a class="clearfix event_link" ng-click="popConversation(); consumeMessage(convo)">
+      <a class="clearfix event_link" ng-click="chooseConversation(convo); consumeMessage(convo)">
         <img class= "notification-profile-image" ng-src="{{convo.showUser.profileImg}}">
         <div class="notification-text">
           <span ng-show="convo.newFlag" class="new_message">new</span>
