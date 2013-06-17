@@ -601,6 +601,7 @@
 }
 
 .profile #profile_data_inner {
+  min-height: 800px;
   margin-left: -22px;
 }
 
