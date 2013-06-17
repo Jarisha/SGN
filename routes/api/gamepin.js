@@ -292,7 +292,41 @@ exports.deleteWrap = function(req, res){
 	}
 }
 
-/********************************************** API Level - Redacted  *************************************/
+exports.fetchComment = function(req, res){
+  console.log(req.body);
+  var commentId = req.body.commentId;
+  
+  app.riak.bucket('comments').objects.get(commentId, function(err, cmt_obj){
+    if(err) return res.json({ error: 'get comment error: '+err.message });
+    return res.json({ success: cmt_obj.data });
+  });
+}
+exports.deleteComment = function(req, res){
+  console.log(req.body);
+  var commentId = req.body.commentId;
+  app.riak.bucket('comments').objects.get(commentId, function(err, cmt_obj){
+    if(err) return res.json({ error: 'get comment error: '+err.message });
+    cmt_obj.delete(function(_err, deleted){
+      if(_err) return res.json({ error: 'delete comment error: '+err.message });
+      return res.json({ success: 'comment '+commentId+' deleted!' })
+    });
+  });
+}
+exports.deleteCommentOffset = function(req, res){
+  console.log(req.body);
+  var gamepinId = req.body.gamepinId;
+  var commentOffset = parseInt(req.body.commentOffset);
+  get_RO_gamepin(gamepinId, function(err, pin_obj){
+    if(err) return res.json({ error: err.message });
+    pin_obj.data.comments.splice(commentOffset, 1);
+    pin_obj.save(function(_err, saved){
+      if(err) return res.json({ error: 'gamepin save error: '+err.message });
+      return res.json({ success: 'deleted comment at gamepin '+gamepinId+'\'s '+commentOffset+' position' });
+    });
+  });
+}
+
+/********************************************** API Level - 3 *************************************/
 
 exports.authenticateCDN = function(req, res){
 	console.log('authenticate CDN');

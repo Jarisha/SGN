@@ -46,7 +46,7 @@ blitz.rush({
         console.log("\tconnect: " + step.connect);
     }
 }).on('error', function (response) {
-    console.log("error: " + response.error);    
+    console.log("error: " + response.error);
     console.log("reason: " + response.reason);
 });
 

@@ -2110,10 +2110,6 @@ exports.getPinList = function(req, res){
       outlog.info('search.solr: none found');
       return res.json({ objects: returnList });
     }
-    //console.log(response.response.docs);
-    for(i in response.response.docs){
-      console.log(response.response.docs[i].fields.gameName);
-    }
     fetchPinAndComments(response.response.docs, req, function(err, objsList){
       if(err) return res.json({ error: err });
       return res.json({ objects: objsList });

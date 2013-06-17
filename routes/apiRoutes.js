@@ -24,6 +24,7 @@ module.exports = function(app){
   app.post('/api/user/getProfile', userApi.getProfile);
   app.post('/api/user/getGroups', userApi.getGroups);
   app.post('/api/user/getLikedPins', userApi.getLikedPins);
+  
   //end debug
   
   //********** Test API ***************/
@@ -92,6 +93,9 @@ module.exports = function(app){
   app.post('/api/gamepin/fetchGamepin', gamepinApi.fetchGamepin);
   app.post('/api/gamepin/authenticateCDN', gamepinApi.authenticateCDN);
   
+  app.post('/api/gamepin/fetchComment', gamepinApi.fetchComment);
+  app.post('/api/gamepin/deleteComment', gamepinApi.deleteComment);
+  app.post('/api/gamepin/deleteCommentOffset', gamepinApi.deleteCommentOffset);
   
   //app.post('/api/gamepin/postGamePin', gamepinApi.postGamePin);
   app.post('/api/gamepin/postImageUpload', gamepinApi.postImageUpload);

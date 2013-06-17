@@ -303,6 +303,24 @@
             alert(JSON.stringify(data));
           });
         });
+        $('#fetch_comment').submit(function(e){
+          $.post('/api/gamepin/fetchComment', $(this).serialize(), function(data){
+            alert(JSON.stringify(data));
+          });
+          return false;
+        });
+        $('#delete_comment').submit(function(e){
+          $.post('/api/gamepin/deleteComment', $(this).serialize(), function(data){
+            alert(JSON.stringify(data));
+          });
+          return false;
+        });
+        $('#delete_comment_offset').submit(function(e){
+          $.post('/api/gamepin/deleteCommentOffset', $(this).serialize(), function(data){
+            alert(JSON.stringify(data));
+          });
+          return false;
+        });
       });
     </script>
   </head>
@@ -423,6 +441,24 @@
     <p>Fetch Gamepin</p>
     <form id="fetch_gamepin">
       <input type="text" name="pinId" placeholder="pinId">
+      <input type="submit">
+    </form>
+    <!-- Comments -->
+    <h1>Comment</h1>
+    <p>Fetch comment by ID</p>
+    <form id="fetch_comment">
+      <input type="text" name="commentId" placeholder="commentId">
+      <input type="submit">
+    </form>
+    <p>Delete comment by ID</p>
+    <form id="delete_comment">
+      <input type="text" name="commentId" placeholder="commentId">
+      <input type="submit">
+    </form>
+    <p>Delete comment via gamepin offset</p>
+    <form id="delete_comment_offset">
+      <input type="text" name="gamepinId" placeholder="gamepinId">
+      <input type="text" name="commentOffset" placeholder="commentOffset">
       <input type="submit">
     </form>
     <!-- Events -->
