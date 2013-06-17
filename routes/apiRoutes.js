@@ -37,6 +37,7 @@ module.exports = function(app){
   app.get('/api/user/getPending', userApi.getPending);
   app.post('/api/user/unfriend', userApi.unfriend);
   app.post('/api/user/acceptFriend', userApi.acceptFriend);
+  app.post('/api/user/ignoreFriendRequest', userApi.ignoreFriendRequest);
   app.post('/api/user/consumeEvent', userApi.consumeEvent);
   app.post('/api/user/consumeMessage', userApi.consumeMessage);
   app.post('/api/user/getMessages', userApi.getMessages);

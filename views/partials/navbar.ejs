@@ -26,7 +26,7 @@
               <img ng-switch-when="followRecieved" ng-src="/images/UI/Circle2.png" />
               <span ng-switch-when="friendRequest" class="friend_buttons">
                 <button type="button" ng-click="$event.stopPropagation(); acceptFriend(userEvent, $index, userEvents); " >Accept</button>
-                <button type="button" ng-click="$event.stopPropagation(); ignore(userEvent, $index, userEvents); " >Ignore</button>
+                <button type="button" ng-click="$event.stopPropagation(); ignoreFriendRequest(userEvent, $index, userEvents); " >Ignore</button>
               </span>
               <img ng-switch-when="friendAccepted" ng-src="/images/UI/Circle2.png" />
             </span>

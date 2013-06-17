@@ -25,6 +25,7 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     $scope.bigPin.followBtn = false;
     $scope.isFollowing = false;
     $scope.isFriend = false;
+    $scope.pendingFriend = false;
   
     //Tab state
     $scope.FOLLOW = 1; $scope.FRIEND = 2;
@@ -157,13 +158,14 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
       }
     }
     
-    // disable following button if already following ( this should be done on backend )
+    // if current user is already friends or follower, disable those buttons
     for(var i = 0, len = $scope.user.followers.length; i < len; i++){
       if($scope.user.followers[i].userName === $rootScope.userName){
         $scope.isFollowing = true;
         break;
       }
     }
+    if($rootScope.pendingRequests[$scope.user.email]) $scope.pendingFriend = true;
     for(var i = 0, len = $scope.user.friends.length; i < len; i++){
       if($scope.user.friends[i].userName === $rootScope.userName){
         $scope.isFriend = true;
@@ -249,21 +251,6 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
       });
     }
 
-    $scope.friend = function(){
-        $http({ method: 'post', url:'/api/user/friendRequest', data:{ sourceId:$rootScope.userEmail, targetId: $scope.user.email } })
-          .success(function(data, status, headers, config){
-            if(data.success){
-              $rootScope.popNotify(data.success);
-            }
-            else if(data.error){
-              $rootScope.popNotify('Error', data.error);
-            }
-          })
-          .error(function(data, status, headers, config){
-            console.log(data);
-          });
-    }
-
     //popMessageModal
     $scope.popMessage = function(){
       var sourceId = $rootScope.userEmail;
@@ -339,7 +326,23 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
           console.log(data);
         });
       }
-
+      
+    $scope.friend = function(){
+        $http({ method: 'post', url:'/api/user/friendRequest', data:{ sourceId:$rootScope.userEmail, targetId: $scope.user.email } })
+          .success(function(data, status, headers, config){
+            if(data.success){
+              $rootScope.popNotify(data.success);
+              $scope.pendingFriend = true;
+            }
+            else if(data.error){
+              $rootScope.popNotify('Error', data.error);
+            }
+          })
+          .error(function(data, status, headers, config){
+            console.log(data);
+          });
+    }
+    
     $scope.showGroup = function(group){
       $scope.group_tab = group;
       $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];

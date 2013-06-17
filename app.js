@@ -27,7 +27,7 @@ var riakConfig;
 var god_mode = true;
 
 //only admin users have access to our content management systems located at '/debug'
-var adminUsers = ['dtonys@gmail.com','colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
+var adminUsers = ['dtonys@gmail.com', 'colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -351,12 +351,94 @@ else{
     });
   });
   
+  app.configure('stress', function(){
+    //setup riak and express
+    var riak = exports.riak = require('nodiak').getClient('http', config.stress_db_host, config.stress_db_port);
+    var nodeflake_host = exports.nodeflake_host = config.stress_nodeflake_host;
+    var temp_path = exports.temp_path = config.stress_temp_path;
+    app.use(express.session({ secret: "tazazaz",
+                            store : new RedisStore({
+                              host : config.production_redis_host,
+                            }),
+                            cookie: { maxAge: 86400000
+                                      }
+                            }));
+    
+    //express globals
+    app.locals.env = 'stress';
+    app.locals.host = config.stress_host;
+    app.locals.rootPath =  "http://" + config.stress_host;
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    
+    outlog = exports.outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.stress_log_path + 'quyay.log', json:true,
+                                      options: {   //stupid hack b/c winston doesn't work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    errlog = exports.errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.stress_log_path + 'error.log',
+                                        json:true,
+                                        options: {   
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.stress_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    apiRoutes = require('./routes/apiRoutes');
+    
+    riakConfig = require('./riak_config');
+    util = require('./utility');
+    
+    //ping riak and nodeflake
+    riakConfig.init();
+    
+    //SSL options
+    var options = {
+      key: fs.readFileSync(config.stress_ssl_path + 'quyay.com.key'),
+      cert: fs.readFileSync(config.stress_ssl_path + 'quyay.com.crt'),
+      ca: [fs.readFileSync(config.stress_ssl_path + 'gd_bundle.crt')]
+    }
+    
+    http.createServer(app).listen(80, function(){
+      outlog.info('HTTP Express server listening on port 80');
+    });
+    https.createServer(options, app).listen(443, function(){
+      outlog.info('HTTPS Express server listening on port 443');
+    });
+  });
+  
   app.get('/debug', function(req, res){
     for(var i = 0, len = adminUsers.length; i < len; i++){
       if(req.session.userEmail === adminUsers[i])
         return res.render('debug');
     }
     res.render('base');
+  });
+  
+  //case for blitz.io
+  app.get('/mu-1234-cafe-5678-babe', function(req, res){
+    return res.send('42');
   });
   
   app.get('/', auth, function(req, res){
