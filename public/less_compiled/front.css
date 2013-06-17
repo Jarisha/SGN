@@ -37,13 +37,6 @@
   border: none;
 }
 
-.front .game_description,
-.front .game_attributes,
-.front .posted_by {
-  max-height: 40px;
-  overflow: hidden;
-}
-
 .front .game_description {
   font-size: 14px;
 }
