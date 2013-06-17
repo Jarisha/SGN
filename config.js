@@ -39,3 +39,14 @@ exports.production_host = 'www.quyay.com';
 exports.production_redis_host = 'redis1.quyay.com';
 exports.production_nodeflake_host = '127.0.0.1';
 exports.production_port = '80';
+
+/* Stress Config */
+exports.stress_db_host = '127.0.0.1';
+exports.stress_db_port = 8098;
+exports.stress_ssl_path = '/var/lib/quyay/';
+exports.stress_temp_path = '/tmp';
+exports.stress_log_path = '/var/log/quyay/';
+exports.stress_host = "stress.quyay.com";
+exports.stress_redis_host = 'redis1.quyay.com';
+exports.stress_nodeflake_host = '127.0.0.1';
+exports.stress_port = '80';
