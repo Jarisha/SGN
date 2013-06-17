@@ -1,6 +1,6 @@
 <div id="notifications">
   <ul id="notify_list">
-    <li id="followers_tab" ng-show="loggedIn" class="dropdown">
+    <li id="followers_tab" ng-show="loggedIn" class="dropdown" title="Friend Requests and New Followers">
       <a id="follower_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_followers" src="/images/UI/Following1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge" ng-show="userEvents.length != 0">
@@ -37,7 +37,7 @@
         </div>
       </ul>
     </li>
-    <li id="tag_tab" ng-show="loggedIn" class="dropdown">
+    <li id="tag_tab" ng-show="loggedIn" class="dropdown" title="Activity on your Posts">
       <a id="tag_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_tags" src="/images/UI/Tagged1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge" ng-show="pinEvents.length != 0">
@@ -79,7 +79,7 @@
     </li>
     
     <!-- Messages -->
-    <li id="message_tab" ng-show="loggedIn">
+    <li id="message_tab" ng-show="loggedIn" title="Messages">
       <a id="message_toggle" class="dropdown-toggle" data-toggle="dropdown">
         <img class="new_messages" src="/images/UI/Comment1_effects.png" width="35" height="35"/>
         <span class="notifications-count-badge" ng-show="newConvos != 0">
