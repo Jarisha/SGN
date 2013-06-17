@@ -917,6 +917,16 @@ form {
           box-shadow: 10px 10px 5px -2px #777777;
 }
 
+/* Hack-y way to deal with shuddering pins */
+
+.front .game_pin {
+  display: none;
+}
+
+.store_pin {
+  display: none;
+}
+
 .game_pin .game_description,
 .game_pin .game_attributes,
 .game_pin .posted_by {

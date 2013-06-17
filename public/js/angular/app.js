@@ -152,6 +152,7 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
           itemSelector : '.game_pin, .store_pin',
           isFitWidth: true
         });
+        $('.game_pin, .store_pin').show();
         //hack to fix masonry overlaps. (badge)
         $timeout(function(){
           console.log('time');
