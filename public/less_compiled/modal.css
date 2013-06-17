@@ -1,0 +1,917 @@
+/****************** Modal Windows **********************/
+
+/* Override bootstrap defaults */
+
+/* Modal Header - Modal Body */
+
+.modal {
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  /*border: 10px solid rgba(60, 158, 219, 0.5);*/
+
+}
+
+.modal-body {
+  max-height: 450px;
+  padding: 0;
+  overflow-y: hidden;
+  border-top: none;
+}
+
+.modal-header {
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  border-bottom: 0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=0);
+}
+
+.modal-header h3 {
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Default Modal Elements */
+
+.modal input {
+  height: 40px;
+  padding: 4px 6px;
+  font-size: 20px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.modal textarea {
+  height: 60px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.modal button {
+  height: 40px;
+  font-size: 20px;
+}
+
+.modal button.close {
+  height: 20px;
+}
+
+/* Modal Div Containers
+ * STACK - Div with width 100%, stack vertically from top to bottom
+ * SLICE - div with % width, stack horizontally from left to right */
+
+.modal_stack,
+.modal_slice {
+  float: left;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.modal_stack {
+  width: 100%;
+  background: -webkit-gradient(linear, left top, right top, from(#ebebeb), to(#b8b8b8));
+  background: -moz-linear-gradient(left center, #ebebeb, #b8b8b8);
+  border-bottom: 1px solid #B8B8B8;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#B8B8B8', GradientType=0);
+}
+
+.modal_slice {
+  text-align: center;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#b8b8b8));
+  background: -moz-linear-gradient(center top, #ebebeb, #b8b8b8);
+  border-right: 1px solid #B8B8B8;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#B8B8B8', GradientType=0);
+}
+
+.modal_slice.post_option {
+  width: 33%;
+}
+
+.modal_slice.post_option i,
+.modal_slice.post_option_end i {
+  display: block;
+  margin: 12px 0 6px 0px;
+}
+
+.modal_slice.post_option:hover {
+  cursor: pointer;
+  background: #B8B8B8;
+}
+
+.modal_slice.post_option_end {
+  width: 34%;
+  border: none;
+}
+
+.modal_slice.post_option_end:hover {
+  cursor: pointer;
+  background: #B8B8B8;
+}
+
+/* Error Notification - fallback for HTML5 validations */
+
+.error {
+  text-align: center;
+  background: #F39494;
+  /* margin-bottom: 20px; */
+
+}
+
+.successAlert {
+  background: -webkit-gradient(linear, left bottom, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(bottom, #6d9100, #99cc00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00');
+}
+
+.errorAlert {
+  color: white;
+  background: -webkit-gradient(linear, left bottom, left top, from(#a80000), to(#ff0000));
+  background: -moz-linear-gradient(bottom, #a80000, #ff0000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#FF0000');
+}
+
+/* File Upload Modal */
+
+#fileUploadModal {
+  width: 700px;
+}
+
+#uploadForm {
+  padding: 0;
+}
+
+#profileUpload {
+  width: 100%;
+}
+
+.fileupload {
+  width: 40%;
+  height: 300px;
+  padding: 20px 10px;
+  margin: 0;
+}
+
+.uploadMeta {
+  width: 60%;
+  height: 300px;
+  padding: 20px 10px;
+}
+
+.uploadMeta input,
+.uploadMeta textarea {
+  width: 100%;
+  margin: 0 0 10px 0;
+}
+
+.modal .fileSubmit {
+  position: relative;
+  float: right;
+  width: 100%;
+  background: white;
+}
+
+/* Image URL Modal */
+
+#imageUrlModal {
+  width: 700px;
+}
+
+/* Post Video via Youtube */
+
+#youtubeModal {
+  width: 700px;
+}
+
+.urlInput {
+  width: 70%;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.uploadMeta .custom_group {
+  float: left;
+  width: 70%;
+  font-size: 20px;
+}
+
+.uploadMeta .custom_group > * {
+  float: left;
+  line-height: 35px;
+}
+
+.uploadMeta .custom_group > input {
+  width: 180px;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.cat_select p,
+.custom_group p {
+  width: 80px;
+  text-align: left;
+}
+
+.cat_select {
+  float: left;
+  width: 100%;
+  width: 80%;
+  height: 15%;
+  margin-bottom: 9px;
+  font-size: 20px;
+  text-align: left;
+}
+
+.cat_select > * {
+  display: inline;
+}
+
+.cat_select p {
+  width: 50%;
+}
+
+.cat_select select {
+  width: 200px;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+}
+
+.fileupload .btn {
+  margin: 5px;
+  vertical-align: none;
+}
+
+.fileupload .thumbnail {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  background: white;
+  border: none;
+  border: 2px dashed black;
+}
+
+.fileupload .thumbnail > img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+/* Edit Settings */
+
+#editSettings .edit_field {
+  padding: 10px;
+}
+
+#editSettings label,
+#editSettings input {
+  float: left;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#editSettings label {
+  width: 30%;
+  height: 40px;
+  padding: 10px 0 0 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+#editSettings input {
+  width: 70%;
+}
+
+#editSettings label.pswd {
+  width: 40%;
+}
+
+#editSettings input.pswd {
+  width: 60%;
+}
+
+#editSettings .gender_label,
+#editSettings .gender_radio {
+  display: inline;
+  width: auto;
+  padding: 10px 0 0;
+  margin: 0;
+  font-size: 15px;
+}
+
+#editSettings .gender_radio {
+  margin: 0 20px 0 10px;
+}
+
+#editSettings .gender_container {
+  padding-bottom: 10px;
+}
+
+#editSettings .save_settings {
+  padding: 0;
+  border: none;
+}
+
+#editSettings .save_settings button {
+  width: 100%;
+  padding: 0;
+}
+
+#editSettings .reset_password,
+#editSettings .deactivate_account {
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+/* Login */
+
+#loginModal {
+  left: 55%;
+  width: 400px;
+  max-height: none;
+}
+
+#loginModal label,
+#loginModal input {
+  float: left;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#loginModal label {
+  width: 30%;
+  height: 40px;
+  padding: 10px 0 0 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+#loginModal input {
+  width: 70%;
+}
+
+#loginModal .edit_field {
+  padding: 10px;
+}
+
+#loginModal .login_option {
+  padding: 10px;
+}
+
+#loginModal .fb_login_btn {
+  width: 100%;
+}
+
+#loginModal .q_login_btn {
+  width: 100%;
+}
+
+/* Register */
+
+#registerModal {
+  left: 55%;
+  width: 400px;
+  max-height: none;
+}
+
+#registerModal label,
+#loginModal input {
+  float: left;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#registerModal label {
+  width: 30%;
+  height: 40px;
+  padding: 10px 0 0 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+#registerModal input {
+  width: 70%;
+  margin: 0;
+}
+
+#registerModal .edit_field {
+  padding: 10px;
+}
+
+#registerModal .login_option {
+  padding: 10px;
+}
+
+#registerModal .fb_login_btn {
+  width: 100%;
+}
+
+#registerModal .q_login_btn {
+  width: 100%;
+}
+
+#registerModal .fb_register {
+  width: 100%;
+  font-size: 20px;
+}
+
+#registerModal .q_register_btn {
+  width: 100%;
+}
+
+/* registerModal step 2 - Avatar Img Upload */
+
+#registerModal_2 {
+  left: 59%;
+  width: 300px;
+}
+
+#registerModal_2 .profileImg_skip,
+#registerModal_2 .profileImg_submit {
+  width: 50%;
+  padding: 10px;
+}
+
+#registerModal_2 .profileImg_skip button,
+#registerModal_2 .profileImg_submit button {
+  width: 100%;
+}
+
+/* Change avatar Img modal */
+
+#changeAvatar {
+  left: 59%;
+  width: 300px;
+}
+
+#changeAvatar .profileImg_submit {
+  width: 100%;
+  padding: 10px;
+}
+
+/* List modal */
+
+#viewList_2 .modal_slice {
+  width: 25%;
+}
+
+/* Big Pin Modal */
+
+#gamePinModal,
+#storePinModal {
+  height: 100%;
+  overflow-y: auto;
+  border: 0;
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  border-radius: 0;
+}
+
+#gamePinModal .modal-body {
+  padding: 0;
+  overflow: hidden;
+}
+
+#gamePinModal .modal-header button {
+  float: right;
+}
+
+#gamePinModal .poster {
+  margin-left: 60px;
+  font-size: 25px;
+}
+
+#gamePinModal .poster a {
+  color: white;
+}
+
+#gamePinModal .date_posted {
+  margin-top: 7px;
+  margin-left: 60px;
+}
+
+#gamePinModal .modal-header .profile_img {
+  float: left;
+  width: 50px;
+  height: 50px;
+}
+
+#gamePinModal .modal-body .profile_img {
+  float: left;
+  width: 40px;
+  height: 40px;
+}
+
+#gamePinModal .modal-header .profile_img_top {
+  float: left;
+  width: 50px;
+  height: 50px;
+}
+
+#gamePinModal .view_metadata,
+#gamePinModal .view_tags {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#gamePinModal .view_metadata {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  background: white;
+}
+
+#gamePinModal .view_metadata > * {
+  /*margin-left:70px;*/
+
+}
+
+#gamePinModal .game_title {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+#gamePinModal .game_publisher {
+  font-size: 14px;
+  line-height: 30px;
+}
+
+#gamePinModal .view_tags {
+  width: 50%;
+  height: 50px;
+}
+
+#gamePinModal .view_tags p span {
+  margin-left: 10px;
+  background: yellow;
+}
+
+#gamePinModal .view_tags > p {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+#gamePinModal .view_comment_container {
+  padding: 0 15px 10px;
+}
+
+#gamePinModal .view_img_container {
+  text-align: center;
+  background: grey;
+}
+
+#gamePinModal .view_img {
+  margin: 10px 0 10px 0;
+}
+
+#gamePinModal .view_vid {
+  height: 341px;
+}
+
+#gamePinModal .view_comment {
+  padding: 10px 15px 0;
+  margin: 0 -15px;
+  border-top: 1px solid #FCFAFA;
+}
+
+#gamePinModal .pin_description {
+  padding: 5px;
+  margin: 0 -15px;
+  font-weight: bold;
+  text-align: center;
+  background: #E7F4C4;
+  border-top: 1px solid #FCFAFA;
+}
+
+#gamePinModal .view_comment * {
+  display: inline-block;
+}
+
+#gamePinModal .view_post_text {
+  width: 450px;
+  margin-left: 10px;
+  vertical-align: top;
+}
+
+#gamePinModal .view_respond {
+  padding-top: 15px;
+}
+
+#gamePinModal .view_respond_txtarea {
+  width: 450px;
+  height: 70px;
+  margin-left: 15px;
+  font-size: 14px;
+}
+
+#gamePinModal .view_respond_btn {
+  float: right;
+  margin-top: 10px;
+}
+
+#gamePinModal .like_tab {
+  width: 50%;
+  font-size: 20px;
+  text-align: center;
+}
+
+#gamePinModal .repin_tab {
+  width: 50%;
+  font-size: 20px;
+  text-align: center;
+}
+
+#gamePinModal #like_content img,
+#gamePinModal #repin_content img {
+  margin: 5px;
+}
+
+#gamePinModal .img_container {
+  padding: 10px;
+}
+
+#gamePinModal .share_list {
+  position: absolute;
+  top: 60px;
+  left: 650px;
+}
+
+#gamePinModal .share_element {
+  margin-top: 20px;
+}
+
+#gamePinModal .share_element button {
+  white-space: nowrap;
+  /*huzzah!*/
+
+}
+
+/* User Feedback modal */
+
+#feedbackModal .intro_text {
+  padding: 10px;
+  font-size: 20px;
+}
+
+#feedbackModal .text_content {
+  padding: 10px;
+}
+
+#feedbackModal textarea {
+  height: 100px;
+  margin: 0;
+  text-align: left;
+  background: white;
+}
+
+#feedbackModal .content_opts {
+  width: 50%;
+  padding: 0 10px;
+  background: none;
+  border: none;
+  -moz-box-sizing: border-box;
+}
+
+#feedbackModal .content_opts .subject {
+  width: 100%;
+  margin: 0;
+  background: white;
+}
+
+#feedbackModal .content_opts .submit {
+  width: 100%;
+  line-height: 0;
+}
+
+#feedbackModal .content_txt {
+  /*padding: 10px 10px 0 10px;*/
+
+  border: none;
+}
+
+#feedback_submit {
+  float: right;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/*Social Notifications Modals*/
+
+.notificationsModal {
+  position: static;
+  width: 300px;
+  margin: 50px 0 0 40%;
+}
+
+.notificationsModal .modal-body {
+  overflow-y: auto;
+}
+
+.notificationsModal ul {
+  margin: 0;
+}
+
+.notificationsModal a {
+  display: block;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+.notificationsModal a:hover {
+  background-color: #0088cc;
+}
+
+#followerNotificationsModal .friend_buttons button {
+  height: 100%;
+  font-size: 14px;
+}
+
+/*Badge modal*/
+
+#badgeModal li {
+  display: inline;
+}
+
+/* conversation modal */
+
+#conversationModal {
+  width: 600px;
+  font-size: 12px;
+  border-radius: 0;
+}
+
+#conversationModal * {
+  background: #EBEBEB;
+}
+
+#conversationModal ul {
+  padding: 0;
+  margin: 0;
+}
+
+.convo_left,
+.convo_right {
+  max-height: 450;
+  overflow: auto;
+}
+
+.convo_left {
+  width: 40%;
+  max-height: 450px;
+}
+
+.convo_right {
+  max-height: 450px;
+  background: red;
+}
+
+.msg_left {
+  width: 15%;
+  border: none;
+}
+
+.msg_left img {
+  width: 40px;
+  height: 40px;
+}
+
+.msg_right {
+  width: 85%;
+  padding-left: 10px;
+  text-align: left;
+  border: none;
+}
+
+.message_item {
+  padding: 10px;
+}
+
+.message_respond {
+  padding: 10px;
+}
+
+#conversationModal .message_respond textarea {
+  width: 100%;
+  font-size: 12px;
+  background: white;
+}
+
+#respond_button {
+  float: right;
+  width: 50%;
+  height: 30px;
+  font-size: 14px;
+}
+
+#conversationModal .modal_body {
+  float: left;
+}
+
+#conversationModal,
+#convo_sidebar {
+  left: 60%;
+}
+
+#convo_sidebar {
+  position: fixed;
+  top: 50%;
+  z-index: 2000;
+  display: none;
+  width: 269px;
+  margin-top: -250px;
+  margin-left: -558px;
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  border-right: none;
+}
+
+#convo_sidebar ul {
+  padding: 0;
+  margin: 0;
+}
+
+#convo_sidebar li {
+  background: #EBEBEB;
+}
+
+#convo_sidebar .selected_convo {
+  background: white;
+}
+
+#recommend_sidebar {
+  position: fixed;
+  top: 278px;
+  left: 50%;
+  z-index: 2000;
+  display: none;
+  width: 269px;
+  margin-top: -228px;
+  margin-left: 300px;
+  background: #EBEBEB;
+  border: 10px solid rgba(153, 204, 0, 0.5);
+  -webkit-background-clip: padding;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+#recommended_header {
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+  background: -moz-linear-gradient(center bottom, #6d9100, #99cc00);
+}
+
+#recommended_posts {
+  padding: 10px;
+}
+
+#recommended_posts ul {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+#recommended_posts li {
+  display: inline-block;
+  margin: 5px;
+  cursor: pointer;
+  border: 5px solid rgba(153, 204, 0, 0.5);
+  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+}
+
+#recommended_posts li:hover {
+  border: 5px solid #99cc00;
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+     -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+          box-shadow: 10px 10px 5px -2px #777777;
+}
+
+#messageModal .modal-body {
+  padding: 10px;
+}
+
+#messageModal textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  margin: 0;
+  -moz-box-sizing: border-box;
+}
+
+#messageModal .modal-body button {
+  width: 50%;
+}

@@ -233,23 +233,10 @@ label#company_label{
   font-weight: bold;
   text-align: center;
 }
-
-#user_submit{
+.submit-button {
   background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
   width: 162px;
-  height:30px;
-  cursor: pointer;
-}
-#company_submit{
-  background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
-  width: 162px;
-  height:30px;
-  cursor: pointer;
-}
-#login_submit{
-  background: url("../images/UI/Q-Gateway-Submit.png") no-repeat scroll 0 0 transparent;
-  width: 162px;
-  height:30px;
+  height: 34px;
   cursor: pointer;
 }
 .rackspace_logo{

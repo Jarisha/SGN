@@ -9,7 +9,6 @@ var numCores = require('os').cpus().length;
 //External modules, read in from node_modules
 var express = require('express');
 var RedisStore = require('connect-redis')(express);
-var socket = require('socket.io');
 var httpGet = require('http-get');
 var request = require('request');
 var bcrypt = require('bcrypt-nodejs');
@@ -28,7 +27,7 @@ var riakConfig;
 var god_mode = true;
 
 //only admin users have access to our content management systems located at '/debug'
-var adminUsers = ['dtonys@gmail.com','colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
+var adminUsers = ['dtonys@gmail.com', 'colemanfoley@gmail.com', 'amarg@slimstown.com', 'thebigq@quyay.com'];
 
 //create rackspace image, define name of container we will push images to
 rackit.init({
@@ -49,7 +48,6 @@ exports.rackit = rackit;
 
 //node cluster encapsulates web server creation
 if(cluster.isMaster){
-
   for(var i = 0; i < numCores; i++){
     cluster.fork();
   }
@@ -104,6 +102,7 @@ else{
                                       }
                             }));
     //express global
+    app.locals.env = 'coleman';
     app.locals.host = 'localhost';
     app.locals.rootPath =  "http://" + 'localhost';
 
@@ -120,7 +119,6 @@ else{
       info: function(){}
     }
     apiRoutes = require('./routes/apiRoutes');
-    //passConfig = require('./pass_config');
     riakConfig = require('./riak_config');
     util = require('./utility');
 
@@ -158,6 +156,7 @@ else{
                                       }
                             }));
     //express global
+    app.locals.env = 'dev';
     app.locals.host = config.dev_host;
     app.locals.rootPath =  "http://" + config.dev_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -196,8 +195,6 @@ else{
       outlog.info('HTTPS Express server listening on port 443 in dev mode');
       console.log('HTTPS Express server listening on port 443 in dev mode');
     });
-    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
   });
 
   app.configure('staging', function(){
@@ -214,6 +211,7 @@ else{
                             }));
     
     //express globals
+    app.locals.env = 'staging';
     app.locals.host = config.staging_host;
     app.locals.rootPath =  "http://" + config.staging_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -290,6 +288,7 @@ else{
                             }));
     
     //express globals
+    app.locals.env = 'production';
     app.locals.host = config.production_host;
     app.locals.rootPath =  "http://" + config.production_host;
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -350,9 +349,83 @@ else{
     https.createServer(options, app).listen(443, function(){
       outlog.info('HTTPS Express server listening on port 443');
     });
+  });
+  
+  app.configure('stress', function(){
+    //setup riak and express
+    var riak = exports.riak = require('nodiak').getClient('http', config.stress_db_host, config.stress_db_port);
+    var nodeflake_host = exports.nodeflake_host = config.stress_nodeflake_host;
+    var temp_path = exports.temp_path = config.stress_temp_path;
+    app.use(express.session({ secret: "tazazaz",
+                            store : new RedisStore({
+                              host : config.production_redis_host,
+                            }),
+                            cookie: { maxAge: 86400000
+                                      }
+                            }));
     
-    /*console.log('Cluster worker ' + cluster.worker.id + ' initialized');
-    outlog.info('Cluster worker ' + cluster.worker.id + ' initialized');*/
+    //express globals
+    app.locals.env = 'stress';
+    app.locals.host = config.stress_host;
+    app.locals.rootPath =  "http://" + config.stress_host;
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    
+    outlog = exports.outlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.stress_log_path + 'quyay.log', json:true,
+                                      options: {   //stupid hack b/c winston doesn't work with express
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    errlog = exports.errlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info',
+                                        filename: config.stress_log_path + 'error.log',
+                                        json:true,
+                                        options: {   
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    evtlog = exports.evtlog = new (winston.Logger)({
+      exitOnError: false, //don't crash on exception
+      transports: [
+        new (winston.transports.File)({ level: 'info', filename: config.stress_log_path + 'event.log', json:true,
+                                        options: {
+                                          flags: 'a',
+                                          highWaterMark: 24
+                                        }
+                                      })
+      ]
+    });
+    apiRoutes = require('./routes/apiRoutes');
+    
+    riakConfig = require('./riak_config');
+    util = require('./utility');
+    
+    //ping riak and nodeflake
+    riakConfig.init();
+    
+    //SSL options
+    var options = {
+      key: fs.readFileSync(config.stress_ssl_path + 'quyay.com.key'),
+      cert: fs.readFileSync(config.stress_ssl_path + 'quyay.com.crt'),
+      ca: [fs.readFileSync(config.stress_ssl_path + 'gd_bundle.crt')]
+    }
+    
+    http.createServer(app).listen(80, function(){
+      outlog.info('HTTP Express server listening on port 80');
+    });
+    https.createServer(options, app).listen(443, function(){
+      outlog.info('HTTPS Express server listening on port 443');
+    });
   });
   
   app.get('/debug', function(req, res){
@@ -361,6 +434,11 @@ else{
         return res.render('debug');
     }
     res.render('base');
+  });
+  
+  //case for blitz.io
+  app.get('/mu-1234-cafe-5678-babe', function(req, res){
+    return res.send('42');
   });
   
   app.get('/', auth, function(req, res){
@@ -382,31 +460,6 @@ else{
   app.get('/about/:about', auth, function(req, res){
     res.render('base');
   });
-  /*app.get('/fbfail', function(req, res){
-    res.send('facebook login failure');
-  });
-  app.get('/auth/facebook',
-    //passConfig.passport.authenticate('facebook', { scope: ['email'] })
-  );
-  app.get('/auth/facebook/callback',
-    //passConfig.passport.authenticate('facebook', { failureRedirect: '/fbfail' }),
-    function(req, res) {
-      //if we need to register this facebook user, store user params into req.session.fbUser
-      if(req.user.registerMe){
-        req.session.fbUser = req.user;
-        res.redirect('/');
-      }
-      //if logging in, set fb flag and log in
-      else{
-        console.log('Login via facebook success!');
-        req.session.loggedIn = req.user.data.email;
-        req.session.userEmail = req.user.data.email;
-        req.session.userName = req.user.data.name;
-        res.redirect('/');
-      }
-    }
-  );
-  */
   app.get('/user/:user', auth, function(req, res){
     return res.render('base');
   });

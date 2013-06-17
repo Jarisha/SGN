@@ -6,7 +6,7 @@
       <div class="profile_pic">
         <img ng-src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
-      <div class="profile_xp">
+      <!--<div class="profile_xp">
         <span class="curr_level">Level {{user.level || 1}}</span>
         <span class="to_level">{{user.nextXP || 99}}XP to level</span>
       </div>
@@ -15,7 +15,7 @@
         </span>
         <span class="xp_remaining">
         </span>
-      </div>
+      </div>-->
     </div>
   </div>
   <div class="right_container">
@@ -53,8 +53,8 @@
       <div class="comrade_tabs">
         <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
         <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
-        <button ng-show="!isFriend" id="friend_user" ng-click="friend(user.email)">Friend</button>
-        <button ng-show="isFriend" id="friend_user" disabled>Friend</button>
+        <button ng-show="!isFriend && !pendingFriend" id="friend_user" ng-click="friend(user.email)">Friend</button>
+        <button ng-show="isFriend || pendingFriend" id="friend_user" disabled>Friend</button>
       </div>
       <a ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>
@@ -65,57 +65,12 @@
       <a ng-show="people_tab==FRIEND" ng-repeat="friend in user.friends" href="/user/{{friend.userName}}">
         <img title="{{friend.userName}}" width="40px" height="40px" ng-src="{{friend.profileImg || '/images/30x30.gif'}}"/>
       </a>
-      
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
     </div>
   </div>
-  <div id="footer_container">
-    <div id="profile_footer">
-      <div ng-class="{'active_tab': content_tab==GROUPS}" ng-click="getGroupData(); content_tab=GROUPS;">Groups</div>
-      <div ng-class="{'active_tab': content_tab==LIKES}" ng-click="showLikes(); content_tab=LIKES;" >Liked Posts</div>
-    </div>
-  </div>
+  <div id="footer_container" ng-include="'partials/profile_footer'"></div>
 </div>
-
-<!-- TIMELINE -->
-<div id="timeline_col" class="profile-column">
-  <div id="timeline_header" class="profile-column-header" >TIMELINE</div>
-  <div class="timeline_container">
-    <ul style="margin:0; padding:0;">
-      <li class="timelineEvent" ng-repeat="event in timeline | reverse">
-        <a href="{{event.targetLink}}">
-          <img class="sourceImg" ng-src="{{event.sourceImg}}" />
-          <div class="timelineText">
-            {{event.message}}
-          </div>
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div id="badge_col" class="profile-column">
-  <div id="badge_header" class="profile-column-header">BADGES</div>
-  <ul class="badge_chest" class="profile-column-contents-container">
-    <img src="<%= rootPath %>/images/misc_images/badge1.png" width="60"/>
-  </ul>
-  <div class="view_all"><p ng-click="popBadgeModal()" href="#">View All</p></div>
-</div>
-<div id="profile_data">
-  <ul id="group_bar" class="clearfix" ng-show="showGroups">
-    <li  ng-repeat="group in groupList" ng-click="showGroup(group)">{{group}}</li>
-  </ul>
-  <div id="profile_data_inner" class="clearfix">
-    <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
-      <a class="view_trigger" ng-click="viewBigPin(pin)">
-        <img class="game_img" ng-src="{{pin.sourceUrl}}" width="220" height="300"/>
-      </a>
-      <div class="pin_footer">
-        <p class="game_description">{{pin.description}}</p>
-        <p class="game_attributes">
-          <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Timeline column and badge column -->
+<div id="timeline-badges-columns" ng-include="'partials/profile-user-columns'"></div>
+<!-- PROFILE DATA (GROUPS AND LIKED POSTS) -->
+<div id="profile_data" ng-include="'partials/profile_data'"></div>

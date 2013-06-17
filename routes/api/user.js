@@ -889,12 +889,14 @@ exports.checkLogin = function(req, res){
     var userEvents;
     var pinEvents;
     var convoData;
+    var pendingRequests;
     get_RO_user(req.session.loggedIn, function(err, usr){
       if(err) return res.json({ error: err.message });
       util.removeNulls(usr.data.userEvents);
       util.removeNulls(usr.data.pinEvents);
       userEventIds = usr.data.userEvents;
       pinEventIds = usr.data.pinEvents;
+      pendingRequests = usr.data.pendingRequests;
       for(i = 0, len = usr.data.conversations.length; i < len; i++){ 
         var curr_convo = usr.data.conversations[i];
         if(!curr_convo) continue;
@@ -1032,13 +1034,14 @@ exports.checkLogin = function(req, res){
         avatarImg: req.session.avatarUrl,
         userEvents: userEvents,
         pinEvents: pinEvents,
-        convoData: convoData
+        convoData: convoData,
+        pendingRequests: pendingRequests
       });
     }
 	}
 }
 
-//consume notification, removing it from user notification area.
+// consume notification, removing the reference of the event from the user who owns it.
 // accepts eventId
 exports.consumeEvent = function(req, res){
   var userId = req.session.loggedIn;
@@ -1505,17 +1508,21 @@ exports.unfollow = function(req, res){
 
 //send friend request from source to target
 exports.friendRequest = function(req, res){
-  console.log(req.body);
   var sourceId = req.body.sourceId,
       targetName = req.body.targetName,
       targetId = req.body.targetId;
-  
+      
+  if(sourceId === targetId){
+    outlog.info('Error: cannot friend yourself');
+    return res.json({ error: 'Error: cannot friend yourself' });
+  }
   var requestId;
   var requestEvent =  { date: util.getDateObj(),
                         sourceUser: sourceId,
                         action: 'friendRequest',
                         target: targetId
                       };
+  // if userName is passed instead of email, fetch email via userRef
   if(!targetId){
     base.getUserEmail(targetName, function(err, email){
       if(err) return res.json({ error: err.message });
@@ -1526,11 +1533,21 @@ exports.friendRequest = function(req, res){
     });
   }
   else next();
+  
+  // fetch sourceUser, add target user to source's pendingRequests, save sourceUser
   function next(){
-    if(sourceId === targetId){
-      outlog.info('Error: cannot friend yourself');
-      return res.json({ error: 'Error: cannot friend yourself' });
-    }
+    get_RO_user(sourceId, function(err, usr){
+      if(err) return res.json({ error: 'get user error: '+err.message }); //return callback(err.message, null);
+      //usr.data.pendingRequests.push(targetId);
+      usr.data.pendingRequests[targetId] = true;
+      usr.save(function(err, saved){
+        if(err) return res.json({ errro: 'save user error: '+err.message });
+        next2();
+      });
+    });
+  }
+  
+  function next2(){
     //create event, fetch targetUser, add request to his notifications
     async.waterfall([
       //create event, get event id
@@ -1630,18 +1647,29 @@ exports.acceptFriend = function(req, res){
   function next(){
     //get both users
     async.series([
-      //Fetch sourceUser. Add targetId user to sourceUser's friends. Add event to notifications + timeline.
+      // Fetch sourceUser. Remove pending friend request.
+      // Add targetId user to sourceUser's friends. Add event to notifications + timeline.
       function(callback){
         get_RO_user(sourceId, function(err, usr){
           if(err) return callback(err);
-          if(usr.data.friends.indexOf(targetId) === -1) usr.data.friends.push(targetId);
+          var p_modified = false, f_modified = false;
+          if(usr.data.pendingRequests[targetId]){
+            delete usr.data.pendingRequests[targetId];
+            p_modified = true;
+          }
+          if(usr.data.friends.indexOf(targetId) === -1){
+            usr.data.friends.push(targetId);
+            f_modified = true;
+          }
+          if(p_modifed || f_modifed){
+            usr.data.userEvents.push(eventId);
+            usr.data.timelineEvents.push(eventId);
+            base.save_RO(usr, 'users', function(_err, saved){
+              if(_err) return callback(_err);
+              return callback(null);
+            });
+          }
           else return callback(null);
-          usr.data.userEvents.push(eventId);
-          usr.data.timelineEvents.push(eventId);
-          base.save_RO(usr, 'users', function(_err, saved){
-            if(_err) return callback(_err);
-            return callback(null);
-          });
         });
       },
       //Fetch targetUser. Add sourceId to targetUser's friends. Consume friend request. Add event to timeline.
@@ -1649,7 +1677,6 @@ exports.acceptFriend = function(req, res){
         get_RO_user(targetId, function(err, usr){
           if(err) return callback(err);
           if(usr.data.friends.indexOf(sourceId) === -1) usr.data.friends.push(sourceId);
-          else return callback(null);
           usr.data.timelineEvents.push(eventId);
           //target consumes friend request
           var index = usr.data.userEvents.indexOf(consumedId);
@@ -1665,6 +1692,46 @@ exports.acceptFriend = function(req, res){
       if(err) return res.json({ error: 'accept friend error: '+ err.message });
       return res.json({ success: 'friend request accepted!' });
     });
+  }
+}
+
+//remove pendingRequest from sourceUser, consume event. TODO: remove target user if not needed
+exports.ignoreFriendRequest = function(req, res){
+  console.log(req.body);
+  var sourceId = req.body.sourceId;
+  var targetId = req.body.targetId;
+  var eventId = req.body.eventId;
+  
+  //get sourceUser, remove pendingRequest, save sourceUser
+  get_RO_user(sourceId, function(err, usr){
+    if(err) return res.json({ error: 'get user error: '+ err });
+    if(usr.data.pendingRequests[targetId]){
+      delete usr.data.pendingRequests[targetId];
+      usr.save(function(_err, saved){
+        if(_err) return res.json({ error: 'user save error: '+_err.message });
+        next();
+      });
+    }
+    else next();
+  });
+  //get targetUser, consume event by removing ref from his userEvents, save targetUser
+  function next(){
+    get_RO_user(targetId, function(err, usr){
+      if(err) return res.json({ error: 'get user error: '+ err });
+      var eventIndex = usr.data.userEvents.indexOf(eventId);
+      if(eventIndex !== -1){
+        usr.data.userEvents.splice(eventIndex, 1);
+        usr.save(function(err, saved){
+          if(err) return res.json({ error: 'user save error: '+err.message });
+          next2();
+        });
+      }
+      else next2();
+    });
+  }
+  //done
+  function next2(){
+    return res.json({ success: 'friend request ignored' });
   }
 }
 
@@ -1942,7 +2009,8 @@ function fetchPinAndComments(gamepins, req, callback){
           pinMap[pinId].profileImg = ref_obj.data.profileImg;
           pinMap[pinId].comments = [];
           pinMap[pinId].likedBy = likedBy;
-          pinMap[pinId].likedFlag = false;                  //set likedflag for front page
+          pinMap[pinId].likedFlag = false;           //set likedflag for front page
+          
           if(likedBy.indexOf(req.session.userEmail) !== -1) pinMap[pinId].likedFlag = true;
           // pinMap[pinId].likeFlag = false;
           // if(req.session.likes.indexOf(pinId) !== -1) pinMap[pinId].likeFlag = true;
@@ -2042,6 +2110,10 @@ exports.getPinList = function(req, res){
       outlog.info('search.solr: none found');
       return res.json({ objects: returnList });
     }
+    //console.log(response.response.docs);
+    for(i in response.response.docs){
+      console.log(response.response.docs[i].fields.gameName);
+    }
     fetchPinAndComments(response.response.docs, req, function(err, objsList){
       if(err) return res.json({ error: err });
       return res.json({ objects: objsList });
@@ -2136,19 +2208,45 @@ exports.changeAvatar = function(req, res){
     return res.json({error: 'No image recieved by server'});
   }
   var url;
-  app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
-    if(err){
-      if(IE){
-        errlog.info('File upload error');
-        res.contentType('text/plain'); 
-        return res.send(JSON.stringify({error: 'File upload error'}));
+  
+  tryThis();
+	//need to retry the CDN request in case we get a 401
+	function tryThis(){
+		app.rackit.add(req.files.image.path, {type: req.files.image.type}, function(err, cloudpath){
+			if(err){
+				errlog.info('rackspace add error: ' + err);
+				//if rackit sends 401, reauthenticate, then try again via recursive strategy
+				if(err.message.indexOf('401') !== -1){
+          errlog.info('recieved 401 from rackspace CDN, calling reAuth');
+					app.rackit.reAuth(function(err){
+						if(err){
+              errlog.info('reAuth failed: ' + err.message)
+              if(IE){
+                res.contentType('text/plain');
+                return res.send(JSON.stringify({error: 'server error: reAuth error'+err.message }));
+              }
+              else return res.json({ error: 'server error: reAuth error'+err.message });
+						}
+            errlog.info('reAuth success. Retrying changeAvatar.')
+						return tryThis();
+					});
+				}
+        //if error is not 401 related, we have a problem.
+        else{
+          if(IE){
+            res.contentType('text/plain');
+            return res.send(JSON.stringify({error: 'Rackspace add error' + err.message}));
+          }
+          else return res.json({ error: 'Rackspace add error' + err.message });
+        }
+			}
+      else{
+        url = app.rackit.getURI(cloudpath);
+        req.session.avatarUrl = url;
+        next();
       }
-      return res.json({error: err});
-    }
-    url = app.rackit.getURI(cloudpath);
-    req.session.avatarUrl = url;
-    next();
-  });
+		});
+	}
   //update the user
   function next(){
     app.riak.bucket('users').objects.get(req.session.loggedIn, util.user_resolve, function(err, obj){
@@ -2356,7 +2454,7 @@ exports.getLikedPins = function(req, res){
     pinAPI.get_RO_gamepin(pinId, function(err, RO_pin){
       if(err){
         console.log(err);
-        if(err instanceof E.NotFoundError) return callback(null, null);
+        if(err.status_code === 404) return callback(null, null);
         else return callback(err, null);
       }
       return callback(null, RO_pin);

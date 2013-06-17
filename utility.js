@@ -662,8 +662,10 @@ var generateId = exports.generateId = function(callback){
         //recursive function
         return generateId(callback);
       }
-      nodeflake_prev = ID_obj.id;
-      next();
+      else{
+        nodeflake_prev = ID_obj.id;
+        next();
+      }
     });
   });
   R.on('error', function(e){

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']);
+var app = angular.module('myApp', ['myApp.services', 'myApp.directives', 'myApp.filters']);
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
@@ -6,31 +6,32 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
   //Router provides templateUrl that fills <body>, controller, and pre-routing logic
   $routeProvider
     .when('/', { templateUrl: '/partials/front/front', // templateUrl: '/partials/profile/profile'
-                  controller: FrontController,
-                  resolve: FrontController.resolve
+                  controller: FrontController
+                  , resolve: FrontController.resolve
                 })
     .when('/store', { templateUrl: '/partials/store',
-                      controller: StoreController,
-                      resolve: StoreController.resolve
+                      controller: StoreController
+                      , resolve: StoreController.resolve
                     })
     .when('/profile', { templateUrl: '/partials/profile/profile', // templateUrl: '/partials/profile/profile'
-                      controller: ProfileController,
-                      resolve: ProfileController.resolve
+                      controller: ProfileController
+                      , resolve: ProfileController.resolve
                     })
     .when('/about', { templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
-                      controller: AboutController,
-                      resolve: AboutController.resolve
+                      controller: AboutController
+                      , resolve: AboutController.resolve
                     })
     .when('/about/:area', {templateUrl: '/partials/about/about', // templateUrl: '/partials/about/about'
-                      controller: AboutController,
-                      resolve: AboutController.resolve})
+                      controller: AboutController
+                      , resolve: AboutController.resolve
+                    })
     .when('/user/:username', {   templateUrl: '/partials/user/user', //  templateUrl: '/partials/profile/profile',
-                      controller: UserController,
-                      resolve: UserController.resolve
+                      controller: UserController
+                      , resolve: UserController.resolve
                     })
     .when('/post/:postId',{ templateUrl: '/partials/post/post',
-                      controller: TempController,
-                      resolve: TempController.resolve
+                      controller: TempController
+                      , resolve: TempController.resolve
                     })
     .when('/notfound', {templateUrl: '/partials/not_found'})
     .otherwise({templateUrl: '/partials/not_found'});
@@ -39,7 +40,9 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $lo
 }]);
 
 // Entry Point
-app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
+app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
+  function($rootScope, $http, $templateCache, $location, $timeout, $q){
+  
   console.log('app.run()');
 
   $rootScope.notificationsDummyData = {
@@ -105,6 +108,11 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   $rootScope.userName = null;
   $rootScope.userEmail = null;
   $rootScope.userImg = '/images/30x30.gif';
+  $rootScope.userEvents = [];
+  $rootScope.pinEvents = [];
+  $rootScope.convoData = [];
+  $rootScope.pendingRequests = {};
+  
   //settings
   $rootScope.set =  { password: null,
                       confirm: null,
@@ -138,23 +146,26 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //Masonry calls
   $rootScope.masonry = function(){
     console.log('masonry');
-    $('img').imagesLoaded(function(){
-      $('#content').masonry({
-        itemSelector : '.game_pin, .store_pin',
-        isFitWidth: true
+    $('#content').imagesLoaded()
+      .always(function(instance){
+        $('#content').masonry({
+          itemSelector : '.game_pin, .store_pin',
+          isFitWidth: true
+        });
+        $('.game_pin, .store_pin').show();
+        //hack to fix masonry overlaps. (badge)
+        $timeout(function(){
+          console.log('time');
+          $('#content').masonry('reload');
+        }, 1000);
       });
-      //hack to fix masonry overlaps. (badge)
-      $timeout(function(){
-        console.log('time');
-        $('#content').masonry('reload');
-      }, 1000);
-    });
   }
   $rootScope.reload = function(){
     console.log('appendMason');
-    $('img').imagesLoaded(function(){
-      $('#content').masonry('reload');
-    });
+    $('#content').imagesLoaded()
+      .always(function(instance){
+        $('#content').masonry('reload');
+      });
   }
   $rootScope.remason = function(){
     $('#content').masonry('reload');
@@ -163,21 +174,23 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
     $('#content').masonry('destroy');
   }
   $rootScope.profileMasonry = function(){
-    $('#profile_data_inner').imagesLoaded(function(){
-      $('#profile_data_inner').masonry({
-        itemSelector : '.game_pin',
-        isFitWidth: true
+    $('#profile_data_inner').imagesLoaded()
+      .always(function(instance){
+        $('#profile_data_inner').masonry({
+          itemSelector : '.game_pin',
+          isFitWidth: true
+        });
+        $timeout(function(){
+          $('#profile_data_inner').masonry('reload');
+        }, 1000);
       });
-      $timeout(function(){
-        $('#profile_data_inner').masonry('reload');
-      }, 1000);
-    });
   }
   $rootScope.profileReload = function(){
     console.log('reload profile masonry');
-    $('#profile_data_inner').imagesLoaded(function(){
-      $('#profile_data_inner').masonry('reload');
-    });
+    $('#profile_data_inner').imagesLoaded()
+      .always(function(instance){
+        $('#profile_data_inner').masonry('reload');
+      });
   }
   $rootScope.destroyProfileMason = function(){
     $('#profile_data_inner').masonry('destroy');
@@ -240,15 +253,20 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         if(data.messages){
           $rootScope.messageList = data.messages;
           $rootScope.selectedConvo = convo;
+          $('#convo_sidebar').css('display', 'block');
+          $('#conversationModal').modal();
+          
+          // hacky $timeout solution
+          $timeout(function(){
+            $('#respond_message').focus();
+            var height = $('.convo_right')[0].scrollHeight;
+            $('.convo_right').scrollTop(height);
+          }, 50);
         }
       })
       .error(function(data, status, headers, config){
       });
-    $('#convo_sidebar').css('display', 'block');
-    $('#conversationModal').modal();
-    $('#respond_message').focus();
-    var height = $('.convo_right')[0].scrollHeight;
-    $('.convo_right').scrollTop(height);
+
   }
  
   //post gamepin modal progression
@@ -268,6 +286,9 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
   //Modals for social notifications
   $rootScope.popFollowerNotifications = function(){
     $('#followerNotificationsModal').modal();
+  }
+  $rootScope.popTagNotifications = function(){
+    $('#tagNotificationsModal').modal();
   }
 
   //Modal for badges
@@ -308,25 +329,6 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       $('#notify_message').text('');
     });
   }
-
-  //register and login modals, on hold. TODO: Replace gateway register / login with modal progression.
-  /*
-  $rootScope.promptLogin = function(){
-    //clear modal
-    $rootScope.login.email = null;
-    $rootScope.login.password = null;
-    $('#loginModal').modal();
-  }
-  $rootScope.promptRegister = function(){
-    //clear modal
-    $rootScope.register.email = null;
-    $rootScope.register.name = null;
-    $rootScope.register.password = null;
-    $rootScope.register.confirm = null;
-    $rootScope.register.fbConnect = false;
-    $('#registerModal').modal();
-  }
-  */
   
   /********* AJAX API ***************/
   //Global AJAX. Interacts with API backend. Called from controller, returns to controller to perform controller specified logic.
@@ -346,6 +348,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
           $rootScope.userEvents = data.userEvents;
           $rootScope.pinEvents = data.pinEvents;
           $rootScope.convoData = data.convoData;
+          $rootScope.pendingRequests = data.pendingRequests;
           //If a conversation is new, mark it as new
           for(i = 0, len = $rootScope.convoData.length; i < len; i++){
             if($rootScope.convoData[i].notify === data.userId){
@@ -597,15 +600,15 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
   }
   
-  $rootScope.ignore = function(userEvent, index, listRef){
-    $http({ method: 'post', url:'/api/user/consumeEvent', data: {eventId: userEvent.id} })
+  //decline a friend request, removes the pending request from sourceUser, consumes event
+  $rootScope.ignoreFriendRequest = function(userEvent, index, listRef){
+    $http({ method: 'post', url: '/api/user/ignoreFriendRequest', data: {eventId: userEvent.id,
+                                                            sourceId: userEvent.sourceUser,
+                                                            targetId: userEvent.target } })
       .success(function(data, status, headers, config){
         if(data.success){
-          listRef.splice(index, 1);
-          $rootScope.popNotify('Success', 'Request Ignored');
-        }
-        if(data.error){
-          $rootScope.popNotify('Error', data.error);
+          $rootScope.userEvents.splice(index, 1);
+          $rootScope.popNotify('Success', data.success);
         }
       })
       .error(function(data, status, headers, config){
@@ -633,7 +636,7 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
         $rootScope.popNotify('Error', 'Server Error');
       });
   }
-
+  
   //view and edit settings
   $rootScope.viewSettings = function(){
     var resultData;
@@ -894,4 +897,4 @@ app.run(function($rootScope, $http, $templateCache, $location, $timeout, $q){
       });
     }
   }
-});
+}]);

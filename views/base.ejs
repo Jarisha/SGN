@@ -9,69 +9,86 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base href="<%=rootPath%>" target="_blank">
-    <!-- CSS -->
+    <!-- CSS + LESS -->
+    
     <!--<link href='http://fonts.googleapis.com/css?family=Nobile:400,700,regular,bold' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>-->
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen" >
+    <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap-scroll-modal.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap-fileupload.css" rel="stylesheet" media="screen">
-    <!--<link href="/less_compiled/default.css" rel="stylesheet" media="screen">-->
+    <% if(env === 'production'){ %>
+      <link href="/less_compiled/compiled.min.css" rel="stylesheet" media="screen">
+    <% } else { %>
+      <link href="/less_compiled/default.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/modal.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/front.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/store.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/profile.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/about.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/settings.css" rel="stylesheet" media="screen">
+      <link href="/less_compiled/post.css" rel="stylesheet" media="screen">
+    <% } %>
     
-    <link href="/css/default.css" rel="stylesheet" media="screen">
-      
-    <link href="/css/modal.css" rel="stylesheet" media="screen">
-    <!--<link href="<%= rootPath %>/css/default.css" rel="stylesheet">-->
-    <link href="/css/front.css" rel="stylesheet" media="screen">
-    <link href="/css/store.css" rel="stylesheet" media="screen">
-    <link href="/css/profile.css" rel="stylesheet" media="screen">
-    <link href="/css/about.css" rel="stylesheet" media="screen">
-    <link href="/css/settings.css" rel="stylesheet" media="screen">
-    <link href="/css/post.css" rel="stylesheet" media="screen">
+    <!-- JAVASCRIPT -->
     
-    <!-- Ad hoc javascipt to fix various issues -->
+    <!-- Hack area -->
     <script type="text/javascript">
     //Fix IE console.log bug.  TODO: Remove all firebug statements from production code.
     if (typeof console == "undefined" || typeof console.log == "undefined"){
       var console = { log: function() {} };
     }
     //Fix facebook's hash it appends to URL
-    if (window.location.hash == '#_=_'){
-      //window.location.hash = '';
-    }
+    if (window.location.hash == '#_=_') window.location.hash = '';
     </script>
-    <!-- Modernizr + -->
+    
+    <!-- JS LIBRARIES & PLUGINS -->
+    <!-- Client Less compiler -->
+    <!--<script type="text/javascript" src="/js/less-1.3.3.min.js"></script>-->
+    <!-- liveReload -->
+    <script src="http://localhost:35729/livereload.js"></script>
+    <!-- Modernizr -->
     <script type="text/javascript" src="/js/modernizr.custom.89496.js"></script>
     <!-- JQuery -->
-		<script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.masonry.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.imagesloaded.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.infinitescroll.min.js"></script>
+		<!--<script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>-->
+    <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.masonry.min.js"></script>
+    <!--<script type="text/javascript" src="/js/jquery.imagesloaded.min.js"></script> -->
+		<script type="text/javascript" src="/js/imagesloaded.pkgd.min.js"></script>
     <script type="text/javascript" src="/js/jquery.form.js"></script>
     <!-- Polyfill -->
     <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
-    <!-- Angular -->
-    <script type="text/javascript" src="/js/lib/angular/angular.js"></script>
-		<script type="text/javascript" src="/js/angular/app.js"></script>
-		<script type="text/javascript" src="/js/angular/services.js"></script>
-		<script type="text/javascript" src="/js/angular/controllers/baseController.js"></script>
+    <!-- Twitter Bootstrap - These files are modified with hacks -->
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-transition.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-scroll-modal.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-fileupload.js"></script>
+    <script type="text/javascript" src="/js/lib/angular/angular.min.js"></script>
+    
+    <% if(env === 'production'){ %>
+      <!-- PRODUCTION JS -->
+      <script type="text/javascript" src="/js/everything.min.js"></script>
+    <% } else { %>
+      <!-- DEVELOPMENT JS-->
+      <!-- Angular -->
+      <script type="text/javascript" src="/js/angular/app.js"></script>
+      <script type="text/javascript" src="/js/angular/services.js"></script>
+      <script type="text/javascript" src="/js/angular/directives.js"></script>
+      <script type="text/javascript" src="/js/angular/filters.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/frontController.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/storeController.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/profileController.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/userController.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/aboutController.js"></script>
       <script type="text/javascript" src="/js/angular/controllers/tempController.js"></script>
-		<script type="text/javascript" src="/js/angular/filters.js"></script>
-		<script type="text/javascript" src="/js/angular/directives.js"></script>
-    <!-- Twitter Bootstrap -->
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-		<script type="text/javascript" src="/js/bootstrap-transition.js"></script>
-		<script type="text/javascript" src="/js/bootstrap-scroll-modal.js"></script>
-    <script type="text/javascript" src="/js/bootstrap-fileupload.js"></script>
-    <!-- Page Specific JS -->
-		<script type="text/javascript" src="/js/front.js"></script>
-    <script type="text/javascript" src="/js/store.js"></script>
-    <script type="text/javascript" src="/js/about.js"></script>
-    <script type="text/javascript" src="/js/settings.js"></script>
+      
+      <script type="text/javascript" src="/js/front.js"></script>
+      <script type="text/javascript" src="/js/store.js"></script>
+      <script type="text/javascript" src="/js/about.js"></script>
+      <script type="text/javascript" src="/js/settings.js"></script>
+    <% } %>
+    <!-- END DEVELOPMENT -->
+    
     <!-- Google Analytics -->
     <script type="text/javascript">
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

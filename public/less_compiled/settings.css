@@ -1,0 +1,129 @@
+/* Override defaults */
+
+.settings textarea {
+  padding: 0;
+  margin: 0;
+}
+
+.settings ul,
+.settings li {
+  margin: 0;
+}
+
+.settings button {
+  padding: 10px;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+/* General Layout */
+
+.settings #content {
+  width: 1075px;
+}
+
+.settings body {
+  margin-top: 60px;
+}
+
+.settings #nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  -webkit-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4);
+     -moz-box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4);
+          box-shadow: 5px 5px 5px rgba(34, 25, 25, 0.4);
+}
+
+@media only screen and (max-width: 1074px), only screen and (max-device-width: 1074px) {
+  .settings #main_logo:link,
+  .settings #main_logo:visited,
+  .settings #main_logo:active,
+  .settings #main_logo:hover {
+    left: 535px;
+  }
+}
+
+/* Nav Bar */
+
+.settings .navbar-inner {
+  /*background:red;
+  border:none;
+  background: #E3F1E4;
+  width: 346px;
+  margin:auto;
+  -moz-border-radius: 0; 
+  -webkit-border-radius: 0; 
+  border-radius: 0;  CSS3 */
+
+}
+
+/* Pin Modal_1 and Pin Modal_2 */
+
+.settings #pinModal_2 {
+  width: 650px;
+}
+
+.settings #pinModal_2 input {
+  width: 150px;
+}
+
+.settings .media_type,
+.settings .media_source {
+  float: left;
+}
+
+.settings #myCarousel,
+.settings .post_metadata {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.settings #myCarousel {
+  width: 200px;
+  height: 200px;
+}
+
+.settings .post_metadata {
+  width: 300px;
+}
+
+.settings .post_description,
+.settings .post_tags {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.settings .post_tags {
+  width: 300px;
+}
+
+/* Settings content */
+
+.settings .my_settings_form {
+  padding: 15px;
+  margin: 0 100px 0 100px;
+  background: #DADADA;
+  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+     -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+          box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
+}
+
+.settings .param {
+  width: 100%;
+  padding: 15px 0;
+}
+
+.settings .param > * {
+  float: left;
+}
+
+.settings .param label {
+  width: 250px;
+  font-size: 20px;
+}
+
+.settings .param .gender_option {
+  width: 150px;
+}

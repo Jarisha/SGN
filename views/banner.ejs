@@ -14,7 +14,8 @@
   <script type="text/javascript">
     if (typeof console == "undefined" || typeof console.log == "undefined") var console = { log: function() {} }; 
   </script>
-  <script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
+  <!-- <script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
   <script type="text/javascript" src="/js/jquery.omniwindow.js"></script>
   <script type="text/javascript" src="/js/jquery.form.js"></script>
   <script type="text/javascript" src="/js/banner.js"></script>
@@ -81,7 +82,7 @@
             <p>If your application is approved, we'll email you with more info,
             including how to log in</p>
           </div>
-          <input id="user_submit" type="submit" value=""><span class="user_alert hidden">Success!</span>
+          <input id="user_submit" class="submit-button" type="submit" value=""><span class="user_alert hidden">Success!</span>
         </form>
       </div>
       <div class="company_form_container">
@@ -101,7 +102,7 @@
             <p>If you release games under your own name, use that as your company name.
             Once we verify that you're a developer, we'll contact you.</p>
           </div>
-          <input id="company_submit" type="submit" value=""><span class="company_alert hidden">Success!</span>
+          <input id="company_submit" class="submit-button" type="submit" value=""><span class="company_alert hidden">Success!</span>
         </form>
       </div>
     </div>
@@ -118,11 +119,11 @@
           <input id="login_password" name="password" type="password" required/>
         </div>
         <div class="login_text">
-          <p>Your password is initially provided in the confirmation email we sent to you
-          If you did not recieve this email, please check your spam or junk mail folder. You
-          may change it once you sign in</p>
+          <p>Your password is initially provided in the confirmation email we sent to you.
+          If you did not receive this email, please check your spam or junk mail folder. You
+          may change it once you sign in.</p>
         </div>
-        <input id="login_submit" type="submit" value=""><span class="login_alert"><span>
+        <input id="login_submit" class="submit-button" type="submit" value=""><span class="login_alert"><span>
       </form>
     </div>
   </div>

@@ -1,0 +1,115 @@
+/***** Main Layout *****/
+
+.front #content {
+  width: 100%;
+}
+
+.front #nav_content {
+  width: 100%;
+}
+
+/*************************** FRONT CONTENT ******************************/
+
+.front .game_options {
+  position: absolute;
+  margin: -7px 0 0 -5px;
+}
+
+.front .game_options * {
+  display: inline-block;
+  width: 60px;
+  height: 20px;
+  margin-left: 5px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #808080;
+  border-radius: 4px;
+}
+
+.front .game_options a {
+  background: white;
+}
+
+.front .game_options i {
+  width: 20px;
+  margin: 2px -3px 0 0;
+  border: none;
+}
+
+.front .game_description {
+  font-size: 14px;
+}
+
+.front .posted_by,
+.front .comment,
+.front .respond {
+  padding: 10px 15px;
+  margin: 1px -15px 0 -15px;
+  background: #EBEBEB;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+.front .posted_by img,
+.front .posted_by p,
+.front .comment img,
+.front .comment p {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.front .post_text,
+.front .respond_txtarea {
+  max-width: 170px;
+  margin-left: 5px;
+  line-height: 1.1em;
+}
+
+.front .respond_txtarea {
+  height: 20px;
+  font-size: 11px;
+  line-height: 1em;
+}
+
+.front .respond_btn {
+  position: relative;
+  left: 141px;
+  margin-top: 10px;
+}
+
+/* Pin Modal_1 and Pin Modal_2 */
+
+.front #pinModal_2 {
+  width: 650px;
+}
+
+.front #pinModal_2 input {
+  width: 150px;
+}
+
+.front .media_type,
+.front .media_source {
+  float: left;
+}
+
+.front .post_metadata {
+  width: 300px;
+}
+
+.front .post_description,
+.front .post_tags {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.front .post_tags {
+  width: 300px;
+}
+
+.front #filter_following {
+  cursor: pointer;
+}
+
+.front #filter_popular {
+  cursor: pointer;
+}
