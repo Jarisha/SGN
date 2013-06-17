@@ -171,17 +171,7 @@
 /* Game Pin object */
 
 .profile .game_pin {
-  /*background:#E9DBCC;
-  width:220px;*/
-
-  float: left;
-  padding: 15px 15px 0 15px;
   margin: 0 0 10px 10px;
-  /*font-size:12px;
-  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); 
-  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); */
-
 }
 
 .profile .pin_footer {
@@ -203,17 +193,6 @@
   cursor: pointer;
   background: white;
   border: 2px solid black;
-}
-
-.profile .game_description,
-.profile .game_attributes,
-.profile .posted_by {
-  margin-top: 5px;
-  margin-bottom: 0;
-}
-
-.profile .game_attributes {
-  margin-bottom: 5px;
 }
 
 .profile .posted_by,
@@ -622,6 +601,7 @@
 }
 
 .profile #profile_data_inner {
+  min-height: 800px;
   margin-left: -22px;
 }
 

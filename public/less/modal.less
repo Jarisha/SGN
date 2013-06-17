@@ -596,28 +596,32 @@
 }
 
 /*Social Notifications Modals*/
-#followerNotificationsModal {
-  width: 269px;
+.notificationsModal {
+  width: 300px;
   margin: 50px 0 0 40%;
   position: static;
 }
-#followerNotificationsModal .modal-body{
+
+.notificationsModal .modal-body{
   overflow-y: auto;
 }
-#followerNotificationsModal ul {
+.notificationsModal ul {
   margin: 0px;
 }
-#followerNotificationsModal li {
-  padding: 5px;
+.notificationsModal a {
+  display: block;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
 }
-#followerNotificationsModal button {
-  font-size: 14px;
+.notificationsModal a:hover {
+  background-color: #0088cc;
+}
+#followerNotificationsModal .friend_buttons button {
   height: 100%;
+  font-size: 14px;
 }
-#followerNotificationsModal .friend_buttons {
-  float: right;
-  display: inline-block;
-}
+
 /*Badge modal*/
 #badgeModal li {
   display: inline;

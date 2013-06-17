@@ -380,10 +380,12 @@ form {
 }
 
 #notify_triangle {
-  left: 268px;
-  z-index: 2;
-  width: 34px;
-  height: 40px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: -4px;
+  border-top: 40px solid #99cc00;
+  border-right: 40px solid transparent;
 }
 
 #nav_content {
@@ -528,6 +530,10 @@ form {
   border-bottom: 1px solid #EBEBEB;
 }
 
+.notification-list a {
+  padding: 5px;
+}
+
 /* Notifications dropdowns */
 
 .targetThumb img {
@@ -602,12 +608,6 @@ form {
 
 #message_dropdown:before {
   left: 198px;
-}
-
-#follower_dropdown a,
-#tag_dropdown a,
-#message_dropdown a {
-  padding: 5px;
 }
 
 /* Nav Right */
@@ -902,16 +902,38 @@ form {
   cursor: pointer;
 }
 
+/* Game and store pins */
+
 .game_pin,
 .store_pin {
   float: left;
   width: 220px;
+  padding: 15px 15px 0 15px;
   margin: 0 0 15px 15px;
   font-size: 12px;
   background: #FBFBFA;
   -webkit-box-shadow: 10px 10px 5px -2px #555555;
      -moz-box-shadow: 10px 10px 5px -2px #555555;
           box-shadow: 10px 10px 5px -2px #777777;
+}
+
+.game_pin .game_description,
+.game_pin .game_attributes,
+.game_pin .posted_by {
+  max-height: 40px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game_pin .game_description,
+.game_pin .posted_by {
+  margin-bottom: 0;
+}
+
+.game_pin .game_attributes {
+  margin-bottom: 5px;
 }
 
 /* Feedback tab */

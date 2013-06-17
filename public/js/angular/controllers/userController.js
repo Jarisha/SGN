@@ -5,7 +5,6 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     $rootScope.title = 'user';
     
     // get resolve data into view
-    $scope.activityPins = resolveUser.activityData;
     $scope.timeline = resolveUser.timeline;
     $scope.user = resolveUser.profileData;
     $scope.user.bio = $scope.user.bio || null;
@@ -19,7 +18,7 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
                                           User bio text. Sample user bio text. Sample user bio text staggered.\
                                           User bio text. Sample user bio text. Sample user bio text.'; */
     
-    $scope.showPins = $scope.activityPins;
+    $scope.showPins = null;
     $scope.groupList = [];
     $scope.groupData = {};
     $scope.bigPin = {};
@@ -31,11 +30,10 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     //Tab state
     $scope.FOLLOW = 1; $scope.FRIEND = 2;
     $scope.GROUPS = 1; $scope.LIKES = 3;
-    $scope.showGroups = false;
+    $scope.content_tab = "none";
     $scope.people_tab = $scope.FOLLOW;
-    $scope.content_tab = $scope.ACTIVITY;
     $scope.timeline_tab = "showAll";
-    
+    $scope.group_tab = null;
     // confirm the partials we want to load in
     $scope.modals = $rootScope.rootPath + '/partials/modals';
     
@@ -252,12 +250,11 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
         $scope.bigFollowBtn = false;
       });
     }
-    
+
     //popMessageModal
     $scope.popMessage = function(){
       var sourceId = $rootScope.userEmail;
       var targetId = $scope.user.email;
-      
       var userData;
       // Fetch logged in user and view conversations to determine if these two users are engaged in conversation
       $http({ method: 'post', url:'/api/user/getProfile', data: { email: sourceId } })
@@ -300,36 +297,8 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
           $('#messageModal').modal();
         }
       }
-      /*$('#messageModal form')[0].reset();
-      $('#messageModal').modal();*/
-    }
-    // send message, only used for initial message
-    $scope.sendMessage = function(text){
-      var sourceId = $rootScope.userEmail;
-      var targetId = $scope.user.email;
-      $rootScope.message(text, sourceId, targetId, function(errMessage, successMessage){
-        if(errMessage) $rootScope.popNotify(errMessage);
-        else if(successMessage) $rootScope.popNotify(successMessage);
-      });
     }
 
-    $scope.getGroupData = function(){
-      //$scope.displayMode = 'group';
-      $scope.displayMode.activity = false;
-      $scope.displayMode.group = true;
-      $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
-        .success(function(data, status, headers, config){
-          $scope.groupList = [];
-          $scope.groupData = data.groups;
-          for(var g in data.groups){
-            $scope.groupList.push(g);
-          }
-          $scope.showPins = null;
-        })
-        .error(function(data, status, headers, config){
-          console.log(data);
-        });
-    }
     /*$('#messageModal form')[0].reset();
     $('#messageModal').modal();*/
     // send message, only used for initial message
@@ -341,9 +310,9 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
         else if(successMessage) $rootScope.popNotify(successMessage);
       });
     }
-  
+
     $scope.getGroupData = function(){
-      $scope.showGroups = true;
+      $scope.content_tab = $scope.GROUPS;
       $http({ method:'post', url:'/api/user/getGroups', data: {userName: $scope.user.userName} })
         .success(function(data, status, headers, config){
           $scope.groupList = [];
@@ -375,11 +344,13 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
     }
     
     $scope.showGroup = function(group){
+      $scope.group_tab = group;
       $scope.showPins = $scope.groupData[group]; //$scope.groupPins[group];
     }
-  
+
     $scope.showLikes = function(){
-      $scope.showGroups = false;
+      $scope.content_tab = $scope.LIKES;
+      $scope.group_tab = null;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.user.email, pinIds: $scope.user.likes} })
         .success(function(data, status, headers, config){
           if(data.error) $rootScope.popNotify('Error', data.error);

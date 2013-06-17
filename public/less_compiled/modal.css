@@ -711,32 +711,34 @@
 
 /*Social Notifications Modals*/
 
-#followerNotificationsModal {
+.notificationsModal {
   position: static;
-  width: 269px;
+  width: 300px;
   margin: 50px 0 0 40%;
 }
 
-#followerNotificationsModal .modal-body {
+.notificationsModal .modal-body {
   overflow-y: auto;
 }
 
-#followerNotificationsModal ul {
+.notificationsModal ul {
   margin: 0;
 }
 
-#followerNotificationsModal li {
-  padding: 5px;
+.notificationsModal a {
+  display: block;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
 }
 
-#followerNotificationsModal button {
+.notificationsModal a:hover {
+  background-color: #0088cc;
+}
+
+#followerNotificationsModal .friend_buttons button {
   height: 100%;
   font-size: 14px;
-}
-
-#followerNotificationsModal .friend_buttons {
-  display: inline-block;
-  float: right;
 }
 
 /*Badge modal*/

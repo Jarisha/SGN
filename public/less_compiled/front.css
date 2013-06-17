@@ -10,10 +10,6 @@
 
 /*************************** FRONT CONTENT ******************************/
 
-.front .game_pin {
-  padding: 15px 15px 0 15px;
-}
-
 .front .game_options {
   position: absolute;
   margin: -7px 0 0 -5px;
@@ -43,19 +39,6 @@
 
 .front .game_description {
   font-size: 14px;
-}
-
-.front .game_description,
-.front .game_attributes,
-.front .posted_by {
-  max-height: 40px;
-  margin-top: 5px;
-  margin-bottom: 0;
-  overflow: hidden;
-}
-
-.front .game_attributes {
-  margin-bottom: 5px;
 }
 
 .front .posted_by,
@@ -89,7 +72,8 @@
 }
 
 .front .respond_btn {
-  float: right;
+  position: relative;
+  left: 141px;
   margin-top: 10px;
 }
 
