@@ -41,17 +41,11 @@
 .front .game_attributes,
 .front .posted_by {
   max-height: 40px;
-  margin-top: 5px;
-  margin-bottom: 0;
   overflow: hidden;
 }
 
 .front .game_description {
   font-size: 14px;
-}
-
-.front .game_attributes {
-  margin-bottom: 5px;
 }
 
 .front .posted_by,

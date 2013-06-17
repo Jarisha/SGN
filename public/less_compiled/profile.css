@@ -195,17 +195,6 @@
   border: 2px solid black;
 }
 
-.profile .game_description,
-.profile .game_attributes,
-.profile .posted_by {
-  margin-top: 5px;
-  margin-bottom: 0;
-}
-
-.profile .game_attributes {
-  margin-bottom: 5px;
-}
-
 .profile .posted_by,
 .profile .comment,
 .profile .respond {
