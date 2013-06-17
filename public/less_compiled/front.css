@@ -37,10 +37,6 @@
   border: none;
 }
 
-.front .game_description {
-  font-size: 14px;
-}
-
 .front .game_description,
 .front .game_attributes,
 .front .posted_by {
@@ -48,6 +44,10 @@
   margin-top: 5px;
   margin-bottom: 0;
   overflow: hidden;
+}
+
+.front .game_description {
+  font-size: 14px;
 }
 
 .front .game_attributes {
