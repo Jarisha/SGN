@@ -171,16 +171,7 @@
 /* Game Pin object */
 
 .profile .game_pin {
-  /*background:#E9DBCC;
-  width:220px;*/
-
-  float: left;
   margin: 0 0 10px 10px;
-  /*font-size:12px;
-  -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); 
-  -webkit-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4);
-  box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); */
-
 }
 
 .profile .pin_footer {

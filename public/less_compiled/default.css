@@ -902,6 +902,8 @@ form {
   cursor: pointer;
 }
 
+/* Game and store pins */
+
 .game_pin,
 .store_pin {
   float: left;
