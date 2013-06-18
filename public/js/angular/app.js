@@ -693,7 +693,7 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
       .error(function(data, status, headers, config){
       });
   }
-  
+
   //Setup
   $rootScope.setupPostContent = function(){
     //setup form polyfill
