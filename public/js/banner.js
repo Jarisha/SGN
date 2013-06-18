@@ -1,6 +1,6 @@
 /* Note: IE does crazy shit (downloads a file, opens new tab) when you send it JSON
  * It also has inconsistent behavior depending on both the browser cache, and also whether developer tools are open or not.
- * To satisfy this irrational beast, we will recieve JSON in a text string, and parse it into a data object.
+ * To satisfy this irrational beast, we will send JSON over as a text string
  */
 //alert('OUTER BANNER.JS');
 

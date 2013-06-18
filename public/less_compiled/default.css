@@ -919,14 +919,6 @@ form {
 
 /* Hack-y way to deal with shuddering pins */
 
-.front .game_pin {
-  display: none;
-}
-
-.store_pin {
-  display: none;
-}
-
 .game_pin .game_description,
 .game_pin .game_attributes,
 .game_pin .posted_by {
@@ -1028,6 +1020,27 @@ form {
 
 .icon-heart {
   top: 5px;
+}
+
+.invis {
+  visibility: hidden;
+}
+
+#load_spin {
+  position: fixed;
+  bottom: 10px;
+  left: 45%;
+  z-index: 1000;
+  width: 76px;
+  height: 76px;
+  background: #EBEBEB;
+  border-radius: 5px;
+  opacity: 0.8;
+  box-shadow: 0 0 5px black;
+}
+
+#load_spin img {
+  padding: 5px;
 }
 
 /*Prevents dotted border from appearing on clicking "Comment" in Firefox*/

@@ -11,8 +11,8 @@
   </div>
 </noscript>
 <img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
-<div id="content" class="container" ng-include="content" onload="setup()">
+<div id="content" class="container" ng-include="content" onload="log('storesetup'); setup()">
 </div>
-<a href="#" ng-click="scrollup()" id="scrollup">
+<a ng-click="scrollup()" id="scrollup">
   <img src="<%= rootPath %>/images/UI/scrollup.png">
 </a>

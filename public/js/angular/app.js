@@ -1,4 +1,5 @@
 var app = angular.module('myApp', ['myApp.services', 'myApp.directives', 'myApp.filters']);
+var first = true;
 
 // Declare app level module which depends on filters, and services
 app.config(['$routeProvider', '$locationProvider',  function($routeProvider, $locationProvider) {
@@ -139,6 +140,19 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
       result.message = 'Error: ' + status;
     });
   
+  //Enable global 'scroll to top button'
+  $(window).on('scroll', function(){
+    if ($(this).scrollTop() > 200) {
+        $('#scrollup').fadeIn();
+    } else {
+        $('#scrollup').fadeOut();
+    }
+  });
+  
+  $rootScope.scrollup = function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+  }
+  
   /******** UI/UX Functionality & Flow *********/
   $rootScope.popModal = function(){
     $('#changeAvatar').modal();
@@ -146,25 +160,42 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   //Masonry calls
   $rootScope.masonry = function(){
     console.log('masonry');
-    $('#content').imagesLoaded()
+    $('body').imagesLoaded()
       .always(function(instance){
+        console.log('go!');
         $('#content').masonry({
           itemSelector : '.game_pin, .store_pin',
           isFitWidth: true
         });
-        $('.game_pin, .store_pin').show();
+        //$('.game_pin, .store_pin').show();
         //hack to fix masonry overlaps. (badge)
-        $timeout(function(){
-          console.log('time');
-          $('#content').masonry('reload');
-        }, 1000);
+        //$timeout(function(){
+        //  $('#content').masonry('reload');
+        //}, 1000);
       });
   }
-  $rootScope.reload = function(){
+  $rootScope.Emasonry = function(callback){
+    console.log('Emasonry');
+    $('#content').imagesLoaded()
+      .always(function(instance){
+        $.when($('#content').masonry({
+          itemSelector : '.game_pin, .store_pin',
+          isFitWidth: true
+        })).done(function(){ return callback();});
+        //$('.game_pin, .store_pin').show();
+        //hack to fix masonry overlaps. (badge)
+        //$timeout(function(){
+        //  $('#content').masonry('reload');
+        //}, 1000);
+      });
+  }
+  $rootScope.reload = function(callback){
     console.log('appendMason');
     $('#content').imagesLoaded()
       .always(function(instance){
-        $('#content').masonry('reload');
+        $.when($('#content').masonry('reload')).done(function(x){
+          return callback();
+        });
       });
   }
   $rootScope.remason = function(){
@@ -257,13 +288,6 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
           //pop modal and sidebar
           $('#convo_sidebar').css('display', 'block');
           $('#conversationModal').modal();
-          
-          // hacky $timeout solution
-          $timeout(function(){
-            $('#respond_message').focus();
-            var height = $('.convo_right')[0].scrollHeight;
-            $('.convo_right').scrollTop(height);
-          }, 100);
         }
       })
       .error(function(data, status, headers, config){
@@ -277,12 +301,6 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         if(data.messages){
           $rootScope.messageList = data.messages;
           $rootScope.selectedConvo = convo;
-          // hacky $timeout solution
-          $timeout(function(){
-            $('#respond_message').focus();
-            var height = $('.convo_right')[0].scrollHeight;
-            $('.convo_right').scrollTop(height);
-          }, 100);
         }
       })
       .error(function(data, status, headers, config){

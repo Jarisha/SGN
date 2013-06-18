@@ -1,5 +1,5 @@
 <!-- loop through all gamepins on screen -->
-<div ng-repeat="pin in showPins" class="game_pin" masonry>
+<div ng-repeat="pin in showPins" class="game_pin" ng-class="{'invis': pin.hidden}" masonry>
   <div class="game_options hidden">
     <a ng-show="!pin.likedFlag" class="like_btn" ng-click="like(pin)" >
       <i class="icon-heart"></i> Like

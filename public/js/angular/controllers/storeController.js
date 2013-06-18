@@ -86,7 +86,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
 
     //Setup non AJAX related javascript
     $scope.setup = function(){
-      storeSetup($scope);
+      $rootScope.masonry();
     }
   }
 ];

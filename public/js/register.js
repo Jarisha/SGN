@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
   var postData = '';
   $('#registerSubmit').click(function(e){
     $('button.active').each(function(){
@@ -16,4 +16,4 @@ $(document).ready(function(){
         console.log('error: ' + error);
     });
   });
-});
+});*/

@@ -14,10 +14,10 @@ angular.module('myApp.directives', [])
       restrict: 'A',
       //link gets called for every element in ng-repeat.  Every add to the list calls link for that element.
       link: function(scope){
-        //once the last element has loaded, fire masonry
-        if(scope.$last){
+        //once the last element has loaded, and if we are on our initial load, fire masonry
+        if(scope.$last && first){
           console.log('last');
-          scope.masonry();
+          //scope.masonry();
         }
       }
     };
@@ -49,8 +49,9 @@ angular.module('myApp.directives', [])
     return {
       link: function(scope){
         if(scope.$last){
-          console.log('last conversation');
-          
+          $('#respond_message').focus();
+          var height = $('.convo_right')[0].scrollHeight;
+          $('.convo_right').scrollTop(height);
         }
       }
     }

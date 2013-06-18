@@ -16,8 +16,9 @@
   <a href="/profile">Link to Profile</a>
   <p>WHAT IS THIS??????</p>
 </div>-->
+<div id="load_spin" class="hidden"><img width="66" height="66" src="/images/ajax-loader.gif" /></div>
 <img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
-<div id="content" class="container" ng-include="'partials/front/front_content'" onload="log('content-loaded'); setup();">
+<div id="content" class="container" ng-include="'partials/front/front_content'" onload="log('content-loaded'); setupContent();">
 </div>
 <a data-toggle="dropdown" ng-click="scrollup()" id="scrollup">
   <img src="<%= rootPath %>/images/UI/scrollup.png">

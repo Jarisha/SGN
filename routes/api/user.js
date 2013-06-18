@@ -1661,7 +1661,7 @@ exports.acceptFriend = function(req, res){
             usr.data.friends.push(targetId);
             f_modified = true;
           }
-          if(p_modifed || f_modifed){
+          if(p_modified || f_modified){
             usr.data.userEvents.push(eventId);
             usr.data.timelineEvents.push(eventId);
             base.save_RO(usr, 'users', function(_err, saved){
@@ -2135,7 +2135,6 @@ exports.categorySearch = function(req, res){
     rows: 1000,
     presort: 'key'
   };
-  console.log(query);
   
   app.riak.bucket('gamepins').search.solr(query, function(err, response){
     if(err){

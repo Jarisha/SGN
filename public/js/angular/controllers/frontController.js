@@ -22,13 +22,13 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
     
     $scope.bigPin = {};
     $scope.bigPin.followBtn = true;
+    $scope.first = true;
                       
     var pinIndex = 0;
-    var pinLimit = 20;
+    var pinLimit = 10;
     var pinStop = 0;
     
     /*** Initialization ***/
-    loadFirst();
     
     $scope.fbModal = function(){
       $('#fbRegisterModal').modal();
@@ -37,37 +37,107 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       $scope.masonInit = false;
     }
     
-    //load more pins when user scrolls down to a certain point
-    $window.onscroll = function(e){
+    //remove event listeners when leaving front
+    $scope.$on("$routeChangeStart", function(){
+      $(window).off('scroll', infiniteScroll);
+    });
+    
+    $(window).on('scroll', infiniteScroll);
+    
+    function infiniteScroll(){
       var a = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       var b = $window.pageYOffset;
       
       if($scope.flag && (a-b) <= 300){
+        $('#load_spin').removeClass('hidden');
         if((a-b) <= 100){
           $('.rackspace_logo').fadeIn();
         }
-        //else $('.rackspace_logo').fadeOut();
-        $scope.$apply($scope.loadMore());
+        else $('.rackspace_logo').fadeOut();
+        $scope.loadMore();
         $scope.flag = false;
       }
       if(a - b >= 400){
        $('.rackspace_logo').fadeOut();
+       $scope.flag = true;
       }
     }
     
+    //loadFirst to load initial gamepins into view
+    function loadFirst(){
+      pinIndex = 0;
+      pinLimit = 10;
+      pinStop = 0;
+      console.log('loadFirst');
+      first = true;
+      var newPins = [];
+      for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
+        if($scope.gamePins[pinIndex]){
+          $scope.gamePins[pinIndex].hidden = true;
+          newPins.push($scope.gamePins[pinIndex]);
+          //$scope.showPins.push($scope.gamePins[pinIndex]);
+        }
+        else break;
+      }
+      //$scope.$apply(function(){
+        $scope.showPins = $scope.showPins.concat(newPins);
+        $('#load_spin').addClass('hidden');
+        
+      $rootScope.Emasonry(function(){
+        $scope.$apply(function(){
+          for(i in newPins){
+            newPins[i].hidden = false;
+          }
+          $('#load_spin').addClass('hidden');
+        });
+      });
+      //});
+      
+    }
+    
+    //loadMore invoked to show more gamepins when the user scrolls down
+    $scope.loadMore = function(){
+      console.log('loadMore');
+      first = false;
+      var newElements = [];
+      for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
+        if($scope.gamePins[pinIndex]){
+          $scope.gamePins[pinIndex].hidden = true;
+          newElements.push($scope.gamePins[pinIndex]);
+        }
+      }
+      $scope.$apply(function(){
+        $scope.showPins = $scope.showPins.concat(newElements);
+      });
+      $rootScope.reload(function(){
+        $scope.$apply(function(){
+          for(i in newElements){
+            newElements[i].hidden = false;
+          }
+          $('#load_spin').addClass('hidden');
+        });
+      });
+    }
     //Setup non AJAX related javascript => goto front.js
-    $scope.setup = function(){
-      frontSetup($scope, $rootScope, $http);
+    $scope.setupContent = function(){
+      $('#content').on('mouseenter', '.game_pin', function(e){
+        $(this).find('.game_options').removeClass('hidden');
+      });
+      $('#content').on('mouseleave', '.game_pin', function(e){
+        $(this).find('.game_options').addClass('hidden');
+      });
+       loadFirst();
     }
     
     /* AJAX FUNCTIONS */
     $scope.getfront = function(){
+      $('#load_spin').removeClass('hidden');
       $rootScope.destroyMason();
       $scope.showPins = [];
       gamepinService.getPinList(function(data){
         $scope.gamePins = data.objects;
         pinIndex = 0;
-        pinLimit = 20;
+        pinLimit = 10;
         pinStop = 0;
         loadFirst();
       });
@@ -75,6 +145,8 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
     //getPinList
     //cat search and text search are currently just filtering the front page content
     $scope.catSearch = function(cat){
+      $('#load_spin').removeClass('hidden');
+      $rootScope.destroyMason();
       var categoryList = [];
       gamepinService.categorySearch(cat, function(data){
         $scope.gamePins = data.objects;
@@ -82,15 +154,14 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       });
       function next(){
         categoryList = $scope.gamePins;
-        pinIndex = 0;
-        pinLimit = 20;
-        pinStop = 0;
         $scope.showPins = [];
         $scope.gamePins = categoryList;
         loadFirst();
       }
     }
     $scope.textsearch = function(txt){
+      $('#load_spin').removeClass('hidden');
+      $rootScope.destroyMason();
       var textList = [];
       //TODO: Do real text search here.
       gamepinService.textSearch(txt, function(data){
@@ -100,7 +171,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       function next(){
         textList = $scope.gamePins;
         pinIndex = 0;
-        pinLimit = 20;
+        pinLimit = 10;
         pinStop = 0;
         $scope.showPins = [];
         $scope.gamePins = textList;
@@ -136,7 +207,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         }
         $scope.gamePins = temp;
         pinIndex = 0;
-        pinLimit = 20;
+        pinLimit = 10;
         pinStop = 0;
         loadFirst();
         $rootScope.masonry();
@@ -153,7 +224,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       sortedList.sort(popularSort);
       $scope.gamePins = sortedList;
       pinIndex = 0;
-      pinLimit = 20;
+      pinLimit = 10;
       pinStop = 0;
       loadFirst();
       
@@ -166,21 +237,6 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
           return -1;
       }
       
-      /*$rootScope.destroyMason();
-      $scope.gamePins.sort(popularSort);
-      var sorted_temp = $scope.gamePins;
-      $scope.gamePins = [];
-      $scope.gamePins = sorted_temp;
-      loadFirst();
-      
-      console.log('hello world where is the beach?');
-      
-      /*temp = $scope.gamePins;
-      $scope.gamePins = [];
-      $scope.gamePins = temp;
-      for(i = 0, len = $scope.gamePins.length;  i < len; i++){
-        console.log($scope.gamePins[i].comments.length + $scope.gamePins[i].likedBy.length);
-      }*/
     }
     
     //popRecommended
@@ -311,29 +367,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         });
       //API call to add comment to DB
     }
-    //loadFirst to load initial gamepins into view
-    function loadFirst(){
-      for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
-        if($scope.gamePins[pinIndex]) $scope.showPins.push($scope.gamePins[pinIndex]);
-        else break;
-      }
-    }
-    //loadMore invoked to show more gamepins when the user scrolls down
-    $scope.loadMore = function(){
-      console.log('loadMore');
-      var event = false;
-      var newElements = [];
-      for(pinStop = pinIndex + pinLimit; pinIndex < pinStop; pinIndex++){
-        if($scope.gamePins[pinIndex]){
-          newElements.push($scope.gamePins[pinIndex]);
-          //$scope.showPins.push($scope.gamePins[pinIndex]);
-        }
-      }
-      $scope.showPins = $scope.showPins.concat(newElements);
-      $rootScope.reload();
-      //force delay so that we don't load too much too fast
-      $timeout( function(){ $scope.flag = true }, 100 );
-    }
+
     //test usage only
     $scope.loadOne = function(){
       ('load Zs');

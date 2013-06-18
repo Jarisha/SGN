@@ -595,13 +595,11 @@
 .profile #profile_data {
   float: left;
   width: 100%;
-  height: 200px;
   margin-top: 15px;
   box-shadow: none;
 }
 
 .profile #profile_data_inner {
-  min-height: 800px;
   margin-left: -22px;
 }
 
@@ -616,10 +614,10 @@
   height: 20px;
   margin-left: 5px;
   font-size: 15px;
-  color: #808080;
+  color: black;
   text-align: center;
   cursor: pointer;
   background: white;
-  border: 1px solid #808080;
+  border: 1px solid black;
   border-radius: 4px;
 }
