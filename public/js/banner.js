@@ -71,7 +71,7 @@ $(document).ready(function(){
       },
       error: function(jsonString){
         var data = $.parseJSON(jsonString);
-        consoe.log("AJAX error:" + data);
+        console.log("AJAX error:" + data);
       }
     });
     return false;
@@ -109,7 +109,7 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: function(jsonString){
         var data = $.parseJSON(jsonString);
-        if(!data.login) $('.login_alert').text(data.error);
+        if(!data.login) $('.login_alert').show().text(data.error).delay(2000).fadeOut();
         else window.location = path;
       },
       error: function(jsonString){

@@ -70,7 +70,8 @@ body{
   background: url("../images/UI/Preview.png") no-repeat scroll 0 0 transparent;
 }
 
-.user_alert{
+/*Alerts*/
+.user_alert, .company_alert {
   margin-left: 10px;
   color: #8FC10F;
   font-weight: bold;
@@ -79,11 +80,6 @@ body{
   left: 260px;
 }
 .company_alert{
-  margin-left: 10px;
-  color: #8FC10F;
-  font-weight: bold;
-  position: absolute;
-  top: 283px;
   left: 290px;
 }
 .login_alert{
@@ -91,6 +87,7 @@ body{
   position: absolute;
   top: 238px;
 }
+
 #center_container{
   width: 1000px;
   /*background-color: rgba(0, 0, 255, 0.2);*/
@@ -137,6 +134,8 @@ body{
   padding-left: 30px;
   display: inline-block;
 }
+
+/*Forms*/
 .user_form_container{
   height: 286px;
   padding: 20px 33px 20px 0;
@@ -239,15 +238,15 @@ label#company_label{
   height: 34px;
   cursor: pointer;
 }
-.rackspace_logo{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
 .login_form_container{
   position: relative;
 }
 .sign_in{
   margin: 20px 0;
+}
+
+.rackspace_logo{
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
