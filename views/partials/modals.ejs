@@ -439,16 +439,19 @@
         </div>
       </div>-->
       <div class="modal_stack edit_field">
-        <label class="pswd">Change Password</label><input class="pswd" type="password" ng-model="set.password">
+        <label class="pswd">Change Password</label><input name="password" class="pswd" type="password" ng-model="set.password" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/">
+        <span class="error" ng-show="settingsForm.password.$error.pattern">Password must not contain any of the following characters: & - _ + : / [ ] ( )</span>
       </div>
       <div class="modal_stack edit_field">
-        <label class="pswd">Confirm Change</label><input class="pswd" type="password" ng-model="set.confirm">
+        <label class="pswd">Confirm Change</label><input name="passwordconfirm" class="pswd" type="password" ng-model="set.confirm" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/">
+        <span class="error" ng-show="settingsForm.passwordconfirm.$error.pattern">Password must not contain any of the following characters: & - _ + : / [ ] ( )</span>
       </div>
       <div class="modal_stack edit_field">
         <label>Email</label><input type="text" placeholder="Email" ng-model="userEmail" disabled>
       </div>
       <div class="modal_stack edit_field">
-        <label>Username</label><input type="text" placeholder="Email" ng-model="set.userName" ng-pattern="/[a-zA-Z]*/">
+        <label>Username</label><input name="username" class="username" type="text" ng-model="set.userName" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/">
+        <span class="error" ng-show="settingsForm.username.$error.pattern">User name must not contain any of the following characters: & - _ + : / [ ] ( )</span>
       </div>
       <div class="modal_stack edit_field">
         <label>Gender</label>
@@ -460,7 +463,7 @@
       </div>
       <div class="modal_stack edit_field">
         <div class="modal_stack save_settings">
-          <button type="button" ng-click="editSettings()" data-dismiss="modal">Save Changes</button>
+          <button type="button" ng-click="editSettings()" data-dismiss="modal" ng-disabled="settingsForm.$invalid">Save Changes</button>
         </div>
       </div>
     </form>
