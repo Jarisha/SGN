@@ -711,12 +711,13 @@
   <div class="modal-body">
     <div class="modal_stack intro_text"> Let us hear what you have to say! </div>
     <div class="modal_stack text_content">
-      <form ng-submit="sendFeedback(feedbackText); feedbackText=''">
+      <form name="feedbackForm" ng-submit="sendFeedback(feedbackText); feedbackText=''">
         <div class="modal_stack content_txt">
-          <textarea ng-model="feedbackText" class="modal_stack" placeholder="feedback" required></textarea>
+          <textarea ng-minlength="20" ng-maxlength="1000" name="feedbackTextarea" ng-model="feedbackText" class="modal_stack" placeholder="feedback" required></textarea>
+          <span class="error" ng-show="feedbackForm.feedbackTextarea.$error.minlength && !feedbackForm.$pristine">Feedback must be at least 20 characters long.</span>
+          <span class="error" ng-show="feedbackForm.feedbackTextarea.$error.maxlength && !feedbackForm.$pristine">Feedback must be not be longer than 1000 characters.</span>
         </div>
-        <!--<button ng-click="sendFeedback(feedbackText); feedbackText=''" id="feedback_submit" type="button">Submit</button>-->
-        <button id="feedback_submit">Submit</button>
+        <button id="feedback_submit" ng-disabled="feedbackForm.$invalid">Submit</button>
       </form>
     </div>
   </div>
