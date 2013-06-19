@@ -919,13 +919,16 @@ form {
 
 /* Hack-y way to deal with shuddering pins */
 
+.game_description {
+  text-overflow: ellipsis;
+}
+
 .game_pin .game_description,
 .game_pin .game_attributes,
 .game_pin .posted_by {
   max-height: 40px;
   margin-top: 5px;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
