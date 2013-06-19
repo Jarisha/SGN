@@ -445,7 +445,11 @@
       <div class="modal_stack edit_field">
         <label class="pswd">Confirm Change</label><input name="passwordconfirm" class="pswd" type="password" ng-model="set.confirm" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/">
         <span class="error" ng-show="settingsForm.passwordconfirm.$error.pattern">Password must not contain any of the following characters: & - _ + : / [ ] ( )</span>
+        <span ng-show="(settingsForm.password.$dirty && settingsForm.passwordconfirm.$dirty) && (set.password != set.confirm)" class="error">
+          Passwords don't match.
+        </span>
       </div>
+
       <div class="modal_stack edit_field">
         <label>Email</label><input type="text" placeholder="Email" ng-model="userEmail" disabled>
       </div>
