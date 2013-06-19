@@ -299,6 +299,47 @@ form {
   background: #6d9100;
 }
 
+/*Generic notification item elements, used in notification dropdowns and notification modals.*/
+
+.new_message {
+  position: absolute;
+  right: 3px;
+  padding: 2px;
+  font-weight: bold;
+  color: white;
+  background: red;
+  border-radius: 4px 4px 4px 4px;
+}
+
+.event_link {
+  cursor: pointer;
+}
+
+.notification-text {
+  float: left;
+  width: 65%;
+}
+
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
+}
+
+.notification-list {
+  min-width: 269px;
+  background: #DCDCDC;
+}
+
+.notification-list li {
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.notification-list a {
+  padding: 5px;
+}
+
 /****************** Top Nav Bar ************************/
 
 #nav {
@@ -312,9 +353,7 @@ form {
   font-family: 'Nobile', arial, serif;
 }
 
-#metal {
-  position: absolute;
-}
+/* Nav Left */
 
 #nav_left {
   width: 240px;
@@ -324,6 +363,8 @@ form {
   background: -moz-linear-gradient(left, #6d9100, #99cc00);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=1);
 }
+
+/* Notifications */
 
 #notifications {
   position: absolute;
@@ -462,57 +503,6 @@ form {
 
 #post_btn img {
   width: 120px;
-}
-
-#about_toggle {
-  height: 100%;
-  padding: 5px 0 0 0;
-}
-
-#about_toggle img {
-  width: 120px;
-  margin-top: 5px;
-}
-
-/*Generic notification item elements*/
-
-.new_message {
-  position: absolute;
-  right: 3px;
-  padding: 2px;
-  font-weight: bold;
-  color: white;
-  background: red;
-  border-radius: 4px 4px 4px 4px;
-}
-
-.event_link {
-  cursor: pointer;
-}
-
-.notification-text {
-  float: left;
-  width: 65%;
-}
-
-.notification-profile-image {
-  float: left;
-  width: 40px;
-  padding-right: 10px;
-}
-
-.notification-list {
-  min-width: 269px;
-  background: #DCDCDC;
-}
-
-.notification-list li {
-  width: 100%;
-  border-bottom: 1px solid #EBEBEB;
-}
-
-.notification-list a {
-  padding: 5px;
 }
 
 /* Notifications dropdowns */
@@ -724,6 +714,16 @@ form {
   content: ' ';
 }
 
+#about_toggle {
+  height: 100%;
+  padding: 5px 0 0 0;
+}
+
+#about_toggle img {
+  width: 120px;
+  margin-top: 5px;
+}
+
 /************* Subnav ************************/
 
 #subnav {
@@ -909,8 +909,6 @@ form {
      -moz-box-shadow: 10px 10px 5px -2px #555555;
           box-shadow: 10px 10px 5px -2px #777777;
 }
-
-/* Hack-y way to deal with shuddering pins */
 
 .game_pin .game_description,
 .game_pin .game_attributes,
