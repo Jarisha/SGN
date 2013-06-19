@@ -708,8 +708,6 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         $rootScope.set.password = null;
         $rootScope.set.confirm = null;
       })
-      .error(function(data, status, headers, config){
-      });
   }
 
   //Setup
