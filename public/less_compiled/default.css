@@ -325,25 +325,6 @@ form {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=1);
 }
 
-#nav_right {
-  float: right;
-  height: 50px;
-  margin: 0;
-  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(right, #6d9100, #99cc00);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
-}
-
-#nav_right > li {
-  height: 50px;
-  margin-right: 10px;
-}
-
-#nav_right li > ul > li {
-  height: 100%;
-  margin: 0;
-}
-
 #notifications {
   position: absolute;
   top: 50px;
@@ -613,11 +594,27 @@ form {
 /* Nav Right */
 
 #nav_right {
+  float: right;
+  height: 50px;
+  margin: 0;
   font-size: 1em;
+  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(right, #6d9100, #99cc00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
 }
 
 #nav_right a {
   cursor: pointer;
+}
+
+#nav_right > li {
+  height: 50px;
+  margin-right: 10px;
+}
+
+#nav_right li > ul > li {
+  height: 100%;
+  margin: 0;
 }
 
 #nav_right ul.dropdown-menu {
@@ -636,14 +633,10 @@ form {
 }
 
 #nav_right .dropdown-menu .active :before {
-  border: 0;
-}
-
-#nav_right .dropdown-menu .active :after {
   border: none;
 }
 
-#nav_right .dropdown-menu .active :before {
+#nav_right .dropdown-menu .active :after {
   border: none;
 }
 
