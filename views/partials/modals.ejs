@@ -450,8 +450,10 @@
         <label>Email</label><input type="text" placeholder="Email" ng-model="userEmail" disabled>
       </div>
       <div class="modal_stack edit_field">
-        <label>Username</label><input name="username" class="username" type="text" ng-model="set.userName" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/">
-        <span class="error" ng-show="settingsForm.username.$error.pattern">User name must not contain any of the following characters: & - _ + : / [ ] ( )</span>
+        <label>Username</label><input name="username" class="username" type="text" ng-model="set.userName" ng-pattern="/^[^&\-_\+:\/\[\]()]*$/" ng-maxlength="30" ng-minlength="6">
+        <span class="error" ng-show="settingsForm.username.$error.pattern">Username must not contain any of the following characters: & - _ + : / [ ] ( )</span>
+        <span class="error" ng-show="settingsForm.username.$error.maxlength">User name must not be longer than 30 characters.</span>
+        <span class="error" ng-show="settingsForm.username.$error.minlength">User name must be at least 6 characters.</span>
       </div>
       <div class="modal_stack edit_field">
         <label>Gender</label>
