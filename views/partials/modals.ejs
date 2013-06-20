@@ -180,11 +180,11 @@
         </div>
         <!-- Triggers an Angular AJAX call -->
         <div class="modal_slice profileImg_skip">
-          <a href="/register" target="_self"><button type="button">Skip</button></a>
+          <a href="/register" target="_self"><button class="btn" type="button">Skip</button></a>
         </div>
         <!-- JQuery intercepts submit, due to complexity of file upload -->
         <div class="modal_slice profileImg_submit">
-          <button>Submit</button>
+          <button class="btn">Submit</button>
         </div>
       </form>
   </div>
@@ -210,7 +210,7 @@
         </div>
         <!-- JQuery intercepts submit, due to complexity of file upload -->
         <div class="modal_slice profileImg_submit">
-          <button>Submit</button>
+          <button class="btn">Submit</button>
         </div>
       </form>
   </div>
@@ -251,7 +251,7 @@
 <!-- Generic Modal -->
 <div class="modal hide" id="genericModal" >
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <button type="button" class="close btn" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 id="myModalLabel">Generic Header</h3>
   </div>
   <div class="modal-body">
@@ -469,7 +469,7 @@
       </div>
       <div class="modal_stack edit_field">
         <div class="modal_stack save_settings">
-          <button type="button" ng-click="editSettings()" data-dismiss="modal" ng-disabled="settingsForm.$invalid">Save Changes</button>
+          <button class="btn" type="button" ng-click="editSettings()" data-dismiss="modal" ng-disabled="settingsForm.$invalid">Save Changes</button>
         </div>
       </div>
     </form>
@@ -500,8 +500,8 @@
             <span ng-switch on="userEvent.action" class="targetThumb" >
               <img ng-switch-when="followRecieved" ng-src="/images/UI/Circle2.png" />
               <span ng-switch-when="friendRequest" class="friend_buttons">
-                <button type="button" ng-click="$event.stopPropagation(); acceptFriend(userEvent, $index, userEvents); " >Accept</button>
-                <button type="button" ng-click="$event.stopPropagation(); ignore(userEvent, $index, userEvents); " >Ignore</button>
+                <button type="button" class="btn" ng-click="$event.stopPropagation(); acceptFriend(userEvent, $index, userEvents); " >Accept</button>
+                <button type="button" class="btn" ng-click="$event.stopPropagation(); ignore(userEvent, $index, userEvents); " >Ignore</button>
               </span>
               <img ng-switch-when="friendAccepted" ng-src="/images/UI/Circle2.png" />
             </span>
@@ -660,7 +660,7 @@
     <form ng-submit="sendMessage(feedbackText); $('#messageModal').modal('hide');" >
     <!-- <form ng-submit="log('send initial messag')"> -->
       <textarea ng-model="feedbackText" required></textarea>
-      <button type="button" data-dismiss="modal">Cancel</button><button>Send</button>
+      <button class="btn" type="button" data-dismiss="modal">Cancel</button><button class="btn">Send</button>
     </form>
   </div>
 </div>
@@ -686,7 +686,7 @@
           <div class="modal_slice msg_right">
             <textarea ng-model="messageText" id="respond_message"></textarea>
           </div>
-          <button ng-click="respond(messageText); messageText=''" type="button" id="respond_button" >respond</button>
+          <button class="btn" ng-click="respond(messageText); messageText=''" type="button" id="respond_button" >respond</button>
         </div>
       </ul>
     </div>
@@ -723,7 +723,7 @@
           <span class="error" ng-show="feedbackForm.feedbackTextarea.$error.minlength && !feedbackForm.$pristine">Feedback must be at least 20 characters long.</span>
           <span class="error" ng-show="feedbackForm.feedbackTextarea.$error.maxlength && !feedbackForm.$pristine">Feedback must be not be longer than 1000 characters.</span>
         </div>
-        <button id="feedback_submit" ng-disabled="feedbackForm.$invalid">Submit</button>
+        <button class="btn" id="feedback_submit" ng-disabled="feedbackForm.$invalid">Submit</button>
       </form>
     </div>
   </div>

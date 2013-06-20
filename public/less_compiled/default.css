@@ -189,6 +189,10 @@ textarea {
   padding: 0;
 }
 
+.btn {
+  border-radius: 20px;
+}
+
 /*.dropdown-menu a {
   padding: 5px;
 }*/
