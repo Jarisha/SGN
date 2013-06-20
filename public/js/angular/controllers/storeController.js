@@ -48,7 +48,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       {
         name: 'Cut the Rope',
         price: '$0.99',
-        image: "http://localhost/images/game_images/store_img5.png",
+        image: "http://a1.mzstatic.com/us/r1000/078/Purple/v4/c8/61/40/c8614020-4aa2-134e-a117-9a39691cf9c8/mzl.dzvfbhml.175x175-75.jpg",
         category: 'Puzzle',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.zeptolab.ctr.paid',
         platform: 'Android'
