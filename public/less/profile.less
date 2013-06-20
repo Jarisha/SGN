@@ -13,19 +13,12 @@
 #follow_user{
   -moz-box-sizing: border-box;
   display: inline;
-  font-size: 15px;
-  height: 40px;
-  width: 45%;
 }
 #friend_user{
   -moz-box-sizing: border-box;
   display: inline;
-  font-size: 15px;
-  height: 40px;
-  width: 50%;
 }
 #message_user{
-  font-size: 15px;
   position: absolute;
   right: 10px;
   top: 10px;
@@ -121,7 +114,9 @@
   margin: 80px auto 20px;
   width: 1340px;
 }
-
+.profile .btn{
+  border-radius: 20px;
+}
 /* Nav Bar */
 
 /* Pin Modal_1 and Pin Modal_2 */
@@ -359,9 +354,10 @@
 }
 .profile .comrade_tabs{
   margin-right: 20px;
-  width: 170px;
 }
-.profile .comrade_tabs > *{
+.profile .comrade_tabs .btn{
+  height: 40px;
+  font-size: 20px;
   display:inline-block;
 }
 .profile .add_follower{
