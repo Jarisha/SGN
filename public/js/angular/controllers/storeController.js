@@ -76,6 +76,38 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         category: 'Puzzle',
         appStoreUrl: 'https://itunes.apple.com/us/app/spelltower/id476500832?mt=8',
         platform: 'iPhone'
+      },
+      {
+        name: 'Tetris Free',
+        price: 'Free',
+        image: 'https://lh4.ggpht.com/y73PVGsgQGwqXPDqv5J67TNYm9jS1KkxueXec62FXAjHTaN7KpCeR_ivumESpO1Y4pRM=w124',
+        category: 'Puzzle',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.ea.tetrisfree_na&hl=en',
+        platform: 'Android'
+      },
+      {
+        name: 'The Game of Life',
+        price: '$4.99',
+        image: 'https://lh5.ggpht.com/qD9XGRFUkRCPq1iToChxc6YdWRJBJnH25WVvKNWQgOpQp6QkRvxLk_IG_M7wEAYmPXE=w124',
+        category: 'Board Game',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.eamobile.life_na_wf',
+        platform: 'Android'
+      },
+      {
+        name: 'NBA JAM',
+        price: '$4.99',
+        image: 'https://lh5.ggpht.com/E-x1nQ5lDloY9eX2i8ucCezphQsJIX1pibtboHQ3QNSFGjJHykbCN1AnWonniH85=w124',
+        category: 'Sports',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.eamobile.nbajam_na_wf',
+        platform: 'Android'
+      },
+      {
+        name: 'Mobile Linebacker',
+        price: '$0.99',
+        image: 'https://lh5.ggpht.com/JKJoOVwUVjBZMDigWQOnVj_G3RBVy83rQOJdU4iCcMdLMNmkxubbJqppSmWrn-2HLCJX=w124',
+        category: 'Sports',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.viva.linebacker',
+        platform: 'Android'
       }
     ];
   
