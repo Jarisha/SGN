@@ -1046,3 +1046,9 @@ form {
 ::-moz-focus-inner {
   border: 0;
 }
+
+.test_button {
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  font-weight: bold;
+  border-radius: 20px;
+}

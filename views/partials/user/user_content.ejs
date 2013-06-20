@@ -20,7 +20,7 @@
   </div>
   <div class="right_container">
     <button ng-show="!isFriend" id="message_user" class="btn" disabled>Send Message</button>
-    <button ng-show="isFriend" id="message_user" class="btn" ng-click="popMessage();">Send Message</button>
+    <button ng-show="isFriend" id="message_user" class="btn test_button" ng-click="popMessage();">Send Message</button>
     <div class="right_padding">
       <p class="profile_name">{{user.userName}}</p>
       <p class="bio_text">{{user.bio}}</p>
@@ -51,10 +51,10 @@
     </div>
     <div class="bot_container">
       <div class="comrade_tabs">
-        <button ng-show="!isFollowing" id="follow_user" ng-click="follow(user.userName); log('test');">Follow</button>
-        <button ng-show="isFollowing" id="follow_user" disabled>Follow</button>
-        <button ng-show="!isFriend && !pendingFriend" id="friend_user" ng-click="friend(user.email)">Friend</button>
-        <button ng-show="isFriend || pendingFriend" id="friend_user" disabled>Friend</button>
+        <button ng-show="!isFollowing" id="follow_user" class="btn test_button" ng-click="follow(user.userName); log('test');">Follow</button>
+        <button ng-show="isFollowing" id="follow_user" class="btn test_button" disabled>Follow</button>
+        <button ng-show="!isFriend && !pendingFriend" class="btn test_button" id="friend_user" ng-click="friend(user.email)">Friend</button>
+        <button ng-show="isFriend || pendingFriend" class="btn test_button" id="friend_user" disabled>Friend</button>
       </div>
       <a ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers" href="/user/{{follower.userName}}">
         <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>
