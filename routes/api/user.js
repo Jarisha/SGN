@@ -2025,7 +2025,7 @@ function fetchPinAndComments(gamepins, req, callback){
           }
           count++;
           if(count === gamepins.length) next3();
-        });
+        //});
       })(o);
     }
   }
