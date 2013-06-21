@@ -441,7 +441,7 @@ else{
   });
   
   //case for blitz.io
-  app.get('/mu-1234-cafe-5678-babe', function(req, res){
+  app.get('/mu-d8752bd9-b578e7b4-937e22a4-542540ab', function(req, res){
     return res.send('42');
   });
   
