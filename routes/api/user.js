@@ -2030,7 +2030,7 @@ function fetchPinAndComments(gamepins, req, callback){
     }
   }
   function next3(){
-    onsole.log('fetchPinAndComments next3()');
+    console.log('fetchPinAndComments next3()');
     var posterIds = [];
     var posterNames = {};
     //TODO: Access to comment RO_get
