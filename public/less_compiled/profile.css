@@ -385,9 +385,15 @@
   max-height: 40px;
 }
 
-.profile .bot_container .comrade tabs {
-  padding: 5px;
+.profile .comrade_tabs {
+  margin-right: 20px;
   -moz-box-sizing: border-box;
+}
+
+.profile .comrade_tabs .btn {
+  display: inline-block;
+  height: 40px;
+  font-size: 20px;
 }
 
 .profile #people_container {
@@ -417,16 +423,6 @@
 
 .profile #people_header span {
   color: white;
-}
-
-.profile .comrade_tabs {
-  margin-right: 20px;
-}
-
-.profile .comrade_tabs .btn {
-  display: inline-block;
-  height: 40px;
-  font-size: 20px;
 }
 
 .profile .add_follower {
