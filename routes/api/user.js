@@ -1991,14 +1991,14 @@ function fetchPinAndComments(gamepins, req, callback){
         var pin = gamepins[_o];
         var pinId = gamepins[_o].id;
         //Fetch userRef to update gamepin
-        app.riak.bucket('userReference').objects.get(pin.fields.posterId, function(err, ref_obj){
-          if(err && err.status_code === 404) return;
+        //app.riak.bucket('userReference').objects.get(pin.fields.posterId, function(err, ref_obj){
+        //  if(err && err.status_code === 404) return;
           var cmts = [];
           var likedBy = [];
-          if(err){
-            errlog.info('error:' + err);
-            return callback(err, null); //res.json({error: err});
-          }
+          //if(err){
+          //  errlog.info('error:' + err);
+          //  return callback(err, null); //res.json({error: err});
+          //}
           //convert commments + likes from string to array
           if(pin.fields.comments)
             cmts = pin.fields.comments.split(" ");
@@ -2007,8 +2007,8 @@ function fetchPinAndComments(gamepins, req, callback){
           pinMap[pinId] = pin.fields;
           pinMap[pinId].id = pinId;
           //Overwrite old values with potentially updated user data
-          pinMap[pinId].poster = ref_obj.data.userName;
-          pinMap[pinId].profileImg = ref_obj.data.profileImg;
+          //pinMap[pinId].poster = ref_obj.data.userName;
+          //pinMap[pinId].profileImg = ref_obj.data.profileImg;
           pinMap[pinId].comments = [];
           pinMap[pinId].likedBy = likedBy;
           pinMap[pinId].likedFlag = false;           //set likedflag for front page
