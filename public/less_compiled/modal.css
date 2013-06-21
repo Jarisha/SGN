@@ -621,7 +621,7 @@
 
 #gamePinModal .view_respond_btn {
   float: right;
-  margin-top: 10px;
+  margin: 10px 4px 0 0;
 }
 
 #gamePinModal .like_tab {
