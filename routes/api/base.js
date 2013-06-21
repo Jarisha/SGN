@@ -231,7 +231,6 @@ exports.validImg = function(req, res){
               }
               if(response.statusCode === 200 && (
                  response.headers['content-type'] === 'image/png' ||
-                 response.headers['content-type'] === 'image/gif' ||
                  response.headers['content-type'] === 'image/jpeg')
                 ){
                 console.log(response.headers['content-type']);

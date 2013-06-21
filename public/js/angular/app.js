@@ -113,6 +113,8 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   $rootScope.pinEvents = [];
   $rootScope.convoData = [];
   $rootScope.pendingRequests = {};
+  $rootScope.login = {};
+  $rootScope.register = {};
   
   //settings
   $rootScope.set =  { password: null,
@@ -225,6 +227,15 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   }
   $rootScope.destroyProfileMason = function(){
     $('#profile_data_inner').masonry('destroy');
+  }
+  
+  //login
+  $rootScope.popLogin = function(){
+    $('#loginModal').modal();
+  }
+  //registration
+  $rootScope.popRegister = function(){
+    $('#registerModal').modal();
   }
   
   //post Gamepin
@@ -414,6 +425,27 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         result.message = 'Error: ' + status;
         return callback(status, null);
       });
+  }
+  
+  //log in
+  $rootScope.loginsubmit = function(){
+    $http({ method: 'post', url: '/api/gatewayLogin', data: {email: $rootScope.login.email, password: $rootScope.login.password} })
+      .success(function(data, status, headers, config){
+        console.log(data);
+        if(data.login){
+          $rootScope.login = {};
+          window.location = '/';
+        }
+        else alert(data.error);
+        
+      })
+      .error(function(data, status, headers, config){
+        $rootScope.login = {};
+        alert(data);
+      });
+  }
+  $rootScope.registersubmit = function(){
+    $http({ method: 'post' , url: '/api/'})
   }
   
   //Log out. destroys our session data, redirect to gateway

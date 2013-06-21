@@ -71,8 +71,12 @@ else{
 
   //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
+    console.log(req.url);
+    if(req.url === '/' || req.url.indexOf('/about') !== -1);
+    else return res.redirect('http://'+app.locals.host+'/');
+    
     //HTTP + Logged out = GOTO HTTPS
-    if(!req.session.loggedIn && !req.connection.encrypted){
+    /*if(!req.session.loggedIn && !req.connection.encrypted){
       return res.redirect('https://' + app.locals.host + req.url);
     }
     //HTTPS + Logged out = Serve banner
@@ -84,7 +88,7 @@ else{
       return res.redirect('http://' + app.locals.host + req.url);
     }
     //HTTP + Logged in = OK
-    else if(req.session.loggedIn && !req.connection.encrypted);
+    else if(req.session.loggedIn && !req.connection.encrypted);*/
     next();
   }
   

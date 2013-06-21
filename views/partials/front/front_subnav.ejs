@@ -56,7 +56,15 @@
   </div>
   <a id="filter_popular" ng-click="getPopular()">Popular</a>
   <a id="store_link" href="/store">Store</a>
+  <br>
+  <div id="front_banner" ng-show="!loggedIn">
+    Share and discover your favorite mobile games
+    <br>
+    <button type="button" ng-click="popLogin()" >Login</button>
+    <button type="button" ng-click="popRegister()" >Register</button>
+  </div>
 </div>
+
 <!--<div class="register_now" ng-show="!loggedIn">
   <div class="register_inner">
     <img ng-click="promptRegister()" src="<%= rootPath %>/images/UI/JoinQ_GREEN_effects.png" />

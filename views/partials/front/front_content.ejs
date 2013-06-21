@@ -1,14 +1,12 @@
 <!-- loop through all gamepins on screen -->
 <div ng-repeat="pin in showPins" class="game_pin" ng-class="{'invis': pin.hidden}" masonry>
-  <div class="game_options hidden">
+  <div class="game_options hidden" ng-show="loggedIn">
     <a ng-show="!pin.likedFlag" class="like_btn" ng-click="like(pin)" >
       <i class="icon-heart"></i> Like
     </a>
     <a ng-show="pin.likedFlag" class="like_btn" ng-click="unlike(pin)" >
       Unlike
     </a>
-    <!--<a class="pin_btn">Repin</a>
-    <a class="comment_btn" href="#c1">Comment</a>-->
   </div>
   <a class="view_trigger" ng-click="viewBigPin($index)" data-toggle="dropdown">
     <img class="game_img" ng-src="{{pin.imageUrl || pin.sourceUrl}}" width="220"/>
@@ -31,7 +29,7 @@
                        {{cmt.content}}
     </p>
   </div>
-  <div class="respond clearfix" tabindex="">
+  <div class="respond clearfix" ng-show="loggedIn" tabindex="">
       <img ng-src="{{userImg || '/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><textarea 
       ng-click="showComment = true; masonry();" class="respond_txtarea" placeholder="Post comment" tabindex="" ng-model="text"></textarea>
       <button ng-show="showComment" class="respond_btn" type="submit" ng-click="addComment(text, $index); text=null; showComment = false">Comment</button>
