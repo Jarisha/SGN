@@ -282,7 +282,8 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         }
         $('#recommend_sidebar').css('display', 'block');
         $('#gamePinModal').modal({ dynamic: true });
-        $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
+        if($rootScope.loggedIn){
+          $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
           .success(function(data, status, headers, config){
             if(data.error) $rootScope.popNotify('Error', data.error);
             else if(data.success){
@@ -295,7 +296,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
           })
           .error(function(data, status, headers, config){
           });
-        
+        }
         //then spawn modal $('#gamePinModal').modal({dynamic: true});
       });
     }

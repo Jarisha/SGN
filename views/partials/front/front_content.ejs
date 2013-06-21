@@ -23,7 +23,7 @@
                        onto {{pin.category}}
     </p>
   </div>
-  <div ng-repeat="cmt in pin.comments" class="comment">
+  <div ng-repeat="cmt in pin.comments | limitTo:2" class="comment">
     <img ng-src="{{cmt.posterImg || '/images/30x30.gif'}}" class="profile_img" width="30" height="30" /><p 
     class="post_text"><a href="/user/{{cmt.posterName}}"><b>{{cmt.posterName}}</b></a>
                        {{cmt.content}}

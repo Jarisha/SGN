@@ -114,6 +114,7 @@ html {
 }
 
 body {
+  padding-bottom: 100px;
   overflow-x: hidden;
   background: none;
 }
@@ -986,6 +987,10 @@ form {
   border: none;
 }
 
+.alert * {
+  color: black;
+}
+
 #alertContainer {
   position: fixed;
   bottom: 25px;
@@ -998,7 +1003,7 @@ form {
 
 #notify_status,
 #notify_message {
-  color: white;
+  color: black;
 }
 
 #notify_status {
@@ -1032,7 +1037,7 @@ form {
 #load_spin {
   position: fixed;
   bottom: 10px;
-  left: 45%;
+  left: 48%;
   z-index: 1000;
   width: 76px;
   height: 76px;

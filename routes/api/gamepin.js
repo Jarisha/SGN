@@ -876,7 +876,7 @@ exports.getPinData = function(req, res){
 					}
 					//fetch posterName + posterImg, attach to comment
 					base.get_userRef(cmt_obj.data.posterId, function(_err, usr_ref){
-						if(_err) return callback(new Error('getPinData error: '+err.message), null);
+						if(_err) return callback(new Error('getPinData error: '+_err.message), null);
 						cmt_obj.data.posterName = usr_ref.userName;
 						cmt_obj.data.posterImg = usr_ref.profileImg;
 						return callback(null, cmt_obj.data);

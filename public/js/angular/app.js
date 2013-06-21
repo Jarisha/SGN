@@ -183,7 +183,16 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         $.when($('#content').masonry({
           itemSelector : '.game_pin, .store_pin',
           isFitWidth: true
-        })).done(function(){ return callback();});
+        })).done(function(){
+          setTimeout(function(){
+            $.when($('#content').masonry({
+              itemSelector : '.game_pin, .store_pin',
+              isFitWidth: true
+            })).done(function(){
+              return callback();
+            });
+          }, 1000);
+        });
         //$('.game_pin, .store_pin').show();
         //hack to fix masonry overlaps. (badge)
         //$timeout(function(){
@@ -429,6 +438,7 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   
   //log in
   $rootScope.loginsubmit = function(){
+    console.log($rootScope.login);
     $http({ method: 'post', url: '/api/gatewayLogin', data: {email: $rootScope.login.email, password: $rootScope.login.password} })
       .success(function(data, status, headers, config){
         console.log(data);

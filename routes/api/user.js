@@ -1960,6 +1960,7 @@ function fetchPinAndComments(gamepins, req, callback){
   });
   //Remove all gamepins who's owners do not exist
   function next(){
+    console.log('fetchPinAndComments next()');
     for(g = 0, glen = gamepins.length; g < glen; g++){
       //fill posters and poster => pinIds[]
       var pinData = gamepins[g].fields;
@@ -1981,6 +1982,7 @@ function fetchPinAndComments(gamepins, req, callback){
   }
   
   function next2(){
+    console.log('fetchPinAndComments next2()');
     var count = 0;
     for(var o = 0; o < gamepins.length; o++){
       //insert null value to create insertion order
@@ -2028,6 +2030,7 @@ function fetchPinAndComments(gamepins, req, callback){
     }
   }
   function next3(){
+    onsole.log('fetchPinAndComments next3()');
     var posterIds = [];
     var posterNames = {};
     //TODO: Access to comment RO_get
@@ -2110,7 +2113,9 @@ exports.getPinList = function(req, res){
       outlog.info('search.solr: none found');
       return res.json({ objects: returnList });
     }
+    console.log('fetchPinAndComments');
     fetchPinAndComments(response.response.docs, req, function(err, objsList){
+      console.log('fetchPinAndComments complete');
       if(err) return res.json({ error: err });
       return res.json({ objects: objsList });
     });

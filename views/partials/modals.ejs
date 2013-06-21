@@ -1,7 +1,7 @@
 <!-- Front Pin Enlarged Modal -->
 <div class="modal hide" id="gamePinModal">
   <div class="modal-header clearfix">
-    <a href="/user/{{bigPin.posterName}}"><img class="profile_img_top" ng-src="{{ bigPin.profileImg }}"/></a>
+    <a href="/user/{{bigPin.posterName}}"><img class="profile_img_top" ng-src="{{ bigPin.profileImg || '/images/60x60.gif' }}"/></a>
     <button ng-show="bigPin.followBtn" ng-click="follow(bigPin.posterName)" class="follow"  type="button">Follow</button>
     <p class="poster"><a href="/user/{{bigPin.posterName}}">{{bigPin.posterName}}</a></p>
     <p class="date_posted">Posted {{bigPin.datePosted}} onto {{bigPin.category}}</p>
@@ -112,7 +112,7 @@
       </div>
       <div class="modal_stack edit_field">
         <label for="login_email" >Email</label>
-        <input id="login_email" ng-model="login.email" type="email" ></input>
+        <input id="login_email" ng-model="login.email" type="text" ></input>
       </div>
       <div class="modal_stack edit_field">
         <label for="login_password">Password</label>
