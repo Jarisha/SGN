@@ -177,28 +177,23 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
       });
   }
   $rootScope.Emasonry = function(callback){
-    console.log('Emasonry');
-    $('#content').imagesLoaded()
-      .always(function(instance){
-        $.when($('#content').masonry({
+    $('body').imagesLoaded(function(){
+      $.when(
+        $('#content').masonry({
           itemSelector : '.game_pin, .store_pin',
           isFitWidth: true
-        })).done(function(){
-          setTimeout(function(){
-            $.when($('#content').masonry({
-              itemSelector : '.game_pin, .store_pin',
-              isFitWidth: true
-            })).done(function(){
-              return callback();
-            });
-          }, 1000);
-        });
-        //$('.game_pin, .store_pin').show();
-        //hack to fix masonry overlaps. (badge)
-        //$timeout(function(){
-        //  $('#content').masonry('reload');
-        //}, 1000);
+        })
+      )
+      .then(function(){
+        setTimeout(function(){
+          $('#content').masonry({
+            itemSelector : '.game_pin, .store_pin',
+            isFitWidth: true
+          });
+          return callback();
+        }, 1000);
       });
+    });
   }
   $rootScope.reload = function(callback){
     console.log('appendMason');
@@ -444,7 +439,11 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         console.log(data);
         if(data.login){
           $rootScope.login = {};
-          window.location = '/';
+          $rootScope.Emasonry();
+          $('#loginModal').modal('hide');
+          $rootScope.popNotify('Success', 'Login Success');
+          $rootScope.checkLogin(function(){});
+          //window.location = '/';
         }
         else alert(data.error);
         
@@ -466,7 +465,9 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         if(data.logout){
           $rootScope.loggedIn = false;
           $rootScope.userName = null;
-          window.location = '/';
+          $rootScope.Emasonry();
+          $rootScope.popNotify('Success', 'Logout Success');
+          //window.location = '/';
         }
       })
       .error(function(data, status, headers, config){

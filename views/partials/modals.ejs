@@ -35,7 +35,7 @@
           {{cmt.content}}
         </p>
       </div>
-      <div class="view_respond clearfix">
+      <div ng-show="loggedIn" class="view_respond clearfix">
         <a href="#"><img ng-src="{{userImg}}" class="profile_img"/></a>
         <textarea ng-click="showRespond = true" class="view_respond_txtarea" placeholder="Post comment" tabindex="" ng-model="big_text"></textarea>
         <button ng-show="showRespond" ng-click="addBigComment(big_text, bigPin.index); showRespond = false;" class="view_respond_btn" type="button">Comment</button>
@@ -46,14 +46,14 @@
 </div>
 
 <!-- Recommmended Gamepins -->
-<div id="recommend_sidebar" ng-show="recommendedPins.length != 0">
+<div id="recommend_sidebar">
   <div id="recommended_header">
     <p>Recommended</p>
   </div>
   <div id="recommended_posts">
     <ul>
       <!-- <a ng-repeat="rec in recommendedPins" href="{{rec.link}}" > -->
-      <a ng-repeat="rec in recommendedPins" ng-click="popRecommended(rec.index)" >
+      <a ng-repeat="rec in recommendedPins | limitTo:9" ng-click="popRecommended(rec.index)" >
       <li>
         <img style="display:inline-block" height="50" width="50" ng-src="{{rec.image}}">
       </li>

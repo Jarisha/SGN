@@ -18,6 +18,7 @@
 </div>-->
 <div id="load_spin" class="hidden"><img width="66" height="66" src="/images/ajax-loader.gif" /></div>
 <img id="feedback_tab" ng-click="popFeedback()" src="/images/UI/feedback_tab.png">
+<img class="rackspace_logo" ng-show="!loggedIn" src="/images/rackspace_logo.png" />
 <div id="content" class="container" ng-class="{'banner-margin': !loggedIn}"  ng-include="'partials/front/front_content'" onload="log('content-loaded'); setupContent();">
 </div>
 <a data-toggle="dropdown" ng-click="scrollup()" id="scrollup">

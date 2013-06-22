@@ -77,7 +77,7 @@ AboutController.resolve = {
     
     $rootScope.checkLogin(function(err, login){
       if(err) deferred.reject(err);
-      else if(!login) $location.path('/');
+      //else if(!login) $location.path('/');
       else deferred.resolve();
     });
     return deferred.promise;

@@ -441,9 +441,9 @@ else{
   });
   
   //case for blitz.io
-  app.get('/mu-d8752bd9-b578e7b4-937e22a4-542540ab', function(req, res){
-    return res.send('42');
-  });
+  //app.get('/mu-d8752bd9-b578e7b4-937e22a4-542540ab', function(req, res){
+  //  return res.send('42');
+  //});
   
   app.get('/', auth, function(req, res){
     res.render('base');

@@ -495,7 +495,7 @@
 }
 
 #gamePinModal .poster a {
-  color: white;
+  color: black;
 }
 
 #gamePinModal .date_posted {
@@ -567,6 +567,7 @@
 
 #gamePinModal .view_comment_container {
   padding: 0 15px 10px;
+  padding-bottom: 0;
 }
 
 #gamePinModal .view_img_container {

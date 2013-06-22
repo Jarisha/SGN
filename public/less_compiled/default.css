@@ -274,10 +274,10 @@ form {
 }
 
 .rackspace_logo {
-  position: fixed;
-  right: 45%;
-  bottom: 20px;
-  z-index: -1;
+  position: absolute;
+  top: 110px;
+  right: 70px;
+  z-index: 1;
 }
 
 .view_all {

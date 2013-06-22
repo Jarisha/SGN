@@ -25,7 +25,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
     $scope.first = true;
                       
     var pinIndex = 0;
-    var pinLimit = 10;
+    var pinLimit = 20;
     var pinStop = 0;
     
     /*** Initialization ***/
@@ -50,15 +50,16 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       
       if($scope.flag && (a-b) <= 300){
         $('#load_spin').removeClass('hidden');
-        if((a-b) <= 100){
+        /*if((a-b) <= 200){
+          alert('fade in');
           $('.rackspace_logo').fadeIn();
         }
-        else $('.rackspace_logo').fadeOut();
+        else $('.rackspace_logo').fadeOut();*/
         $scope.loadMore();
         $scope.flag = false;
       }
       if(a - b >= 400){
-       $('.rackspace_logo').fadeOut();
+       //$('.rackspace_logo').fadeOut();
        $scope.flag = true;
       }
     }
@@ -66,7 +67,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
     //loadFirst to load initial gamepins into view
     function loadFirst(){
       pinIndex = 0;
-      pinLimit = 10;
+      pinLimit = 20;
       pinStop = 0;
       console.log('loadFirst');
       first = true;
@@ -85,9 +86,11 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         
       $rootScope.Emasonry(function(){
         $scope.$apply(function(){
+          console.log('start');
           for(i in newPins){
             newPins[i].hidden = false;
           }
+          console.log('end');
           $('#load_spin').addClass('hidden');
         });
       });
@@ -137,7 +140,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       gamepinService.getPinList(function(data){
         $scope.gamePins = data.objects;
         pinIndex = 0;
-        pinLimit = 10;
+        pinLimit = 20;
         pinStop = 0;
         loadFirst();
       });
@@ -171,7 +174,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       function next(){
         textList = $scope.gamePins;
         pinIndex = 0;
-        pinLimit = 10;
+        pinLimit = 20;
         pinStop = 0;
         $scope.showPins = [];
         $scope.gamePins = textList;
@@ -207,14 +210,12 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         }
         $scope.gamePins = temp;
         pinIndex = 0;
-        pinLimit = 10;
+        pinLimit = 20;
         pinStop = 0;
         loadFirst();
         $rootScope.masonry();
       }
     }
-    
-    
     
     //reorder (sort) gamepins list in order of sum of comments + likes
     $scope.getPopular = function(){
@@ -224,7 +225,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       sortedList.sort(popularSort);
       $scope.gamePins = sortedList;
       pinIndex = 0;
-      pinLimit = 10;
+      pinLimit = 20;
       pinStop = 0;
       loadFirst();
       
@@ -280,7 +281,8 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
                                           link: '/post/'+$scope.showPins[i].id });
           }
         }
-        $('#recommend_sidebar').css('display', 'block');
+        if($rootScope.loggedIn && $scope.recommendedPins.length > 0)
+          $('#recommend_sidebar').css('display', 'block');
         $('#gamePinModal').modal({ dynamic: true });
         if($rootScope.loggedIn){
           $http({ method: 'post', url: '/api/getFollowers', data: { email: $rootScope.userEmail } })
