@@ -296,8 +296,8 @@
         <div class="fileupload-preview thumbnail"></div>
       </div>
       <div class="modal_slice uploadMeta">
-        <input type="text" name="name" placeholder="Game Name" required>
-        <input type="text" name="publisher" placeholder="Publisher">
+        <input type="text" name="name" placeholder="Game Name" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )" required>
+        <input type="text" name="publisher" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )" placeholder="Publisher">
         <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
           <p>Category:</p>
@@ -346,8 +346,10 @@
         <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
       </div>
       <div class="modal_slice uploadMeta">
-        <label ng-show="IEforms">Game Name</label><input  type="text" name="name" placeholder="Game Name" required>
-        <label ng-show="IEforms">Publisher</label><input type="text" name="publisher" placeholder="Publisher">
+        <label ng-show="IEforms">Game Name</label>
+        <input type="text" name="name" placeholder="Game Name" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )" required>
+        <label ng-show="IEforms">Publisher</label>
+        <input type="text" name="publisher" placeholder="Publisher" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )">
         <label ng-show="IEforms">Description</label>
         <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
@@ -393,8 +395,8 @@
       <div class="modal_slice fileupload fileupload-new" data-provides="fileupload">
       </div>
       <div class="modal_slice uploadMeta">
-        <input type="text" name="name" placeholder="Game Name" required>
-        <input type="text" name="publisher" placeholder="Publisher">
+        <input type="text" name="name" placeholder="Game Name" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )" required>
+        <input type="text" name="publisher" placeholder="Publisher" pattern="^[^&\-_\+:\/\[\]()]*$" title="The following characters are not allowed: & - _ + : / \ [ ] ( )">
         <textarea type="text" name="description" placeholder="Description" required></textarea>
         <div class="cat_select">
           <p>Category:</p>
