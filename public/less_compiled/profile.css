@@ -11,17 +11,11 @@
 
 #follow_user {
   display: inline;
-  width: 45%;
-  height: 40px;
-  font-size: 15px;
   -moz-box-sizing: border-box;
 }
 
 #friend_user {
   display: inline;
-  width: 50%;
-  height: 40px;
-  font-size: 15px;
   -moz-box-sizing: border-box;
 }
 
@@ -29,7 +23,6 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 15px;
 }
 
 /*Group Bar*/
@@ -394,9 +387,15 @@
   max-height: 40px;
 }
 
-.profile .bot_container .comrade tabs {
-  padding: 5px;
+.profile .comrade_tabs {
+  margin-right: 15px;
   -moz-box-sizing: border-box;
+}
+
+.profile .comrade_tabs .btn {
+  display: inline-block;
+  height: 40px;
+  font-size: 20px;
 }
 
 .profile #people_container {
@@ -426,15 +425,6 @@
 
 .profile #people_header span {
   color: white;
-}
-
-.profile .comrade_tabs {
-  width: 170px;
-  margin-right: 20px;
-}
-
-.profile .comrade_tabs > * {
-  display: inline-block;
 }
 
 .profile .add_follower {

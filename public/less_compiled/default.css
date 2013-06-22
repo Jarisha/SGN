@@ -190,6 +190,10 @@ textarea {
   padding: 0;
 }
 
+.btn {
+  border-radius: 20px;
+}
+
 /*.dropdown-menu a {
   padding: 5px;
 }*/
@@ -300,6 +304,47 @@ form {
   background: #6d9100;
 }
 
+/*Generic notification item elements, used in notification dropdowns and notification modals.*/
+
+.new_message {
+  position: absolute;
+  right: 3px;
+  padding: 2px;
+  font-weight: bold;
+  color: white;
+  background: red;
+  border-radius: 4px 4px 4px 4px;
+}
+
+.event_link {
+  cursor: pointer;
+}
+
+.notification-text {
+  float: left;
+  width: 65%;
+}
+
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
+}
+
+.notification-list {
+  min-width: 269px;
+  background: #DCDCDC;
+}
+
+.notification-list li {
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.notification-list a {
+  padding: 5px;
+}
+
 /****************** Top Nav Bar ************************/
 
 #nav {
@@ -313,9 +358,7 @@ form {
   font-family: 'Nobile', arial, serif;
 }
 
-#metal {
-  position: absolute;
-}
+/* Nav Left */
 
 #nav_left {
   width: 240px;
@@ -326,24 +369,7 @@ form {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=1);
 }
 
-#nav_right {
-  float: right;
-  height: 50px;
-  margin: 0;
-  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(right, #6d9100, #99cc00);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
-}
-
-#nav_right > li {
-  height: 50px;
-  margin-right: 10px;
-}
-
-#nav_right li > ul > li {
-  height: 100%;
-  margin: 0;
-}
+/* Notifications */
 
 #notifications {
   position: absolute;
@@ -484,57 +510,6 @@ form {
   width: 120px;
 }
 
-#about_toggle {
-  height: 100%;
-  padding: 5px 0 0 0;
-}
-
-#about_toggle img {
-  width: 120px;
-  margin-top: 5px;
-}
-
-/*Generic notification item elements*/
-
-.new_message {
-  position: absolute;
-  right: 3px;
-  padding: 2px;
-  font-weight: bold;
-  color: white;
-  background: red;
-  border-radius: 4px 4px 4px 4px;
-}
-
-.event_link {
-  cursor: pointer;
-}
-
-.notification-text {
-  float: left;
-  width: 65%;
-}
-
-.notification-profile-image {
-  float: left;
-  width: 40px;
-  padding-right: 10px;
-}
-
-.notification-list {
-  min-width: 269px;
-  background: #DCDCDC;
-}
-
-.notification-list li {
-  width: 100%;
-  border-bottom: 1px solid #EBEBEB;
-}
-
-.notification-list a {
-  padding: 5px;
-}
-
 /* Notifications dropdowns */
 
 .targetThumb img {
@@ -614,11 +589,27 @@ form {
 /* Nav Right */
 
 #nav_right {
+  float: right;
+  height: 50px;
+  margin: 0;
   font-size: 1em;
+  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(right, #6d9100, #99cc00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
 }
 
 #nav_right a {
   cursor: pointer;
+}
+
+#nav_right > li {
+  height: 50px;
+  margin-right: 10px;
+}
+
+#nav_right li > ul > li {
+  height: 100%;
+  margin: 0;
 }
 
 #nav_right ul.dropdown-menu {
@@ -637,14 +628,10 @@ form {
 }
 
 #nav_right .dropdown-menu .active :before {
-  border: 0;
-}
-
-#nav_right .dropdown-menu .active :after {
   border: none;
 }
 
-#nav_right .dropdown-menu .active :before {
+#nav_right .dropdown-menu .active :after {
   border: none;
 }
 
@@ -730,6 +717,16 @@ form {
   border: 10px solid transparent;
   border-bottom-color: #DCDCDC;
   content: ' ';
+}
+
+#about_toggle {
+  height: 100%;
+  padding: 5px 0 0 0;
+}
+
+#about_toggle img {
+  width: 120px;
+  margin-top: 5px;
 }
 
 /************* Subnav ************************/
@@ -917,8 +914,6 @@ form {
      -moz-box-shadow: 10px 10px 5px -2px #555555;
           box-shadow: 10px 10px 5px -2px #777777;
 }
-
-/* Hack-y way to deal with shuddering pins */
 
 .game_description {
   text-overflow: ellipsis;

@@ -172,6 +172,7 @@
 
 .modal .fileSubmit {
   position: relative;
+  display: none;
   float: right;
   width: 100%;
   background: white;
@@ -621,7 +622,7 @@
 
 #gamePinModal .view_respond_btn {
   float: right;
-  margin-top: 10px;
+  margin: 10px 4px 0 0;
 }
 
 #gamePinModal .like_tab {
@@ -756,10 +757,6 @@
   border-radius: 0;
 }
 
-#conversationModal * {
-  background: #EBEBEB;
-}
-
 #conversationModal ul {
   padding: 0;
   margin: 0;
@@ -783,6 +780,7 @@
 
 .msg_left {
   width: 15%;
+  background: #EBEBEB;
   border: none;
 }
 
@@ -795,15 +793,18 @@
   width: 85%;
   padding-left: 10px;
   text-align: left;
+  background: #EBEBEB;
   border: none;
 }
 
 .message_item {
   padding: 10px;
+  background: #EBEBEB;
 }
 
 .message_respond {
   padding: 10px;
+  background: #EBEBEB;
 }
 
 #conversationModal .message_respond textarea {

@@ -80,7 +80,12 @@
   font-size: 20px;
 }
 
-.view_respond button {
+.post .view_respond button {
   float: right;
-  margin-top: 10px;
+  margin-right: 20px;
+}
+
+.post .post_text {
+  width: 450px;
+  margin-left: 10px;
 }

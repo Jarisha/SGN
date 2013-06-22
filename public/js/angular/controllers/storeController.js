@@ -21,7 +21,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         name: 'Minecraft',
         price: 'Free',
         publisher: 'Mojang',
-        image: "http://localhost/images/game_images/store_img2.png",
+        image: "https://minecraft.net/images/mobile/desktop_thumb1.png",
         screenshot: "https://minecraft.net/images/mobile/desktop_screen4.png",
         video: 'http://youtu.be/FaMTedT6P0I',
         description: "We're extremely happy to finally roll out Minecraft – Pocket Edition on most devices running Android or iOS in the Solar System. Now no matter where you are there's always time to place blocks and build whatever your heart can imagine.",
@@ -32,7 +32,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       {
         name: 'Great Big War Game',
         price: '$4.99',
-        image: "http://localhost/images/game_images/store_img3.png",
+        image: "https://lh5.ggpht.com/jqfH4JorIDE0QrKr8w9TBDS6H6nAI1A7LpWLFQGwlY1I8fqAy33tBT1c6kVqa_HEDw=w124",
         category: 'Strategy',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.rubicon.dev.gbwg',
         platform: 'Android'
@@ -40,7 +40,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       {
         name: 'Angry Birds Space Premium',
         price: 'N/A',
-        image: "http://localhost/images/game_images/store_img4.png",
+        image: "https://lh3.ggpht.com/aQaIEGrmba1ENSEgUtArdm3yhJUug7BRWlu_WaspoJusZyHv1rjlWtYqe_qRjE_Kmh1E=w124",
         category: 'Puzzle',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.rovio.angrybirdsspace.premium',
         platform: 'Android'
@@ -48,7 +48,7 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
       {
         name: 'Cut the Rope',
         price: '$0.99',
-        image: "http://localhost/images/game_images/store_img5.png",
+        image: "http://a1.mzstatic.com/us/r1000/078/Purple/v4/c8/61/40/c8614020-4aa2-134e-a117-9a39691cf9c8/mzl.dzvfbhml.175x175-75.jpg",
         category: 'Puzzle',
         playStoreUrl: 'https://play.google.com/store/apps/details?id=com.zeptolab.ctr.paid',
         platform: 'Android'
@@ -76,6 +76,38 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         category: 'Puzzle',
         appStoreUrl: 'https://itunes.apple.com/us/app/spelltower/id476500832?mt=8',
         platform: 'iPhone'
+      },
+      {
+        name: 'Tetris Free',
+        price: 'Free',
+        image: 'https://lh4.ggpht.com/y73PVGsgQGwqXPDqv5J67TNYm9jS1KkxueXec62FXAjHTaN7KpCeR_ivumESpO1Y4pRM=w124',
+        category: 'Puzzle',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.ea.tetrisfree_na&hl=en',
+        platform: 'Android'
+      },
+      {
+        name: 'The Game of Life',
+        price: '$4.99',
+        image: 'https://lh5.ggpht.com/qD9XGRFUkRCPq1iToChxc6YdWRJBJnH25WVvKNWQgOpQp6QkRvxLk_IG_M7wEAYmPXE=w124',
+        category: 'Board Game',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.eamobile.life_na_wf',
+        platform: 'Android'
+      },
+      {
+        name: 'NBA JAM',
+        price: '$4.99',
+        image: 'https://lh5.ggpht.com/E-x1nQ5lDloY9eX2i8ucCezphQsJIX1pibtboHQ3QNSFGjJHykbCN1AnWonniH85=w124',
+        category: 'Sports',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.eamobile.nbajam_na_wf',
+        platform: 'Android'
+      },
+      {
+        name: 'Mobile Linebacker',
+        price: '$0.99',
+        image: 'https://lh5.ggpht.com/JKJoOVwUVjBZMDigWQOnVj_G3RBVy83rQOJdU4iCcMdLMNmkxubbJqppSmWrn-2HLCJX=w124',
+        category: 'Sports',
+        playStoreUrl: 'https://play.google.com/store/apps/details?id=com.viva.linebacker',
+        platform: 'Android'
       }
     ];
   

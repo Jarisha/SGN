@@ -566,17 +566,20 @@ exports.editSettings = function(req, res){
   var settings = req.body.settings;
   if(!req.body.email) return res.json({ error: 'email required to edit user' });
   if(settings.userName) nameChange = true;
-  
+
   //handle change password
-  if(settings.password && !settings.confirm) return res.json({ error: 'please enter confirm or leave password blank' });
-  if(!settings.password && settings.confirm) return res.json({ error: 'please enter password or leave confirm blank' });
-  if(settings.password !== settings.confirm){
-    return res.json({ error: 'password does not match confirm'});
+  if ((settings.password && !settings.confirm) || (!settings.password && settings.confirm)) {
+    return res.json({ error: 'Please enter the password twice or leave the password fields blank.' });
   }
+
+  if(settings.password !== settings.confirm){
+    return res.json({ error: 'Passwords do not match.'});
+  }
+
   if(settings.password) settings.passHash = bcrypt.hashSync(settings.password);
   delete settings.password;
   delete settings.confirm;
-  
+
   async.waterfall([
     //Get user
     function(callback){

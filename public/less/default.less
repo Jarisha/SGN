@@ -163,6 +163,9 @@ input, textarea { color: #000; }
 .dropdown-menu{
   padding: 0;
 }
+.btn {
+  border-radius: 20px;
+}
 /*.dropdown-menu a {
   padding: 5px;
 }*/
@@ -260,6 +263,41 @@ form{
   background: #6d9100;
 }
 
+/*Generic notification item elements, used in notification dropdowns and notification modals.*/
+.new_message{
+  position: absolute;
+  right: 3px;
+  padding: 2px;
+  font-weight: bold;
+  background: red;
+  color: white;
+  border-radius: 4px 4px 4px 4px;
+}
+.event_link{
+  cursor: pointer;
+}
+
+.notification-text {
+  width: 65%;
+  float: left;
+}
+.notification-profile-image {
+  float: left;
+  width: 40px;
+  padding-right: 10px;
+}
+.notification-list {
+  min-width: 269px;
+  background: #DCDCDC;
+}
+.notification-list li {
+  width: 100%;
+  border-bottom: 1px solid #EBEBEB;
+}
+.notification-list a {
+  padding: 5px;
+}
+
 /****************** Top Nav Bar ************************/
 #nav {
   /*background: yellow;*/
@@ -272,9 +310,7 @@ form{
   font-family: 'Nobile', arial, serif;
 }
 
-#metal {
-  position: absolute;
-}
+/* Nav Left */
 #nav_left {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d9100', endColorstr='#99cc00', GradientType=1);
   background: -webkit-gradient(linear, left top, right top, from(#6d9100), to(#99cc00));
@@ -283,22 +319,7 @@ form{
   width: 240px;
   padding-left: 20px;
 }
-#nav_right {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
-  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
-  background: -moz-linear-gradient(right, #6d9100, #99cc00);
-  height: 50px;
-  float: right;
-  margin: 0;
-}
-#nav_right > li {
-  height: 50px;
-  margin-right: 10px;
-}
-#nav_right li > ul > li {
-  height: 100%;
-  margin: 0;
-}
+/* Notifications */
 #notifications {
   position: absolute;
   top: 50px;
@@ -417,49 +438,6 @@ form{
 #post_btn img{
   width: 120px;
 }
-#about_toggle {
-  padding: 5px 0 0 0;
-  height: 100%;
-}
-#about_toggle img {
-  margin-top:5px;
-  width: 120px;
-}
-
-/*Generic notification item elements*/
-.new_message{
-  position: absolute;
-  right: 3px;
-  padding: 2px;
-  font-weight: bold;
-  background: red;
-  color: white;
-  border-radius: 4px 4px 4px 4px;
-}
-.event_link{
-  cursor: pointer;
-}
-
-.notification-text {
-  width: 65%;
-  float: left;
-}
-.notification-profile-image {
-  float: left;
-  width: 40px;
-  padding-right: 10px;
-}
-.notification-list {
-  min-width: 269px;
-  background: #DCDCDC;
-}
-.notification-list li {
-  width: 100%;
-  border-bottom: 1px solid #EBEBEB;
-}
-.notification-list a {
-  padding: 5px;
-}
 
 /* Notifications dropdowns */
 .targetThumb img{
@@ -528,10 +506,24 @@ form{
 
 /* Nav Right */
 #nav_right {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99cc00', endColorstr='#6d9100', GradientType=1);
+  background: -webkit-gradient(linear, right top, left top, from(#6d9100), to(#99cc00));
+  background: -moz-linear-gradient(right, #6d9100, #99cc00);
+  height: 50px;
+  float: right;
+  margin: 0;
   font-size: 1em;
 }
 #nav_right a {
   cursor: pointer;
+}
+#nav_right > li {
+  height: 50px;
+  margin-right: 10px;
+}
+#nav_right li > ul > li {
+  height: 100%;
+  margin: 0;
 }
 #nav_right ul.dropdown-menu {
   padding: 0;
@@ -547,12 +539,9 @@ form{
   border-bottom: 0px;
 }
 #nav_right .dropdown-menu .active :before {
-  border: 0px;
-}
-#nav_right .dropdown-menu .active :after {
   border: none;
 }
-#nav_right .dropdown-menu .active :before {
+#nav_right .dropdown-menu .active :after {
   border: none;
 }
 
@@ -629,7 +618,14 @@ form{
   border: 10px solid transparent;
   border-bottom-color: #DCDCDC;
 }
-
+#about_toggle {
+  padding: 5px 0 0 0;
+  height: 100%;
+}
+#about_toggle img {
+  margin-top:5px;
+  width: 120px;
+}
 /************* Subnav ************************/
 #subnav {
   background: none;
@@ -794,15 +790,11 @@ form{
   /* Safari, Chrome */
   box-shadow: 10px 10px 5px -2px #777777;
 }
-/* Hack-y way to deal with shuddering pins */
-//.front .game_pin {
-//  display: none;
-//}
-.store_pin {
-}
+
 .game_description{
   text-overflow: ellipsis;
 }
+
 .game_pin .game_description, .game_pin .game_attributes, .game_pin .posted_by{
   max-height: 40px;
   overflow: hidden;
