@@ -28,7 +28,6 @@
 /*Group Bar*/
 
 .profile #group_bar {
-  width: 1000px;
   margin: 0 0px 15px 0px;
   font-weight: bold;
   line-height: 30px;
@@ -456,7 +455,6 @@
 .profile-column {
   float: left;
   height: 414px;
-  margin: 0 8px;
   overflow: hidden;
   background: #FDFDFD;
 }
@@ -587,12 +585,9 @@
 .profile #profile_data {
   float: left;
   width: 100%;
+  max-width: 600px;
   margin-top: 15px;
   box-shadow: none;
-}
-
-.profile #profile_data_inner {
-  margin-left: -22px;
 }
 
 .profile_options {
