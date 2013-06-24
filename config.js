@@ -1,4 +1,3 @@
-//making this a var as our fucking IP address changes whenever it wants
 var dev_ip = '10.1.10.18';
 
 /* Shared Config */

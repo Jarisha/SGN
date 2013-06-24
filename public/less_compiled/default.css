@@ -609,6 +609,7 @@ form {
 
 #nav_right li > ul > li {
   height: 100%;
+  min-width: 100px;
   margin: 0;
 }
 

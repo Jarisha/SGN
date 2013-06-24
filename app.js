@@ -68,13 +68,21 @@ else{
     app.use(express.favicon(__dirname + '/public'));
     app.use(express.cookieParser());
   });
-
-  //ad hoc middleware - Manage HTTP / HTTPS.  This is a bit of a mess right now.
   function auth(req, res, next){
+  //ad hoc middleware - Manage HTTP / HTTPS
     console.log(req.url);
-    if(req.url === '/' || req.url.indexOf('/about') !== -1);
-    else return res.redirect('http://'+app.locals.host+'/');
+    //if we are https, redirect to http
+    if(req.connection.encrypted)
+      return res.redirect('http://'+app.locals.host+req.url);
     
+    //if we are on the home or about pages, OK
+    if(req.url === '/' || req.url.indexOf('/about') !== -1);
+    else{
+      if(!req.session.loggedIn)
+        return res.redirect('http://'+app.locals.host+'/');
+    }
+    return next();
+  
     //HTTP + Logged out = GOTO HTTPS
     /*if(!req.session.loggedIn && !req.connection.encrypted){
       return res.redirect('https://' + app.locals.host + req.url);
@@ -89,7 +97,6 @@ else{
     }
     //HTTP + Logged in = OK
     else if(req.session.loggedIn && !req.connection.encrypted);*/
-    next();
   }
   
   app.configure('coleman', function(){

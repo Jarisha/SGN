@@ -445,7 +445,10 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
           $rootScope.checkLogin(function(){});
           //window.location = '/';
         }
-        else alert(data.error);
+        else{
+          alert('!');
+          alert(data.error);
+        }
         
       })
       .error(function(data, status, headers, config){
@@ -453,8 +456,43 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
         alert(data);
       });
   }
-  $rootScope.registersubmit = function(){
-    $http({ method: 'post' , url: '/api/'})
+  //create new user, then log that user in.
+  $rootScope.registerSubmit = function(){
+    console.log($rootScope.register);
+    $http({ method: 'post' , url: '/api/user/createUser', data: {
+          email: $rootScope.register.email,
+          userName: $rootScope.register.name,
+          password: $rootScope.register.password,
+          confirm: $rootScope.register.confirm
+        }
+      })
+      .success(function(data, status, headers, config){
+        $('#registerModal').modal('hide');
+        if(data.success) //alert(data.success);
+        if(data.error) //alert(data.error);
+        $rootScope.login = $rootScope.register;
+        console.log('loginsubmit');
+        $http({ method: 'post', url: '/api/gatewayLogin', data: {email: $rootScope.register.email, password: $rootScope.register.password} })
+          .success(function(data, status, headers, config){
+            if(data.login){
+              $rootScope.login = {};
+              $rootScope.Emasonry();
+              $('#loginModal').modal('hide');
+              $rootScope.popNotify('Success', 'Register Success');
+              $rootScope.checkLogin(function(){});
+            }
+            else{
+              alert(data.error);
+            }
+          })
+          .error(function(data, status, headers, config){
+            $rootScope.login = {};
+            alert(data);
+          });
+      })
+      .error(function(data, status, headers, config){
+        if(data.error) alert('error');
+      });
   }
   
   //Log out. destroys our session data, redirect to gateway

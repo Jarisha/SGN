@@ -391,8 +391,8 @@ exports.createWrap = function(req, res){
   //Validate user input
   if(!req.body.email) return res.json({ error: 'email not entered' });
   if(!req.body.userName) return res.json({ error: 'userName not entered' });
-  if(!req.body.password) return res.json({error: 'password not entered'});
-  if(!req.body.confirm) return res.json({error: 'confirm not entered'});
+  if(!req.body.password) return res.json({ error: 'password not entered' });
+  if(!req.body.confirm) return res.json({ error: 'confirm not entered' });
   if(req.body.confirm !== req.body.password) return res.json({error: 'confirm does not match password'});
   req.body.passHash = bcrypt.hashSync(req.body.password);
   //clear useless data
@@ -453,7 +453,7 @@ exports.createWrap = function(req, res){
         errlog.info('Create User Error: '+err.message);
         return res.json({ error: err.message });
       }
-      return res.json({ success: 'Create User Success!' });
+      return res.json({success: 'Create User Success!' });
     });
   });
 };
