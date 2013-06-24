@@ -165,7 +165,8 @@
 /* Game Pin object */
 
 .profile .game_pin {
-  margin: 0 0 10px 10px;
+  float: none;
+  margin: 0 5px 10px 5px;
 }
 
 .profile .pin_footer {
@@ -585,9 +586,13 @@
 .profile #profile_data {
   float: left;
   width: 100%;
-  max-width: 600px;
-  margin-top: 15px;
+  max-width: 800px;
+  margin: 15px 0 0 -100px;
   box-shadow: none;
+}
+
+#profile_data_inner {
+  margin: 0 auto 0 auto;
 }
 
 .profile_options {
