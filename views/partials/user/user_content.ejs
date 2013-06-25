@@ -35,38 +35,41 @@
     </div>
   </div>
   <div id="people_container">
-    <div id="people_header">
-      <div ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >
+    <ul id="people_header">
+      <li ng-class="{'active_tab': people_tab==FOLLOW}" ng-click="people_tab=FOLLOW;" >
         {{user.followers.length}} FOLLOWER<span ng-show="user.followers.length != 1" >S</span>
-      </div>
-      <div ng-class="{'active_tab': people_tab==FOLLOWING}" ng-click="people_tab=FOLLOWING;" >
+      </li>
+      <li ng-class="{'active_tab': people_tab==FOLLOWING}" ng-click="people_tab=FOLLOWING;" >
         {{ user.following.length }} FOLLOWING
-      </div>
-      <div ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND; log(user.friends)" >
+      </li>
+      <li ng-class="{'active_tab': people_tab==FRIEND}" ng-click="people_tab=FRIEND; log(user.friends)" >
         {{user.friends.length}} FRIEND<span ng-show="user.friends.length != 1">S</span>
-      </div>
-      <div class="view_all">
-        <p class="view_all" ng-click="popGeneric()" href="#">View All</p>
-      </div>
-    </div>
-    <div class="bot_container">
-      <div class="comrade_tabs">
+      </li>
+    </ul>
+    <ul class="bot_container">
+      <li class="comrade_tabs">
         <button ng-show="!isFollowing" id="follow_user" class="btn test_button" ng-click="follow(user.userName); log('test');">Follow</button>
         <button ng-show="isFollowing" id="follow_user" class="btn test_button" disabled>Follow</button>
         <button ng-show="!isFriend && !pendingFriend" class="btn test_button" id="friend_user" ng-click="friend(user.email)">Friend</button>
         <button ng-show="isFriend || pendingFriend" class="btn test_button" id="friend_user" disabled>Friend</button>
-      </div>
-      <a ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers" href="/user/{{follower.userName}}">
-        <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>
-      </a>
-      <a ng-show="people_tab==FOLLOWING" ng-repeat="following in user.following" href="/user/{{following.userName}}">
-        <img title="{{following.userName}}" width="40px" height="40px" ng-src="{{following.profileImg || '/images/30x30.gif'}}"/>
-      </a>
-      <a ng-show="people_tab==FRIEND" ng-repeat="friend in user.friends" href="/user/{{friend.userName}}">
-        <img title="{{friend.userName}}" width="40px" height="40px" ng-src="{{friend.profileImg || '/images/30x30.gif'}}"/>
-      </a>
+      </li>
+      <li ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers">
+        <a href="/user/{{follower.userName}}">
+          <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>
+        </a>
+      </li>
+      <li ng-show="people_tab==FOLLOWING" ng-repeat="following in user.following">
+        <a href="/user/{{following.userName}}">
+          <img title="{{following.userName}}" width="40px" height="40px" ng-src="{{following.profileImg || '/images/30x30.gif'}}"/>
+        </a>
+      </li>
+      <li ng-show="people_tab==FRIEND" ng-repeat="friend in user.friends">
+        <a href="/user/{{friend.userName}}">
+          <img title="{{friend.userName}}" width="40px" height="40px" ng-src="{{friend.profileImg || '/images/30x30.gif'}}"/>
+        </a>
+      </li>
       <!--<a href="/user/test"><img title="test" width="40px" height="40px" src="{{following.image || '<%= rootPath %>/images/30x30.gif'}}"/></a>-->
-    </div>
+    </ul>
   </div>
   <div id="footer_container" ng-include="'partials/profile_footer'"></div>
 </div>
