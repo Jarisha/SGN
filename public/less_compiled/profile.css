@@ -49,6 +49,10 @@
   border-radius: 5px 5px 5px 5px;
 }
 
+.profile #group_bar .active_tab {
+  background: #6d9100;
+}
+
 .profile #group_bar li:hover {
   background: #6d9100;
 }
