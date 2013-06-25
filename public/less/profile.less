@@ -26,7 +26,6 @@
 
 /*Group Bar*/
 .profile #group_bar{
-  width: 1000px;
   /*background: -moz-linear-gradient(center bottom , #6D9100, #99CC00) repeat scroll 0 0 transparent;
   background: -webkit-gradient(linear, left top, left bottom, from(#6d9100), to(#99cc00));*/
   color: white;
@@ -54,9 +53,8 @@
 
 /* General Layout */
 .profile #content{
-  width: 1075px;
   margin-top: 60px;
-  padding-left: 100px;
+  padding-left: 45px;
 }
 .profile #content > *{
   -moz-box-shadow: 0 0 5px rgba(34, 25, 25, 0.4); /* Firefox */
@@ -147,7 +145,8 @@
 
 /* Game Pin object */
 .profile .game_pin{
-  margin: 0 0 10px 10px;
+  margin: 0 5px 10px 5px;
+  float: none;
 }
 
 .profile .pin_footer{
@@ -382,7 +381,6 @@
 /*Columns*/
 /*Common to both profile columns*/
 .profile-column {
-  margin: 0 8px;
   background: #FDFDFD;
   height: 414px;
   float: left;
@@ -495,15 +493,14 @@
 /* profile data area */
 .profile #profile_data{
   box-shadow: none;
-  margin-top:15px;
-  width:100%;
+  margin: 15px 0 0 -100px;
+  width: 100%;
+  max-width: 800px;
   float: left;
 }
-
-.profile #profile_data_inner{
-  margin-left: -22px;
+#profile_data_inner {
+  margin: 0 auto 0 auto;
 }
-
 .profile_options{
   position: absolute;
   margin: -7px 0 0 -5px;

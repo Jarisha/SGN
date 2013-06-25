@@ -1,8 +1,8 @@
 <ul id="group_bar" class="clearfix" ng-show="content_tab == GROUPS">
   <li ng-repeat="group in groupList" ng-click="showGroup(group)" ng-class="{'active_tab': group_tab==group}">{{group}}</li>
 </ul>
-<div id="profile_data_inner" class="clearfix">
-  <div ng-repeat="pin in showPins" class="game_pin" profile-masonry>
+<ul id="profile_data_inner" class="clearfix">
+  <li ng-repeat="pin in showPins" class="game_pin" profile-masonry>
     <div class="profile_options">
       <a> Edit </a>
       <a> Delete </a>
@@ -16,5 +16,5 @@
         <span>{{pin.likedBy.length}} likes</span>&nbsp;&nbsp;<span>{{pin.comments.length}} comments</span>
       </p>
     </div>
-  </div>
-</div>
+  </li>
+</ul>
