@@ -8,6 +8,13 @@ var AboutController = ['$scope', '$rootScope', '$http', '$location', 'resolveAbo
     $scope.content = $rootScope.rootPath + '/partials/about/about_content';
     $scope.section = $rootScope.rootPath + '/partials/about/faq';
     
+    $scope.textsearch = function(txt){
+      console.log('textsearch from about controller');
+      $rootScope.textSearchFlag = true;
+      $rootScope.textSearchString = txt;
+      $location.path('/');
+    }
+    
     $scope.setup = function(){
       aboutSetup($scope);
     }

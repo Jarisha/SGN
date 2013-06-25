@@ -82,21 +82,6 @@ else{
         return res.redirect('http://'+app.locals.host+'/');
     }
     return next();
-  
-    //HTTP + Logged out = GOTO HTTPS
-    /*if(!req.session.loggedIn && !req.connection.encrypted){
-      return res.redirect('https://' + app.locals.host + req.url);
-    }
-    //HTTPS + Logged out = Serve banner
-    else if(!req.session.loggedIn && req.connection.encrypted){
-      return res.render('banner');
-    }
-    //HTTPS + Logged in = GOTO HTTP
-    else if(req.session.loggedIn && req.connection.encrypted){
-      return res.redirect('http://' + app.locals.host + req.url);
-    }
-    //HTTP + Logged in = OK
-    else if(req.session.loggedIn && !req.connection.encrypted);*/
   }
   
   app.configure('coleman', function(){

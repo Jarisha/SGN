@@ -293,6 +293,7 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
           console.log(data);
         });
     }
+    
   }
     //TODO: this
     /*$scope.getLikes = function(){

@@ -116,6 +116,9 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
   $rootScope.login = {};
   $rootScope.register = {};
   
+  $rootScope.textSearchFlag = false;
+  $rootScope.textSearchString;
+  
   //settings
   $rootScope.set =  { password: null,
                       confirm: null,

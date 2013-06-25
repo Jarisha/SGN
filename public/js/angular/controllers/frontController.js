@@ -162,7 +162,9 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         loadFirst();
       }
     }
-    $scope.textsearch = function(txt){
+    
+    //execute textSearch, with optional callback
+    $scope.textsearch = function(txt, callback){
       $('#load_spin').removeClass('hidden');
       $rootScope.destroyMason();
       var textList = [];
@@ -179,7 +181,20 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         $scope.showPins = [];
         $scope.gamePins = textList;
         loadFirst();
+        if(callback) callback();
       }
+    }
+    
+    //if we initated a search from another page, then execute it now
+    if($rootScope.textSearchFlag){
+      //alert('text search initiated via other page');
+      console.log($rootScope.textSearchString);
+      $scope.textsearch($rootScope.textSearchString, function(){
+        $rootScope.textSearchFlag = false;
+        $rootScope.textSearchString = null;
+        $rootScope.Emasonry(function(){
+        });
+      });
     }
     
     //simply remove all gamepins that do not match a follower in the list
