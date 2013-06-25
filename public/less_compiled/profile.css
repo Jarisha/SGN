@@ -584,8 +584,8 @@
 
 .profile #profile_data {
   float: left;
-  width: 897px;
-  margin: 15px 0 0 0;
+  width: 1040px;
+  margin: 15px 0 0 -70px;
   box-shadow: none;
 }
 
