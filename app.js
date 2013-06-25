@@ -71,15 +71,20 @@ else{
   function auth(req, res, next){
   //ad hoc middleware - Manage HTTP / HTTPS
     console.log(req.url);
+    console.log(app.locals.host);
     //if we are https, redirect to http
-    if(req.connection.encrypted)
+    if(req.connection.encrypted){
+      console.log('if we are https, redirect to http');
       return res.redirect('http://'+app.locals.host+req.url);
+    }
     
     //if we are on the home or about pages, OK
     if(req.url === '/' || req.url.indexOf('/about') !== -1);
     else{
-      if(!req.session.loggedIn)
+      if(!req.session.loggedIn){
+        console.log('not loggd in and on other page, redirect to home page');
         return res.redirect('http://'+app.locals.host+'/');
+      }
     }
     return next();
   }
