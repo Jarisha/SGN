@@ -2,6 +2,7 @@
 
 .store #content {
   width: 1340px;
+  margin-top: 60px;
 }
 
 /* media queries to resize masonry content to fit screen */
