@@ -28,7 +28,8 @@
 /*Group Bar*/
 
 .profile #group_bar {
-  margin: 0 0px 15px 0px;
+  max-width: 600px;
+  margin: 0 0px 15px 100px;
   font-weight: bold;
   line-height: 30px;
   color: white;
@@ -92,7 +93,6 @@
 
 .profile #profile_footer > * {
   display: inline-block;
-  width: 100px;
   height: 30px;
   padding: 0 10px;
   line-height: 30px;
@@ -412,8 +412,7 @@
 
 .profile #people_header > * {
   display: inline-block;
-  width: 24.5%;
-  height: 30px;
+  padding: 0 10px;
   line-height: 30px;
   color: white;
   text-align: center;
