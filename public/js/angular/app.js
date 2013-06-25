@@ -468,8 +468,8 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
       })
       .success(function(data, status, headers, config){
         $('#registerModal').modal('hide');
-        if(data.success) //alert(data.success);
-        if(data.error) //alert(data.error);
+        if(data.success);
+        if(data.error) alert(data.error);
         $rootScope.login = $rootScope.register;
         console.log('loginsubmit');
         $http({ method: 'post', url: '/api/gatewayLogin', data: {email: $rootScope.register.email, password: $rootScope.register.password} })

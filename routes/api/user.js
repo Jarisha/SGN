@@ -1219,8 +1219,8 @@ exports.register = function(req, res){
       error: 'Registration Failed: User already logged in'
     });
   }
-  //validate user input
-  //validation.  TODO: more rigorous validations
+  // validate user input
+  // validation.  TODO: more rigorous validations
   if(!req.body.email) return res.json({login: false, error: 'No email entered'});
   if(!req.body.name) return res.json({login: false, error: 'No name entered'});
   if(!req.body.password) return res.json({login: false, error: 'No password entered'});
