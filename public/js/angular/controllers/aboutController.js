@@ -9,7 +9,6 @@ var AboutController = ['$scope', '$rootScope', '$http', '$location', 'resolveAbo
     $scope.section = $rootScope.rootPath + '/partials/about/faq';
     
     $scope.textsearch = function(txt){
-      console.log('textsearch from about controller');
       $rootScope.textSearchFlag = true;
       $rootScope.textSearchString = txt;
       $location.path('/');

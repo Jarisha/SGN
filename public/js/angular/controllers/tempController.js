@@ -11,6 +11,12 @@ var TempController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
       $scope.pagePin = data;
       console.log(data);
     });
+    
+    $scope.textsearch = function(txt){
+      $rootScope.textSearchFlag = true;
+      $rootScope.textSearchString = txt;
+      $location.path('/');
+    }
   }
 ];
 

@@ -173,6 +173,12 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
       }
     }
     
+    $scope.textsearch = function(txt){
+      $rootScope.textSearchFlag = true;
+      $rootScope.textSearchString = txt;
+      $location.path('/');
+    }
+    
     //hack to get masonry to work.  This code works with an Angular directive.
     $scope.masonInit = true;
     $scope.changeState = function(){
@@ -306,8 +312,13 @@ var UserController = ['$scope', '$rootScope', '$http', '$location', '$routeParam
       var sourceId = $rootScope.userEmail;
       var targetId = $scope.user.email;
       $rootScope.message(text, sourceId, targetId, function(errMessage, successMessage){
-        if(errMessage) $rootScope.popNotify(errMessage);
-        else if(successMessage) $rootScope.popNotify(successMessage);
+        if(errMessage){
+          $rootScope.popNotify(errMessage);
+        }
+        else if(successMessage){
+          $rootScope.popNotify(successMessage);
+          $('#messageModal').modal('hide');
+        }
       });
     }
 

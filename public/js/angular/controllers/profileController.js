@@ -62,6 +62,12 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
     $scope.bigFollowBtn = false;
     $scope.changeImage = false;
     
+    $scope.textsearch = function(txt){
+      $rootScope.textSearchFlag = true;
+      $rootScope.textSearchString = txt;
+      $location.path('/');
+    }
+    
     $scope.changeState = function(){
       $scope.masonInit = false;
     }

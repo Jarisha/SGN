@@ -15,7 +15,13 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
     $scope.changeState = function(){
       $scope.masonInit = false;
     }
-  
+    
+    $scope.textsearch = function(txt){
+      $rootScope.textSearchFlag = true;
+      $rootScope.textSearchString = txt;
+      $location.path('/');
+    }
+    
     $scope.dummyData = [
       {
         name: 'Minecraft',

@@ -193,6 +193,7 @@ var FrontController = ['$scope', '$rootScope', '$http', '$location', '$templateC
         $rootScope.textSearchFlag = false;
         $rootScope.textSearchString = null;
         $rootScope.Emasonry(function(){
+          
         });
       });
     }
