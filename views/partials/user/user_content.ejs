@@ -6,16 +6,20 @@
       <div class="profile_pic">
         <img ng-src="{{user.profileImg || '<%= rootPath %>/images/160x160.gif'}}" width="165" height="165"/>
       </div>
-      <!--<div class="profile_xp">
-        <span class="curr_level">Level {{user.level || 1}}</span>
-        <span class="to_level">{{user.nextXP || 99}}XP to level</span>
-      </div>
-      <div class="xp_bar clearfix">
-        <span class="xp_gained">
-        </span>
-        <span class="xp_remaining">
-        </span>
-      </div>-->
+      <ul class="comrade_tabs">
+        <li ng-show="!isFollowing">
+          <button id="follow_user" class="btn test_button" ng-click="follow(user.userName); log('test');">Follow</button>
+        </li>
+        <li ng-show="isFollowing">
+          <button id="follow_user" class="btn test_button" disabled>Follow</button>
+        </li>
+        <li ng-show="!isFriend && !pendingFriend">
+          <button class="btn test_button" id="friend_user" ng-click="friend(user.email)">Friend</button>
+        </li>
+        <li ng-show="isFriend || pendingFriend">
+          <button class="btn test_button" id="friend_user" disabled>Friend</button>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="right_container">
@@ -47,12 +51,6 @@
       </li>
     </ul>
     <ul class="bot_container">
-      <li class="comrade_tabs">
-        <button ng-show="!isFollowing" id="follow_user" class="btn test_button" ng-click="follow(user.userName); log('test');">Follow</button>
-        <button ng-show="isFollowing" id="follow_user" class="btn test_button" disabled>Follow</button>
-        <button ng-show="!isFriend && !pendingFriend" class="btn test_button" id="friend_user" ng-click="friend(user.email)">Friend</button>
-        <button ng-show="isFriend || pendingFriend" class="btn test_button" id="friend_user" disabled>Friend</button>
-      </li>
       <li ng-show="people_tab==FOLLOW" ng-repeat="follower in user.followers">
         <a href="/user/{{follower.userName}}">
           <img title="{{follower.userName}}" ng-src="{{follower.profileImg || '/images/30x30.gif'}}" width="40px" height="40px"/>

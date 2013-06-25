@@ -243,6 +243,16 @@
   padding: 15px;
 }
 
+.profile .comrade_tabs {
+  margin: 10px 0 0 0;
+  text-align: center;
+  -moz-box-sizing: border-box;
+}
+
+.profile .comrade_tabs li {
+  display: inline-block;
+}
+
 .profile .right_container {
   position: relative;
   float: left;
@@ -382,17 +392,6 @@
 
 .profile .bot_container img {
   max-height: 40px;
-}
-
-.profile .comrade_tabs {
-  margin-right: 15px;
-  -moz-box-sizing: border-box;
-}
-
-.profile .comrade_tabs .btn {
-  display: inline-block;
-  height: 40px;
-  font-size: 20px;
 }
 
 .profile #people_container {
