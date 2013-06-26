@@ -381,7 +381,8 @@
 /* comrade area */
 
 .profile .bot_container {
-  padding: 15px 15px 15px 15px;
+  min-height: 46px;
+  padding: 12px;
   margin: 0;
   overflow: hidden;
   text-align: center;
