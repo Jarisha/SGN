@@ -137,6 +137,13 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#FF0000');
 }
 
+/* Post Pin Modals */
+
+.urlInput {
+  width: 70%;
+  margin: 10px 0 0 10px;
+}
+
 /* File Upload Modal */
 
 #fileUploadModal {
@@ -188,12 +195,6 @@
 
 #youtubeModal {
   width: 700px;
-}
-
-.urlInput {
-  width: 70%;
-  margin-bottom: 0;
-  margin-left: 10px;
 }
 
 .uploadMeta .custom_group {
