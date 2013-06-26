@@ -283,9 +283,8 @@ var ProfileController = ['$scope', '$rootScope', '$http', '$location', '$timeout
       $scope.group_tab = null;
       $http({ method: 'post', url:'/api/user/getLikedPins', data: { email: $scope.profile.email, pinIds: $scope.profile.likes} })
         .success(function(data, status, headers, config){
-          if(data.error) $rootScope.popNotify('Error', data.error);
+          if(data.error) console.log('Error', data.error);
           else if(data.likedPins){
-            //$rootScope.popNotify('Success', data.success);
             $scope.showPins = data.likedPins;
           }
         })
