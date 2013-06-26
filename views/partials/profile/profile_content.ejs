@@ -4,8 +4,8 @@
   <div class="left_container">
     <div class="left_padding" style="position:relative">
       <div class="profile_pic" ng-mouseenter="changeImage = true;" ng-mouseleave="changeImage = false;">
-        <button ng-show="!profile.profileImg" ng-click="changeavatar()" class="change_avatar" type="button" >Upload Avatar</button>
-        <button ng-show="profile.profileImg && changeImage" ng-click="changeavatar()" class="change_avatar" type="button" >Change Avatar</button>
+        <button ng-show="!profile.profileImg" ng-click="changeavatar()" class="change_avatar btn" type="button" >Upload Avatar</button>
+        <button ng-show="profile.profileImg && changeImage" ng-click="changeavatar()" class="change_avatar btn" type="button" >Change Avatar</button>
         <img ng-src="{{profile.profileImg || '/images/160x160.gif' }}" width="165" height="165"/>
       </div>
       <!--<div class="profile_xp">
