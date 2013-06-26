@@ -89,3 +89,17 @@
   width: 450px;
   margin-left: 10px;
 }
+
+.post #notfound {
+  margin: 30px auto;
+  font-size: 20px;
+  text-align: center;
+}
+
+.post #notfound a {
+  color: blue;
+}
+
+.post #notfound p {
+  margin: 5px;
+}

@@ -1,4 +1,9 @@
-<div class="page_pin">
+<div id="notfound" ng-show="pagePin == 'error'">
+  <p>There is no such pin.</p>
+  <a href="/" ng-click="getfront()">Return to the home page.</a>
+</div>
+
+<div class="page_pin" ng-show="pagePin != 'error'">
   <div class="page_header clearfix">
     <a href="/user/{{pagePin.poster || pagePin.posterName}}">
       <img style="float: left; height: 50px; width: 50px;" ng-src="{{pagePin.profileImg || '/images/30x30.gif'}}"/>
