@@ -28,8 +28,7 @@
 /*Group Bar*/
 
 .profile #group_bar {
-  max-width: 600px;
-  margin: 0 0px 15px 100px;
+  margin: 0 0px 15px 0;
   font-weight: bold;
   line-height: 30px;
   color: white;
@@ -281,8 +280,8 @@
 
 .profile .profile_pic .change_avatar {
   position: absolute;
-  top: 150px;
-  left: 40px;
+  top: 145px;
+  left: 35px;
 }
 
 .profile .profile_pic img {
@@ -382,7 +381,8 @@
 /* comrade area */
 
 .profile .bot_container {
-  padding: 15px 15px 15px 15px;
+  min-height: 46px;
+  padding: 12px;
   margin: 0;
   overflow: hidden;
   text-align: center;
@@ -585,9 +585,8 @@
 
 .profile #profile_data {
   float: left;
-  width: 100%;
-  max-width: 800px;
-  margin: 15px 0 0 -100px;
+  width: 1040px;
+  margin: 15px 0 0 -70px;
   box-shadow: none;
 }
 

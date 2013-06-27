@@ -17,10 +17,6 @@
   -moz-box-sizing: border-box;
 }
 
-.post .poster {
-  color: white;
-}
-
 .page_body {
   background: blue;
 }
@@ -88,4 +84,18 @@
 .post .post_text {
   width: 450px;
   margin-left: 10px;
+}
+
+.post #notfound {
+  margin: 30px auto;
+  font-size: 20px;
+  text-align: center;
+}
+
+.post #notfound a {
+  color: blue;
+}
+
+.post #notfound p {
+  margin: 5px;
 }
