@@ -474,9 +474,12 @@ exports.postImageUrl = function(req, res){
 		return res.json({ error: 'cannot upload https url' });
 	};
 	
+  //console.log(req.body.url);
+  
 	//stream url for image directly into rackspace...rackmagic!
-	http.get(req.body.url, function(err, resp){
-		if(err) return res.json({ error: 'GET url error: '+ err.message });
+	http.get(req.body.url, function(resp){
+    //console.log(err);
+		//if(err) return res.json({ error: 'GET url error: '+ err.message });
 		tryThis();
     
 		function tryThis(){
@@ -522,10 +525,10 @@ exports.postImageUrl = function(req, res){
             }
             outlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
             evtlog.info(post_data.posterName + ' posted image via url onto ' + post_data.category);
-            if(IE){
-              res.contentType('text/plain');
-              return res.send(JSON.stringify(data));
-            }
+            //if(IE){
+            //  res.contentType('text/plain');
+            //  return res.send(JSON.stringify(data));
+            //}
             return res.json(data);
           });
         }
