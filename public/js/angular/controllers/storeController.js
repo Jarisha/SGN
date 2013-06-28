@@ -124,7 +124,11 @@ var StoreController = ['$scope', '$rootScope', '$http', '$location', '$templateC
 
     //Setup non AJAX related javascript
     $scope.setup = function(){
-      $rootScope.masonry();
+      $rootScope.Emasonry();
+    }
+    $scope.masonry = function(){
+      console.log('!!!');
+      $rootScope.Emasonry();
     }
   }
 ];

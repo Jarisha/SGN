@@ -167,7 +167,6 @@ app.run(['$rootScope', '$http', '$templateCache', '$location', '$timeout', '$q',
     console.log('masonry');
     $('body').imagesLoaded()
       .always(function(instance){
-        console.log('go!');
         $('#content').masonry({
           itemSelector : '.game_pin, .store_pin',
           isFitWidth: true

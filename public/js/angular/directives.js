@@ -17,7 +17,7 @@ angular.module('myApp.directives', [])
         //once the last element has loaded, and if we are on our initial load, fire masonry
         if(scope.$last && first){
           console.log('last');
-          //scope.masonry();
+          scope.masonry();
         }
       }
     };
